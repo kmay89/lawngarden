@@ -331,6 +331,30 @@
   .hubhead.first{margin-top:2px;}
   .diagram{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--radius-sm);background:#FBFDFB;margin:2px 0 0;}
 
+  /* welcome / onboarding overlay */
+  .welcome{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 26px) 20px calc(env(safe-area-inset-bottom) + 26px);color:#EAF6EE;background:linear-gradient(162deg,#2E7D4F 0%,#1B4A2E 58%,#15402705 100%),#173f27;animation:wfade .35s ease both;}
+  @keyframes wfade{from{opacity:0}to{opacity:1}}
+  @keyframes wrise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .welcome .wcard{width:100%;max-width:444px;margin:auto;display:flex;flex-direction:column;animation:wrise .5s cubic-bezier(.2,.7,.3,1) both;}
+  .welcome .wmark{width:62px;height:62px;align-self:center;filter:drop-shadow(0 8px 18px rgba(0,0,0,.32));}
+  .welcome h2{font-family:var(--display);font-size:1.85rem;font-weight:650;text-align:center;margin:15px 0 0;letter-spacing:-.01em;line-height:1.12;}
+  .welcome .wkick{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:#A9D6BA;text-align:center;margin-top:10px;}
+  .welcome .wlede{font-size:.94rem;color:#D7ECDE;text-align:center;margin:13px 6px 0;line-height:1.5;}
+  .welcome .wlist{display:flex;flex-direction:column;gap:12px;margin:24px 0 0;}
+  .welcome .wrow{display:flex;gap:13px;align-items:flex-start;}
+  .welcome .wic{width:42px;height:42px;flex:0 0 auto;border-radius:12px;background:rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;}
+  .welcome .wic .ic{width:22px;height:22px;color:#BFE3CC;}
+  .welcome .wt{font-family:var(--display);font-weight:650;font-size:1.02rem;color:#fff;}
+  .welcome .wb{font-size:.85rem;color:#CDE6D5;margin-top:2px;line-height:1.45;}
+  .welcome .wtip{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:13px;padding:12px 14px;margin-top:22px;font-size:.85rem;color:#E6F2EA;line-height:1.45;}
+  .welcome .wtip .ic{width:18px;height:18px;flex:0 0 auto;color:#8FCBA4;margin-top:1px;}
+  .welcome .wtip b{color:#fff;}
+  .welcome .wstart{margin-top:22px;width:100%;background:#fff;color:var(--grass-deep);font-family:var(--body);font-weight:700;font-size:1rem;border:none;border-radius:14px;padding:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 10px 26px rgba(0,0,0,.24);}
+  .welcome .wstart .ic{width:18px;height:18px;}
+  .welcome .wstart:active{transform:translateY(1px);}
+  .welcome .wfoot{text-align:center;font-family:var(--mono);font-size:.62rem;color:#86B79B;margin-top:15px;letter-spacing:.03em;}
+  .wlink{background:none;border:none;color:var(--grass-deep);font-family:var(--body);font-size:.8rem;font-weight:600;text-decoration:underline;cursor:pointer;padding:6px;display:block;margin:2px auto 0;}
+
   @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
 </head>
@@ -1237,8 +1261,27 @@
         <p>Use at your own risk; the author assumes no liability for outcomes, damage, or injury arising from use of this tool.</p>
       </div>
     </details>
+    <button class="wlink" id="welcomeOpen">Replay the welcome</button>
     <div class="copy">© 2026 <b>Karl Meves</b> · ERRERLabs · Yard &amp; Garden Console. Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License 2.0</a>. Weather: Open-Meteo · ZIP: Zippopotam.us.</div>
   </footer>
+</div>
+
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Welcome to Yard &amp; Garden Console" hidden>
+  <div class="wcard">
+    <svg class="wmark" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#235C3A"/><path d="M50 78V40" stroke="#BFE3CC" stroke-width="6" stroke-linecap="round"/><path d="M50 52C50 36 34 28 20 28c0 16 16 24 30 24z" fill="#5BAE78"/><path d="M50 46C50 32 64 26 80 26c0 14-14 20-30 20z" fill="#5BAE78"/></svg>
+    <h2>Yard &amp; Garden Console</h2>
+    <div class="wkick">A living yard for Ohio</div>
+    <p class="wlede">A calm companion for tending — and noticing — your yard. Honest, low-input advice that works <i>with</i> nature, not against it. Everything stays on your device.</p>
+    <div class="wlist">
+      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators for lawn, mowing, beds, an edible garden, trees, snow &amp; leaves — each with the honest trade-offs, never one handed-down answer.</div></div></div>
+      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes turn a year in the yard into a story — and quietly earn Moments as you go.</div></div></div>
+      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP (optional) and local soil temp, rain, and frost drive the timing across the whole app.</div></div></div>
+      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the resilient, low-input way, with people and wildlife in mind.</div></div></div>
+    </div>
+    <div class="wtip"><svg class="ic"><use href="#i-bulb"/></svg><div>New here? Use the <b>tabs up top</b> to explore, or tap <b>“Jump to a tool or note”</b> on the home screen to go straight to anything.</div></div>
+    <button class="wstart" id="welcomeStart"><svg class="ic"><use href="#i-check"/></svg>Start exploring</button>
+    <div class="wfoot">No accounts · no tracking · all on your device · ERRERLabs</div>
+  </div>
 </div>
 
 <div id="sheetHost"></div>
@@ -2068,6 +2111,14 @@
   if($("mowChecksReset"))$("mowChecksReset").addEventListener("click",function(){lsSet("ycMowChecks",{});renderMowChecks();toast("Checks reset for a new round");});
   function renderMow(){renderMowCadence();renderTimeline("mowTl",MOWFREQ);renderMowerAdvice();renderMowChecks();}
 
+  /* ---------- welcome / onboarding ---------- */
+  var welcomePrevFocus=null;
+  function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
+  function closeWelcome(){var w=$("welcome");if(w)w.hidden=true;document.body.style.overflow="";lsSet("ycWelcomeSeen",1);try{if(welcomePrevFocus&&welcomePrevFocus.focus)welcomePrevFocus.focus();}catch(e){}welcomePrevFocus=null;}
+  if($("welcomeStart"))$("welcomeStart").addEventListener("click",closeWelcome);
+  if($("welcomeOpen"))$("welcomeOpen").addEventListener("click",function(){openWelcome();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome();}});
+
   /* ---------- init ---------- */
   (function init(){
     var today="";try{today=new Date().toISOString().slice(0,10);}catch(e){}
@@ -2076,6 +2127,7 @@
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();
     showTab("almanac");
+    if(!lsGet("ycWelcomeSeen"))openWelcome();
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
   })();
