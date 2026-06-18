@@ -1355,8 +1355,8 @@
     tabBar.addEventListener("scroll",updateTabHints,{passive:true});
     window.addEventListener("resize",updateTabHints);
   }
-  if($("tabNudgeRight"))$("tabNudgeRight").addEventListener("click",function(){tabScroll(tabBar.scrollLeft+Math.round(tabBar.clientWidth*0.72));});
-  if($("tabNudgeLeft"))$("tabNudgeLeft").addEventListener("click",function(){tabScroll(tabBar.scrollLeft-Math.round(tabBar.clientWidth*0.72));});
+  if(tabBar&&$("tabNudgeRight"))$("tabNudgeRight").addEventListener("click",function(){tabScroll(tabBar.scrollLeft+Math.round(tabBar.clientWidth*0.72));});
+  if(tabBar&&$("tabNudgeLeft"))$("tabNudgeLeft").addEventListener("click",function(){tabScroll(tabBar.scrollLeft-Math.round(tabBar.clientWidth*0.72));});
 
   /* ---------- info sheet ---------- */
   var INFO={
