@@ -329,6 +329,7 @@
   .hubchip:active{background:#F4F9F5;border-color:var(--grass);}
   .hubhead{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin:14px 2px 7px;}
   .hubhead.first{margin-top:2px;}
+  .diagram{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--radius-sm);background:#FBFDFB;margin:2px 0 0;}
 
   @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
@@ -607,6 +608,52 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>Water deep; lime only if tested</div><div class="cr-b">Deep, infrequent watering drives roots down. And <b>don't lime on a schedule</b> — a $15 soil test tells you if pH is actually low. Many Ohio lawns don't need it, and over-liming locks out nutrients. <button class="linklike" data-goto="lawn">Watering &amp; soil test →</button></div></div>
       </div>
       <div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"><b>Why it's repeatable:</b> these are cultural, not chemical — and they compound. Each season the soil and turf get a little stronger and ask for less. A dense, tall, deep-rooted lawn is its own best weed-and-disease control.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-ruler"/></svg><h3>The one-third rule, pictured</h3></div>
+      <p class="hint">The cut height stays the same (3½–4″) — what changes is <i>how often</i> you mow. Let it grow to about <b>5″</b>, then take it back to 3½–4″: that's roughly a third. Never let tall grass tempt you into one deep scalping cut.</p>
+      <svg class="diagram" viewBox="0 0 340 200" role="img" aria-label="Diagram: on the left, grass grown to about five inches with only the top third removed down to three and a half inches, marked correct. On the right, tall grass scalped down to two inches removing two-thirds, marked wrong.">
+        <title>The one-third rule</title>
+        <!-- divider + grounds -->
+        <line x1="171" y1="12" x2="171" y2="190" stroke="#E3EAE2" stroke-width="1.5"/>
+        <line x1="14" y1="185" x2="160" y2="185" stroke="#9A6A3A" stroke-width="3" stroke-linecap="round"/>
+        <line x1="184" y1="185" x2="330" y2="185" stroke="#9A6A3A" stroke-width="3" stroke-linecap="round"/>
+        <!-- removed bands (behind blades) -->
+        <rect x="18" y="56" width="140" height="44" rx="3" fill="#C8702A" opacity="0.16"/>
+        <rect x="188" y="46" width="140" height="94" rx="3" fill="#C0432F" opacity="0.14"/>
+        <!-- DO blades -->
+        <g fill="none" stroke-width="3.4" stroke-linecap="round">
+          <path d="M34,185 C33,150 31,98 41,60" stroke="#3A8255"/>
+          <path d="M56,185 C56,150 53,95 49,62" stroke="#5BAE78"/>
+          <path d="M78,185 C78,148 82,92 74,58" stroke="#3A8255"/>
+          <path d="M100,185 C100,150 98,96 108,60" stroke="#5BAE78"/>
+          <path d="M122,185 C122,150 127,98 118,63" stroke="#3A8255"/>
+          <path d="M140,185 C140,152 143,102 135,66" stroke="#5BAE78"/>
+        </g>
+        <!-- DON'T blades -->
+        <g fill="none" stroke-width="3.4" stroke-linecap="round">
+          <path d="M204,185 C203,145 201,80 211,48" stroke="#3A8255"/>
+          <path d="M226,185 C226,145 223,78 219,50" stroke="#5BAE78"/>
+          <path d="M248,185 C248,143 252,76 244,46" stroke="#3A8255"/>
+          <path d="M270,185 C270,145 268,82 278,50" stroke="#5BAE78"/>
+          <path d="M292,185 C292,145 297,84 287,52" stroke="#3A8255"/>
+          <path d="M310,185 C310,146 313,88 305,56" stroke="#5BAE78"/>
+        </g>
+        <!-- cut lines -->
+        <line x1="14" y1="100" x2="160" y2="100" stroke="#1C2A20" stroke-width="2" stroke-dasharray="5 4"/>
+        <line x1="184" y1="140" x2="330" y2="140" stroke="#1C2A20" stroke-width="2" stroke-dasharray="5 4"/>
+        <!-- labels -->
+        <text x="20" y="20" fill="#1E5235" font-family="system-ui,sans-serif" font-size="12" font-weight="700">DO ✓</text>
+        <text x="88" y="39" fill="#46584C" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">grown to ~5″ (50% taller)</text>
+        <text x="88" y="83" fill="#9A5119" font-family="system-ui,sans-serif" font-size="11" font-weight="700" text-anchor="middle">remove ⅓</text>
+        <text x="88" y="114" fill="#1C2A20" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">cut to 3½–4″</text>
+        <text x="186" y="20" fill="#8E2E1E" font-family="system-ui,sans-serif" font-size="12" font-weight="700">DON'T ✗</text>
+        <text x="257" y="33" fill="#46584C" font-family="system-ui,sans-serif" font-size="8.5" text-anchor="middle">let it get tall, then scalp</text>
+        <text x="257" y="98" fill="#8E2E1E" font-family="system-ui,sans-serif" font-size="11" font-weight="700" text-anchor="middle">remove ⅔</text>
+        <text x="257" y="155" fill="#1C2A20" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">scalped to ~2″</text>
+      </svg>
+      <div class="note-card warn"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>If it got away from you</b> (vacation, rain), don't fix it in one cut — that shocks the lawn and bares the soil. Bring it down in <b>two or three mows a few days apart</b>, taking a third each time, until you're back to 3½–4″.</div></div>
     </div>
 
     <div class="card">
