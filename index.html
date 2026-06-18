@@ -349,6 +349,17 @@
   .hubhead.first{margin-top:2px;}
   .diagram{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--radius-sm);background:#FBFDFB;margin:2px 0 0;}
 
+  /* "Your story" timeline */
+  .story-lead{font-size:.9rem;color:var(--ink-soft);margin:0 0 6px;line-height:1.5;}
+  .story-lead b{color:var(--grass-deep);}
+  .story-mon{font-family:var(--display);font-weight:650;font-size:1.06rem;margin:17px 0 3px;padding-top:13px;border-top:1px solid var(--line);}
+  .story-sum{font-size:.86rem;color:var(--ink-soft);margin:0 0 8px;line-height:1.5;}
+  .story-sum b{color:var(--ink);}
+  .story-ev{display:flex;gap:10px;align-items:flex-start;padding:4px 0;}
+  .story-ev .ic{width:16px;height:16px;color:var(--grass);flex:0 0 auto;margin-top:2px;}
+  .story-ev .se-t{font-size:.85rem;color:var(--ink);min-width:0;}
+  .story-ev .se-d{font-family:var(--mono);font-size:.64rem;color:var(--ink-faint);margin-left:auto;flex:0 0 auto;padding-left:8px;white-space:nowrap;}
+
   /* welcome / onboarding overlay */
   .welcome{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 26px) 20px calc(env(safe-area-inset-bottom) + 26px);color:#EAF6EE;background:linear-gradient(162deg,#2E7D4F 0%,#1B4A2E 58%,#15402705 100%),#173f27;animation:wfade .35s ease both;}
   @keyframes wfade{from{opacity:0}to{opacity:1}}
@@ -477,7 +488,8 @@
       <p class="hint">Everything in one place — your logs and every calculator, one tap from home.</p>
       <div class="hubhead first">Log &amp; notes</div>
       <div class="hub">
-        <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-book"/></svg><span class="ht">Yard journal</span></button>
+        <button class="hubchip" data-tool="almanac" data-scroll="storyCard"><svg class="ic"><use href="#i-book"/></svg><span class="ht">Your story</span></button>
+        <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-star"/></svg><span class="ht">Yard journal</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
         <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
       </div>
@@ -546,6 +558,12 @@
       <p class="hint">Not points — milestones. Each one is earned by something you actually did this year, and meant to be looked back on with a little pride.</p>
       <div class="moments" id="momentsEarned"></div>
       <div id="momentsLockedWrap"></div>
+    </div>
+
+    <div class="card" id="storyCard">
+      <div class="card-head"><svg class="ic"><use href="#i-book"/></svg><h3>Your story</h3></div>
+      <p class="hint">Everything you've tended and noticed this year, woven into one timeline — and gently explained, month by month.</p>
+      <div class="story" id="storyBody"></div>
     </div>
 
     <div class="card">
@@ -1653,7 +1671,41 @@
     body.innerHTML=p1+p2;
   }
 
-  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderJournal();renderNotes();renderLeaves();renderMoments(announce);renderReview();}
+  /* ---------- "Your story": journal + notes + Moments, woven & explained ---------- */
+  var STORY_MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var STORY_ACT={mow:"mowed",feed:"fed the lawn",seed:"put down seed",water:"watered",mulch:"mulched",edge:"edged the beds",prune:"pruned",plant:"planted something",sow:"sowed seed",transplant:"transplanted",harvest:"harvested",leaves:"cleared leaves",snow:"cleared snow",other:"tended the yard"};
+  var STORY_NOTE={bloom:"caught a first bloom",bug:"spotted a pollinator",bird:"watched a bird",wildlife:"saw some wildlife",frost:"marked a frost",snow:"noted the first snow",other:"noticed something"};
+  function monthSummary(items){
+    var acts={},notes={};
+    items.forEach(function(e){if(e.kind==="act")acts[e.type]=(acts[e.type]||0)+1;else notes[e.what]=(notes[e.what]||0)+1;});
+    function phrases(map,vocab){return Object.keys(map).map(function(k){var n=map[k];return (vocab[k]||"tended")+(n>1?" "+n+"×":"");});}
+    var ab=phrases(acts,STORY_ACT),nb=phrases(notes,STORY_NOTE),parts=[];
+    if(ab.length)parts.push("You "+joinList(ab)+".");
+    if(nb.length)parts.push((ab.length?"And you ":"You ")+joinList(nb)+".");
+    return parts.join(" ")||(items.length+" entr"+(items.length>1?"ies":"y")+" this month.");
+  }
+  function renderStory(){
+    if(!$("storyBody"))return;
+    var ev=[];
+    thisYear(journalAll()).forEach(function(e){var m=ACT[e.type]||ACT.other;ev.push({date:e.date,icon:m.i,label:m.l,note:e.note,kind:"act",type:e.type});});
+    thisYear(notesAll()).forEach(function(e){var m=NMETA[e.what]||NMETA.other;ev.push({date:e.date,icon:m.i,label:m.l,note:e.note,kind:"note",what:e.what});});
+    if(!ev.length){$("storyBody").innerHTML='<div class="empty">Your story starts with a single entry. Log something you did, or mark something you noticed, and it’ll begin to weave together here.</div>';return;}
+    var acts=ev.filter(function(e){return e.kind==="act";}).length,notes=ev.length-acts,moms=computeMoments().filter(function(m){return m.ok;}).length;
+    function pl(n,s){return "<b>"+n+"</b> "+s+(n===1?"":"s");}
+    var lead='<p class="story-lead">Your year so far: '+pl(acts,"act")+" of care, "+pl(notes,"small wonder")+" noticed, "+pl(moms,"Moment")+" earned.</p>";
+    var groups=[],idx={};
+    ev.sort(function(a,b){return a.date<b.date?1:(a.date>b.date?-1:0);});
+    ev.forEach(function(e){var k=(e.date||"").slice(0,7);if(!idx[k]){idx[k]={k:k,items:[]};groups.push(idx[k]);}idx[k].items.push(e);});
+    var body=groups.map(function(g){
+      var mi=parseInt(g.k.slice(5,7),10)-1,mname=STORY_MON[mi]||g.k,mab=(STORY_MON[mi]||"").slice(0,3);
+      var items=g.items.slice().sort(function(a,b){return a.date<b.date?-1:(a.date>b.date?1:0);});
+      var rows=items.map(function(e){var d=parseInt((e.date||"").slice(8,10),10)||1;return '<div class="story-ev">'+ic(e.icon)+'<span class="se-t">'+esc(e.label)+(e.note?" — "+esc(e.note):"")+'</span><span class="se-d">'+mab+" "+d+'</span></div>';}).join("");
+      return '<div class="story-mon">'+mname+'</div><div class="story-sum">'+monthSummary(items)+'</div>'+rows;
+    }).join("");
+    $("storyBody").innerHTML=lead+body;
+  }
+
+  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderJournal();renderNotes();renderLeaves();renderMoments(announce);renderStory();renderReview();}
 
   /* ---------- log event wiring ---------- */
   if($("jAdd"))$("jAdd").addEventListener("click",function(){
