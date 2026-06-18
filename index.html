@@ -88,8 +88,26 @@
   .nowbar .nb-list .ic{width:15px;height:15px;flex:0 0 auto;margin-top:2px;color:#8FCBA4;}
 
   /* nav */
-  nav.tabbar{position:sticky;top:0;z-index:40;display:flex;gap:2px;background:rgba(243,246,241,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:7px 0;margin:0 -2px 14px;overflow-x:auto;scrollbar-width:none;}
+  /* tab bar — sticky wrapper holds the scroll hints; nav scrolls inside it */
+  .tabbar-wrap{position:sticky;top:0;z-index:40;margin:0 -2px 14px;background:rgba(243,246,241,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+  nav.tabbar{position:relative;display:flex;gap:2px;padding:7px 0;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth;}
   nav.tabbar::-webkit-scrollbar{display:none;}
+  /* edge fades hint there's more to either side */
+  .tabbar-wrap::before,.tabbar-wrap::after{content:"";position:absolute;top:0;bottom:0;width:38px;pointer-events:none;z-index:2;opacity:0;transition:opacity .2s;}
+  .tabbar-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(243,246,241,0));}
+  .tabbar-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(243,246,241,0));}
+  .tabbar-wrap.can-left::before{opacity:1;}
+  .tabbar-wrap.can-right::after{opacity:1;}
+  /* tappable nudge arrows */
+  .tabnudge{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-strong);background:#fff;color:var(--grass-deep);display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 9px rgba(28,42,32,.18);padding:0;}
+  .tabnudge .ic{width:18px;height:18px;}
+  .tabnudge.right{right:3px;} .tabnudge.right .ic{transform:rotate(-90deg);}
+  .tabnudge.left{left:3px;} .tabnudge.left .ic{transform:rotate(90deg);}
+  .tabbar-wrap.can-right .tabnudge.right{display:flex;}
+  .tabbar-wrap.can-left .tabnudge.left{display:flex;}
+  .tabbar-wrap.can-right .tabnudge.right{animation:tabnudge 1.5s ease-in-out 3;}
+  @keyframes tabnudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(3px)}}
+  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}}
   .tab-btn{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.68rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:12px;padding:7px 11px;cursor:pointer;white-space:nowrap;}
   .tab-btn .ic{width:21px;height:21px;}
   .tab-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
@@ -422,7 +440,8 @@
     </div>
   </header>
 
-  <nav class="tabbar" role="tablist">
+  <div class="tabbar-wrap" id="tabbarWrap">
+  <nav class="tabbar" id="tabbar" role="tablist">
     <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
     <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
     <button class="tab-btn" role="tab" data-tab="mow"><svg class="ic"><use href="#i-grass"/></svg>Mow</button>
@@ -434,6 +453,9 @@
     <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
     <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
   </nav>
+    <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
+    <button class="tabnudge right" id="tabNudgeRight" aria-label="More tabs — scroll right" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
+  </div>
 
   <!-- ============ ALMANAC (home / journey) ============ -->
   <section class="tab" data-pane="almanac">
@@ -1306,12 +1328,35 @@
 
   /* ---------- tabs ---------- */
   var tabs=document.querySelectorAll(".tab-btn"),panes=document.querySelectorAll("[data-pane]");
+  var tabBar=$("tabbar"),tabWrap=$("tabbarWrap");
+  function updateTabHints(){
+    if(!tabBar||!tabWrap)return;
+    var max=tabBar.scrollWidth-tabBar.clientWidth-1;
+    tabWrap.classList.toggle("can-left",tabBar.scrollLeft>2);
+    tabWrap.classList.toggle("can-right",tabBar.scrollLeft<max);
+  }
+  function tabScroll(left){
+    if(!tabBar)return;left=Math.max(0,left);
+    if(tabBar.scrollTo)tabBar.scrollTo({left:left,behavior:"smooth"});else tabBar.scrollLeft=left;
+  }
+  function centerTab(name){
+    if(!tabBar)return;
+    var b=document.querySelector('.tab-btn[data-tab="'+name+'"]');if(!b)return;
+    tabScroll(b.offsetLeft-(tabBar.clientWidth-b.offsetWidth)/2);
+  }
   function showTab(name){
     tabs.forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name?"true":"false");});
     panes.forEach(function(p){p.hidden=p.getAttribute("data-pane")!==name;});
+    centerTab(name);
     window.scrollTo({top:0,behavior:"smooth"});
   }
   tabs.forEach(function(b){b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"));});});
+  if(tabBar){
+    tabBar.addEventListener("scroll",updateTabHints,{passive:true});
+    window.addEventListener("resize",updateTabHints);
+  }
+  if($("tabNudgeRight"))$("tabNudgeRight").addEventListener("click",function(){tabScroll(tabBar.scrollLeft+Math.round(tabBar.clientWidth*0.72));});
+  if($("tabNudgeLeft"))$("tabNudgeLeft").addEventListener("click",function(){tabScroll(tabBar.scrollLeft-Math.round(tabBar.clientWidth*0.72));});
 
   /* ---------- info sheet ---------- */
   var INFO={
@@ -2126,6 +2171,7 @@
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();
     showTab("almanac");
+    updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
