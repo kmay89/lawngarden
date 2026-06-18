@@ -1000,15 +1000,15 @@
 
       <p class="hint" style="margin-top:13px;font-weight:600;color:var(--ink);">Firewood planner &amp; cost</p>
       <div class="grid2">
-        <div class="field"><label for="fwNights">Fires per week <span class="meta">in season</span></label><input id="fwNights" type="number" inputmode="decimal" value="2" step="1"/></div>
-        <div class="field"><label for="fwWeeks">Length of season <span class="meta">weeks</span></label><input id="fwWeeks" type="number" inputmode="numeric" value="20" step="1"/></div>
+        <div class="field"><label for="fwNights">Fires per week <span class="meta">in season</span></label><input id="fwNights" type="number" inputmode="decimal" value="2" step="1" min="0"/></div>
+        <div class="field"><label for="fwWeeks">Length of season <span class="meta">weeks</span></label><input id="fwWeeks" type="number" inputmode="numeric" value="20" step="1" min="0"/></div>
       </div>
       <div class="grid2">
-        <div class="field"><label for="fwPerFire">Wood per fire <span class="meta">logs burned</span></label><input id="fwPerFire" type="number" inputmode="decimal" value="8" step="1"/></div>
-        <div class="field"><label for="fwLogsCord">Logs per cord <span class="meta">~700 split logs/cord</span></label><input id="fwLogsCord" type="number" inputmode="numeric" value="700" step="50"/></div>
+        <div class="field"><label for="fwPerFire">Wood per fire <span class="meta">logs burned</span></label><input id="fwPerFire" type="number" inputmode="decimal" value="8" step="1" min="0"/></div>
+        <div class="field"><label for="fwLogsCord">Logs per cord <span class="meta">~700 split logs/cord</span></label><input id="fwLogsCord" type="number" inputmode="numeric" value="700" step="50" min="1"/></div>
       </div>
       <div class="grid2">
-        <div class="field"><label for="fwCordCost">Price per cord <span class="meta">$ delivered</span></label><input id="fwCordCost" type="number" inputmode="decimal" value="250" step="10"/></div>
+        <div class="field"><label for="fwCordCost">Price per cord <span class="meta">$ delivered</span></label><input id="fwCordCost" type="number" inputmode="decimal" value="250" step="10" min="0"/></div>
         <div class="field"><label for="fwWood">Wood type <span class="meta">heat / burn</span></label><select id="fwWood">
           <option value="oak">Oak — dense, long, hot</option>
           <option value="hickory">Hickory / ash — hot, easy</option>
@@ -1569,9 +1569,9 @@
     var windMax=0,hail=false,storm=false;
     for(var q=startI;q<d.time.length;q++){
       if(d.wind_speed_10m_max)windMax=Math.max(windMax,d.wind_speed_10m_max[q]||0);
-      var wc=d.weather_code[q];if(wc===96||wc===99)hail=true;if(wc>=95)storm=true;
+      var wc=d.weather_code?d.weather_code[q]:null;if(wc===96||wc===99)hail=true;if(wc>=95)storm=true;
     }
-    var tSum=0,tN=0;for(var q2=Math.max(0,startI-2);q2<=startI&&q2<d.time.length;q2++){if(d.temperature_2m_max[q2]!=null){tSum+=d.temperature_2m_max[q2];tN++;}}
+    var tSum=0,tN=0;if(d.temperature_2m_max){for(var q2=Math.max(0,startI-2);q2<=startI&&q2<d.time.length;q2++){if(d.temperature_2m_max[q2]!=null){tSum+=d.temperature_2m_max[q2];tN++;}}}
     WX.windMax=windMax;WX.hail=hail;WX.storm=storm;WX.tmaxRecent=tN?tSum/tN:null;
     renderFrostAdvisory();renderWindHail();renderPestGauge();
     renderNow(soil);
@@ -1781,6 +1781,7 @@
     if(!$("fwHero"))return;
     var nights=num("fwNights"),weeks=num("fwWeeks"),per=num("fwPerFire"),logsCord=num("fwLogsCord")||700,cordCost=num("fwCordCost"),wood=$("fwWood")?$("fwWood").value:"oak";
     if(nights==null||weeks==null||per==null){$("fwHero").innerHTML="";return;}
+    nights=Math.max(0,nights);weeks=Math.max(0,weeks);per=Math.max(0,per);if(logsCord<=0)logsCord=700;if(cordCost!=null)cordCost=Math.max(0,cordCost);
     var fires=Math.round(nights*weeks),logs=fires*per,cords=logsCord>0?logs/logsCord:0;
     var cost=(cordCost!=null)?cords*cordCost:null,perFire=(cost!=null&&fires>0)?cost/fires:null;
     var btu=FWBTU[wood]||22;
