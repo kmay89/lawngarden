@@ -422,13 +422,6 @@
     </div>
   </header>
 
-  <div class="nowbar" id="nowBar">
-    <div class="nb-tag"><svg class="ic"><use href="#i-cal"/></svg><span id="nowTag">This week</span></div>
-    <h2 id="nowTitle">Loading your season…</h2>
-    <p id="nowSub"></p>
-    <ul class="nb-list" id="nowList"></ul>
-  </div>
-
   <nav class="tabbar" role="tablist">
     <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
     <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
@@ -444,6 +437,12 @@
 
   <!-- ============ ALMANAC (home / journey) ============ -->
   <section class="tab" data-pane="almanac">
+    <div class="nowbar" id="nowBar">
+      <div class="nb-tag"><svg class="ic"><use href="#i-cal"/></svg><span id="nowTag">This week</span></div>
+      <h2 id="nowTitle">Loading your season…</h2>
+      <p id="nowSub"></p>
+      <ul class="nb-list" id="nowList"></ul>
+    </div>
     <div class="season-head" id="seasonHead">
       <div class="sh-top"><span class="sh-kicker" id="shKicker">Your year</span><span class="sh-yr" id="shYear"></span></div>
       <h2 class="sh-name" id="shName">—</h2>
@@ -1310,7 +1309,6 @@
   function showTab(name){
     tabs.forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name?"true":"false");});
     panes.forEach(function(p){p.hidden=p.getAttribute("data-pane")!==name;});
-    var nb=$("nowBar");if(nb)nb.hidden=(name!=="almanac"); // "This week" banner lives on the home page only
     window.scrollTo({top:0,behavior:"smooth"});
   }
   tabs.forEach(function(b){b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"));});});
