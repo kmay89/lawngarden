@@ -364,6 +364,7 @@
   <symbol id="i-carrot" viewBox="0 0 24 24"><path d="M4 20c0-5 5-12 8.5-12 1.8 0 2.8 1.2 2.8 3C15.3 15 8 19.5 4 20z"/><path d="M13 8c.8-2 2.4-3 4.4-3M14.5 6.2c0-2 1-3.2 3-3.6M11.5 8.8c-.5-2-1.8-3-3.8-3"/></symbol>
   <symbol id="i-jar" viewBox="0 0 24 24"><path d="M7.5 8h9M8.5 8V5a1 1 0 011-1h5a1 1 0 011 1v3M7.7 8l-.4 10.4a2 2 0 002 2.1h5.4a2 2 0 002-2.1L16.3 8"/><path d="M7.4 14.5c1.7-1 2.8.6 4.6 0s2.9.7 4.6 0"/></symbol>
   <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
+  <symbol id="i-grass" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M12 21c0-4 .3-7 1.2-10M12 21c-1.2-4-3.4-6.5-6.5-8 .8 4 2.4 7 5.5 9M12 21c1.2-5 3.4-8 7-10-.6 5-3 8.5-6 10"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -388,6 +389,7 @@
   <nav class="tabbar" role="tablist">
     <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
     <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
+    <button class="tab-btn" role="tab" data-tab="mow"><svg class="ic"><use href="#i-grass"/></svg>Mow</button>
     <button class="tab-btn" role="tab" data-tab="trees"><svg class="ic"><use href="#i-tree"/></svg>Trees</button>
     <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
@@ -419,6 +421,7 @@
       <div class="hub">
         <button class="hubchip" data-tool="lawn" data-scroll="fLawn"><svg class="ic"><use href="#i-spread"/></svg><span class="ht">Fertilizer</span></button>
         <button class="hubchip" data-tool="lawn" data-scroll="wCan"><svg class="ic"><use href="#i-droplet"/></svg><span class="ht">Watering</span></button>
+        <button class="hubchip" data-tool="mow" data-scroll="mowCadence"><svg class="ic"><use href="#i-grass"/></svg><span class="ht">Mowing guide</span></button>
         <button class="hubchip" data-tool="beds" data-scroll="mArea"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Mulch</span></button>
         <button class="hubchip" data-tool="season" data-scroll="fwNights"><svg class="ic"><use href="#i-flask"/></svg><span class="ht">Firewood</span></button>
       </div>
@@ -567,6 +570,84 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sprout"/></svg>Low-input / organic</div><div class="cr-b">Compost and slow organic N, topdressing, tolerate a few weeds. Slower to look perfect, but builds living soil that needs less every year. <div class="pillrow"><span class="pill">resilient soil</span></div></div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Eco-lawn / reduced</div><div class="cr-b">Mix in microclover (free nitrogen, stays green), mow less, let it go dormant in summer, plant the hard edges with natives. Lowest input, friendliest to pollinators and the water table. <div class="pillrow"><span class="pill good">pollinator-friendly</span><span class="pill">least input</span></div></div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ MOW ============ -->
+  <section class="tab" data-pane="mow" hidden>
+    <p class="tab-intro">Mowing is the highest-leverage thing you do to a lawn — get it right and you'll need <b>fewer chemicals, less fertilizer, and almost no lime</b>. This is the how, the how-often, and the gear, all tuned for cool-season Ohio grass.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-grass"/></svg><h3>Mow like this, skip most chemicals</h3></div>
+      <p class="hint">Six habits that build a dense, deep-rooted lawn which defends itself — repeatably, year after year.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-ruler"/></svg>Mow high — 3.5–4″</div><div class="cr-b">The single biggest lever. Tall grass shades the soil, grows <b>deeper roots</b>, and crowds out weeds before they sprout — which quietly replaces a lot of herbicide. Scalping does the opposite: bare soil is a crabgrass invitation.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Keep the blade sharp</div><div class="cr-b">A clean cut seals and heals; a torn, frayed tip browns and invites fungus — so a sharp blade is a fungicide you don't have to buy. Sharpen a few times a season.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Never cut more than a third</div><div class="cr-b">The one-third rule. Take too much at once and you stress the plant and expose soil. In spring's rush that means mowing <i>more often</i>, never lower.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Grasscycle — leave the clippings</div><div class="cr-b">Mulched clippings return roughly <b>25% of the lawn's nitrogen</b> for free and don't cause thatch — a fertilizer trip or two you can skip. <button class="linklike" data-goto="trees">How feeding works →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Thicken it, then let clover in</div><div class="cr-b">Overseed in fall and welcome a little <b>white clover</b>: density crowds out weeds and clover pulls its own nitrogen from the air. Fewer herbicides <i>and</i> less fertilizer. <button class="linklike" data-goto="wildlife">Why clover →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>Water deep; lime only if tested</div><div class="cr-b">Deep, infrequent watering drives roots down. And <b>don't lime on a schedule</b> — a $15 soil test tells you if pH is actually low. Many Ohio lawns don't need it, and over-liming locks out nutrients. <button class="linklike" data-goto="lawn">Watering &amp; soil test →</button></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"><b>Why it's repeatable:</b> these are cultural, not chemical — and they compound. Each season the soil and turf get a little stronger and ask for less. A dense, tall, deep-rooted lawn is its own best weed-and-disease control.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-clock"/></svg><h3>How often — by month, temp &amp; rain</h3></div>
+      <p class="hint">Cool-season grass races in spring and fall, coasts in summer, and sleeps in winter — so mowing cadence swings with the season. The honest rule isn't a calendar: <b>mow when the grass is ~50% taller than your cut height.</b></p>
+      <div class="hero green" id="mowCadence"></div>
+      <div id="mowCadenceNote"></div>
+      <div class="cal" id="mowTl" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-mower"/></svg><h3>Your mower — pick one</h3></div>
+      <p class="hint">Same lawn, different machine, different cautions. Pick yours for tailored advice.</p>
+      <div class="seg" id="mowerSeg" style="margin-bottom:12px;">
+        <button data-mower="push" aria-pressed="true">Push</button>
+        <button data-mower="riding" aria-pressed="false">Riding</button>
+        <button data-mower="zturn" aria-pressed="false">Zero-turn</button>
+      </div>
+      <div id="mowerAdvice"></div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>Already got ruts?</b> Don't keep driving the same lines. Let the soil dry, gently fork or aerate to relieve compaction, topdress the low spots with a little soil, overseed — then mow that stretch from a fresh angle next time.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-cut"/></svg><h3>String trimmer &amp; edging</h3></div>
+      <p class="hint">The trimmer finishes what the mower can't reach — and it's where most accidental damage happens.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-ruler"/></svg>Line thickness — match it to power</div><div class="cr-b"><b>.065–.080″</b> for light battery/electric trimmers and grass; <b>.085–.095″</b> is the do-it-all for most homeowners; <b>.105–.130″+</b> for thick weeds and brush on a gas unit. Twisted or multi-sided line cuts cleaner and quieter than round. Too-thick line for a weak motor just bogs and snaps. <div class="pillrow"><span class="pill">.095″ = all-rounder</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-grass"/></svg>Technique — only the tip cuts</div><div class="cr-b">Skim with the very end of the line nearly parallel to the ground; don't bury the head (it shreds line and bogs the motor). Work so the guard throws clippings <b>away from you and back over cut grass</b>, not into the beds.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-tree"/></svg>Around trees, fences &amp; posts</div><div class="cr-b"><b>Never trim against a tree trunk</b> — the line strips bark and "weed-eater blight" can girdle and kill a young tree. Keep a <b>mulch ring</b> so the trimmer never touches it. On chain-link or wire, ease off — metal snaps line and flings debris; on wood/vinyl, a light touch avoids scuffing.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Edging a crisp line</div><div class="cr-b">Rotate the trimmer <b>90° to vertical</b> and walk the seam along the driveway or walk to cut a clean edge — keep a steady depth so it doesn't wander. For bed lines, maintain the spade-cut V-edge instead. <button class="linklike" data-goto="beds">Bed edging →</button></div></div>
+      </div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-shield"/></svg><div class="txt"><b>Eyes and ears.</b> A trimmer throws grit and pebbles hard — wear eye and ear protection and closed shoes, and clear people and pets from the line of fire before you start.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-shield"/></svg><h3>Don't make a mess — or do damage</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-layers"/></svg>Keep clippings out of the beds</div><div class="cr-b">Aim the discharge chute <b>toward the lawn, not the beds</b> — mow the perimeter with the open side facing grass you've already cut. Blow stray clippings off the mulch so they don't smother plants or sprout weed seed.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-alert"/></svg>Don't stain the driveway</div><div class="cr-b">Wet clippings smeared on concrete leave green <b>chlorophyll stains</b>. Point the discharge away from hardscape, and <b>blow (don't hose)</b> clippings off the drive and walks promptly — sitting wet clippings stain the worst.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-eye"/></svg>Scout before you mow</div><div class="cr-b">Walk it first: pick up sticks, stones, hoses, toys, dog waste, wire, and pet stakes, and flag sprinkler heads, drains, and low cables. One rock through a window — or a hose wound around the blade — ruins the day.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-ruler"/></svg>Avoid scalping &amp; blade strikes</div><div class="cr-b">Raise the deck over root flares, drains, and humps; don't let the blade clip edging, rock, or concrete — it dulls and bends the blade and flings shrapnel. And <b>mow dry</b>: wet grass clumps, clogs, and spreads disease.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bee"/></svg><h3>Bees, wildlife &amp; the best time of day</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Don't get stung</div><div class="cr-b">Yellowjackets and some bumblebees nest <b>in the ground</b> and in walls or woodpiles, and mower vibration sets them off. Scan for insects streaming in and out of a hole before you mow over it; if you hit a nest, walk away calmly and fast. Shoes, socks, and long pants help.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Spare the pollinators</div><div class="cr-b">In a clover or flowering lawn, mow when bees are <b>least active</b> — cooler early morning or evening — or mow a touch higher to leave some blooms, or keep a small no-mow strip. <button class="linklike" data-goto="wildlife">A living yard →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-rabbit"/></svg>Protect small wildlife</div><div class="cr-b">Before mowing tall grass or meadow edges, walk through and check for nesting rabbits, ground-nesting birds, and toads. Mow in one direction or from the center out so animals can flee, and don't take the lowest cut where they hide.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Best time of day</div><div class="cr-b"><b>Mid-morning, once the dew has dried (~9–10am)</b> is ideal: dry grass cuts clean and won't clump or spread disease, and it's before the worst heat. Avoid wet dawn grass, brutal midday heat (hard on the lawn and you), and dusk — dew returns and fungal disease gets all night on fresh cuts. <i>Trade-off:</i> cooler hours are kinder, but always wait for the grass to dry first.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-recycle"/></svg><h3>Continuous improvement</h3></div>
+      <p class="hint">A quick loop to run every few mows — small checks that keep the lawn (and the machine) getting better, not worse. Tick them off, then reset for the next round.</p>
+      <div class="ritlist" id="mowChecks"></div>
+      <button class="act btn-ghost" id="mowChecksReset" style="margin-top:11px;"><svg class="ic"><use href="#i-recycle"/></svg>Reset checks for a new round</button>
     </div>
   </section>
 
@@ -1608,7 +1689,7 @@
     }
     var tSum=0,tN=0;if(d.temperature_2m_max){for(var q2=Math.max(0,startI-2);q2<=startI&&q2<d.time.length;q2++){if(d.temperature_2m_max[q2]!=null){tSum+=d.temperature_2m_max[q2];tN++;}}}
     WX.windMax=windMax;WX.hail=hail;WX.storm=storm;WX.tmaxRecent=tN?tSum/tN:null;
-    renderFrostAdvisory();renderWindHail();renderPestGauge();
+    renderFrostAdvisory();renderWindHail();renderPestGauge();renderMowCadence();
     renderNow(soil);
   }
   function renderLeafDays(days){
@@ -1845,13 +1926,90 @@
   function renderWildlife(){renderTimeline("fireflyTl",FIREFLY);renderAudit();renderPestLog();renderPestGauge();}
   function renderSeasonExtras(){renderTimeline("bonfireTl",BONFIRE);updateFirewood();renderWindHail();}
 
+  /* ---------- Mow tab ---------- */
+  var MOWFREQ=[
+    {t:"March",tag:"Wake-up",mo:[2],b:"Maybe one mow once it's actually growing — don't rush it. Clean up sticks and debris first."},
+    {t:"Apr–May",tag:"Peak growth",mo:[3,4],b:"The fastest growth of the year — every 4–6 days. Mow <b>more often</b>, never lower, to keep the one-third rule."},
+    {t:"June",tag:"Slowing",mo:[5],b:"Every 6–9 days as the heat builds. Raise the deck a notch and start leaning on deep, infrequent watering."},
+    {t:"Jul–Aug",tag:"Heat / dormancy",mo:[6,7],b:"Every 8–14 days — or <b>pause entirely</b> if it goes tan and dormant in drought. Mow tall, mow in the cool of the day."},
+    {t:"Sep–Oct",tag:"Fall flush",mo:[8,9],b:"Growth rebounds — every 5–10 days. The lawn's building roots now; keep it tidy and overseed thin spots."},
+    {t:"November",tag:"Wind-down",mo:[10],b:"Every 12–18 days; take the final mow a touch lower and mulch the last leaves back in."},
+    {t:"Dec–Feb",tag:"Dormant",mo:[11,0,1],b:"No mowing. Stay off frozen, frosty turf — and use the downtime to sharpen the blade and service the machine."}
+  ];
+  var MOWBASE={2:[10,14,"Occasional — just the first mows as it wakes up"],3:[4,6,"Every 4–6 days — peak spring growth"],4:[4,6,"Every 4–6 days — still flushing hard"],5:[6,9,"Every 6–9 days as the heat builds"],6:[8,14,"Every 8–14 days — or pause if it goes dormant"],7:[8,14,"Every 8–14 days — or pause if it goes dormant"],8:[5,8,"Every 5–8 days — the fall flush is on"],9:[7,10,"Every 7–10 days, tapering down"],10:[12,18,"Every 12–18 days — the last mows of the year"]};
+  function renderMowCadence(){
+    var el=$("mowCadence");if(!el)return;
+    var m=new Date().getMonth();
+    if(m===11||m===0||m===1){
+      el.innerHTML='<div class="h-amt">Resting</div><div class="h-sub">Dormant season — no mowing. Stay off frozen, frosty turf, and use the downtime to sharpen the blade and service the mower.</div>';
+      if($("mowCadenceNote"))$("mowCadenceNote").innerHTML="";return;
+    }
+    var b=MOWBASE[m]||[7,10,"About weekly"];
+    el.innerHTML='<div class="h-amt">'+b[0]+'–'+b[1]+' <small>days between mows</small></div><div class="h-sub">'+b[2]+'. The real trigger is the <b>one-third rule</b> — mow when the grass is ~50% taller than your cut height, not on a fixed date.</div>';
+    var note;
+    if(WX.lat!=null){
+      var hot=(WX.tmaxRecent!=null&&WX.tmaxRecent>85),dry=(WX.rainPast!=null&&WX.rainPast<0.3),wet=(WX.rainPast!=null&&WX.rainPast>0.7),mild=(WX.tmaxRecent!=null&&WX.tmaxRecent>=52&&WX.tmaxRecent<=82);
+      if(hot&&dry)note='<div class="note-card warn">'+ic("sun")+'<div class="txt"><b>Hot &amp; dry lately</b> — growth has stalled. Stretch the interval or skip a mow, raise the deck, and let it coast. A tan lawn is usually dormant, not dead.</div></div>';
+      else if(wet&&mild)note='<div class="note-card">'+ic("rain")+'<div class="txt"><b>Warm &amp; wet lately</b> — it’s growing fast. Lean to the short end of that range so you never scalp off more than a third, and mow only once the blades are dry.</div></div>';
+      else note='<div class="note-card">'+ic("info")+'<div class="txt">'+(WX.place?esc(WX.place)+' — ':'')+'check the grass, not the calendar: if it’s grown ~50% over your cut height, it’s time.</div></div>';
+    } else {
+      note='<div class="note-card">'+ic("cloud")+'<div class="txt"><button class="linklike" data-goto="season">Load a ZIP</button> and this adjusts to recent heat and rain — faster after warm rain, a pause in summer drought.</div></div>';
+    }
+    if($("mowCadenceNote"))$("mowCadenceNote").innerHTML=note;
+  }
+  var MOWERS={
+    push:{rows:[
+      {i:"check",h:"Best for",b:"Small-to-medium yards, detail work around beds, and soft or uneven ground — it's the lightest machine, so it <b>barely ruts</b>."},
+      {i:"mower",h:"Technique",b:"Let a self-propelled drive do the work; overlap each pass a few inches so you don't leave strips; a <b>mulching blade with the chute closed</b> chops clippings fine and feeds the lawn."},
+      {i:"wind",h:"Slopes",b:"Mow <b>across</b> the face of a slope for better footing, and never pull a running mower back toward your feet."},
+      {i:"droplet",h:"Care",b:"Light enough that ruts are rare — still vary your direction, keep the wheels at an even height, and mow dry."}
+    ]},
+    riding:{rows:[
+      {i:"check",h:"Best for",b:"Half an acre and up — comfort and speed over open ground."},
+      {i:"alert",h:"Rutting — the big one",b:"It's heavy. <b>Never mow soggy ground</b>, <b>vary your direction every mow</b>, keep tire pressures equal, and don't always turn in the same spot. Ruts compact soil and scalp the crowns. <div class=\"pillrow\"><span class=\"pill warn\">vary the pattern</span><span class=\"pill warn\">mow dry</span></div>"},
+      {i:"recycle",h:"Turning",b:"Make wide or <b>three-point turns</b> at the ends — a tight pivot tears turf. Lift the deck or cut the blades when crossing bare patches or hardscape."},
+      {i:"wind",h:"Slopes",b:"Mow <b>up and down</b> a slope, not across, to avoid tipping; skip wet slopes, and respect the machine's rated limit."},
+      {i:"ruler",h:"Deck",b:"Keep it level, set 3.5–4″, and don't scalp humps — dial the wheels and rollers in."}
+    ]},
+    zturn:{rows:[
+      {i:"check",h:"Best for",b:"Speed plus tight maneuvering around trees, beds, and obstacles."},
+      {i:"alert",h:"Don't tear the turf",b:"A zero-radius spin on one stopped wheel <b>rips the grass out</b> — the classic rookie mistake. Instead feather a gentle <b>K-turn</b> with <b>both wheels moving</b> through the turn."},
+      {i:"alert",h:"Slopes — real caution",b:"Zero-turns have <b>less traction and braking on hills</b>. Go up and down slowly, avoid wet or steep slopes, and stay well clear of drop-offs and ponds — rollovers are the danger. Practice in the open first."},
+      {i:"mower",h:"Rutting",b:"Same as a rider: vary the pattern, keep tire pressures even, and never mow wet ground."},
+      {i:"clock",h:"Slow down",b:"Full speed scalps and tears on turns. Easing off gives a cleaner cut and a safer machine."}
+    ]}
+  };
+  var mowerSel="push";
+  function renderMowerAdvice(){
+    var el=$("mowerAdvice");if(!el)return;var d=MOWERS[mowerSel];if(!d)return;
+    el.innerHTML='<div class="cmp">'+d.rows.map(function(r){return '<div class="cmp-row"><div class="cr-h">'+ic(r.i||"mower")+r.h+'</div><div class="cr-b">'+r.b+'</div></div>';}).join("")+'</div>';
+  }
+  if($("mowerSeg"))$("mowerSeg").addEventListener("click",function(e){var b=e.target.closest("[data-mower]");if(!b)return;mowerSel=b.getAttribute("data-mower");document.querySelectorAll("#mowerSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderMowerAdvice();});
+  var MOWCHECKS=[
+    {t:"Blade still slicing clean?",s:"White, frayed tips mean it's torn, not cut — sharpen (every ~20–25 run-hours)."},
+    {t:"Height set for the season?",s:"Raise it for summer heat; drop a notch only for the very last fall cut."},
+    {t:"Changed direction since last mow?",s:"Varying the pattern prevents ruts and a leaning grain."},
+    {t:"Clippings vanishing, not matting?",s:"Matting on top means mow more often or in a shorter interval."},
+    {t:"Engine: oil, air filter, clean deck?",s:"A clean underside cuts and mulches far better."},
+    {t:"Tire pressures even?",s:"Uneven pressure scalps and ruts on a rider or zero-turn."},
+    {t:"Thin or bare spots noted?",s:"Mark them now to overseed this fall."},
+    {t:"Trimmer line loaded & free?",s:"Right thickness for the motor; head spins without binding."}
+  ];
+  function renderMowChecks(){
+    var el=$("mowChecks");if(!el)return;var st=lsGet("ycMowChecks")||{};
+    el.innerHTML=MOWCHECKS.map(function(a,i){var on=!!st[i];return '<button class="ritrow" aria-pressed="'+on+'" data-mowchk="'+i+'"><span class="rk">'+ic("check")+'</span><span><span class="rt">'+a.t+'</span><span class="rs">'+a.s+'</span></span></button>';}).join("");
+  }
+  if($("mowChecks"))$("mowChecks").addEventListener("click",function(e){var b=e.target.closest("[data-mowchk]");if(!b)return;var i=b.getAttribute("data-mowchk"),st=lsGet("ycMowChecks")||{};if(st[i])delete st[i];else st[i]=1;lsSet("ycMowChecks",st);renderMowChecks();});
+  if($("mowChecksReset"))$("mowChecksReset").addEventListener("click",function(){lsSet("ycMowChecks",{});renderMowChecks();toast("Checks reset for a new round");});
+  function renderMow(){renderMowCadence();renderTimeline("mowTl",MOWFREQ);renderMowerAdvice();renderMowChecks();}
+
   /* ---------- init ---------- */
   (function init(){
     var today="";try{today=new Date().toISOString().slice(0,10);}catch(e){}
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();
     showTab("almanac");
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
