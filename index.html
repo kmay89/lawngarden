@@ -268,7 +268,41 @@
   .locked-head{font-family:var(--mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin:14px 2px 9px;display:flex;align-items:center;gap:6px;}
   .locked-head .ic{width:14px;height:14px;}
 
-  @media(min-width:560px){ .tab-btn{font-size:.74rem;} }
+  /* ===== Grow / crops ===== */
+  .cropgrid{display:flex;flex-direction:column;gap:9px;}
+  .crop{border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;background:#fff;}
+  .crop .ch{display:flex;align-items:center;gap:8px;}
+  .crop .ch .ic{width:18px;height:18px;color:var(--grass);flex:0 0 auto;}
+  .crop .cname{font-family:var(--display);font-weight:650;font-size:1rem;}
+  .crop .cdiff{margin-left:auto;font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:999px;}
+  .crop .cdiff.easy{background:#E2F0E6;color:#1E5235;} .crop .cdiff.medium{background:#FAF0D9;color:#8A5E12;} .crop .cdiff.fussy{background:#F8E2DD;color:#8E2E1E;}
+  .crop .cwhen{font-size:.82rem;color:var(--ink);margin-top:7px;background:#F5F9F4;border-radius:9px;padding:7px 9px;}
+  .crop .cwhen b{color:var(--grass-deep);}
+  .crop .crec{font-size:.82rem;color:var(--ink-soft);margin-top:7px;}
+  .crop .crec b{color:var(--ink);}
+  .crop .cfacts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .crop .cfact{font-family:var(--mono);font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:999px;background:#EEF4ED;color:var(--ink-soft);}
+  .crop .cfact b{color:var(--grass-deep);}
+  .seasontag{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:999px;}
+  .seasontag.cool{background:#E3EEF6;color:#27567C;} .seasontag.warm{background:#FBEFD9;color:#945514;}
+  .cropfilter{display:flex;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:11px;}
+  .cropfilter button{flex:1;font-family:var(--body);font-size:.78rem;font-weight:600;padding:9px 4px;background:#fff;color:var(--ink-soft);border:none;border-left:1px solid var(--line);cursor:pointer;}
+  .cropfilter button:first-child{border-left:none;}
+  .cropfilter button[aria-pressed=true]{background:var(--grass);color:#fff;}
+
+  /* activity gauge (pests) */
+  .gauge{margin:6px 0 4px;}
+  .gauge .gbar{height:13px;border-radius:999px;background:linear-gradient(90deg,#3A8255,#D6A52A,#C0432F);overflow:visible;position:relative;}
+  .gauge .gtick{position:absolute;top:-3px;width:5px;height:19px;border-radius:3px;background:#1C2A20;box-shadow:0 0 0 2px #fff;transform:translateX(-50%);transition:left .3s;}
+  .gauge .glabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--ink-faint);margin-top:5px;}
+  .gauge .gnow{font-weight:700;}
+
+  .leadcard{border-radius:var(--radius);padding:17px 18px;color:#EAF6EE;background:linear-gradient(150deg,var(--grass-deep),var(--grass-deep-2));box-shadow:var(--shadow-deep);margin-bottom:14px;}
+  .leadcard h3{font-family:var(--display);font-size:1.18rem;font-weight:650;margin:0 0 6px;display:flex;align-items:center;gap:9px;}
+  .leadcard h3 .ic{width:22px;height:22px;color:#BFE3CC;}
+  .leadcard p{font-size:.9rem;color:#D7ECDE;margin:0 0 9px;} .leadcard p:last-child{margin-bottom:0;} .leadcard b{color:#fff;}
+
+  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} }
 </style>
 </head>
 <body>
@@ -309,6 +343,17 @@
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6L3.4 9.3l6-.7z"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-flower" viewBox="0 0 24 24"><circle cx="12" cy="9" r="2.4"/><path d="M12 6.6c0-2 .9-3.6 2.4-3.6S16 4.6 14.4 6.6M12 6.6C12 4.6 11.1 3 9.6 3S8 4.6 9.6 6.6M14.4 9c2 0 3.6.9 3.6 2.4S16.4 13 14.4 11.4M9.6 9C7.6 9 6 9.9 6 11.4S7.6 13 9.6 11.4M12 11.4V21"/><path d="M12 17c-2.2 0-4-1.4-4-3M12 17c2.2 0 4-1.4 4-3"/></symbol>
+  <symbol id="i-basket" viewBox="0 0 24 24"><path d="M5 10l1.6 8.4a2 2 0 002 1.6h6.8a2 2 0 002-1.6L19 10"/><path d="M3 10h18"/><path d="M8.5 10L11 4.5M15.5 10L13 4.5"/><path d="M9 13.5v3M15 13.5v3"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M3 9c0 6 4 9 8 9s7-3 7-7c1 .6 2 .6 3 0-.8-1-1.2-2-1.6-3.2A4 4 0 0011 6c-3 .3-5.5.2-8 0z"/><path d="M7 9h.01"/><path d="M9 18l-1 3M14 17l1 4"/></symbol>
+  <symbol id="i-bee" viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="4" ry="5.5"/><path d="M8.3 11.5h7.4M8 14.5h8M9 18h6"/><path d="M12 8.5V6"/><path d="M7 6.5a3.5 2.5 0 00-3.5-1.5M17 6.5a3.5 2.5 0 013.5-1.5"/></symbol>
+  <symbol id="i-worm" viewBox="0 0 24 24"><path d="M5 17a3 3 0 006 0V9a3 3 0 016 0v6"/><path d="M17 17a1 1 0 002 0"/><path d="M16 7h.01"/></symbol>
+  <symbol id="i-rabbit" viewBox="0 0 24 24"><path d="M8.5 20.5h7a4 4 0 00-2-7.2c1-.9 1.2-2.6.2-3.8-1.4-.2-2.6.7-3.2 1.7-.6-1-1.8-1.9-3.2-1.7-1 1.2-.8 2.9.2 3.8a4 4 0 00-2 7.2z"/><path d="M7.2 8.5C5.8 5.6 5.8 3 7 2.7s2.4 2 2.4 4.6M14.6 7.3C15 4.3 15.4 2 16.6 2s1.2 2.4 0 4.8"/><path d="M11 16h.01"/></symbol>
+  <symbol id="i-clover" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3"/><circle cx="8" cy="12.5" r="3"/><circle cx="16" cy="12.5" r="3"/><path d="M12 12.5V21"/></symbol>
+  <symbol id="i-pot" viewBox="0 0 24 24"><path d="M6 9h12l-1.4 9.6a2 2 0 01-2 1.4H9.4a2 2 0 01-2-1.4z"/><path d="M5 9h14"/><path d="M12 9V5M12 6.5c.8-1 2-1 3-1M12 6.5c-.8-1-2-1-3-1"/></symbol>
+  <symbol id="i-fence" viewBox="0 0 24 24"><path d="M5 21V8l2-3 2 3v13M15 21V8l2-3 2 3v13"/><path d="M3 11h18M3 15.5h18"/></symbol>
+  <symbol id="i-carrot" viewBox="0 0 24 24"><path d="M4 20c0-5 5-12 8.5-12 1.8 0 2.8 1.2 2.8 3C15.3 15 8 19.5 4 20z"/><path d="M13 8c.8-2 2.4-3 4.4-3M14.5 6.2c0-2 1-3.2 3-3.6M11.5 8.8c-.5-2-1.8-3-3.8-3"/></symbol>
+  <symbol id="i-jar" viewBox="0 0 24 24"><path d="M7.5 8h9M8.5 8V5a1 1 0 011-1h5a1 1 0 011 1v3M7.7 8l-.4 10.4a2 2 0 002 2.1h5.4a2 2 0 002-2.1L16.3 8"/><path d="M7.4 14.5c1.7-1 2.8.6 4.6 0s2.9.7 4.6 0"/></symbol>
+  <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -334,9 +379,11 @@
     <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
     <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
     <button class="tab-btn" role="tab" data-tab="trees"><svg class="ic"><use href="#i-tree"/></svg>Trees</button>
+    <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
     <button class="tab-btn" role="tab" data-tab="snow"><svg class="ic"><use href="#i-snow"/></svg>Snow &amp; Salt</button>
     <button class="tab-btn" role="tab" data-tab="leaves"><svg class="ic"><use href="#i-leaf"/></svg>Leaves</button>
+    <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
     <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
   </nav>
 
@@ -365,8 +412,9 @@
         <div class="field"><label for="jType">What you did</label><select id="jType">
           <option value="mow">Mowed</option><option value="feed">Fed / fertilized</option><option value="seed">Seeded / overseeded</option>
           <option value="water">Watered</option><option value="mulch">Mulched</option><option value="edge">Edged beds</option>
-          <option value="prune">Pruned</option><option value="plant">Planted something</option><option value="leaves">Leaf cleanup</option>
-          <option value="snow">Cleared snow</option><option value="other">Something else</option>
+          <option value="prune">Pruned</option><option value="plant">Planted something</option>
+          <option value="sow">Sowed seed</option><option value="transplant">Transplanted</option><option value="harvest">Harvested</option>
+          <option value="leaves">Leaf cleanup</option><option value="snow">Cleared snow</option><option value="other">Something else</option>
         </select></div>
       </div>
       <div class="field"><label for="jNote">Note <span class="meta">optional — a detail you'll like remembering</span></label><input id="jNote" type="text" maxlength="120" placeholder="e.g. front yard, first cut at 3.5″"/></div>
@@ -522,12 +570,138 @@
     </div>
 
     <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-sprout"/></svg><h3>Young &amp; establishing trees (first 5 years)</h3></div>
+      <p class="hint">The first ~5 years aren't about feeding or shaping — they're about helping a young tree <i>establish</i>. The kindest things you can do are usually the simplest: water, mulch, and a little patience while the roots find their footing.</p>
+      <div class="cmp" style="margin-bottom:11px;">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Water is the #1 job</div><div class="cr-b">A deep, slow soak at the root ball <b>1–2× a week</b> through the first one or two growing seasons, tapering after — but keep going in fall droughts and into the second and third year for these three. A slow trickle or a watering bag beats a fast spray that runs off. <div class="pillrow"><span class="pill good">free: hand-water</span><span class="pill warn">but you must remember</span><span class="pill">bag: convenient</span><span class="pill warn">check it doesn't bake the trunk</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-layers"/></svg>Mulch ring, never a volcano</div><div class="cr-b">2–3″, spread wide, pulled back off the trunk and root flare — see the volcano warning above. It's also a slow, gentle feed as it breaks down.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-shield"/></svg>Stake only if it won't stand</div><div class="cr-b">And <b>remove stakes after one year</b> — a trunk needs to flex in the wind to grow strong. A permanently staked tree stays weak and dependent.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>Hold off on fertilizer</div><div class="cr-b">The first year or two, established mulch plus decent soil is usually enough. Feeding a stressed or new tree pushes top growth the young roots can't support. <button class="linklike" data-goto="grow">More on feeding well →</button></div></div>
+      </div>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Arborvitae <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— Thuja, ‘Green Giant’ / ‘Emerald’</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Loves consistent moisture, but it's <b>most vulnerable to winter windburn</b> (the browning you see in spring), plus <b>deer</b> browsing, <b>bagworms</b>, and <b>spider mites</b>.</p>
+        <ul>
+          <li><b>Deep fall watering</b> before the ground freezes — evergreens lose water all winter.</li>
+          <li><b>Burlap windscreen or anti-desiccant</b> for young, exposed plants. <i>Trade-off:</i> burlap is ugly for a season but it's cheap insurance; skip it for sheltered plants that aren't browning.</li>
+          <li><b>Deer protection</b> in winter — netting or repellent. <i>Trade-off:</i> a fence is the only sure fix but it's costly and conspicuous; repellents work but must be reapplied; or accept a little browse and plant something deer ignore next time.</li>
+          <li><b>Hand-pick the bagworm "cones"</b> in late fall and winter before the eggs hatch — the gardener-with-nature move. Catch them by hand and you never need a spray.</li>
+          <li>Shape lightly only. <b>Don't cut back into bare old wood</b> — arborvitae won't regrow from it, and you'll be left with a permanent hole.</li>
+        </ul>
+      </div></details>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Japanese maple <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— Acer palmatum</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>An understory tree: it <b>prefers part or afternoon shade and shelter from wind</b>. Crispy leaf-edge "scorch" in a hot, dry, windy spot is the classic stress sign — almost always a placement or water issue, not a disease. The happy news: a sheltered, well-sited Japanese maple is low-trouble and one of the most beautiful things in a yard.</p>
+        <ul>
+          <li><b>Mulch and reliable moisture</b> — don't let it dry out, don't waterlog it.</li>
+          <li><b>Prune only in winter dormancy or mid-summer, and lightly.</b> They bleed sap if cut in late winter/early spring and resent heavy pruning. Take only dead, crossing, or rubbing wood with clean cuts.</li>
+          <li>Protect thin young bark from <b>sunscald</b> with a light trunk wrap the first winters. <i>Trade-off:</i> a wrap helps a young trunk but <b>remove it in spring</b> so it doesn't trap moisture and rot the bark.</li>
+          <li>Watch for <b>verticillium wilt</b> (a branch suddenly dies back). Prune it out and sanitize your tools — there's no cure, so favor good siting and don't over-stress the tree.</li>
+        </ul>
+      </div></details>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Red maple <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— Acer rubrum, a tough native</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Fast, tough, adaptable, and native — the easy one. Two Ohio (zone-6) gotchas to catch early: <b>girdling roots</b> (roots circling the trunk instead of spreading out) and <b>chlorosis</b> (leaves yellowing with green veins) in <b>high-pH/alkaline soil</b>, where iron and manganese get locked out.</p>
+        <ul>
+          <li>At planting and in the early years, <b>expose the root flare and cut any circling roots</b> — left alone they slowly strangle the trunk.</li>
+          <li><b>Prune in late summer or full dormancy</b>, not spring — maples "bleed" heavily from spring cuts (it looks alarming but rarely harms a healthy tree; still, the timing's easy to get right).</li>
+          <li>If leaves yellow with green veins, <b>test the soil pH before reaching for anything.</b> <i>Trade-off:</i> a chelated-iron foliar spray is a fast cosmetic fix but temporary; amending soil and pH with organic matter is slower but the real, lasting cure. <button class="linklike" data-goto="grow">How to feed well →</button></li>
+        </ul>
+      </div></details>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Watering a young tree is worth logging — pop it in your <button class="linklike" data-goto="almanac">yard journal</button> as a <b>water</b> entry. Do it across two seasons and you'll earn the <b>Rooted</b> Moment.</div></div>
+    </div>
+
+    <div id="feedHostTrees"></div>
+
+    <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-snow"/></svg><h3>Getting woody plants through winter</h3></div>
       <div class="cmp">
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Water evergreens before the ground freezes</div><div class="cr-b">Broadleaf and needled evergreens keep losing water all winter. A deep fall soak (and again during a dry winter thaw) prevents the brown "winter burn" you see in spring.</div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-shield"/></svg>Protect young, thin bark</div><div class="cr-b">Wrap young maples, fruit, and other thin-barked trees, or use a white trunk guard, to prevent <b>sunscald</b> (winter bark splitting) and rabbit/vole gnawing. Remove wraps in spring.</div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-leaf"/></svg>Mulch insulates roots</div><div class="cr-b">That 2–3 inch ring buffers freeze-thaw cycles that can heave shallow roots. One more reason to mulch (correctly) in fall.</div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ GROW — VEGETABLES & HERBS ============ -->
+  <section class="tab" data-pane="grow" hidden>
+    <p class="tab-intro">A planning companion for an edible garden in <b>zone-6 Ohio</b>. Everything here keys off your frost dates — set them once below and the timelines fill in. The thread running through it all: grow <i>with</i> nature — feed the soil, mix things up, share a little with the bugs and birds, and let the climate do the work.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-thermo"/></svg><h3>Your frost dates</h3></div>
+      <p class="hint">Average frost dates aren't in any live forecast — they're long-term averages, roughly 50/50, <b>not guarantees</b>. Set yours and every planting window below adjusts. Southern Ohio runs earlier in spring and later in fall; the far north is the reverse.</p>
+      <div class="grid2">
+        <div class="field"><label for="frostSpring">Avg. last spring frost <span class="meta">zone-6 default ~May 10</span></label><input id="frostSpring" type="date"/></div>
+        <div class="field"><label for="frostFall">Avg. first fall frost <span class="meta">zone-6 default ~Oct 10</span></label><input id="frostFall" type="date"/></div>
+      </div>
+      <div class="hero green" id="frostReadout"></div>
+      <div id="frostAdvisory"></div>
+      <p class="zip-note" id="frostZipNote">Tip: load a ZIP on the Season tab and a real frost in the 7-day forecast will flag here too.</p>
+    </div>
+
+    <div id="feedHostGrow"></div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-basket"/></svg><h3>Crop guide — a zone-6 starter set</h3></div>
+      <p class="hint">A scannable shortlist that does well in Ohio. Timing is computed from <i>your</i> frost dates above. Cool-season crops go out around the last frost (and again in late summer for fall); warm-season crops wait until after the last frost <i>and</i> the soil warms.</p>
+      <div class="cropfilter" id="cropFilter">
+        <button data-cf="all" aria-pressed="true">All</button>
+        <button data-cf="cool" aria-pressed="false">Cool-season</button>
+        <button data-cf="warm" aria-pressed="false">Warm-season</button>
+      </div>
+      <div class="cropgrid" id="cropGuide"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-pot"/></svg><h3>Pot vs. raised bed vs. ground</h3></div>
+      <p class="hint">All three grow great food — it's about trade-offs and what you'll keep up with. Start small, succeed, expand.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-pot"/></svg>Containers &amp; pots</div><div class="cr-b">Control, mobility, soil that warms early — perfect for herbs, peppers, a tomato, or a window box of greens. <b>But</b> they dry out fast, limit roots, and need regular feeding and watering. Rule of thumb: a <b>~5-gallon (≈12″) pot per tomato or pepper</b>; a window box for a row of greens or herbs. <div class="pillrow"><span class="pill good">flexible, early warmth</span><span class="pill warn">dries fast, more tending</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-layers"/></svg>Raised beds</div><div class="cr-b">Best control of soil and drainage, ergonomic, warms early, fewer weeds. <b>But</b> there's cost to build and fill, and it dries faster than open ground. The classic starter is a <b>4×8 ft bed</b> (reachable from both sides — never wider than ~4 ft). A 4×8 can carry, say, two tomatoes plus basil and a row of greens, or a big mixed salad-and-roots planting. <div class="pillrow"><span class="pill good">great soil, tidy</span><span class="pill warn">upfront cost</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-globe"/></svg>In-ground</div><div class="cr-b">Cheapest, biggest, and holds water best. <b>But</b> you're at the mercy of native soil (Ohio clay), with more weeding and bending. The fix is patience: layer on compost each year and it gets better and better. <div class="pillrow"><span class="pill good">cheap, holds water</span><span class="pill warn">clay, more weeding</span></div></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt">Any of the three works. The most common beginner mistake isn't picking wrong — it's planting too much. <b>One bed or a few pots</b> you can actually keep watered beats a big plot you can't.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Herbs — the easiest win</h3></div>
+      <p class="hint">Pound for pound the most rewarding thing you can grow: cheap to start, expensive at the store, and they shrug off neglect.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-leaf"/></svg>Annuals here — replant each year</div><div class="cr-b"><b>Basil, cilantro, dill.</b> Frost kills them, so they're a one-season crop in zone 6. Basil loves heat; cilantro and dill prefer the cool ends of the season and bolt in midsummer heat.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Perennials — they overwinter</div><div class="cr-b"><b>Chives, oregano, thyme, sage, mint</b> come back every year in Ohio. Plant once, harvest for years — the best value in the garden.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-alert"/></svg>The mint warning</div><div class="cr-b">Mint is gorgeous and <b>ferociously vigorous</b> — put it in open ground and it will take the whole bed by runner. <b>Contain it in a pot</b> (even a pot sunk into the bed). Same caution for oregano in rich soil.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Cut-and-come-again</div><div class="cr-b">Harvest from the top and pinch often — it makes the plant branch and stay productive instead of going to flower. A basil plant you cut weekly out-yields one you let bloom.</div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Pots vs. bed for herbs:</b> pots give you mobility (move basil to the sunniest spot, drag tender ones near the door) and they <b>contain the spreaders</b> — the honest trade-off is they dry out faster and need more watering. A bed grows bigger plants but lets mint and oregano run.</div></div>
+    </div>
+
+    <!-- ===== D: Plant partners ===== -->
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bee"/></svg><h3>Plant partners</h3></div>
+      <p class="hint">Mixing crops and tucking in flowers builds a small ecosystem — pollinators, pest balance, shared soil and light. <b>Diversity itself is the strategy:</b> a mixed planting with flowers has fewer pest outbreaks and more pollinators than a monoculture row. Some pairings are solid science; others are tradition — we'll say which.</p>
+      <div class="field" style="margin-bottom:11px;"><label for="partnerPick">Pick a crop to see its best partners</label><select id="partnerPick"></select></div>
+      <div id="partnerOut"></div>
+      <div class="cmp" style="margin-top:4px;">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sprout"/></svg>Three Sisters — corn + pole beans + squash</div><div class="cr-b">Beans fix nitrogen and climb the corn; squash sprawls below to shade soil, hold moisture, and deter some pests. The classic, genuinely sound polyculture. <div class="pillrow"><span class="pill good">evidence-based</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Tomato + basil + marigold</div><div class="cr-b">Basil and marigold may deter some pests (and basil's a kitchen partner); marigolds draw beneficial insects. The pest-repelling part is partly tradition, but the <b>pollinator and diversity benefit is real</b>. <div class="pillrow"><span class="pill good">diversity: real</span><span class="pill warn">repelling: partly tradition</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-carrot"/></svg>Carrots + onions / leeks / chives</div><div class="cr-b">Alliums' scent is traditionally said to confuse carrot and onion flies. Take that with a grain of salt — but the diversity helps either way. <div class="pillrow"><span class="pill warn">traditional</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Greens tucked under taller crops</div><div class="cr-b">Lettuce and spinach under tomatoes, beans, or corn — the tall crop shades the cool-season greens through summer heat so they bolt later. Solid, physics-based. <div class="pillrow"><span class="pill good">physics</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Beans / peas near heavy feeders</div><div class="cr-b">Legumes fix their own nitrogen and leave the soil richer — the "givers." Plant them near (or before) hungry crops like corn and brassicas. <div class="pillrow"><span class="pill good">evidence-based</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Nasturtium — trap &amp; insectary</div><div class="cr-b">Lures aphids away from your crops and feeds pollinators and predators; the flowers are edible, too. A nature-with-you favorite. <div class="pillrow"><span class="pill good">trap crop</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bee"/></svg>Borage + strawberries / tomatoes</div><div class="cr-b">A pollinator magnet that's traditionally said to improve fruit set — and undeniably brings the bees. <div class="pillrow"><span class="pill good">pollinator magnet</span><span class="pill warn">fruit-set: traditional</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Flowers in the veg bed, generally</div><div class="cr-b">Alyssum, calendula, and the umbels of dill and fennel feed predatory insects and pollinators. This is the core ecosystem move — a few flowers among the vegetables. <div class="pillrow"><span class="pill good">the keystone move</span></div></div></div>
+      </div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Give a little space, too.</b> Fennel is best off on its own (it's said to inhibit neighbors), and lore keeps beans and onions apart. Don't be dogmatic about it — these effects are small. The big, reliable win is simply <b>variety</b>.</div></div>
+    </div>
+
+    <!-- ===== E: Windowsill & water ===== -->
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-jar"/></svg><h3>Windowsill &amp; water — indoor herbs, year-round</h3></div>
+      <p class="hint">A fun, educational complement to the soil garden — not a replacement. Growing herbs in water is the best front-row seat there is on how a plant actually feeds. Cheapest to fanciest:</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-jar"/></svg>Water-rooting kitchen cuttings</div><div class="cr-b">Stick a basil sprig, a mint cutting, or the white root-end of green onions in a glass of water on the sill and watch them regrow. Nearly free and instant. <i>Trade-off:</i> limited lifespan, but a perfect "how roots work" entry. <div class="pillrow"><span class="pill good">~free, instant</span><span class="pill warn">short-lived</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Passive hydro — the Kratky method</div><div class="cr-b">A jar or tub of nutrient water with a net cup on top — <b>no pump, no electricity</b>. Cheap, low-effort, and genuinely educational about how plants feed. <i>Trade-off:</i> best for fast leafy herbs and lettuce, needs decent light, and can go anaerobic (smelly) if you neglect it. <div class="pillrow"><span class="pill good">cheap, no power</span><span class="pill warn">leafy crops, needs light</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bulb"/></svg>Countertop hydro units</div><div class="cr-b">An AeroGarden-style box with a pump and a built-in grow light — easiest, with reliable winter harvests. <i>Trade-off:</i> upfront cost, ongoing electricity, and proprietary pods (though you can refill your own). <div class="pillrow"><span class="pill good">easiest, reliable</span><span class="pill warn">cost + power + pods</span></div></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Light is the real limiter</b>, not the method. A bright south window grows basil, mint, chives, cilantro, parsley, and leaf lettuce; anything dimmer wants a small LED grow light. Hydro grows fast because the roots get water, air, <i>and</i> nutrients all at once — and that's exactly why it's such a good teaching project: watch the roots, measure the growth, taste the difference.</div></div>
+      <div class="note-card"><svg class="ic"><use href="#i-eye"/></svg><div class="txt">Worth logging: start a cutting and add a <b>sow</b> entry to your <button class="linklike" data-goto="almanac">journal</button> ("started basil in water"), then mark "first true leaves" as a <b>field note</b>. Start herbs indoors in winter and you'll earn the <b>Windowsill Green</b> Moment.</div></div>
     </div>
   </section>
 
@@ -651,6 +825,142 @@
     </div>
   </section>
 
+  <!-- ============ A LIVING YARD — WILDLIFE ============ -->
+  <section class="tab" data-pane="wildlife" hidden>
+    <div class="leadcard">
+      <h3><svg class="ic"><use href="#i-bird"/></svg>A living yard beats a sterile one</h3>
+      <p>A pesticide-perfect, monoculture lawn looks tidy — but it's actually <b>fragile, high-input, and lifeless</b>. A yard with bees, birds, worms, even a few ants and rabbits is healthier, more resilient, and far more alive.</p>
+      <p>A little clover, a few nibbled leaves, an anthill, seedheads left standing — these are signs of a <b>working ecosystem, not a failure</b>. You're a host and an observer here, not a janitor at war with nature. Everything below hangs on that one idea.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bee"/></svg><h3>Bees — invite them, without the fear</h3></div>
+      <p class="hint">First, the honest distinction that defuses most of the worry:</p>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Foraging bees</b> — native solitary bees, bumblebees, honeybees on flowers — are focused on blooms, <b>not on you</b>, and rarely sting unless squeezed or defending a nest. The painful "yard stings" people fear are almost always <b>wasps, yellowjackets, or hornets</b> — different animals, different behavior. So don't swat; just let them work.</div></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Attract them</div><div class="cr-b">A <b>succession of bloom</b> spring→fall so something's always flowering; <b>single</b> (not double) flowers and <b>native plants</b>; let some <b>clover and dandelions</b> be; a shallow <b>"bee bath"</b> with stones to land on; and <b>bare soil patches, hollow stems, or a bee house</b> for ground- and cavity-nesters.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-shield"/></svg>Above all, ease off the sprays</div><div class="cr-b">Stop blanket pesticides — especially on open blooms — and avoid neonicotinoids. Spot-treat the actual problem instead. This single change does more for bees than any plant you can add.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Coexist</div><div class="cr-b">Foraging bees won't bother you. Wear shoes in a clover lawn if barefoot stings worry you; site the busiest flowers away from doors and paths if you like; and if you find an actual nest, give it respectful space.</div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-clover"/></svg><div class="txt"><b>The trade-off, honestly:</b> a clover-and-flower lawn invites bees (great for the whole system, with a small barefoot-sting chance) vs. a sterile lawn (no bees, no risk — and no life). It's a choice, and we'd lean toward the living one.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Hummingbirds</h3></div>
+      <div class="prose">
+        <p>Plant <b>tubular red and orange flowers</b> — native bee balm (Monarda), cardinal flower, trumpet honeysuckle, salvia, columbine — and/or hang a nectar feeder. They also eat tiny insects, which is one more reason not to spray. In Ohio they arrive <b>~late April–early May</b> and head south by fall.</p>
+      </div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-droplet"/></svg><div class="txt"><b>Feeder recipe:</b> <b>4 parts water to 1 part plain white sugar</b> — no red dye, no honey. Clean it every few days (more often in heat) or it ferments and molds, which harms them. <i>Trade-off:</i> feeders are reliable and delightful but a real cleaning commitment — flowers are the no-maintenance route.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bug"/></svg><h3>Butterflies — the part people miss</h3></div>
+      <p class="hint">Butterflies need <b>two</b> things, and most yards offer only the first.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Nectar for the adults</div><div class="cr-b">Coneflower, milkweed, zinnia, joe-pye weed, asters — a sunny patch of blooms is the easy half everyone plants.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-leaf"/></svg>Host plants for the caterpillars</div><div class="cr-b"><b>Milkweed for monarchs</b>; dill, parsley, and fennel for swallowtails; native violets and trees for others. No host plants, no next generation.</div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Reframe:</b> caterpillars eat leaves — that's the whole point. <b>Chewed host-plant leaves are success, not damage.</b> Add a damp-sand or mud <b>"puddling" patch</b> for minerals, skip the pesticides (Bt and broad sprays kill caterpillars too), and leave <b>leaf litter and standing stems</b> for overwintering pupae. <button class="linklike" data-goto="leaves">See the Leaves tab →</button></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bird"/></svg><h3>Birds — food, water, shelter, nesting</h3></div>
+      <div class="prose">
+        <p>Give birds the four things they need and they'll move in: <b>native plants with seeds and berries</b> (leave coneflower and aster <b>seedheads standing into winter</b>), a clean <b>bird bath</b> (moving water is a magnet), <b>shrubs and trees</b> for cover and nests, and feeders. Birds also eat enormous numbers of insects — and <i>need</i> insects to raise their young — so skipping blanket sprays feeds them, too.</p>
+      </div>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-basket"/></svg>Why feeders are good — with honest caveats<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Feeders give reliable supplemental food (especially in lean winters), bring birds close to watch and learn from, and — with varied feeders and seed — draw varied species. <b>Black-oil sunflower</b> is the all-rounder; nyjer for finches; suet in winter.</p>
+        <p><b>Responsibilities:</b> keep feeders <b>clean</b> (dirty feeders spread disease); prevent window strikes by placing feeders <b>under ~3 ft or beyond ~10 ft</b> from glass, and away from cat-ambush cover; expect squirrels and rodents (manage them); and remember a feeder <b>supplements, it doesn't replace</b> habitat.</p>
+        <p>Put it together — a feeder, a birdbath, and a few native shrubs — and you've got a daily nature show outside the window.</p>
+      </div></details>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-worm"/></svg><h3>Worms — the soil's free workforce</h3></div>
+      <div class="prose">
+        <p>Earthworms are the soil's <b>free tillers and fertilizer factory</b>: they eat organic matter and leave nutrient-rich <b>castings</b>, <b>aerate</b> and channel the soil for better water and air, mix the layers, and break down thatch and leaves. Lots of worms = living, healthy soil. <b>Worms after rain are good news.</b></p>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-recycle"/></svg><div class="txt"><b>Encourage them:</b> feed the soil <b>organic matter</b> (mulch, compost, mulched leaves and clippings), go easy on synthetic salt fertilizers and broad pesticides, and don't over-till. <i>Honest nuance:</i> invasive earthworms can disrupt some <b>northern-forest</b> leaf-litter systems — but in a lawn or garden bed, they're a sign and an engine of health.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bug"/></svg><h3>Ants — mostly on your side</h3></div>
+      <div class="prose">
+        <p>In a yard, ants are mostly <b>beneficial or neutral</b>: they <b>aerate soil</b>, prey on and clean up pest insects, <b>disperse seeds</b>, and feed birds and other wildlife. An anthill in the lawn is <b>not an emergency</b>, and most lawn ants don't harm the grass.</p>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>When to actually act:</b> carpenter ants <i>inside the house</i>, or a mound right on a walkway — then <b>spot-treat</b> that spot, never carpet-bomb the yard. (Minor exception: ants "farming" aphids on a plant.) Default to tolerate and coexist.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-rabbit"/></svg><h3>Rabbits — share the yard</h3></div>
+      <div class="prose">
+        <p>Rabbits love <b>tender new growth, clover, lettuce and greens, beans, young shoots</b>, and the <b>bark of young trees and shrubs in winter</b>. A few rabbits are part of a living yard — and food for the hawks and owls. The move isn't to battle them; it's to <b>protect what matters and share the rest</b>.</p>
+      </div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-fence"/></svg>Protect what matters</div><div class="cr-b">A simple <b>chicken-wire fence (~2 ft, bent out and buried at the base)</b> around the veg garden, and <b>trunk guards / hardware cloth</b> on young trees for winter bark-gnawing. <button class="linklike" data-goto="trees">Cross-link: young trees →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Grow some things they ignore</div><div class="cr-b">Aromatic herbs, alliums, and many natives get left alone — and let the clover be; it's exactly what they'd rather eat than your seedlings.</div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Trade-off:</b> guards and fencing are a little work and cost vs. losing seedlings and bark; repellents work but wash off and need reapplying. Optimistic, not war — protect the few things that matter and share the clover.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-clover"/></svg><h3>Clover — feed the soil for free</h3></div>
+      <div class="prose">
+        <p>White clover was standard in lawn seed for generations — until herbicide marketing rebranded it a "weed." It's actually the flagship work-<i>with</i>-nature move: clover <b>fixes its own nitrogen from the air</b> (via <i>Rhizobium</i> bacteria on its roots) and <b>feeds the surrounding grass for free</b>. It stays green in drought, feeds bees, tolerates poor soil, and needs less water and fertilizer. <b>Microclover</b> blends in subtly if you want a more uniform look.</p>
+      </div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Honest trade-offs:</b> it draws bees (a barefoot consideration), can outcompete grass in spots, looks less carpet-uniform, and is killed by broadleaf herbicides — so it's <b>clover <i>or</i> broadleaf weed-killers, not both</b>. <button class="linklike" data-goto="lawn">It's the eco-lawn option on the Lawn tab</button>, and it's a "giver" in the feeding logic — <button class="linklike" data-goto="grow">see Feeding →</button></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bug"/></svg><h3>Fireflies — when to watch</h3></div>
+      <div class="prose">
+        <p>Lightning bugs are one of summer's quiet miracles — and they're a barometer of a healthy, low-spray yard. In Ohio they put on their show across these weeks:</p>
+      </div>
+      <div class="cal" id="fireflyTl"></div>
+      <div class="note-card"><svg class="ic"><use href="#i-leaf"/></svg><div class="txt"><b>Help them thrive:</b> they spend most of their life as larvae in <b>leaf litter and damp soil</b> (eating slugs and snails), so leave some leaves in the quiet corners, skip the broad pesticides, and go easy on bright outdoor lighting — porch lights and floods drown out their signals. <button class="linklike" data-goto="leaves">Leaf litter helps →</button> Spotted some? Mark it as a <button class="linklike" data-goto="almanac">field note</button>.</div></div>
+    </div>
+
+    <!-- ===== I: Mosquito & tick (the honest flip side) ===== -->
+    <div class="card" style="border-color:#E6C3BA;">
+      <div class="card-head"><svg class="ic" style="color:var(--alert)"><use href="#i-bug"/></svg><h3>The honest flip side: mosquitoes &amp; ticks</h3></div>
+      <p class="hint">This is the one place where <b>human health comes first</b> — we won't downplay real disease risk. But the nature-collaborator ethic still holds: the goal is <b>least-harm control that actually works</b> — source reduction, personal protection, and smart landscaping — not fogging the yard and killing every pollinator. A parent protecting kids may reasonably choose more intervention; here are the honest trade-offs.</p>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Seasonal activity estimate</div>
+      <div class="gauge" id="pestGauge"></div>
+      <p class="zip-note" id="pestGaugeNote" style="margin-top:8px;">A rough seasonal read from the month, temperature, and recent rain — <b>an estimate, not a live surveillance feed</b>. Load a ZIP on the Season tab to sharpen it.</p>
+
+      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-droplet"/></svg>Mosquitoes — dump the water first<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>In Ohio, <b>West Nile</b> is the main concern, and the <b>Asian tiger mosquito</b> is an aggressive daytime biter. They fade after the first hard frost. The single best — and most nature-friendly — control is <b>source reduction</b>: they breed in standing water, so deny it.</p>
+        <p><b>Personal protection:</b> an EPA-registered repellent (DEET, picaridin, or oil of lemon eucalyptus), long sleeves at dusk and dawn, intact window screens, and a patio fan (they're weak fliers).</p>
+        <p><b>Let predators help:</b> bats, purple martins and swallows, dragonflies, and frogs all eat mosquitoes — another reason to skip broad spraying. <i>Honesty note:</i> "mosquito-repelling plants" like citronella are <b>largely overhyped</b> and won't clear an area — don't oversell them.</p>
+        <p><b>Trade-offs:</b> source reduction + protection is your cheap, safe, effective first line. <b>BTI "mosquito dunks"</b> (a bacterium that kills only mosquito and gnat larvae, safe for bees, fish, pets, and birds) handle water you can't drain. Backyard foggers and "barrier" sprays knock down adults briefly but <b>kill pollinators and beneficials, must be repeated, and don't fix the source</b> — a last resort, not a routine.</p>
+      </div></details>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Standing-water audit — tip it out weekly</div>
+      <p class="hint" style="margin-top:2px;">Mosquito larvae need about a week in still water. Walk the yard and knock these out:</p>
+      <div class="ritlist" id="waterAudit"></div>
+
+      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-shield"/></svg>Ticks — yard, body, removal<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Rising in Ohio: the <b>blacklegged ("deer") tick</b> → Lyme; the <b>American dog tick</b> → Rocky Mountain spotted fever; the <b>lone star tick</b> → ehrlichiosis and the alpha-gal red-meat allergy. Unlike mosquitoes, ticks <b>don't reliably fade</b> after frost — adults are active any time it's above ~40°F, even on a winter thaw.</p>
+        <p><b>Where they are:</b> tall grass, brushy and wooded edges, and leaf litter — <b>not</b> the open, sunny, mown lawn. The tiny <b>nymphs (late spring–summer, poppy-seed size)</b> cause most disease.</p>
+        <p><b>Tick-safe yard:</b> mow short in play and use areas; put a <b>~3-ft mulch or gravel barrier</b> between lawn and woods/brush; keep play sets, patios, and seating <b>in the sun and away from the edge</b>; clear leaf litter and tall grass <b>at the borders</b> (litter is great in the far corners — just not where people sit); and discourage the rodents and deer that ferry ticks.</p>
+        <p><b>Personal protection:</b> <b>permethrin-treated clothing and shoes</b> (the most effective measure for brush time), skin repellent, light-colored clothing to spot them, pants tucked into socks for garden and trail work, and <b>check pets</b> (they carry ticks indoors).</p>
+        <p><b>Checks &amp; removal:</b> after time outdoors, do a <b>full-body check</b> (kids, hairline, waist, behind knees, armpits), shower within a couple hours, and tumble clothes in a hot dryer. Remove with <b>fine-point tweezers — grip at the skin and pull straight up, slow and steady</b>. Don't twist, burn, or smother it. Clean the bite, <b>note the date</b>, and watch for an <b>expanding "bullseye" rash, fever, or flu-like symptoms</b> over the following weeks.</p>
+      </div></details>
+
+      <div class="note-card alert"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Awareness, not medical advice.</b> See a doctor for a tick you can't fully remove, a bullseye rash, fever, or any concerning reaction. Caught early, these are very treatable.</div></div>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:13px;">Log a bite or tick found <span style="font-weight:400;color:var(--ink-faint);">— private, practical, no points</span></div>
+      <div class="grid2">
+        <div class="field"><label for="pestDate">Date</label><input id="pestDate" type="date"/></div>
+        <div class="field"><label for="pestKind">What</label><select id="pestKind"><option value="Tick found">Tick found</option><option value="Tick bite">Tick bite</option><option value="Mosquito bites">Mosquito bites (a lot)</option></select></div>
+      </div>
+      <div class="field"><label for="pestWhere">Where on the property <span class="meta">optional — to spot patterns</span></label><input id="pestWhere" type="text" maxlength="80" placeholder="e.g. back fence line by the woods"/></div>
+      <button class="act btn-ghost" id="pestAdd"><svg class="ic"><use href="#i-plus"/></svg>Log it (and note the date)</button>
+      <div class="loglist" id="pestList"></div>
+    </div>
+  </section>
+
   <!-- ============ SEASON ============ -->
   <section class="tab" data-pane="season" hidden>
     <p class="tab-intro">Your local weather, the soil-temperature read that drives spring timing, and the full year at a glance — all tuned for a cool-season Ohio yard.</p>
@@ -664,6 +974,62 @@
       <p class="zip-note" id="zipNote">Enter your ZIP for a free 7-day forecast plus soil temperature — no account, saved only on this device.</p>
       <div id="fcStripWrap" style="margin-top:13px;"></div>
       <div id="wxSummary"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-wind"/></svg><h3>When the weather turns</h3></div>
+      <p class="hint">Calm, practical heads-ups for wind and hail — <b>people before plants</b>, and most plants are tougher than they look. Load a ZIP and the forecast will flag a rough day here.</p>
+      <div id="windHailAdvisory"></div>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-wind"/></svg>High wind — before, during, after<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p><b>Before:</b> stow or secure the lightweight stuff — pots, furniture, umbrellas, hanging baskets, trash cans, the trampoline. Move containers to shelter or lay them on their sides. <b>Loosely</b> stake or tie young trees and tall plants (they still need to flex). Hold off planting tall, floppy things right before a blow.</p>
+        <p><b>During:</b> stay inside and keep away from trees and limbs.</p>
+        <p><b>After:</b> check <b>young trees</b> for leaning or loosened roots — <b>re-firm the soil and water</b>, re-stake if needed (<button class="linklike" data-goto="trees">young-tree care →</button>). Cleanly prune broken or hanging limbs (no stubs; large or high limbs mean <b>call an arborist</b> — safety first). Right pots back up. Expect leaf tatter the plants will outgrow — shredded leaves and a few snapped stems are mostly cosmetic, and most plants bounce right back.</p>
+      </div></details>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-cloud"/></svg>Hail — before, during, after<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p><b>Before:</b> there's little you can do for the whole yard, but with warning you can <b>cover or move what you can</b> — pull in containers, throw weighted row cover, buckets, or a tarp over prized veg and seedlings, and park the car under cover.</p>
+        <p><b>During:</b> shelter — don't run out to save plants mid-storm.</p>
+        <p><b>After (the reassuring part):</b> assess once it's safe and <b>don't over-react</b>. Stripped, shredded foliage and dinged stems look alarming, but most established plants and even many vegetables <b>regrow</b> with water, time, and patience. Clean up badly broken material and limbs, <b>don't heavily fertilize a stressed plant</b> (water + time instead — <button class="linklike" data-goto="grow">why →</button>), watch wounds for disease, and <b>replant quick crops</b> (greens, radishes, beans) if seedlings are lost — there's usually still season left.</p>
+      </div></details>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flask"/></svg><h3>Fire pit, bonfire weather &amp; firewood</h3></div>
+      <p class="hint">When's it good bonfire weather in Ohio, and how much wood will a season cost? Here's the rough rhythm of the year, then a planner.</p>
+      <div class="cal" id="bonfireTl"></div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">The sweet spot for an evening fire is a <b>dry, low-wind night around 30–60°F</b> — cool enough to want the warmth, calm enough to be safe. <b>Check the burn ban / air-quality status</b> before you light, keep water or a hose handy, and never burn on a windy day. Pull a forecast above and tonight's wind shows on the strip.</div></div>
+
+      <p class="hint" style="margin-top:13px;font-weight:600;color:var(--ink);">Firewood planner &amp; cost</p>
+      <div class="grid2">
+        <div class="field"><label for="fwNights">Fires per week <span class="meta">in season</span></label><input id="fwNights" type="number" inputmode="decimal" value="2" step="1"/></div>
+        <div class="field"><label for="fwWeeks">Length of season <span class="meta">weeks</span></label><input id="fwWeeks" type="number" inputmode="numeric" value="20" step="1"/></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="fwPerFire">Wood per fire <span class="meta">logs burned</span></label><input id="fwPerFire" type="number" inputmode="decimal" value="8" step="1"/></div>
+        <div class="field"><label for="fwLogsCord">Logs per cord <span class="meta">~700 split logs/cord</span></label><input id="fwLogsCord" type="number" inputmode="numeric" value="700" step="50"/></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="fwCordCost">Price per cord <span class="meta">$ delivered</span></label><input id="fwCordCost" type="number" inputmode="decimal" value="250" step="10"/></div>
+        <div class="field"><label for="fwWood">Wood type <span class="meta">heat / burn</span></label><select id="fwWood">
+          <option value="oak">Oak — dense, long, hot</option>
+          <option value="hickory">Hickory / ash — hot, easy</option>
+          <option value="cherry">Cherry / birch — medium, aromatic</option>
+          <option value="maple">Soft maple / elm — medium</option>
+          <option value="pine">Pine / softwood — fast, sparky</option>
+        </select></div>
+      </div>
+      <div class="hero soil" id="fwHero"></div>
+      <div class="note-card" id="fwNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-flask"/></svg>Seasoned wood, heat (BTUs) &amp; what to burn<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p><b>Season it first.</b> Freshly cut "green" wood is ~50% water — it hisses, smokes, and wastes most of its heat boiling off moisture. <b>Split it and let it dry 6–12 months</b> (a summer minimum) under cover to ~20% moisture. Seasoned wood lights easily, burns clean, and gives nearly all its heat to the air.</p>
+        <p><b>Heat = density.</b> A cord is a stacked 4×4×8 ft pile (128 cu ft). Dense hardwoods pack more wood — and more heat — into that same cord:</p>
+        <ul>
+          <li><b>Top tier (~24–28M BTU/cord):</b> oak, hickory, black locust, hophornbeam — dense, long-burning, hottest. Oak needs the longest seasoning.</li>
+          <li><b>Solid middle (~20–24M):</b> ash (splits &amp; burns easily, even greener), sugar maple, birch, cherry (lovely smell).</li>
+          <li><b>Lighter (~15–20M):</b> soft maple, elm, sycamore — fine, just burns faster.</li>
+          <li><b>Softwoods (~14–16M):</b> pine, spruce — light fast and great for kindling, but <b>spark and pop</b> and leave more creosote. Fine for an open fire pit, less ideal in a chimney.</li>
+        </ul>
+        <p><i>Trade-off:</i> dense hardwood costs more per cord but burns longer and hotter per log, so the cost <i>per fire</i> often evens out — and you haul fewer logs. Buy local and seasoned when you can; moving firewood long distances spreads tree pests like emerald ash borer.</p>
+      </div></details>
     </div>
 
     <div class="card">
@@ -825,7 +1191,7 @@
   function monthOf(iso){return new Date(iso+"T12:00:00").getMonth();}
   function logRow(icon,title,sub,kind,id){return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-'+icon+'"/></svg><div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s">'+sub+'</div></div><button class="lr-del" data-'+kind+'="'+id+'" aria-label="Delete">'+ic("x")+'</button></div>';}
 
-  var ACT={mow:{l:"Mowed",i:"mower"},feed:{l:"Fed the lawn",i:"spread"},seed:{l:"Seeded",i:"sprout"},water:{l:"Watered",i:"droplet"},mulch:{l:"Mulched",i:"layers"},edge:{l:"Edged beds",i:"cut"},prune:{l:"Pruned",i:"cut"},plant:{l:"Planted",i:"tree"},leaves:{l:"Leaf cleanup",i:"leaf"},snow:{l:"Cleared snow",i:"snow"},other:{l:"Tended",i:"check"}};
+  var ACT={mow:{l:"Mowed",i:"mower"},feed:{l:"Fed the lawn",i:"spread"},seed:{l:"Seeded",i:"sprout"},water:{l:"Watered",i:"droplet"},mulch:{l:"Mulched",i:"layers"},edge:{l:"Edged beds",i:"cut"},prune:{l:"Pruned",i:"cut"},plant:{l:"Planted",i:"tree"},sow:{l:"Sowed seed",i:"sprout"},transplant:{l:"Transplanted",i:"sprout"},harvest:{l:"Harvested",i:"basket"},leaves:{l:"Leaf cleanup",i:"leaf"},snow:{l:"Cleared snow",i:"snow"},other:{l:"Tended",i:"check"}};
   var NMETA={bloom:{l:"First bloom",i:"flower"},bug:{l:"Pollinator / insect",i:"bug"},bird:{l:"A bird",i:"eye"},wildlife:{l:"Wildlife",i:"eye"},frost:{l:"Frost",i:"snow"},snow:{l:"First snow",i:"snow"},other:{l:"Noticed",i:"eye"}};
 
   /* ---------- season model ---------- */
@@ -836,27 +1202,44 @@
       {id:"crab",label:"Mind the crabgrass window",sub:"Pre-emergent before soil hits 50–55°F — or skip it if you'll seed in fall."},
       {id:"mulchspring",label:"Refresh the mulch",sub:"2–3″, pulled back off the trunks."},
       {id:"springfeed",label:"A light spring feed",sub:"~0.5–0.75 lb N after full green-up. Easy does it."},
-      {id:"springnote",label:"Note the first bloom",sub:"Mark spring's arrival in your field notes."}]},
+      {id:"springnote",label:"Note the first bloom",sub:"Mark spring's arrival in your field notes."},
+      {id:"startseeds",label:"Start tomatoes & peppers indoors",sub:"~6–8 weeks before your last frost — or just buy transplants."},
+      {id:"plantout",label:"Plant out after the last frost",sub:"Tender crops once frost's past and the soil's warm."},
+      {id:"hostplant",label:"Plant a butterfly host plant",sub:"Milkweed for monarchs; dill/parsley for swallowtails."},
+      {id:"clover",label:"Let the clover be (or seed some)",sub:"Free nitrogen, drought-green, and bees love it."},
+      {id:"removewrap",label:"Remove tree wraps & stakes",sub:"And check that the young trees' root flare shows."}]},
     summer:{name:"Summer",vibe:"Patience season. Mow high, water deep, and let the lawn coast through the heat.",c:"#D6A52A",d:"#9C7414",rituals:[
       {id:"raise",label:"Raise the mower",sub:"Top of the range — tall grass shades its own roots."},
       {id:"deepwater",label:"Water deep, or let it rest",sub:"~1–1.5″/week, or let it go honestly dormant."},
       {id:"grub",label:"Grub watch",sub:"Preventer early summer only if you're prone to them."},
       {id:"sharpen",label:"Sharpen the blade",sub:"Clean cuts brown out less in the heat."},
-      {id:"summernote",label:"Notice a pollinator",sub:"A bee, a butterfly — the yard's quiet guests."}]},
+      {id:"summernote",label:"Notice a pollinator",sub:"A bee, a butterfly — the yard's quiet guests."},
+      {id:"sidedress",label:"Side-dress the heavy feeders",sub:"A little compost for tomatoes, squash, corn mid-season."},
+      {id:"fallgreens",label:"Sow a fall crop of greens",sub:"Late summer for lettuce, spinach, kale into autumn."},
+      {id:"birdbath",label:"Put out & refresh a bird bath",sub:"Helps the birds — and denies mosquitoes if you tip it weekly."},
+      {id:"hummingbird",label:"Hang & clean the hummingbird feeder",sub:"4:1 water to sugar, no dye; clean every few days."},
+      {id:"firefly",label:"Watch for fireflies at dusk",sub:"Peak Ohio show — a sign of a healthy, low-spray yard."}]},
     fall:{name:"Fall",vibe:"The season that makes the lawn. This is when your work matters most — so do the work.",c:"#C8702A",d:"#9A5119",rituals:[
       {id:"fallfeed",label:"The big fall feeding",sub:"~1 lb N around Labor Day — the key feeding of the year."},
       {id:"overseed",label:"Aerate &/or overseed",sub:"Thicken thin spots while the soil's still warm."},
       {id:"leafmow",label:"Mulch-mow the leaves",sub:"Chop them back into the lawn while they're dry."},
       {id:"plantwoody",label:"Plant something woody",sub:"Fall is prime time for a tree or shrub."},
       {id:"evergreen",label:"Water the evergreens",sub:"A deep soak before the ground freezes."},
-      {id:"latefeed",label:"A late / dormant feed",sub:"Optional, as growth stops — for roots and winter."}]},
+      {id:"latefeed",label:"A late / dormant feed",sub:"Optional, as growth stops — for roots and winter."},
+      {id:"youngtreewater",label:"Deep-water the young trees before freeze",sub:"A slow soak at the root ball heads off winter burn."},
+      {id:"wrapmaple",label:"Wrap the young maple's trunk",sub:"Guards thin bark from sunscald — remove it in spring."},
+      {id:"bagworm",label:"Check the arborvitae for bagworm cones",sub:"Hand-pick them now, before the eggs hatch. No spray."},
+      {id:"seedheads",label:"Leave the seedheads standing",sub:"Coneflower & asters feed birds and shelter insects all winter."},
+      {id:"garlic",label:"Plant garlic",sub:"Cloves in mid–late fall for a midsummer harvest."}]},
     winter:{name:"Winter",vibe:"Rest. Tend the tools, watch the quiet, and plan the year to come.",c:"#5E86A8",d:"#3C5B77",rituals:[
       {id:"service",label:"Service & sharpen the mower",sub:"Off-season is the time. Spring-you will be glad."},
       {id:"prunetree",label:"Prune a dormant tree",sub:"Structure shows best with the leaves down."},
       {id:"lightsalt",label:"Keep the salt light",sub:"A thin scatter; keep it off the lawn and beds."},
       {id:"snowprep",label:"Mind the snow thrower",sub:"Fresh stabilized fuel; clear clogs with the tool, never hands."},
       {id:"plan",label:"Plan next year",sub:"A soil test, a new bed, a tree you've been wanting."},
-      {id:"winternote",label:"Notice winter",sub:"First frost, first snow — mark it in field notes."}]}
+      {id:"winternote",label:"Notice winter",sub:"First frost, first snow — mark it in field notes."},
+      {id:"windowsill",label:"Start herbs on the windowsill",sub:"Basil, mint, chives in water or a small hydro jar — fresh greens in the cold."},
+      {id:"planseeds",label:"Plan the garden & order seed",sub:"Dream up the beds, the partners, the new crop to try."}]}
   };
   var SEASON_ORDER=["spring","summer","fall","winter"];
   var SEASON_ICON={spring:"sprout",summer:"sun",fall:"leaf",winter:"snow"};
@@ -935,6 +1318,11 @@
     function nDate(w){var f=N.filter(function(e){return e.what===w;}).slice().sort(byDateDesc).pop();return f?f.date:null;}
     var touched={};J.forEach(function(e){if(e.date)touched[seasonOf(monthOf(e.date))]=1;});
     var allFour=SEASON_ORDER.every(function(s){return touched[s];});
+    var waterSeasons={};J.forEach(function(e){if(e.type==="water"&&e.date)waterSeasons[seasonOf(monthOf(e.date))]=1;});
+    var rooted=Object.keys(waterSeasons).length>=2;
+    var sowWinter=J.some(function(e){return e.type==="sow"&&e.date&&seasonOf(monthOf(e.date))==="winter";});
+    var yearHums=nWhat("bug")&&nWhat("bird");
+    function ritDone(id){var all=lsGet("ycRituals")||{};var yr=String(new Date().getFullYear());return Object.keys(all).some(function(k){return k.indexOf(yr+"-")===0&&all[k]&&all[k][id];});}
     var fallFeed=J.some(function(e){return e.type==="feed"&&e.date&&seasonOf(monthOf(e.date))==="fall";});
     var fallGrow=J.some(function(e){return (e.type==="seed"||e.type==="leaves")&&e.date&&seasonOf(monthOf(e.date))==="fall";});
     var novLeaf=J.some(function(e){return e.type==="leaves"&&e.date&&monthOf(e.date)===10;});
@@ -952,6 +1340,14 @@
       {id:"bloom",title:"First Bloom",icon:"flower",ok:nWhat("bloom"),when:nDate("bloom"),copy:"The first flower of the year — quiet proof the cold didn't win.",hint:"Spot the first bloom of spring."},
       {id:"visitor",title:"A Visitor",icon:"bug",ok:nWhat("bug"),when:nDate("bug"),copy:"A bee, a butterfly, a beetle going about its day — the small lives your yard quietly feeds.",hint:"Notice a pollinator."},
       {id:"frost",title:"First Frost",icon:"snow",ok:nWhat("frost"),when:nDate("frost"),copy:"Frost stitched across the grass. The lawn's asleep now — and you got it ready. Rest is part of the cycle too.",hint:"Mark the first frost."},
+      {id:"rooted",title:"Rooted",icon:"tree",ok:rooted,when:null,copy:"You watered a young tree across two seasons — the patient, unglamorous work that decides whether it lives. The roots are finding their footing because of you.",hint:"Water a young tree in two different seasons."},
+      {id:"firstharvest",title:"First Harvest",icon:"basket",ok:has("harvest"),when:firstD("harvest"),copy:"Something you grew ended up on your plate. There's nothing quite like the first thing you harvest — small, maybe a little lopsided, and the best you've ever tasted.",hint:"Harvest something you grew."},
+      {id:"threesisters",title:"The Three Sisters",icon:"sprout",ok:cnt("sow")>=3,when:null,copy:"Three sowings down — corn, beans, squash or whatever mix you chose. A garden isn't a row of one thing; it's a little society of plants helping each other along.",hint:"Sow seed three times — build a little polyculture."},
+      {id:"windowsill",title:"Windowsill Green",icon:"jar",ok:sowWinter,when:null,copy:"Fresh green on the sill while the yard sleeps under frost. A glass of water, a little light, and a basil cutting was all it took.",hint:"Start an herb indoors in winter."},
+      {id:"seedheads",title:"Left the Seedheads",icon:"flower",ok:ritDone("seedheads"),when:null,copy:"You left the coneflowers and asters standing. All winter the finches will work them over, and the stems will shelter sleeping insects. Tidy isn't always kind.",hint:"Leave the seedheads standing (a fall ritual)."},
+      {id:"cloverlawn",title:"Clover Lawn",icon:"clover",ok:ritDone("clover"),when:null,copy:"You let the clover stay — free nitrogen from the air, green through the drought, and a hum of bees. The lawn that feeds itself.",hint:"Let the clover be (a spring ritual)."},
+      {id:"hostplanted",title:"Host Plant Planted",icon:"bug",ok:ritDone("hostplant"),when:null,copy:"You planted for the caterpillars, not just the flowers. Chewed leaves coming up — and that's exactly the point.",hint:"Plant a butterfly host plant (a spring ritual)."},
+      {id:"yardhums",title:"A Yard That Hums",icon:"bee",ok:yearHums,when:null,copy:"Bees in the blooms and birds in the branches, both noticed and marked. Your yard isn't just grass anymore — it's a place that's alive.",hint:"Notice both a pollinator and a bird."},
       {id:"fullturn",title:"A Full Turn",icon:"globe",ok:allFour,when:null,copy:"You've tended this yard through a whole year — spring's rush, summer's patience, fall's work, winter's rest. You know this place now.",hint:"Tend the yard in all four seasons."}
     ];
   }
@@ -1167,6 +1563,17 @@
     $("soilTemp").innerHTML=(soil!=null?r0(soil):'—')+' <small>soil °F</small>';
     $("soilSub").textContent=(soil!=null)?(WX.place+' — about '+r0(soil)+'°F at ~2 inches right now.'):'Soil reading unavailable for this spot; the forecast still loaded.';
     renderLeafDays(leafDays);
+    // ---- stash forecast signals for cross-tab advisories ----
+    WX.minLow=(minLow<=99?minLow:null);
+    WX.rainPast=rainPast;
+    var windMax=0,hail=false,storm=false;
+    for(var q=startI;q<d.time.length;q++){
+      if(d.wind_speed_10m_max)windMax=Math.max(windMax,d.wind_speed_10m_max[q]||0);
+      var wc=d.weather_code[q];if(wc===96||wc===99)hail=true;if(wc>=95)storm=true;
+    }
+    var tSum=0,tN=0;for(var q2=Math.max(0,startI-2);q2<=startI&&q2<d.time.length;q2++){if(d.temperature_2m_max[q2]!=null){tSum+=d.temperature_2m_max[q2];tN++;}}
+    WX.windMax=windMax;WX.hail=hail;WX.storm=storm;WX.tmaxRecent=tN?tSum/tN:null;
+    renderFrostAdvisory();renderWindHail();renderPestGauge();
     renderNow(soil);
   }
   function renderLeafDays(days){
@@ -1185,12 +1592,228 @@
   window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;var b=$("installBtn");if(b)b.hidden=false;});
   if($("installBtn"))$("installBtn").addEventListener("click",function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.finally(function(){deferredPrompt=null;$("installBtn").hidden=true;});});
 
+  /* ---------- cross-tab navigation links ---------- */
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-goto]");if(b){showTab(b.getAttribute("data-goto"));}});
+
+  /* ---------- Task B: "How to feed anything well" (shared) ---------- */
+  function feedingExplainerHTML(){
+    return '<div class="card">'+
+      '<div class="card-head">'+ic("feed")+'<h3>How to feed anything well</h3></div>'+
+      '<p class="hint">One feeding philosophy across the whole yard — lawn, trees, and the veg garden. The short version: <b>feed the soil, go light, and let biology do the work.</b> The lawn tab has the turf calculator; this is the thinking behind it all.</p>'+
+      '<details class="ex"><summary>'+ic2("flask","lead")+'Soil-test first'+ic2("chev","chev")+'</summary><div class="body"><p>A <b>$15–25 county-extension soil test</b> tells you pH and what’s actually lacking — so you stop guessing and stop over-applying. <i>Trade-off:</i> a small cost and a short wait vs. years of feeding the soil things it already has (and washing the rest into streams). It’s the nature-friendly, money-saving move.</p></div></details>'+
+      '<details class="ex"><summary>'+ic2("spread","lead")+'Where to put it'+ic2("chev","chev")+'</summary><div class="body"><ul>'+
+        '<li><b>Lawn:</b> broadcast evenly over the root zone — calibrate the spreader low and make two half-rate passes, crossed.</li>'+
+        '<li><b>Trees &amp; shrubs:</b> over the root zone out toward the <b>drip line</b>, never piled at the trunk. For young trees, often skip it entirely.</li>'+
+        '<li><b>Veg &amp; herbs:</b> work compost into the bed at the root zone; side-dress the heavy feeders mid-season.</li></ul></div></details>'+
+      '<details class="ex"><summary>'+ic2("scale","lead")+'How much — less is usually more'+ic2("chev","chev")+'</summary><div class="body"><p>The lawn calculator handles turf. For woody plants and beds, lead with <b>restraint</b>: light slow-release or compost only if a test or poor growth calls for it. <b>Never give heavy nitrogen to a stressed, newly planted, or drought-stressed plant.</b></p><p>For veg, know your eaters: <b>heavy feeders</b> (tomatoes, corn, squash, brassicas) want richer soil and a mid-season side-dress; <b>light feeders</b> (roots, herbs) want little; and <b>givers</b> (peas, beans) fix their own nitrogen and leave the soil better — see Plant partners.</p></div></details>'+
+      '<details class="ex"><summary>'+ic2("clock","lead")+'When'+ic2("chev","chev")+'</summary><div class="body"><p><b>Woody plants:</b> early spring as they leaf out. <b>Avoid late-summer/early-fall nitrogen</b> — it pushes tender growth that won’t harden before frost. <b>Cool-season lawn</b> stays fall-weighted (already in the Lawn tab). <b>Veg:</b> compost at bed prep, then side-dress at key growth stages.</p></div></details>'+
+      '<details class="ex"><summary>'+ic2("bulb","lead")+'Maximize it — the 4 Rs'+ic2("chev","chev")+'</summary><div class="body"><p><b>Water it in</b> so it reaches the roots and won’t burn. Favor <b>slow-release or organic</b> to feed steadily without a surge. <b>Build organic matter</b> — compost, mulch, grasscycling, mulched leaves — so the soil holds and slow-releases nutrients and you feed less every year. Right rate + right place + right time + right source = the <b>4 Rs</b>.</p></div></details>'+
+      '<details class="ex"><summary>'+ic2("globe","lead")+'Synthetic vs. organic — a choice, not a verdict'+ic2("chev","chev")+'</summary><div class="body"><p><b>Synthetic:</b> fast, cheap, precise — and easy to overdo, with more runoff risk. <b>Organic / compost:</b> slower and gentler, builds living soil, lower burn risk, sometimes pricier per unit of nitrogen. Neither is “right” everywhere; most good gardens use both.</p></div></details>'+
+      '<div class="note-card"><svg class="ic"><use href="#i-droplet"/></svg><div class="txt">The gentle thread: excess nitrogen and phosphorus wash into the same streams a clean pond depends on. <b>Go light, feed the soil, and let the biology carry the load.</b></div></div>'+
+      '</div>';
+  }
+  function ic2(name,cls){return '<svg class="ic '+cls+'"><use href="#i-'+name+'"/></svg>';}
+  function renderFeeding(){["feedHostTrees","feedHostGrow"].forEach(function(id){var e=$(id);if(e&&!e.innerHTML)e.innerHTML=feedingExplainerHTML();});}
+
+  /* ---------- Task C/G: frost dates, window & crop timing ---------- */
+  function frostDates(){return {sp:(lsGet("ycFrostSpring")||"05-10"),fa:(lsGet("ycFrostFall")||"10-10")};}
+  function mmddToDate(mmdd,yr){var p=String(mmdd).split("-");return new Date(yr,(parseInt(p[0],10)||1)-1,parseInt(p[1],10)||1,12,0,0);}
+  function fmtMD(d){return d.toLocaleDateString(undefined,{month:"short",day:"numeric"});}
+  function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
+  function setFrostInputs(){
+    var f=frostDates(),yr=new Date().getFullYear();
+    if($("frostSpring"))$("frostSpring").value=yr+"-"+f.sp;
+    if($("frostFall"))$("frostFall").value=yr+"-"+f.fa;
+  }
+  function renderFrost(){
+    if(!$("frostReadout"))return;
+    var f=frostDates(),yr=new Date().getFullYear();
+    var sp=mmddToDate(f.sp,yr),fa=mmddToDate(f.fa,yr);
+    var days=Math.round((fa-sp)/86400000);
+    var today=new Date();today.setHours(12,0,0,0);
+    var line;
+    if(today<sp){var dl=Math.ceil((sp-today)/86400000);line="<b>"+dl+" day"+(dl===1?"":"s")+"</b> until your average last frost ("+fmtMD(sp)+"). Safe to set out tomatoes, peppers &amp; basil after then; sow peas, greens &amp; roots a couple weeks earlier.";}
+    else if(today<=fa){var ff=Math.ceil((fa-today)/86400000);line="<b>~"+ff+" frost-free day"+(ff===1?"":"s")+" left</b> until your average first fall frost ("+fmtMD(fa)+"). Still time for a fast fall crop of greens or radishes.";}
+    else line="The growing window’s closed for the year (first frost ~"+fmtMD(fa)+"). Time to plan next season — and plant garlic.";
+    $("frostReadout").innerHTML='<div class="h-amt">~'+days+' <small>frost-free days</small></div><div class="h-sub">Average window: <b>'+fmtMD(sp)+'</b> to <b>'+fmtMD(fa)+'</b>. '+line+'</div>';
+    renderCrops();
+  }
+  function renderFrostAdvisory(){
+    var el=$("frostAdvisory");if(!el)return;
+    if(WX.lat==null){el.innerHTML='<div class="note-card">'+ic("info")+'<div class="txt">No live forecast yet. <button class="linklike" data-goto="season">Add a ZIP on the Season tab</button> and a frost in the next 7 days will warn you here to cover tender plants.</div></div>';return;}
+    if(WX.minLow!=null&&WX.minLow<=32){
+      el.innerHTML='<div class="note-card warn">'+ic("snow")+'<div class="txt"><b>Frost coming — hold off planting tender crops</b> (low ~'+WX.minLow+'°). If tomatoes, peppers, or basil are already out, cover them this evening (water the soil first), and uncover in the morning. Hardy greens, peas, and onions shrug off a light frost.</div></div>';
+    } else {
+      el.innerHTML='<div class="note-card">'+ic("check")+'<div class="txt">No frost in the next 7 days'+(WX.minLow!=null?' (coldest night ~'+WX.minLow+'°)':'')+'. '+(WX.place?esc(WX.place)+'.':'')+'</div></div>';
+    }
+  }
+  var CROPS=[
+    {name:"Lettuce & greens",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:8},method:"Direct-sow, or buy transplants",rec:"Seed is cheap and lets you cut-and-come-again; a transplant gives a head start. Sow a little every 2–3 weeks for a steady supply.",home:"pot, bed or ground",space:"6–8” apart (or broadcast & thin)",yield:"cut leaves for weeks per plant"},
+    {name:"Spinach",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:7},method:"Direct-sow",rec:"Loves cool soil and bolts in heat — a spring and fall crop. Seed beats transplants (it resents root disturbance).",home:"bed or ground",space:"3–4” apart",yield:"a few cuttings per plant"},
+    {name:"Kale",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Sow or transplant — both easy",rec:"Tough and forgiving; a fall crop sweetens after frost. Transplants speed it up, seed is cheaper.",home:"bed or ground",space:"12–18” apart",yield:"leaves for months per plant"},
+    {name:"Peas",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:9},method:"Direct-sow",rec:"One of the earliest crops — sow as soon as soil can be worked. A giver: it fixes its own nitrogen. Give it something to climb.",home:"bed or ground",space:"2–3” apart, on a trellis",yield:"a handful of pods per plant"},
+    {name:"Radishes",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:6},method:"Direct-sow",rec:"Seed to plate in ~4 weeks — the confidence-builder. Sow in short rows every couple weeks; they get woody if left too long.",home:"pot, bed or ground",space:"1–2” apart",yield:"one root per seed, fast"},
+    {name:"Carrots",icon:"carrot",season:"cool",diff:"medium",t:{type:"cool",bw:2,fw:9},method:"Direct-sow (don’t transplant)",rec:"Reward patience: keep the surface moist to germinate, and <b>thin them</b> or they tangle. Loose, stone-free soil grows straight roots.",home:"deep pot, bed or ground",space:"thin to 2–3” apart",yield:"one root per plant"},
+    {name:"Beets",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Direct-sow",rec:"Two crops in one — roots and edible greens. Each “seed” is a cluster, so thin the seedlings.",home:"bed or ground",space:"thin to 3–4” apart",yield:"one root + greens per plant"},
+    {name:"Broccoli",icon:"sprout",season:"cool",diff:"medium",t:{type:"indoor",lo:4,hi:6},method:"Start indoors or buy transplants",rec:"Best as a transplant for spring, or direct-sown in summer for a fall head (fall crops are often better here). Watch for cabbage worms — pick them off.",home:"bed or ground",space:"18–24” apart",yield:"one main head + side shoots"},
+    {name:"Swiss chard",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:9},method:"Direct-sow or transplant",rec:"Heat-tolerant for a green — it carries from spring into fall. Cut outer stalks and it keeps coming.",home:"pot, bed or ground",space:"8–10” apart",yield:"stalks all season per plant"},
+    {name:"Green onions",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:8},method:"Direct-sow (or regrow from scraps)",rec:"Almost foolproof — and you can regrow the white root-ends in water on the sill. Sow thickly and snip as needed.",home:"pot, bed or ground",space:"1” apart",yield:"snip-and-regrow"},
+    {name:"Tomatoes",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors ~6–8 wks early, or buy transplants",rec:"The classic “just buy a transplant” crop unless you want unusual varieties — seed = variety + effort, transplant = easy + fast. Needs warmth, sun, and a cage.",home:"5-gal pot, bed or ground",space:"24–36” apart, staked",yield:"pounds per plant all summer"},
+    {name:"Peppers",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors early, or buy transplants",rec:"Slow from seed and loves heat — most people buy transplants. Don’t rush them out; cold soil sulks them.",home:"5-gal pot, bed or ground",space:"18–24” apart",yield:"several per plant, more as it warms"},
+    {name:"Bush beans",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:0},method:"Direct-sow after frost",rec:"Fast, generous, and a giver (fixes nitrogen). Sow successions for a long harvest; pick often to keep them coming.",home:"bed or ground",space:"3–4” apart",yield:"a steady picking per plant"},
+    {name:"Cucumbers",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Quick and prolific once it’s warm. Give it a trellis to save space and grow straighter fruit; keep it watered.",home:"bed, ground, or big pot w/ trellis",space:"12–18” apart",yield:"many per vine"},
+    {name:"Zucchini / squash",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Famously productive — two plants feed a household (and then some). A heavy feeder; give it room and rich soil.",home:"bed or ground",space:"24–36” apart",yield:"more than you expect"},
+    {name:"Basil",icon:"flower",season:"warm",diff:"easy",t:{type:"indoor",lo:4,hi:6},method:"Start indoors, buy a transplant, or sow when warm",rec:"Loves heat — don’t rush it out. Pinch the tops often to keep it bushy and stop it flowering. Also thrives on a windowsill.",home:"pot, bed or ground",space:"10–12” apart",yield:"leaves all summer, cut often"},
+    {name:"Sweet corn",icon:"sprout",season:"warm",diff:"medium",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Plant in a <b>block, not a row</b>, so it pollinates well. A heavy feeder and space-hungry — the anchor of the Three Sisters.",home:"ground or big bed",space:"8–12” apart, in blocks",yield:"1–2 ears per stalk"},
+    {name:"Garlic",icon:"sprout",season:"cool",diff:"easy",t:{type:"garlic"},method:"Plant cloves in fall",rec:"The set-it-and-forget-it crop: plant cloves in mid–late fall, mulch, and harvest the next midsummer. Plant the biggest cloves you’ve got.",home:"bed or ground",space:"6” apart, pointy end up",yield:"one bulb per clove"}
+  ];
+  function cropWhen(c,sp,fa){
+    var t=c.t;
+    if(t.type==="indoor"){var lo=addDays(sp,-t.hi*7),hi=addDays(sp,-t.lo*7);return '<b>Start indoors '+fmtMD(lo)+'–'+fmtMD(hi)+'</b>, set out after ~'+fmtMD(sp)+' (or just buy transplants).';}
+    if(t.type==="warm"){var s=addDays(sp,(t.aw||0)*7);return '<b>Direct-sow after ~'+fmtMD(s)+'</b> — once frost’s past and the soil’s warm.';}
+    if(t.type==="garlic"){return '<b>Plant cloves ~'+fmtMD(addDays(fa,7))+'</b> (a few weeks before hard freeze); harvest the next midsummer.';}
+    // cool-season
+    var spring=addDays(sp,-(t.bw||3)*7),fall=addDays(fa,-(t.fw||8)*7);
+    return '<b>Sow ~'+fmtMD(spring)+'</b> (around last frost), and again ~'+fmtMD(fall)+' for a fall crop.';
+  }
+  var cropFilter="all";
+  function renderCrops(){
+    var el=$("cropGuide");if(!el)return;
+    var f=frostDates(),yr=new Date().getFullYear(),sp=mmddToDate(f.sp,yr),fa=mmddToDate(f.fa,yr);
+    var list=CROPS.filter(function(c){return cropFilter==="all"||c.season===cropFilter;});
+    el.innerHTML=list.map(function(c){
+      return '<div class="crop"><div class="ch">'+ic(c.icon)+'<span class="cname">'+c.name+'</span><span class="cdiff '+c.diff+'">'+c.diff+'</span></div>'+
+        '<div class="cwhen">'+cropWhen(c,sp,fa)+'</div>'+
+        '<div class="crec"><b>'+c.method+'.</b> '+c.rec+'</div>'+
+        '<div class="cfacts"><span class="seasontag '+c.season+'">'+(c.season==="cool"?"cool-season":"warm-season")+'</span>'+
+        '<span class="cfact"><b>Home:</b> '+c.home+'</span><span class="cfact"><b>Space:</b> '+c.space+'</span><span class="cfact"><b>Yield:</b> '+c.yield+'</span></div></div>';
+    }).join("");
+  }
+  if($("cropFilter"))$("cropFilter").addEventListener("click",function(e){var b=e.target.closest("[data-cf]");if(!b)return;cropFilter=b.getAttribute("data-cf");document.querySelectorAll("#cropFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderCrops();});
+  if($("frostSpring"))$("frostSpring").addEventListener("change",function(){var v=$("frostSpring").value;if(v)lsSet("ycFrostSpring",v.slice(5));renderFrost();renderFrostAdvisory();});
+  if($("frostFall"))$("frostFall").addEventListener("change",function(){var v=$("frostFall").value;if(v)lsSet("ycFrostFall",v.slice(5));renderFrost();renderFrostAdvisory();});
+
+  /* ---------- Task D: companion picker ---------- */
+  var PARTNERS={
+    "Tomatoes":{p:[{w:"Basil",why:"A kitchen partner that may deter some pests; mostly it pulls in pollinators.",t:"diversity: real"},{w:"Marigold",why:"Draws beneficial insects; the pest-repelling part is partly tradition.",t:"partly tradition"},{w:"Borage",why:"A pollinator magnet, traditionally said to improve fruit set.",t:"pollinator magnet"},{w:"Lettuce, tucked below",why:"Shaded through summer heat, so it bolts later — solid physics.",t:"physics"}],avoid:"Keep away from potatoes (shared diseases) and from fennel."},
+    "Sweet corn":{p:[{w:"Pole beans",why:"Climb the stalks and fix nitrogen for the corn — the Three Sisters.",t:"evidence-based"},{w:"Squash",why:"Sprawls below to shade soil, hold moisture, and deter pests.",t:"evidence-based"},{w:"Any beans",why:"Givers that enrich the soil for this heavy feeder.",t:"evidence-based"}],avoid:""},
+    "Beans / peas":{p:[{w:"Corn or a trellis",why:"Tall support to climb, and you give nitrogen back.",t:"evidence-based"},{w:"Squash",why:"The third sister — living ground cover below.",t:"evidence-based"},{w:"Heavy feeders nearby",why:"You fix your own nitrogen and leave the soil richer for them.",t:"evidence-based"}],avoid:"Lore keeps beans and onions/garlic apart — a small effect, don’t fret it."},
+    "Carrots":{p:[{w:"Onions / leeks / chives",why:"Allium scent is traditionally said to confuse the carrot fly.",t:"traditional"},{w:"Lettuce",why:"Quick greens above the slow roots — good use of space.",t:"physics"},{w:"Tomatoes",why:"Lend a little summer shade to the tops.",t:"traditional"}],avoid:"Keep dill and fennel away — they can stunt carrots."},
+    "Lettuce / greens":{p:[{w:"Tall crops (tomatoes, beans, corn)",why:"Their shade keeps greens cool so they bolt later.",t:"physics"},{w:"Carrots / radishes",why:"Quick greens above slow roots — stacked in time.",t:"physics"},{w:"Alyssum",why:"Low flowers that feed predatory insects.",t:"the keystone move"}],avoid:""},
+    "Cucumbers / squash":{p:[{w:"Beans",why:"Fix nitrogen for these hungry vines.",t:"evidence-based"},{w:"Nasturtium",why:"Trap crop that lures aphids and squash pests away.",t:"trap crop"},{w:"Borage / dill flowers",why:"Bring in the pollinators these need to set fruit.",t:"pollinator"}],avoid:""},
+    "Peppers":{p:[{w:"Basil",why:"A pollinator draw and a tidy kitchen pairing.",t:"diversity: real"},{w:"Marigold / nasturtium",why:"Beneficials in, aphids lured away.",t:"trap crop"},{w:"Carrots / greens below",why:"Use the ground space while peppers stand tall.",t:"physics"}],avoid:""},
+    "Strawberries":{p:[{w:"Borage",why:"The famous strawberry partner — pollinators and (traditionally) better fruit.",t:"pollinator magnet"},{w:"Alyssum",why:"Feeds the predators that eat strawberry pests.",t:"the keystone move"},{w:"Beans",why:"Light nitrogen givers nearby.",t:"evidence-based"}],avoid:""}
+  };
+  function renderPartnerOptions(){var s=$("partnerPick");if(!s)return;s.innerHTML=Object.keys(PARTNERS).map(function(k){return '<option>'+k+'</option>';}).join("");}
+  function renderPartnerOut(){
+    var s=$("partnerPick");if(!s)return;var k=s.value,d=PARTNERS[k];if(!d){$("partnerOut").innerHTML="";return;}
+    var rows=d.p.map(function(p){var warn=(p.t.indexOf("tradition")>=0);return '<div class="cmp-row"><div class="cr-h">'+ic("sprout")+esc(k)+' + '+esc(p.w)+'</div><div class="cr-b">'+esc(p.why)+'<div class="pillrow"><span class="pill'+(warn?" warn":" good")+'">'+esc(p.t)+'</span></div></div></div>';}).join("");
+    var avoid=d.avoid?'<div class="note-card warn">'+ic("info")+'<div class="txt"><b>Give space:</b> '+esc(d.avoid)+'</div></div>':'';
+    $("partnerOut").innerHTML='<div class="cmp" style="margin-bottom:10px;">'+rows+'</div>'+avoid;
+  }
+  if($("partnerPick"))$("partnerPick").addEventListener("change",renderPartnerOut);
+
+  /* ---------- Task I: pest activity gauge, water audit, log ---------- */
+  function renderPestGauge(){
+    var el=$("pestGauge");if(!el)return;
+    var m=new Date().getMonth();
+    var base=[5,5,15,35,55,70,82,82,65,45,20,8][m];
+    var pct=base;
+    if(WX.rainPast!=null&&WX.rainPast>0.5)pct+=12;
+    if(WX.tmaxRecent!=null){if(WX.tmaxRecent>80)pct+=8;else if(WX.tmaxRecent<50)pct-=14;}
+    pct=clamp(Math.round(pct),3,100);
+    var label=pct<30?"Low":pct<60?"Moderate":"High";
+    el.innerHTML='<div class="gbar"><div class="gtick" style="left:'+pct+'%"></div></div>'+
+      '<div class="glabels"><span>Low</span><span class="gnow">'+label+' now</span><span>High</span></div>';
+    var note=$("pestGaugeNote");
+    if(note){
+      var msg;
+      if(m>=10||m<=2)msg="Cold months: mosquitoes are gone, but <b>ticks stay active on any thaw above ~40°F</b> — still check after a winter walk in the brush.";
+      else if(pct>=60)msg="Warm and active. Dump standing water weekly, and use protection at dusk and dawn and in brushy edges.";
+      else msg="Building. A good time to get ahead of it — do the standing-water audit and set your habits.";
+      if(WX.rainPast!=null&&WX.rainPast>0.5)msg+=" Recent rain (~"+r1(WX.rainPast)+'") means fresh standing water — tip it out.';
+      note.innerHTML=msg+' <span style="color:var(--ink-faint)">A seasonal estimate, not a live feed.</span>';
+    }
+  }
+  var AUDIT=["Plant saucers & pot trays","Buckets, cans & the wheelbarrow","Tarps, covers & low spots","Toys, sandbox & sled","Clogged gutters","Birdbath & pet bowls — refresh","Corrugated drain pipe & catch basins","Old tires, bins & loose lids"];
+  function renderAudit(){
+    var el=$("waterAudit");if(!el)return;var st=lsGet("ycWaterAudit")||{};
+    el.innerHTML=AUDIT.map(function(a,i){var on=!!st[i];return '<button class="ritrow" aria-pressed="'+on+'" data-audit="'+i+'"><span class="rk">'+ic("check")+'</span><span><span class="rt">'+a+'</span></span></button>';}).join("");
+  }
+  if($("waterAudit"))$("waterAudit").addEventListener("click",function(e){var b=e.target.closest("[data-audit]");if(!b)return;var i=b.getAttribute("data-audit"),st=lsGet("ycWaterAudit")||{};if(st[i])delete st[i];else st[i]=1;lsSet("ycWaterAudit",st);renderAudit();});
+  function pestAll(){var a=lsGet("ycPestLog");return Array.isArray(a)?a:[];}
+  function renderPestLog(){
+    var el=$("pestList");if(!el)return;var a=pestAll().slice().sort(byDateDesc);
+    el.innerHTML=a.length? a.map(function(it){return logRow("bug",esc(it.kind)+(it.where?' · '+esc(it.where):''),fmtDate(it.date),"pest",it.id);}).join("") : '<div class="empty">Nothing logged — a quiet, private record. Handy for remembering a bite date to watch.</div>';
+  }
+  if($("pestAdd"))$("pestAdd").addEventListener("click",function(){
+    var date=$("pestDate").value,kind=$("pestKind").value,where=$("pestWhere").value.trim();
+    if(!date){toast("Pick a date");return;}
+    var a=pestAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),date:date,kind:kind,where:where});lsSet("ycPestLog",a);
+    $("pestWhere").value="";renderPestLog();toast("Logged — note the date for symptom-watching");
+  });
+  if($("pestList"))$("pestList").addEventListener("click",function(e){var b=e.target.closest("[data-pest]");if(!b)return;var id=b.getAttribute("data-pest");lsSet("ycPestLog",pestAll().filter(function(x){return x.id!==id;}));renderPestLog();});
+
+  /* ---------- timelines: fireflies & bonfire weather ---------- */
+  function renderTimeline(elId,arr){
+    var el=$(elId);if(!el)return;var m=new Date().getMonth();
+    el.innerHTML=arr.map(function(c){var on=c.mo&&c.mo.indexOf(m)>=0;return '<div class="cal-m'+(on?' on':'')+'"><div class="cm-h"><span class="cm-name">'+c.t+'</span><span class="cm-tag">'+(on?'● now':c.tag)+'</span></div><div class="cm-body">'+c.b+'</div></div>';}).join("");
+  }
+  var FIREFLY=[
+    {t:"Mid–late May",tag:"First flickers",mo:[4],b:"The first few blink on at dusk along damp edges and unmown grass. Easy to miss — look low, just after sunset."},
+    {t:"June",tag:"Building",mo:[5],b:"Numbers climb fast as the nights warm. Lawn edges, field margins, and tree lines start to twinkle."},
+    {t:"Late June–early July",tag:"Peak show",mo:[6],b:"The big nights — warm, humid, still evenings light right up. Best at full dark; give your eyes time to adjust."},
+    {t:"July",tag:"Winding down",mo:[],b:"Still strong early, tapering by month’s end. Savor the warm-night displays while they last."},
+    {t:"August",tag:"Last stragglers",mo:[7],b:"A few hold on into late summer, then they’re done until next year."}
+  ];
+  var BONFIRE=[
+    {t:"Mar–Apr",tag:"Opening up",mo:[2,3],b:"Cool 35–55°F evenings — a fire feels great. Mind spring wind and any spring burn bans."},
+    {t:"May–Jun",tag:"Pleasant",mo:[4,5],b:"Mild, comfortable nights. Bugs are ramping up, so think mosquitoes too."},
+    {t:"Jul–Aug",tag:"Often too warm",mo:[6,7],b:"Many nights are too warm and buggy to want a fire — save it for a cool front."},
+    {t:"Sep–Oct",tag:"Prime season",mo:[8,9],b:"The sweet spot: crisp 40–60°F nights, low humidity, gorgeous. Peak fire-pit weather."},
+    {t:"Nov–Dec",tag:"Crisp & cozy",mo:[10,11],b:"Cold and clear — bundle up; the fire is the whole reason to be outside."},
+    {t:"Jan–Feb",tag:"Cold but clear",mo:[0,1],b:"For the committed: still, dry, frigid nights can be beautiful. Mind snow load and keep wood dry."}
+  ];
+
+  /* ---------- firewood planner ---------- */
+  var FWBTU={oak:25,hickory:26,cherry:21,maple:18,pine:15};
+  function updateFirewood(){
+    if(!$("fwHero"))return;
+    var nights=num("fwNights"),weeks=num("fwWeeks"),per=num("fwPerFire"),logsCord=num("fwLogsCord")||700,cordCost=num("fwCordCost"),wood=$("fwWood")?$("fwWood").value:"oak";
+    if(nights==null||weeks==null||per==null){$("fwHero").innerHTML="";return;}
+    var fires=Math.round(nights*weeks),logs=fires*per,cords=logsCord>0?logs/logsCord:0;
+    var cost=(cordCost!=null)?cords*cordCost:null,perFire=(cost!=null&&fires>0)?cost/fires:null;
+    var btu=FWBTU[wood]||22;
+    $("fwHero").innerHTML='<div class="h-amt">'+r1(cords)+' <small>cords / season</small></div>'+
+      '<div class="h-sub">'+fires+' fires × '+r0(per)+' logs ≈ '+r0(logs).toLocaleString()+' logs'+(cost!=null?', about '+money(cost):'')+'.</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+fires+'</span><span class="l">fires / season</span></div><div class="h-stat"><span class="v">'+(cost!=null?money(cost):'—')+'</span><span class="l">season cost</span></div><div class="h-stat"><span class="v">'+(perFire!=null?money(perFire):'—')+'</span><span class="l">per fire</span></div></div>';
+    var heat=btu>=24?"top-tier heat":btu>=20?"solid heat":btu>=17?"medium heat":"light, fast heat";
+    $("fwNote").querySelector(".txt").innerHTML='At ~'+btu+'M BTU per cord, <b>'+wood+'</b> is '+heat+'. <b>Burn it seasoned</b> — split and dried 6–12 months; green wood wastes half its heat boiling off water. Denser wood costs more per cord but burns longer, so the cost <i>per fire</i> often evens out. Buy local to avoid moving tree pests like emerald ash borer.';
+  }
+  ["fwNights","fwWeeks","fwPerFire","fwLogsCord","fwCordCost"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateFirewood);});
+  if($("fwWood"))$("fwWood").addEventListener("change",updateFirewood);
+
+  function renderWindHail(){
+    var el=$("windHailAdvisory");if(!el)return;var html="";
+    if(WX.windMax!=null&&WX.windMax>=30)html+='<div class="note-card warn">'+ic("wind")+'<div class="txt"><b>Windy stretch ahead</b> (to ~'+r0(WX.windMax)+' mph). Secure loose items — pots, furniture, umbrellas, the trampoline — and check the young-tree ties.</div></div>';
+    else if(WX.windMax!=null&&WX.windMax>=20)html+='<div class="note-card">'+ic("wind")+'<div class="txt"><b>Breezy days</b> (to ~'+r0(WX.windMax)+' mph) — nothing alarming, but tuck away anything that blows around and skip planting tall, floppy things.</div></div>';
+    if(WX.hail)html+='<div class="note-card alert">'+ic("cloud")+'<div class="txt"><b>Storms with possible hail</b> in the forecast. With warning, cover or move prized veg and seedlings and park the car under cover — then shelter, and don’t over-react after. Most plants regrow.</div></div>';
+    else if(WX.storm)html+='<div class="note-card">'+ic("rain")+'<div class="txt"><b>Thunderstorms possible.</b> Bring in light containers and loose items; most plants take a soaking fine.</div></div>';
+    if(!html)html='<div class="note-card">'+ic("check")+'<div class="txt">No rough weather flagged in the 7-day forecast. '+(WX.lat?'':'<button class="linklike" data-goto="season">Load a ZIP</button> and wind &amp; storms will surface here.')+'</div></div>';
+    el.innerHTML=html;
+  }
+
+  function renderGrow(){renderFeeding();setFrostInputs();renderFrost();renderFrostAdvisory();renderPartnerOptions();renderPartnerOut();}
+  function renderWildlife(){renderTimeline("fireflyTl",FIREFLY);renderAudit();renderPestLog();renderPestGauge();}
+  function renderSeasonExtras(){renderTimeline("bonfireTl",BONFIRE);updateFirewood();renderWindHail();}
+
   /* ---------- init ---------- */
   (function init(){
     var today="";try{today=new Date().toISOString().slice(0,10);}catch(e){}
-    ["leafDate","jDate","nDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
+    ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
+    renderGrow();renderWildlife();renderSeasonExtras();
     showTab("almanac");
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
