@@ -334,6 +334,7 @@
   /* welcome / onboarding overlay */
   .welcome{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 26px) 20px calc(env(safe-area-inset-bottom) + 26px);color:#EAF6EE;background:linear-gradient(162deg,#2E7D4F 0%,#1B4A2E 58%,#15402705 100%),#173f27;animation:wfade .35s ease both;}
   @keyframes wfade{from{opacity:0}to{opacity:1}}
+  @keyframes wrise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   .welcome .wcard{width:100%;max-width:444px;margin:auto;display:flex;flex-direction:column;animation:wrise .5s cubic-bezier(.2,.7,.3,1) both;}
   .welcome .wmark{width:62px;height:62px;align-self:center;filter:drop-shadow(0 8px 18px rgba(0,0,0,.32));}
   .welcome h2{font-family:var(--display);font-size:1.85rem;font-weight:650;text-align:center;margin:15px 0 0;letter-spacing:-.01em;line-height:1.12;}
@@ -2111,8 +2112,9 @@
   function renderMow(){renderMowCadence();renderTimeline("mowTl",MOWFREQ);renderMowerAdvice();renderMowChecks();}
 
   /* ---------- welcome / onboarding ---------- */
-  function openWelcome(){var w=$("welcome");if(!w)return;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";}
-  function closeWelcome(){var w=$("welcome");if(w)w.hidden=true;document.body.style.overflow="";lsSet("ycWelcomeSeen",1);}
+  var welcomePrevFocus=null;
+  function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
+  function closeWelcome(){var w=$("welcome");if(w)w.hidden=true;document.body.style.overflow="";lsSet("ycWelcomeSeen",1);try{if(welcomePrevFocus&&welcomePrevFocus.focus)welcomePrevFocus.focus();}catch(e){}welcomePrevFocus=null;}
   if($("welcomeStart"))$("welcomeStart").addEventListener("click",closeWelcome);
   if($("welcomeOpen"))$("welcomeOpen").addEventListener("click",function(){openWelcome();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome();}});
