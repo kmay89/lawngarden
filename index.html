@@ -89,12 +89,13 @@
   .lead-ic{width:20px;height:20px;color:var(--grass);vertical-align:-3px;margin-right:6px;}
 
   /* fields + calculators */
-  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;min-width:0;}
   .field label{font-size:.82rem;font-weight:600;color:var(--ink);}
   .field .meta{font-family:var(--mono);font-size:.66rem;color:var(--ink-faint);font-weight:500;}
-  .field input,.field select{font-family:var(--mono);font-size:1.02rem;font-weight:500;padding:11px 12px;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);background:#FBFDFB;color:var(--ink);-webkit-appearance:none;appearance:none;}
+  .field input,.field select{font-family:var(--mono);font-size:1.02rem;font-weight:500;padding:11px 12px;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);background:#FBFDFB;color:var(--ink);-webkit-appearance:none;appearance:none;width:100%;min-width:0;max-width:100%;text-overflow:ellipsis;}
   .field input:focus,.field select:focus{outline:none;border-color:var(--grass);}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+  .grid2>*{min-width:0;}
   .seg{display:flex;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);overflow:hidden;}
   .seg button{flex:1;font-family:var(--body);font-size:.82rem;font-weight:600;padding:9px 6px;background:#fff;color:var(--ink-soft);border:none;border-left:1px solid var(--line);cursor:pointer;}
   .seg button:first-child{border-left:none;}
@@ -302,7 +303,16 @@
   .leadcard h3 .ic{width:22px;height:22px;color:#BFE3CC;}
   .leadcard p{font-size:.9rem;color:#D7ECDE;margin:0 0 9px;} .leadcard p:last-child{margin-bottom:0;} .leadcard b{color:#fff;}
 
-  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} }
+  /* quick-access hub (home) */
+  .hub{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .hubchip{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 12px;background:#fff;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--ink);text-align:left;width:100%;min-width:0;}
+  .hubchip .ic{width:18px;height:18px;color:var(--grass);flex:0 0 auto;}
+  .hubchip .ht{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .hubchip:active{background:#F4F9F5;border-color:var(--grass);}
+  .hubhead{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin:14px 2px 7px;}
+  .hubhead.first{margin-top:2px;}
+
+  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
 </head>
 <body>
@@ -394,6 +404,31 @@
       <h2 class="sh-name" id="shName">—</h2>
       <p class="sh-vibe" id="shVibe"></p>
       <div class="yearwheel" id="yearWheel"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bulb"/></svg><h3>Jump to a tool or note</h3></div>
+      <p class="hint">Everything in one place — your logs and every calculator, one tap from home.</p>
+      <div class="hubhead first">Log &amp; notes</div>
+      <div class="hub">
+        <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-book"/></svg><span class="ht">Yard journal</span></button>
+        <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
+        <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
+      </div>
+      <div class="hubhead">Calculators</div>
+      <div class="hub">
+        <button class="hubchip" data-tool="lawn" data-scroll="fLawn"><svg class="ic"><use href="#i-spread"/></svg><span class="ht">Fertilizer</span></button>
+        <button class="hubchip" data-tool="lawn" data-scroll="wCan"><svg class="ic"><use href="#i-droplet"/></svg><span class="ht">Watering</span></button>
+        <button class="hubchip" data-tool="beds" data-scroll="mArea"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Mulch</span></button>
+        <button class="hubchip" data-tool="season" data-scroll="fwNights"><svg class="ic"><use href="#i-flask"/></svg><span class="ht">Firewood</span></button>
+      </div>
+      <div class="hubhead">Garden planners</div>
+      <div class="hub">
+        <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
+        <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
+        <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
+        <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
+      </div>
     </div>
 
     <div class="card">
@@ -1594,6 +1629,8 @@
 
   /* ---------- cross-tab navigation links ---------- */
   document.addEventListener("click",function(e){var b=e.target.closest("[data-goto]");if(b){showTab(b.getAttribute("data-goto"));}});
+  /* quick-access hub: jump to a tab and scroll to a specific tool/log */
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-tool]");if(!b)return;var tab=b.getAttribute("data-tool"),sel=b.getAttribute("data-scroll");showTab(tab);if(sel){setTimeout(function(){var t=$(sel);if(t){(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});}},170);}});
 
   /* ---------- Task B: "How to feed anything well" (shared) ---------- */
   function feedingExplainerHTML(){
