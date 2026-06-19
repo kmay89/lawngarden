@@ -2329,7 +2329,7 @@
     {id:"aster",name:"Aster",type:"perennial",bloom:[8,9],sun:"Sun–part",ht:"1–4′",native:1,pol:1,why:"The grand finale — feeds migrating monarchs and late bees.",pair:"goldenrod, sedum, mums"},
     {id:"mum",name:"Garden mum",type:"perennial",bloom:[8,9],sun:"Sun",ht:"1–3′",why:"Fall's signature color; pick hardy 'garden' mums to overwinter.",pair:"aster, sedum, ornamental kale"}
   ];
-  function bloomPlan(){return lsGet("ycBloomPlan")||{};}
+  function bloomPlan(){var p=lsGet("ycBloomPlan");return (p&&typeof p==="object"&&!Array.isArray(p))?p:{};}
   function bloomCells(bloom){var c=[];for(var i=0;i<8;i++)c.push(bloom.indexOf(i+2)>=0);return c;}
   function bloomFilterMatch(f,flt){
     if(flt==="all")return true;
@@ -2379,7 +2379,7 @@
   if($("bloomFilter"))$("bloomFilter").addEventListener("click",function(e){var b=e.target.closest("[data-bf]");if(!b)return;bloomFilter=b.getAttribute("data-bf");document.querySelectorAll("#bloomFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderBloomList();});
   var bloomStrat="perennial";
   function updateBloomCost(){
-    if(!$("bloomCostHero"))return;
+    if(!$("bloomCostHero")||!$("bloomCostNote"))return;
     var area=num("bcArea"),sp=num("bcSpace"),price=num("bcPrice");
     if(area==null||sp==null||sp<=0||price==null){$("bloomCostHero").innerHTML="";return;}
     area=Math.max(0,area);price=Math.max(0,price);
