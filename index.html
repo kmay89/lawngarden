@@ -459,6 +459,8 @@
   <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
   <symbol id="i-grass" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M12 21c0-4 .3-7 1.2-10M12 21c-1.2-4-3.4-6.5-6.5-8 .8 4 2.4 7 5.5 9M12 21c1.2-5 3.4-8 7-10-.6 5-3 8.5-6 10"/></symbol>
   <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 4h16"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -516,6 +518,7 @@
         <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-star"/></svg><span class="ht">Yard journal</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
         <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
+        <button class="hubchip" data-tool="almanac" data-scroll="backupCard"><svg class="ic"><use href="#i-download"/></svg><span class="ht">Back up</span></button>
       </div>
       <div class="hubhead">Calculators</div>
       <div class="hub">
@@ -595,6 +598,17 @@
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-globe"/></svg><h3>Your year so far</h3></div>
       <div class="prose" id="reviewBody"></div>
+    </div>
+
+    <div class="card" id="backupCard">
+      <div class="card-head"><svg class="ic"><use href="#i-download"/></svg><h3>Back up your year</h3></div>
+      <p class="hint">Everything you log lives <b>only on this device</b> — no account, no cloud. Download a backup now and then (and before you clear your browser or switch phones) so your journal, Moments, story, and plans are never lost.</p>
+      <div class="grid2">
+        <button class="act btn-primary" id="backupExport"><svg class="ic"><use href="#i-download"/></svg>Download backup</button>
+        <button class="act btn-ghost" id="backupImport"><svg class="ic"><use href="#i-upload"/></svg>Restore from file</button>
+      </div>
+      <input id="backupFile" type="file" accept="application/json,.json" hidden aria-hidden="true" tabindex="-1" />
+      <p class="store-note" id="backupNote"></p>
     </div>
   </section>
 
@@ -1864,7 +1878,46 @@
     $("storyBody").innerHTML=lead+body;
   }
 
-  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderJournal();renderNotes();renderLeaves();renderMoments(announce);renderStory();renderReview();}
+  /* ---------- backup / restore (all on-device) ---------- */
+  function backupKeys(){var a=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf("yc")===0)a.push(k);}return a;}
+  function renderBackup(){
+    if(!$("backupNote"))return;
+    if(!STORE_OK){$("backupNote").textContent="This preview can't save data — open the downloaded file to keep and back up your year.";return;}
+    var j=journalAll().length,n=notesAll().length,m=computeMoments().filter(function(x){return x.ok;}).length;
+    $("backupNote").textContent="On this device now: "+j+" journal entr"+(j===1?"y":"ies")+" · "+n+" field note"+(n===1?"":"s")+" · "+m+" Moment"+(m===1?"":"s")+" earned.";
+  }
+  function exportData(){
+    var data={};backupKeys().forEach(function(k){data[k]=localStorage.getItem(k);});
+    var str=JSON.stringify({app:"Yard & Garden Console",version:1,exported:new Date().toISOString(),data:data},null,2);
+    var name="yard-garden-backup-"+new Date().toISOString().slice(0,10)+".json";
+    var a=document.createElement("a");a.download=name;var url=null;
+    try{url=URL.createObjectURL(new Blob([str],{type:"application/json"}));a.href=url;}
+    catch(e){a.href="data:application/json;charset=utf-8,"+encodeURIComponent(str);}
+    document.body.appendChild(a);a.click();a.remove();
+    if(url)setTimeout(function(){URL.revokeObjectURL(url);},1500);
+    toast("Backup downloaded");
+  }
+  function importData(file){
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var p=JSON.parse(r.result),d=(p&&p.data&&typeof p.data==="object")?p.data:p;
+        if(!d||typeof d!=="object"||Array.isArray(d))throw 0;
+        var keys=Object.keys(d).filter(function(k){return k.indexOf("yc")===0&&typeof d[k]==="string";});
+        if(!keys.length){toast("No backup data in that file");return;}
+        if(!window.confirm("Restore "+keys.length+" item"+(keys.length===1?"":"s")+" from this backup? It will replace your current data on this device."))return;
+        keys.forEach(function(k){localStorage.setItem(k,d[k]);});
+        toast("Backup restored");
+        if(window.location&&window.location.reload)window.location.reload();
+      }catch(e){toast("Couldn't read that file — is it a Yard & Garden backup?");}
+    };
+    r.readAsText(file);
+  }
+  if($("backupExport"))$("backupExport").addEventListener("click",exportData);
+  if($("backupImport"))$("backupImport").addEventListener("click",function(){var f=$("backupFile");if(f)f.click();});
+  if($("backupFile"))$("backupFile").addEventListener("change",function(e){var f=e.target.files&&e.target.files[0];if(f)importData(f);e.target.value="";});
+
+  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderJournal();renderNotes();renderLeaves();renderMoments(announce);renderStory();renderReview();renderBackup();}
 
   /* ---------- log event wiring ---------- */
   if($("jAdd"))$("jAdd").addEventListener("click",function(){
