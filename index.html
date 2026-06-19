@@ -1648,7 +1648,7 @@
   function fmtDate(iso){try{var d=new Date(iso+"T12:00:00");return d.toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});}catch(e){return iso;}}
   function byDateDesc(x,y){return (x.date<y.date)?1:(x.date>y.date?-1:0);}
   function monthOf(iso){return new Date(iso+"T12:00:00").getMonth();}
-  function logRow(icon,title,sub,kind,id){return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-'+icon+'"/></svg><div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s">'+sub+'</div></div><button class="lr-del" data-'+kind+'="'+id+'" aria-label="Delete">'+ic("x")+'</button></div>';}
+  function logRow(icon,title,sub,kind,id){return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-'+icon+'"/></svg><div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s">'+sub+'</div></div><button class="lr-del" data-'+kind+'="'+esc(id)+'" aria-label="Delete">'+ic("x")+'</button></div>';}
 
   var ACT={mow:{l:"Mowed",i:"mower"},feed:{l:"Fed the lawn",i:"spread"},seed:{l:"Seeded",i:"sprout"},water:{l:"Watered",i:"droplet"},mulch:{l:"Mulched",i:"layers"},edge:{l:"Edged beds",i:"cut"},prune:{l:"Pruned",i:"cut"},plant:{l:"Planted",i:"tree"},sow:{l:"Sowed seed",i:"sprout"},transplant:{l:"Transplanted",i:"sprout"},harvest:{l:"Harvested",i:"basket"},leaves:{l:"Leaf cleanup",i:"leaf"},snow:{l:"Cleared snow",i:"snow"},other:{l:"Tended",i:"check"}};
   var NMETA={bloom:{l:"First bloom",i:"flower"},bug:{l:"Pollinator / insect",i:"bug"},bird:{l:"A bird",i:"eye"},wildlife:{l:"Wildlife",i:"eye"},frost:{l:"Frost",i:"snow"},snow:{l:"First snow",i:"snow"},other:{l:"Noticed",i:"eye"}};
@@ -1899,14 +1899,23 @@
   }
   function importData(file){
     var r=new FileReader();
+    r.onerror=function(){toast("Couldn't read that file");};
     r.onload=function(){
       try{
         var p=JSON.parse(r.result),d=(p&&p.data&&typeof p.data==="object")?p.data:p;
         if(!d||typeof d!=="object"||Array.isArray(d))throw 0;
         var keys=Object.keys(d).filter(function(k){return k.indexOf("yc")===0&&typeof d[k]==="string";});
         if(!keys.length){toast("No backup data in that file");return;}
+        // defense in depth: entry ids must be simple tokens (also escaped at render)
+        for(var i=0;i<keys.length;i++){
+          var v;try{v=JSON.parse(d[keys[i]]);}catch(e){v=null;}
+          if(Array.isArray(v)){for(var j=0;j<v.length;j++){var it=v[j];if(it&&typeof it==="object"&&"id" in it&&!/^[A-Za-z0-9_-]+$/.test(String(it.id))){toast("That backup has unexpected data — not restoring");return;}}}
+        }
         if(!window.confirm("Restore "+keys.length+" item"+(keys.length===1?"":"s")+" from this backup? It will replace your current data on this device."))return;
-        keys.forEach(function(k){localStorage.setItem(k,d[k]);});
+        // transactional: roll back if storage fills mid-write
+        var old={};keys.forEach(function(k){old[k]=localStorage.getItem(k);});
+        try{keys.forEach(function(k){localStorage.setItem(k,d[k]);});}
+        catch(err){keys.forEach(function(k){if(old[k]===null)localStorage.removeItem(k);else localStorage.setItem(k,old[k]);});toast("Storage limit exceeded — restore rolled back");return;}
         toast("Backup restored");
         if(window.location&&window.location.reload)window.location.reload();
       }catch(e){toast("Couldn't read that file — is it a Yard & Garden backup?");}
