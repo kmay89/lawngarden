@@ -2764,7 +2764,7 @@
     searchCur=hits.slice(0,24);
     res.innerHTML=searchCur.length? searchCur.map(function(it,i){return '<button class="search-res" data-si="'+i+'">'+ic("chev")+'<span class="sr-t">'+esc(it.title)+'</span><span class="sr-tab">'+esc(it.label)+'</span></button>';}).join("") : '<div class="search-hint">No matches for “'+esc(q)+'.” Try a simpler word.</div>';
   }
-  function openSearch(){var ov=$("searchOv");if(!ov)return;ov.hidden=false;document.body.style.overflow="hidden";var i=$("searchInput");if(i){i.value="";runSearch("");setTimeout(function(){try{i.focus();}catch(e){}},30);}}
+  function openSearch(){var ov=$("searchOv");if(!ov)return;ov.hidden=false;document.body.style.overflow="hidden";SEARCH_IDX=null;var i=$("searchInput");if(i){i.value="";runSearch("");setTimeout(function(){try{i.focus();}catch(e){}},30);}}
   function closeSearch(){var ov=$("searchOv");if(ov)ov.hidden=true;document.body.style.overflow="";}
   if($("searchBtn"))$("searchBtn").addEventListener("click",openSearch);
   if($("searchClose"))$("searchClose").addEventListener("click",closeSearch);
@@ -2772,8 +2772,13 @@
   if($("searchResults"))$("searchResults").addEventListener("click",function(e){
     var b=e.target.closest("[data-si]");if(!b)return;
     var it=searchCur[+b.getAttribute("data-si")];if(!it)return;
-    closeSearch();showTab(it.tab);
-    if(it.el)setTimeout(function(){try{it.el.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){}it.el.classList.add("searchflash");setTimeout(function(){it.el.classList.remove("searchflash");},1800);},180);
+    closeSearch();
+    if(it.el){
+      var orig=window.scrollTo;window.scrollTo=function(){};   // suppress showTab's top-scroll so it doesn't fight the card scroll
+      showTab(it.tab);
+      window.scrollTo=orig;
+      setTimeout(function(){try{it.el.scrollIntoView({behavior:"smooth",block:"start"});}catch(ex){}it.el.classList.add("searchflash");setTimeout(function(){it.el.classList.remove("searchflash");},1800);},60);
+    } else { showTab(it.tab); }
   });
   document.addEventListener("keydown",function(e){if(e.key==="Escape"){var ov=$("searchOv");if(ov&&!ov.hidden)closeSearch();}});
 
