@@ -2991,7 +2991,7 @@
     if(!$("seedHero"))return;
     var area=num("seedArea"),price=num("seedPrice");
     if(area==null||area<0){$("seedHero").innerHTML="";return;}
-    var s=SEED_RATE[seedType],lbs=s.rate*(area/1000),oz=lbs*16,cost=(price!=null?lbs*price:null);
+    var s=SEED_RATE[seedType],lbs=s.rate*(area/1000),oz=lbs*16,cost=(price!=null&&price>=0?lbs*price:null);
     var amt=lbs<1?(r1(oz)+' <small>oz</small>'):(r1(lbs)+' <small>lb</small>');
     $("seedHero").innerHTML='<div class="h-amt">'+amt+'</div>'+
       '<div class="h-sub">of '+s.label+' for '+r0(area).toLocaleString()+' sq ft (about '+r2(s.rate)+' lb / 1,000)'+(cost!=null?' — roughly '+money(cost):'')+'.</div>';
@@ -3004,7 +3004,7 @@
   function updateRain(){
     if(!$("rainHero"))return;
     var L=num("rnL"),W=num("rnW"),inch=num("rnIn"),share=num("rnShare");
-    if(L==null||W==null||inch==null||L<=0||W<=0){$("rainHero").innerHTML="";return;}
+    if(L==null||W==null||inch==null||L<=0||W<=0||inch<0){$("rainHero").innerHTML="";return;}
     if(share==null)share=100;share=clamp(share,0,100);
     var area=L*W*(share/100),gal=area*inch*0.623;          // 0.623 gal per sq ft per inch
     var barrels=Math.ceil(gal/55),perInch=L*W*(share/100)*0.623;
