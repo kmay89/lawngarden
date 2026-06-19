@@ -502,6 +502,7 @@
     <button class="tab-btn" role="tab" data-tab="trees"><svg class="ic"><use href="#i-tree"/></svg>Trees</button>
     <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
     <button class="tab-btn" role="tab" data-tab="bloom"><svg class="ic"><use href="#i-flower"/></svg>Bloom</button>
+    <button class="tab-btn" role="tab" data-tab="pests"><svg class="ic"><use href="#i-bug"/></svg>Pests &amp; Weeds</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
     <button class="tab-btn" role="tab" data-tab="soil"><svg class="ic"><use href="#i-soil"/></svg>Soil</button>
     <button class="tab-btn" role="tab" data-tab="compost"><svg class="ic"><use href="#i-compost"/></svg>Compost</button>
@@ -558,6 +559,7 @@
         <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
+        <button class="hubchip" data-tool="pests" data-scroll="issueFinder"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Pest finder</span></button>
         <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
       </div>
     </div>
@@ -1078,6 +1080,47 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bee"/></svg>Plant in drifts, for the pollinators</div><div class="cr-b">Three or five of one flower together reads better and is far easier for bees to work than singles dotted around. Group by water/sun needs, and tuck flowers among the veg, too. <button class="linklike" data-goto="grow">Flowers in the veg bed →</button></div></div>
       </div>
     </div>
+  </section>
+
+  <!-- ============ PESTS & WEEDS ============ -->
+  <section class="tab" data-pane="pests" hidden>
+    <p class="tab-intro">Pests, diseases, and weeds in the garden — the gardener-with-nature way. The short version: <b>most damage isn't worth spraying.</b> Tolerate a little, identify the cause, lean on healthy soil and good bugs, and spot-treat only as a last resort. Blanket sprays kill the ladybugs, bees, and birds that were fixing it for free.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-shield"/></svg><h3>The least-harm ladder</h3></div>
+      <p class="hint">Work down it in order — most problems are solved long before the last rung.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-eye"/></svg>1 · Tolerate &amp; identify</div><div class="cr-b">A few holes are fine — a perfect leaf isn't the goal. Find out <b>what</b> it actually is and whether it's truly a problem before you do anything. Most "damage" is cosmetic.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>2 · Let the good bugs work</div><div class="cr-b"><b>Ladybugs, lacewings, parasitic wasps, birds, and spiders</b> eat the pests for free — so don't spray them out. Plant flowers among the veg to feed them. <button class="linklike" data-goto="grow">Insectary flowers →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>3 · Physical &amp; cultural fixes</div><div class="cr-b"><b>Hand-pick</b>, blast with water, use <b>row covers</b>, pick resistant varieties, space for airflow, water at the base, rotate crops, and keep soil healthy. This rung handles most of it.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>4 · Spot-treat, last &amp; targeted</div><div class="cr-b">If you must: <b>insecticidal soap</b> (aphids/mites), <b>Bt</b> (caterpillars only), <b>iron-phosphate</b> bait (slugs), <b>neem/spinosad</b> — applied to the <b>spot</b>, never blanket, and <b>never on open blooms</b> (evening, when bees are home). Read the label.</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="issueFinder">
+      <div class="card-head"><svg class="ic"><use href="#i-search"/></svg><h3>What are you seeing?</h3></div>
+      <p class="hint">Pick the symptom and get the likely cause and the gentlest fix.</p>
+      <div class="field"><label for="issuePick">The problem looks like…</label><select id="issuePick"></select></div>
+      <div id="issueOut"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bug"/></svg><h3>Common problems at a glance</h3></div>
+      <div class="cmp" id="issueList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-sprout"/></svg><h3>Weeds — and a reframe</h3></div>
+      <p class="hint">Pull what crowds your crops, mulch to prevent the rest — and remember a lot of "weeds" are wildflowers, pollinator food, or dinner.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Maybe leave it</div><div class="cr-b"><b>Dandelions</b> (early bee food, edible greens), <b>clover</b> (free nitrogen — a feature), <b>violets</b>, and <b>purslane</b> (a tasty succulent). Pull them where they compete; tolerate them where they don't. <button class="linklike" data-goto="wildlife">Why clover →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-mower"/></svg>Lawn weeds</div><div class="cr-b">The best weed control is a <b>thick, tall lawn</b> that crowds them out. <b>Crabgrass</b> — prevent with a spring pre-emergent and never scalp; <b>creeping Charlie</b> loves shade and damp, so fix the conditions and hand-pull. <button class="linklike" data-goto="lawn">Lawn timing →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-alert"/></svg>The persistent spreaders</div><div class="cr-b"><b>Canada thistle, bindweed, quackgrass</b> regrow from roots — dig persistently, smother with cardboard + mulch, and above all <b>don't let them go to seed</b>. Patience beats one big spray.</div></div>
+      </div>
+      <div class="note-card alert"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>Poison ivy — "leaves of three, let it be."</b> <b>Never burn it</b> (the smoke is dangerously toxic). To remove: cover up (long sleeves, gloves), pull or cut at the base, bag it (don't compost), and <b>wash skin, tools, and clothes</b> with degreasing soap (dish soap or a product like Tecnu) within a couple hours — the oil (urushiol) stays active for a long time on everything it touched. For big patches, cut-and-treat the stump or carefully spot-apply an appropriate herbicide.</div></div>
+    </div>
+
+    <div class="note-card warn" style="margin:0 2px 14px;"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>The honest thread:</b> reach for a chemical only when you truly must, choose the most targeted one, hit only the spot, and keep it off blooms and beneficials. A garden that hosts predators and lives in healthy soil mostly defends itself.</div></div>
   </section>
 
   <!-- ============ BEDS & MULCH ============ -->
@@ -2795,6 +2838,36 @@
   }
   if($("cgGreens"))$("cgGreens").addEventListener("input",updateCompost);
 
+  /* ---------- Pests & weeds: symptom finder ---------- */
+  var ISSUES=[
+    {sym:"Holes chewed in leaves",cause:"Caterpillars, beetles, or slugs",fix:"Find the culprit: green caterpillars on broccoli/cabbage (cabbage worms — hand-pick or use <b>Bt</b>), silvery slime trails (slugs — hand-pick at night, or iron-phosphate bait), or beetles (hand-pick). Light damage is fine — leave it."},
+    {sym:"Leaves turned to lace / skeletonized",cause:"Japanese beetles",fix:"Hand-pick into soapy water in the cool morning when they're sluggish, and tolerate the rest. <b>Skip the pheromone traps</b> — they pull in more beetles than they catch. Healthy plants outgrow it."},
+    {sym:"Sticky, curled, distorted new growth",cause:"Aphids",fix:"Look for clusters of tiny green/black bugs on the tips. <b>Blast them off with water</b>, or use insecticidal soap; ladybugs and lacewings finish the job. Ease off the nitrogen — soft, over-fed growth is what draws them."},
+    {sym:"Fine stippling, dust, faint webbing",cause:"Spider mites",fix:"Common in hot, dry spells. Hose the leaf undersides, raise humidity, and use insecticidal soap. They're not insects, so <b>broad insecticides backfire</b> by killing their predators."},
+    {sym:"Squash or cucumber vine wilting",cause:"Squash bugs or vine borer",fix:"Check stems for borer holes and sawdust-like frass, and leaf undersides for bronze egg clusters (crush them). <b>Row-cover early</b> (uncover at flowering so bees can pollinate) and hand-pick the bugs."},
+    {sym:"Big green caterpillar stripping a tomato",cause:"Tomato hornworm",fix:"Hand-pick it (follow the chewed leaves and dark droppings). <b>If it has white rice-like cocoons on its back, leave it</b> — parasitic wasps are already turning it into more wasps for you."},
+    {sym:"Tiny shot-holes in young seedlings",cause:"Flea beetles",fix:"Row-cover seedlings until they're established; vigorous plants outgrow the pinholes. Worst on brassicas and eggplant."},
+    {sym:"White powdery coating on leaves",cause:"Powdery mildew (a fungus)",fix:"Late-summer regular on squash, cucumbers, phlox, lilac. Improve <b>airflow</b> (spacing/pruning), water at the base, and choose resistant varieties; a milk or potassium-bicarbonate spray helps. Mostly cosmetic once the season's winding down."},
+    {sym:"Brown spots / blotches creeping up tomatoes",cause:"Early or late blight",fix:"<b>Mulch</b> to stop soil splash, <b>water at the base</b> not the leaves, space for airflow, remove affected leaves, rotate beds yearly, and grow resistant varieties. Fast brown-black collapse is <b>late blight</b> — pull the whole plant and bag it."},
+    {sym:"Black sunken patch on the bottom of a tomato/pepper",cause:"Blossom-end rot (not a pest or disease)",fix:"It's a <b>calcium-uptake problem from uneven watering</b>, not a bug or fungus. Mulch and water <b>consistently</b> and it usually corrects itself. Don't bother with calcium sprays."},
+    {sym:"Leaves yellowing all over",cause:"Usually water or nutrients, not a pest",fix:"Check <b>watering and drainage first</b> (over-watering yellows as often as under). Yellow leaves with <b>green veins</b> = a pH lock-out — test the soil before feeding. <button class=\"linklike\" data-goto=\"soil\">Soil &amp; pH →</button>"},
+    {sym:"Seedlings flop over and rot at the soil line",cause:"Damping off (a fungus)",fix:"Use clean containers and fresh mix, give strong light and <b>airflow</b>, and <b>don't overwater</b> — bottom-water and let the surface dry between."}
+  ];
+  function renderIssueOptions(){var s=$("issuePick");if(!s)return;s.innerHTML='<option value="-1">— choose a symptom —</option>'+ISSUES.map(function(it,i){return '<option value="'+i+'">'+esc(it.sym)+'</option>';}).join("");}
+  function renderIssueOut(){
+    var s=$("issuePick"),out=$("issueOut");if(!s||!out)return;
+    var i=parseInt(s.value,10);
+    if(isNaN(i)||i<0){out.innerHTML="";return;}
+    var it=ISSUES[i];
+    out.innerHTML='<div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"><b>Likely: '+esc(it.cause)+'.</b> '+it.fix+'</div></div>';
+  }
+  function renderIssueList(){
+    var el=$("issueList");if(!el)return;
+    el.innerHTML=ISSUES.map(function(it){return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>'+esc(it.sym)+'</div><div class="cr-b"><b>'+esc(it.cause)+'.</b> '+it.fix+'</div></div>';}).join("");
+  }
+  if($("issuePick"))$("issuePick").addEventListener("change",renderIssueOut);
+  function renderPests(){renderIssueOptions();renderIssueOut();renderIssueList();}
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -2809,7 +2882,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
