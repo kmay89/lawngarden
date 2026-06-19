@@ -382,6 +382,35 @@
   .welcome .wstart .ic{width:18px;height:18px;}
   .welcome .wstart:active{transform:translateY(1px);}
   .welcome .wfoot{text-align:center;font-family:var(--mono);font-size:.62rem;color:#86B79B;margin-top:15px;letter-spacing:.03em;}
+  /* wizard steps + interest chips */
+  .welcome .wstep[hidden]{display:none;}
+  .welcome .wq{font-family:var(--display);font-size:1.16rem;font-weight:650;color:#fff;text-align:center;margin:22px 0 4px;}
+  .welcome .wqsub{font-size:.84rem;color:#CDE6D5;text-align:center;margin:0 6px 4px;line-height:1.45;}
+  .welcome .wchips{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px;}
+  .welcome .wchip{display:flex;gap:10px;align-items:center;text-align:left;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);border-radius:13px;padding:11px 12px;cursor:pointer;color:#EAF6EE;font-family:var(--body);min-width:0;transition:border-color .12s,background .12s;}
+  .welcome .wchip .ic{width:20px;height:20px;flex:0 0 auto;color:#BFE3CC;}
+  .welcome .wchip .wcl{font-weight:650;font-size:.9rem;line-height:1.15;overflow:hidden;text-overflow:ellipsis;}
+  .welcome .wchip[aria-pressed="true"]{border-color:#fff;background:rgba(255,255,255,.2);}
+  .welcome .wchip[aria-pressed="true"] .ic{color:#fff;}
+  .welcome .wchk{margin-left:auto;width:18px;height:18px;flex:0 0 auto;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;}
+  .welcome .wchip[aria-pressed="true"] .wchk{background:#fff;border-color:#fff;}
+  .welcome .wchk .ic{width:12px;height:12px;color:#235C3A;opacity:0;}
+  .welcome .wchip[aria-pressed="true"] .wchk .ic{opacity:1;}
+  .welcome .wnav{display:flex;gap:10px;margin-top:20px;}
+  .welcome .wback{flex:0 0 auto;background:rgba(255,255,255,.12);color:#EAF6EE;border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:15px 18px;font-family:var(--body);font-weight:650;font-size:.95rem;cursor:pointer;}
+  .welcome .wnav .wstart{margin-top:0;flex:1;}
+  .welcome .wskip{background:none;border:none;color:#A9D6BA;font-family:var(--body);font-size:.84rem;text-decoration:underline;cursor:pointer;margin:13px auto 0;display:block;}
+  /* toolbar: icon-only on phones so the title isn't squished */
+  @media(max-width:430px){ .tbtn .tlabel{display:none;} .tbtn{padding:8px;gap:0;} }
+  /* tab bar divider between "for you" tabs and the rest */
+  .tabdiv{flex:0 0 auto;align-self:center;display:inline-flex;align-items:center;gap:5px;padding:0 8px 0 10px;margin-left:2px;border-left:1px dashed var(--line-strong);color:var(--ink-faint);font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
+  /* home: "for you" + discover spotlight */
+  .fy-head{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--grass-deep);font-weight:700;margin:0 0 9px;}
+  .fy-discover{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-left:3px solid var(--grass);border-radius:var(--radius-sm);padding:12px 13px;background:linear-gradient(180deg,#F6FBF7,#fff);margin-top:11px;cursor:pointer;width:100%;text-align:left;font-family:var(--body);}
+  .fy-discover .ic{width:20px;height:20px;flex:0 0 auto;color:var(--grass);margin-top:2px;}
+  .fy-discover .fy-dt{font-weight:650;font-size:.9rem;color:var(--ink);}
+  .fy-discover .fy-db{font-size:.8rem;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+  .fy-discover .fy-dk{font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--grass-deep);font-weight:700;margin-bottom:3px;}
   .wlink{background:none;border:none;color:var(--grass-deep);font-family:var(--body);font-size:.8rem;font-weight:600;text-decoration:underline;cursor:pointer;padding:6px;display:block;margin:2px auto 0;}
 
   /* bloom planner */
@@ -492,9 +521,9 @@
       <div><h1>Yard &amp; Garden Console</h1><div class="sub">Cool-season · Ohio</div></div>
     </div>
     <div class="toolbar">
-      <button class="tbtn" id="installBtn" hidden><svg class="ic"><use href="#i-plus"/></svg>Install</button>
-      <button class="tbtn" id="searchBtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg>Search</button>
-      <button class="tbtn" id="weatherBtn"><svg class="ic"><use href="#i-cloud"/></svg>Weather</button>
+      <button class="tbtn" id="installBtn" aria-label="Install" hidden><svg class="ic"><use href="#i-plus"/></svg><span class="tlabel">Install</span></button>
+      <button class="tbtn" id="searchBtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg><span class="tlabel">Search</span></button>
+      <button class="tbtn" id="weatherBtn" aria-label="Weather"><svg class="ic"><use href="#i-cloud"/></svg><span class="tlabel">Weather</span></button>
     </div>
   </header>
 
@@ -538,6 +567,13 @@
       <h2 class="sh-name" id="shName">—</h2>
       <p class="sh-vibe" id="shVibe"></p>
       <div class="yearwheel" id="yearWheel"></div>
+    </div>
+
+    <div class="card" id="forYouCard" hidden>
+      <div class="card-head"><svg class="ic"><use href="#i-star"/></svg><h3>For your yard</h3></div>
+      <p class="hint">Pinned to the front of your tabs, too. <button class="linklike" id="personalizeBtn">Change what matters →</button></p>
+      <div class="hub" id="forYouHub"></div>
+      <div id="forYouDiscover"></div>
     </div>
 
     <div class="card">
@@ -1956,7 +1992,7 @@
         <p>Use at your own risk; the author assumes no liability for outcomes, damage, or injury arising from use of this tool.</p>
       </div>
     </details>
-    <button class="wlink" id="welcomeOpen">Replay the welcome</button>
+    <button class="wlink" id="welcomeOpen">Replay the welcome &amp; personalize</button>
     <div class="copy">© 2026 <b>Karl Meves</b> · ERRERLabs · Yard &amp; Garden Console. Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache License 2.0</a>. Weather: Open-Meteo · ZIP: Zippopotam.us.</div>
   </footer>
 </div>
@@ -1966,15 +2002,32 @@
     <svg class="wmark" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="22" fill="#235C3A"/><path d="M50 78V40" stroke="#BFE3CC" stroke-width="6" stroke-linecap="round"/><path d="M50 52C50 36 34 28 20 28c0 16 16 24 30 24z" fill="#5BAE78"/><path d="M50 46C50 32 64 26 80 26c0 14-14 20-30 20z" fill="#5BAE78"/></svg>
     <h2>Yard &amp; Garden Console</h2>
     <div class="wkick">A living yard for Ohio</div>
-    <p class="wlede">A calm companion for tending — and noticing — your yard. Honest, low-input advice that works <i>with</i> nature, not against it. Everything stays on your device.</p>
-    <div class="wlist">
-      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators for lawn, mowing, beds, an edible garden, trees, snow &amp; leaves — each with the honest trade-offs, never one handed-down answer.</div></div></div>
-      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes turn a year in the yard into a story — and quietly earn Moments as you go.</div></div></div>
-      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP (optional) and local soil temp, rain, and frost drive the timing across the whole app.</div></div></div>
-      <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the resilient, low-input way, with people and wildlife in mind.</div></div></div>
+
+    <!-- Step 1: what this is -->
+    <div class="wstep" id="wStep1">
+      <p class="wlede">A calm companion for tending — and noticing — your yard. Honest, low-input advice that works <i>with</i> nature, not against it. Everything stays on your device.</p>
+      <div class="wlist">
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators for lawn, mowing, beds, an edible garden, trees, snow &amp; leaves — each with the honest trade-offs, never one handed-down answer.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes turn a year in the yard into a story — and quietly earn Moments as you go.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP (optional) and local soil temp, rain, and frost drive the timing across the whole app.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the resilient, low-input way, with people and wildlife in mind.</div></div></div>
+      </div>
+      <button class="wstart" id="wNext"><svg class="ic"><use href="#i-chev"/></svg>Make it yours</button>
+      <button class="wskip" id="wSkip1">Skip — show me everything</button>
     </div>
-    <div class="wtip"><svg class="ic"><use href="#i-bulb"/></svg><div>New here? Use the <b>tabs up top</b> to explore, or tap <b>“Jump to a tool or note”</b> on the home screen to go straight to anything.</div></div>
-    <button class="wstart" id="welcomeStart"><svg class="ic"><use href="#i-check"/></svg>Start exploring</button>
+
+    <!-- Step 2: what's in your yard -->
+    <div class="wstep" id="wStep2" hidden>
+      <div class="wq">What's in your yard?</div>
+      <p class="wqsub">Pick what you tend (or dream of). We'll pin those to the front — nothing's hidden, and you can change it anytime.</p>
+      <div class="wchips" id="wChips"></div>
+      <div class="wnav">
+        <button class="wback" id="wBack" aria-label="Back"><svg class="ic"><use href="#i-chev" style="transform:rotate(90deg)"/></svg></button>
+        <button class="wstart" id="welcomeStart"><svg class="ic"><use href="#i-check"/></svg>Personalize my yard</button>
+      </div>
+      <button class="wskip" id="wSkip2">Skip for now</button>
+    </div>
+
     <div class="wfoot">No accounts · no tracking · all on your device · ERRERLabs</div>
   </div>
 </div>
@@ -3312,13 +3365,94 @@
     var del=e.target.closest("[data-rdel]");if(del){var id2=del.getAttribute("data-rdel");remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();}
   });
 
-  /* ---------- welcome / onboarding ---------- */
-  var welcomePrevFocus=null;
-  function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
-  function closeWelcome(){var w=$("welcome");if(w)w.hidden=true;document.body.style.overflow="";lsSet("ycWelcomeSeen",1);try{if(welcomePrevFocus&&welcomePrevFocus.focus)welcomePrevFocus.focus();}catch(e){}welcomePrevFocus=null;}
-  if($("welcomeStart"))$("welcomeStart").addEventListener("click",closeWelcome);
+  /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
+  var AREAS=[
+    {id:"lawn",icon:"mower",label:"Lawn care",tabs:["lawn","mow"],dk:"A greener lawn",db:"Feeding, mowing right, and thickening turf — clover can do half the work."},
+    {id:"grow",icon:"basket",label:"Veg & herbs",tabs:["grow"],dk:"Grow your own food",db:"Even a 4×8 bed or a few pots feeds you all summer — start with what you like to eat."},
+    {id:"fruit",icon:"fruit",label:"Fruit & berries",tabs:["fruit"],dk:"Homegrown fruit",db:"Berries reward you in a year; a few raspberry canes are the easiest fruit there is."},
+    {id:"bloom",icon:"flower",label:"Flowers & blooms",tabs:["bloom"],dk:"Color all season",db:"A backbone of perennials plus a few annuals means blooms — and bees — spring to frost."},
+    {id:"trees",icon:"tree",label:"Trees & shrubs",tabs:["trees"],dk:"Trees & shrubs",db:"The right tree, planted and pruned well, is the longest-lasting thing you'll plant."},
+    {id:"beds",icon:"layers",label:"Beds, mulch & soil",tabs:["beds","soil","compost"],dk:"Better soil & beds",db:"Mulch math, a $15 soil test, and a compost pile quietly make everything else easier."},
+    {id:"wild",icon:"bird",label:"Wildlife & pollinators",tabs:["wildlife","native"],dk:"A living yard",db:"Pollinators, birds, fireflies, clover — a little wildness brings the yard alive."},
+    {id:"water",icon:"droplet",label:"Rain & water",tabs:["rain"],dk:"Catch the rain",db:"A rain barrel and a rain garden turn runoff into free watering — and keep streams clean."},
+    {id:"pond",icon:"waves",label:"A pond",tabs:["pond"],dk:"Dreaming of a pond?",db:"A small pond brings dragonflies, frogs, and birds — here's how it's kept clear and healthy."},
+    {id:"pests",icon:"bug",label:"Pests & weeds",tabs:["pests"],dk:"Fewer pests, gently",db:"The least-harm ladder solves most problems without spraying the good bugs out."},
+    {id:"season",icon:"snow",label:"Snow, leaves & seasons",tabs:["snow","leaves","season"],dk:"Through the seasons",db:"Leaf strategy, gentle de-icing, and what each month of the Ohio year tends to ask for."}
+  ];
+  var UNIVERSAL=["shop","remind"]; // useful to everyone, kept near the front
+  var TAB_ORDER=[].map.call($("tabbar")?$("tabbar").querySelectorAll(".tab-btn"):[],function(b){return b.getAttribute("data-tab");}); // canonical original order, captured once
+  function getProfile(){var p=lsGet("ycProfile");return (p&&typeof p==="object")?p:null;}
+  function selectedAreas(){var p=getProfile();return (p&&Array.isArray(p.areas))?p.areas:[];}
+  function pinnedTabs(){var sel=selectedAreas(),out=[];AREAS.forEach(function(a){if(sel.indexOf(a.id)>=0)a.tabs.forEach(function(t){if(out.indexOf(t)<0)out.push(t);});});return out;}
+
+  function applyProfile(){
+    var bar=$("tabbar");if(!bar)return;
+    var btns={};[].forEach.call(bar.querySelectorAll(".tab-btn"),function(b){btns[b.getAttribute("data-tab")]=b;});
+    var old=bar.querySelector(".tabdiv");if(old)old.parentNode.removeChild(old);
+    var pinned=pinnedTabs();
+    var order=["almanac"];
+    if(pinned.length){ // only reshuffle when the user actually picked areas
+      pinned.forEach(function(t){if(btns[t]&&order.indexOf(t)<0)order.push(t);});
+      UNIVERSAL.forEach(function(t){if(btns[t]&&order.indexOf(t)<0)order.push(t);});
+    }
+    var restStart=order.length;
+    TAB_ORDER.forEach(function(t){if(btns[t]&&order.indexOf(t)<0)order.push(t);});
+    // re-append in computed order
+    order.forEach(function(t){if(btns[t])bar.appendChild(btns[t]);});
+    // divider before the "explore the rest" group, only if the user pinned anything
+    if(pinned.length&&order.length>restStart){
+      var div=document.createElement("span");div.className="tabdiv";div.setAttribute("aria-hidden","true");div.textContent="Explore";
+      bar.insertBefore(div,btns[order[restStart]]);
+    }
+    if(typeof updateTabHints==="function")updateTabHints();
+  }
+
+  function renderForYou(){
+    var card=$("forYouCard");if(!card)return;
+    var sel=selectedAreas();
+    var hub=$("forYouHub");
+    if(!sel.length){card.hidden=true;return;}
+    card.hidden=false;
+    hub.innerHTML=AREAS.filter(function(a){return sel.indexOf(a.id)>=0;}).map(function(a){
+      return '<button class="hubchip" data-tool="'+a.tabs[0]+'"><svg class="ic"><use href="#i-'+a.icon+'"/></svg><span class="ht">'+esc(a.label)+'</span></button>';
+    }).join("");
+    // discover spotlight: one area they did NOT pick, framed invitingly, rotating daily
+    var unpicked=AREAS.filter(function(a){return sel.indexOf(a.id)<0;});
+    var disc=$("forYouDiscover");
+    if(!unpicked.length){disc.innerHTML="";return;}
+    var seed=0;try{seed=parseInt(new Date().toISOString().slice(0,10).replace(/-/g,""),10)||0;}catch(e){}
+    var pick=unpicked[seed%unpicked.length];
+    disc.innerHTML='<button class="fy-discover" data-tool="'+pick.tabs[0]+'"><svg class="ic"><use href="#i-'+pick.icon+'"/></svg>'+
+      '<div><div class="fy-dk">Discover · not on your list</div><div class="fy-dt">'+esc(pick.dk)+'</div><div class="fy-db">'+pick.db+'</div></div></button>';
+  }
+
+  /* ---------- welcome / onboarding wizard ---------- */
+  var welcomePrevFocus=null,wizardSel=[];
+  function renderWizardChips(){
+    var box=$("wChips");if(!box)return;
+    box.innerHTML=AREAS.map(function(a){
+      var on=wizardSel.indexOf(a.id)>=0;
+      return '<button type="button" class="wchip" data-area="'+a.id+'" aria-pressed="'+(on?"true":"false")+'"><svg class="ic"><use href="#i-'+a.icon+'"/></svg><span class="wcl">'+esc(a.label)+'</span><span class="wchk"><svg class="ic"><use href="#i-check"/></svg></span></button>';
+    }).join("");
+  }
+  function wizardStep(n){var s1=$("wStep1"),s2=$("wStep2");if(!s1||!s2)return;s1.hidden=(n!==1);s2.hidden=(n!==2);var w=$("welcome");if(w)w.scrollTop=0;}
+  function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;wizardSel=selectedAreas().slice();renderWizardChips();wizardStep(1);w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("wNext");if(s)try{s.focus();}catch(e){}}
+  function closeWelcome(save){
+    var w=$("welcome");if(w)w.hidden=true;document.body.style.overflow="";
+    lsSet("ycWelcomeSeen",1);
+    if(save){lsSet("ycProfile",{areas:wizardSel.slice(),done:1});applyProfile();renderForYou();}
+    else if(!getProfile()){lsSet("ycProfile",{areas:[],done:1});} // skipped: remember so it won't reopen
+    try{if(welcomePrevFocus&&welcomePrevFocus.focus)welcomePrevFocus.focus();}catch(e){}welcomePrevFocus=null;
+  }
+  if($("wChips"))$("wChips").addEventListener("click",function(e){var b=e.target.closest("[data-area]");if(!b)return;var id=b.getAttribute("data-area"),i=wizardSel.indexOf(id);if(i>=0)wizardSel.splice(i,1);else wizardSel.push(id);b.setAttribute("aria-pressed",i>=0?"false":"true");});
+  if($("wNext"))$("wNext").addEventListener("click",function(){wizardStep(2);});
+  if($("wBack"))$("wBack").addEventListener("click",function(){wizardStep(1);});
+  if($("welcomeStart"))$("welcomeStart").addEventListener("click",function(){closeWelcome(true);});
+  if($("wSkip1"))$("wSkip1").addEventListener("click",function(){closeWelcome(false);});
+  if($("wSkip2"))$("wSkip2").addEventListener("click",function(){closeWelcome(false);});
   if($("welcomeOpen"))$("welcomeOpen").addEventListener("click",function(){openWelcome();});
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome();}});
+  if($("personalizeBtn"))$("personalizeBtn").addEventListener("click",function(){openWelcome();wizardStep(2);});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome(false);}});
 
   /* ---------- init ---------- */
   (function init(){
@@ -3327,9 +3461,10 @@
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();
+    applyProfile();renderForYou();
     showTab("almanac");
     updateTabHints();
-    if(!lsGet("ycWelcomeSeen"))openWelcome();
+    if(!getProfile())openWelcome();
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
   })();
