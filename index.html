@@ -2468,13 +2468,15 @@
     if(!$("pondHero"))return;
     var L=num("pL"),W=num("pW"),D=num("pD");
     if(L==null||W==null||D==null||L<=0||W<=0||D<=0){$("pondHero").innerHTML="";if($("pondDyeDose"))$("pondDyeDose").querySelector(".txt").innerHTML="Enter your pond's size above for a dye estimate.";return;}
-    var sqft=L*W,acres=sqft/43560,cuft=sqft*D,gal=cuft*7.48052,af=cuft/43560;
+    var sqft=L*W,acres=sqft/43560,cuft=sqft*D,gal=cuft*7.48052,af=cuft/43560,rAcres=r2(acres);
     $("pondHero").innerHTML='<div class="h-amt">'+r0(gal).toLocaleString()+' <small>gallons</small></div>'+
-      '<div class="h-sub">'+r0(sqft).toLocaleString()+' sq ft surface · about '+r2(acres)+' acre'+(acres===1?"":"s")+' · '+r2(af)+' acre-feet at '+r1(D)+' ft average depth.</div>'+
-      '<div class="h-stats"><div class="h-stat"><span class="v">'+r2(acres)+'</span><span class="l">surface acres</span></div><div class="h-stat"><span class="v">'+r2(af)+'</span><span class="l">acre-feet</span></div><div class="h-stat"><span class="v">'+r0(gal/1000)+'k</span><span class="l">gallons</span></div></div>';
+      '<div class="h-sub">'+r0(sqft).toLocaleString()+' sq ft surface · about '+rAcres+' acre'+(rAcres===1?"":"s")+' · '+r2(af)+' acre-feet at '+r1(D)+' ft average depth.</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+rAcres+'</span><span class="l">surface acres</span></div><div class="h-stat"><span class="v">'+r2(af)+'</span><span class="l">acre-feet</span></div><div class="h-stat"><span class="v">'+r0(gal/1000)+'k</span><span class="l">gallons</span></div></div>';
     if($("pondDyeDose")){
-      var qt=af<=1.25?"about <b>1 quart</b>":"about <b>"+r1(af)+" quarts</b>";
-      $("pondDyeDose").querySelector(".txt").innerHTML="<b>Dose:</b> at the usual rate of ~1 quart of concentrate per acre-foot, your pond (~"+r2(af)+" acre-feet) needs "+qt+" to tint it — a single quart will do a pond this size. One gallon (4 quarts) treats ~4 acre-feet. <b>Always follow the product label.</b>";
+      var dose;
+      if(af<1){dose="about <b>"+r0(af*32)+" fl oz</b> ("+r2(af)+" of a quart)";}
+      else{var q=r1(af);dose="about <b>"+q+" quart"+(q===1?"":"s")+"</b>";}
+      $("pondDyeDose").querySelector(".txt").innerHTML="<b>Dose:</b> at the usual ~1 quart of concentrate per acre-foot, your ~"+r2(af)+" acre-feet needs "+dose+" (32 fl oz = 1 quart; one gallon treats ~4 acre-feet). Concentrated dye goes a long way — measure rather than eyeball, and always follow the product label.";
     }
   }
   ["pL","pW","pD"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePond);});
