@@ -2615,11 +2615,13 @@
   function updatePh(){
     if(!$("phHero"))return;
     var area=num("phArea"),cur=num("phCur"),tgt=num("phTgt");
-    if(area==null||cur==null||tgt==null||area<=0){$("phHero").innerHTML="";return;}
+    var noteEl=$("phNote");
+    if(area==null||cur==null||tgt==null||area<=0){$("phHero").innerHTML="";if(noteEl)noteEl.hidden=true;return;}
+    if(noteEl)noteEl.hidden=false;
     var delta=Math.round((tgt-cur)*10)/10;
     if(Math.abs(delta)<0.15){
       $("phHero").innerHTML='<div class="h-amt">In range</div><div class="h-sub">pH '+r1(cur)+' is right about your '+r1(tgt)+' target — no lime or sulfur needed. Keep building organic matter and re-test in a couple of years.</div>';
-      $("phNote").querySelector(".txt").innerHTML="Most lawns and vegetables are happy anywhere from 6.0 to 7.0, so don't chase a decimal. Compost gently buffers pH toward neutral over time, too.";
+      if(noteEl)noteEl.querySelector(".txt").innerHTML="Most lawns and vegetables are happy anywhere from 6.0 to 7.0, so don't chase a decimal. Compost gently buffers pH toward neutral over time, too.";
       return;
     }
     var raising=delta>0,per1000=Math.abs(delta)*(raising?PH_LIME:PH_SULF)[phTex],total=per1000*(area/1000);
@@ -2635,7 +2637,7 @@
     } else {
       note="Lowering pH is harder and slower than raising it — <b>elemental sulfur</b> works over a season or two as soil microbes convert it. Apply small amounts, water in, and re-test. For acid-lovers like blueberries it's worth it; for a whole lawn, it rarely is.";
     }
-    $("phNote").querySelector(".txt").innerHTML=note+" <i>This is a planning estimate — your lab's buffer-pH recommendation is more exact.</i>";
+    if(noteEl)noteEl.querySelector(".txt").innerHTML=note+" <i>This is a planning estimate — your lab's buffer-pH recommendation is more exact.</i>";
   }
   if($("phTexSeg"))$("phTexSeg").addEventListener("click",function(e){var b=e.target.closest("[data-tex]");if(!b)return;phTex=b.getAttribute("data-tex");document.querySelectorAll("#phTexSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});updatePh();});
   ["phArea","phCur","phTgt"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePh);});
