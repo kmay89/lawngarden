@@ -458,6 +458,7 @@
   <symbol id="i-jar" viewBox="0 0 24 24"><path d="M7.5 8h9M8.5 8V5a1 1 0 011-1h5a1 1 0 011 1v3M7.7 8l-.4 10.4a2 2 0 002 2.1h5.4a2 2 0 002-2.1L16.3 8"/><path d="M7.4 14.5c1.7-1 2.8.6 4.6 0s2.9.7 4.6 0"/></symbol>
   <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
   <symbol id="i-grass" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M12 21c0-4 .3-7 1.2-10M12 21c-1.2-4-3.4-6.5-6.5-8 .8 4 2.4 7 5.5 9M12 21c1.2-5 3.4-8 7-10-.6 5-3 8.5-6 10"/></symbol>
+  <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -484,6 +485,7 @@
     <button class="tab-btn" role="tab" data-tab="snow"><svg class="ic"><use href="#i-snow"/></svg>Snow &amp; Salt</button>
     <button class="tab-btn" role="tab" data-tab="leaves"><svg class="ic"><use href="#i-leaf"/></svg>Leaves</button>
     <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
+    <button class="tab-btn" role="tab" data-tab="pond"><svg class="ic"><use href="#i-waves"/></svg>Pond</button>
     <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
   </nav>
     <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
@@ -522,6 +524,7 @@
         <button class="hubchip" data-tool="mow" data-scroll="mowCadence"><svg class="ic"><use href="#i-grass"/></svg><span class="ht">Mowing guide</span></button>
         <button class="hubchip" data-tool="beds" data-scroll="mArea"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Mulch</span></button>
         <button class="hubchip" data-tool="season" data-scroll="fwNights"><svg class="ic"><use href="#i-flask"/></svg><span class="ht">Firewood</span></button>
+        <button class="hubchip" data-tool="pond" data-scroll="pondCalc"><svg class="ic"><use href="#i-waves"/></svg><span class="ht">Pond size</span></button>
       </div>
       <div class="hubhead">Garden planners</div>
       <div class="hub">
@@ -1293,6 +1296,71 @@
       <div class="field"><label for="pestWhere">Where on the property <span class="meta">optional — to spot patterns</span></label><input id="pestWhere" type="text" maxlength="80" placeholder="e.g. back fence line by the woods"/></div>
       <button class="act btn-ghost" id="pestAdd"><svg class="ic"><use href="#i-plus"/></svg>Log it (and note the date)</button>
       <div class="loglist" id="pestList"></div>
+    </div>
+  </section>
+
+  <!-- ============ POND ============ -->
+  <section class="tab" data-pane="pond" hidden>
+    <p class="tab-intro">A small pond is its own little ecosystem — and most pond "problems" (algae, duckweed, muck) trace back to two things: <b>too many nutrients</b> and <b>too little oxygen/movement</b>. Fix those and you fight everything else far less. Sized here for a roughly <b>75 × 50 ft, 3–4 ft deep</b> pond; change the numbers for yours.</p>
+
+    <div class="card" id="pondCalc">
+      <div class="card-head"><svg class="ic"><use href="#i-ruler"/></svg><h3>Your pond by the numbers</h3></div>
+      <p class="hint">Dye and aquatic-herbicide labels dose by <b>surface acres</b> or <b>acre-feet</b> (volume), so start here.</p>
+      <div class="grid2">
+        <div class="field"><label for="pL">Length <span class="meta">ft</span></label><input id="pL" type="number" inputmode="numeric" value="75" step="5" min="0"/></div>
+        <div class="field"><label for="pW">Width <span class="meta">ft</span></label><input id="pW" type="number" inputmode="numeric" value="50" step="5" min="0"/></div>
+      </div>
+      <div class="field"><label for="pD">Average depth <span class="meta">ft — usually less than the deepest spot</span></label><input id="pD" type="number" inputmode="decimal" value="3" step="0.5" min="0"/></div>
+      <div class="hero sky" id="pondHero"></div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Average</b> depth, not maximum — most ponds shelve from the edges, so a pond with a 4-ft deep middle often averages ~2.5–3 ft. Acre-feet = surface acres × average depth.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-droplet"/></svg><h3>Pond dye — what it does (and doesn't)</h3></div>
+      <div class="prose">
+        <p>Pond dye tints the water blue or blue-black. It works by <b>shading</b> — the color absorbs sunlight before it reaches the bottom, so <b>submerged plants and bottom-growing algae</b> get too little light to take off. It's also simply <b>pretty</b>, hiding muck and making the water look deeper and cleaner.</p>
+      </div>
+      <div class="note-card" id="pondDyeDose"><svg class="ic"><use href="#i-flask"/></svg><div class="txt"></div></div>
+      <div class="cmp" style="margin-top:4px;">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Good for</div><div class="cr-b">Suppressing <b>submersed weeds and algae</b> in water deeper than ~2 ft, and the look of the pond. Safe for fish, wildlife, swimming, livestock, and irrigation on most labels — but <b>read yours</b>. <div class="pillrow"><span class="pill good">shades submerged growth</span><span class="pill">cosmetic</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-x"/></svg>Won't fix</div><div class="cr-b"><b>Duckweed and floating plants</b> (they sit on top in full sun — dye can't shade them), <b>cattails</b> and emergent edge weeds (rooted in shallow water), or anything in water under ~2 ft deep. And it <b>dilutes</b>, so reapply after heavy rain or overflow. <div class="pillrow"><span class="pill warn">no help on duckweed</span><span class="pill warn">reapply after overflow</span></div></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"><b>Honest take:</b> dye is a low-effort, low-harm helper for clarity and submerged growth — not a cure. It pairs best with <b>aeration</b> and <b>keeping nutrients out</b>, which do the real work.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-leaf"/></svg><h3>Duckweed &amp; watermeal</h3></div>
+      <p class="hint">The tiny floating green plants that can sheet a whole pond in weeks. <b>Watermeal</b> is the even smaller, grittier cousin — harder to control. They're not algae; they're plants, fueled by <b>nutrient-rich water</b>. Climb this ladder — cheapest and gentlest first.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>1 · Starve it — cut the nutrients</div><div class="cr-b">The root cause is runoff: lawn fertilizer, grass clippings, leaves, and livestock or goose waste. Keep them out, and leave an <b>unmowed native buffer</b> around the shore to filter what does run in. The slow fix that actually lasts. <button class="linklike" data-goto="wildlife">Why a buffer helps →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-wind"/></svg>2 · Move the water — aeration</div><div class="cr-b">Duckweed loves <b>still</b> water. A fountain or diffused aerator keeps the surface working, pushes the mat to one edge (easier to scoop), and fixes oxygen and muck at the same time. The best single investment for a small pond.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>3 · Physically remove it</div><div class="cr-b">On a pond this size you can <b>skim or rake</b> floating mats (a pool net, a board, or a weighted rope drawn across). Get most of it — it doubles fast — and compost it away from the water. Hardest work, zero chemicals.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>4 · Let nature graze</div><div class="cr-b">Ducks and some waterfowl eat duckweed; <b>grass carp</b> help with many aquatic weeds (less reliably on duckweed/watermeal, and stocking may be regulated — check your state). Modest help, not a silver bullet.</div></div>
+      </div>
+      <details class="ex" style="margin-top:4px;"><summary><svg class="ic lead"><use href="#i-flask"/></svg>5 · Herbicide — the honest last resort<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Sometimes a mat is too far gone to skim. If you treat, use an <b>aquatic-labeled</b> product (never a lawn herbicide) and <b>follow the label — it's the law</b>, including any waiting periods for swimming, fishing, livestock, or irrigation.</p>
+        <ul>
+          <li><b>Fluridone</b> (e.g., Sonar) — a slow, low-dose <b>systemic</b> that gives season-long control of duckweed and watermeal; best in ponds that don't flush out quickly (it needs weeks of contact).</li>
+          <li><b>Diquat</b> or <b>flumioxazin</b> — fast <b>contact</b> killers (add the labeled surfactant so it sticks to the waxy leaves); they knock the mat down quickly but it can return if nutrients remain.</li>
+        </ul>
+        <p><b>The real danger isn't the chemical — it's oxygen.</b> Killing a heavy mat all at once lets it rot, which can pull the oxygen out of the water and <b>kill your fish</b>. So treat <b>a third to half of the pond at a time</b>, wait a couple of weeks between sections, work in <b>cooler weather/morning</b>, and run aeration. And remember: without cutting the nutrients (step 1), you'll be spraying again next year.</p>
+      </div></details>
+      <div class="note-card warn"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>Don't reach for "duckweed dye."</b> Since duckweed floats in full sun, shading the water beneath it does nothing — start with nutrients, aeration, and skimming.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-waves"/></svg><h3>A healthy pond</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-wind"/></svg>Aeration is the big lever</div><div class="cr-b">A fountain or bottom diffuser adds oxygen, mixes the water, prevents the still, stratified layers that cause <b>summer fish kills</b>, and slowly digests muck. <i>Trade-off:</i> upfront cost plus electricity — but nothing else does as much for a small pond.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Keep nutrients out</div><div class="cr-b">The keystone. Buffer strips of native grasses/wildflowers around the edge, no fertilizer near the bank, and keep leaves and clippings out. Fewer nutrients = less algae, less duckweed, clearer water — for free.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Know your green: algae vs. duckweed</div><div class="cr-b"><b>Filamentous algae</b> is stringy "pond scum" you can twirl on a stick (rake it out); <b>green water</b> is single-celled algae (aeration + fewer nutrients, or beneficial bacteria); <b>duckweed</b> is tiny floating <i>plants</i> (above). Different problems, different fixes.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Mosquitoes &amp; safety</div><div class="cr-b">Moving water (aeration) plus fish keep mosquitoes down; for still corners, <b>BTI dunks</b> are pollinator-safe. <button class="linklike" data-goto="wildlife">Mosquito control →</button> And a pond is a <b>drowning risk</b> — supervise kids, and stay off thin winter ice.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>Pond tasks through the year</h3></div>
+      <div class="cal" id="pondTl"></div>
     </div>
   </section>
 
@@ -2395,6 +2463,31 @@
   if($("bloomStratSeg"))$("bloomStratSeg").addEventListener("click",function(e){var b=e.target.closest("[data-strat]");if(!b)return;bloomStrat=b.getAttribute("data-strat");document.querySelectorAll("#bloomStratSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});var pe=$("bcPrice");if(pe)pe.value=(bloomStrat==="annual"?4:10);updateBloomCost();});
   ["bcArea","bcSpace","bcPrice"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateBloomCost);});
 
+  /* ---------- Pond: size, dye dose, seasonal tasks ---------- */
+  function updatePond(){
+    if(!$("pondHero"))return;
+    var L=num("pL"),W=num("pW"),D=num("pD");
+    if(L==null||W==null||D==null||L<=0||W<=0||D<=0){$("pondHero").innerHTML="";if($("pondDyeDose"))$("pondDyeDose").querySelector(".txt").innerHTML="Enter your pond's size above for a dye estimate.";return;}
+    var sqft=L*W,acres=sqft/43560,cuft=sqft*D,gal=cuft*7.48052,af=cuft/43560,rAcres=r2(acres);
+    $("pondHero").innerHTML='<div class="h-amt">'+r0(gal).toLocaleString()+' <small>gallons</small></div>'+
+      '<div class="h-sub">'+r0(sqft).toLocaleString()+' sq ft surface · about '+rAcres+' acre'+(rAcres===1?"":"s")+' · '+r2(af)+' acre-feet at '+r1(D)+' ft average depth.</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+rAcres+'</span><span class="l">surface acres</span></div><div class="h-stat"><span class="v">'+r2(af)+'</span><span class="l">acre-feet</span></div><div class="h-stat"><span class="v">'+r0(gal/1000)+'k</span><span class="l">gallons</span></div></div>';
+    if($("pondDyeDose")){
+      var dose;
+      if(af<1){dose="about <b>"+r0(af*32)+" fl oz</b> ("+r2(af)+" of a quart)";}
+      else{var q=r1(af);dose="about <b>"+q+" quart"+(q===1?"":"s")+"</b>";}
+      $("pondDyeDose").querySelector(".txt").innerHTML="<b>Dose:</b> at the usual ~1 quart of concentrate per acre-foot, your ~"+r2(af)+" acre-feet needs "+dose+" (32 fl oz = 1 quart; one gallon treats ~4 acre-feet). Concentrated dye goes a long way — measure rather than eyeball, and always follow the product label.";
+    }
+  }
+  ["pL","pW","pD"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePond);});
+  var POND=[
+    {t:"Spring",tag:"Wake-up",mo:[2,3,4],b:"Start aeration as the water warms and skim the first duckweed before it explodes. Lay down dye if you use it. Watch spring fertilizer runoff — keep it out of the water. Check for winter damage to pumps and banks."},
+    {t:"Summer",tag:"Peak season",mo:[5,6,7],b:"Algae and duckweed peak. <b>Keep aeration running</b> — most fish kills happen on hot, still nights. Treat weeds in <b>sections</b>, in the cool of the morning, to avoid oxygen crashes. Refresh dye after heavy overflow."},
+    {t:"Fall",tag:"Wind-down",mo:[8,9,10],b:"<b>Keep leaves out</b> — they sink and fuel next year's muck and weeds. Net the surface, do a final skim, ease off feeding fish as it cools, and consider adding beneficial bacteria to digest sediment."},
+    {t:"Winter",tag:"Rest",mo:[11,0,1],b:"If you have fish and it ices over, keep a hole open (a running aerator or de-icer) so gases can escape — a sealed ice cap causes winterkill. Otherwise let it rest, and <b>stay off thin ice</b>."}
+  ];
+  function renderPond(){renderTimeline("pondTl",POND);updatePond();}
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -2409,7 +2502,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
