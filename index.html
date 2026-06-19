@@ -3420,8 +3420,8 @@
     if(hero){
       if(!a.length){hero.innerHTML='<div class="h-sub">Your list is empty — add an item above, or tap a common supply below.</div>';}
       else{var items=a.length,left=a.filter(function(x){return !x.got;}).length;
-        var amt=allGot?'<div class="h-amt">All set! <small>🎉</small></div>':('<div class="h-amt">'+(priced?estMoney(need)+' ':'')+'<small>'+(priced?'est. still to buy':left+' of '+items+' left')+'</small></div>');
-        var sub=allGot?'Everything’s checked off — happy gardening.':(left+' of '+items+' item'+(items===1?"":"s")+' left'+(have>0?' · '+estMoney(have)+' checked off':'')+(priced?' · rough estimate':''))+'.';
+        var amt=allGot?'<div class="h-amt">All set! <small>🎉</small></div>':('<div class="h-amt">'+(priced?estMoney(need)+' <small>est. still to buy</small>':left+' of '+items+' <small>left</small>')+'</div>');
+        var sub=allGot?'Everything’s checked off — happy gardening.':(priced?(left+' of '+items+' item'+(items===1?"":"s")+' left'+(have>0?' · '+estMoney(have)+' checked off':'')+' · rough estimate'):(have>0?estMoney(have)+' checked off':'Add prices to see a running total'))+'.';
         hero.innerHTML=amt+'<div class="h-sub">'+sub+'</div>';}
     }
     var ex=$("shopExport");if(ex)ex.hidden=!a.length;
@@ -3452,7 +3452,7 @@
     function done(){toast("List copied — paste it anywhere");}
     try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback);return;}}catch(e){}
     fallback();
-    function fallback(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
+    function fallback(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.top="0";ta.style.left="-9999px";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
   }
   if($("shopExport"))$("shopExport").addEventListener("click",copyShopList);
   function renderShopQuick(){var el=$("shopQuick");if(!el)return;el.innerHTML=SHOP_QUICK.map(function(q,i){return '<button class="hubchip" data-shopq="'+i+'"><svg class="ic"><use href="#i-plus"/></svg><span class="ht">'+esc(q.name)+'</span></button>';}).join("");}
