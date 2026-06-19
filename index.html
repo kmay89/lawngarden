@@ -384,6 +384,27 @@
   .welcome .wfoot{text-align:center;font-family:var(--mono);font-size:.62rem;color:#86B79B;margin-top:15px;letter-spacing:.03em;}
   .wlink{background:none;border:none;color:var(--grass-deep);font-family:var(--body);font-size:.8rem;font-weight:600;text-decoration:underline;cursor:pointer;padding:6px;display:block;margin:2px auto 0;}
 
+  /* bloom planner */
+  .bbar{display:flex;gap:2px;}
+  .bcell{flex:1;height:13px;border-radius:3px;background:#EAF0E9;}
+  .bcell.on{background:var(--grass-bright);}
+  .bmaster .bcell{height:26px;border-radius:5px;}
+  .bmaster .bcell.on{background:linear-gradient(var(--grass-bright),var(--grass));}
+  .bmaster .bcell.gap{background:#FBEDEA;box-shadow:inset 0 0 0 1.5px #E6C3BA;}
+  .blabels{display:flex;gap:2px;margin-top:3px;}
+  .blabels span{flex:1;text-align:center;font-family:var(--mono);font-size:.55rem;color:var(--ink-faint);}
+  .flower{border:1px solid var(--line);border-radius:var(--radius-sm);padding:11px 12px;background:#fff;margin-bottom:9px;}
+  .flower .fh{display:flex;align-items:center;gap:8px;}
+  .flower .fh .ic{width:18px;height:18px;color:var(--grass);flex:0 0 auto;}
+  .flower .fn{font-family:var(--display);font-weight:650;font-size:1rem;}
+  .flower .fadd{margin-left:auto;font-family:var(--body);font-size:.72rem;font-weight:700;border:1px solid var(--line-strong);background:#fff;color:var(--grass-deep);border-radius:999px;padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:4px;flex:0 0 auto;}
+  .flower .fadd .ic{width:13px;height:13px;}
+  .flower.in{border-color:var(--grass);box-shadow:0 0 0 2px rgba(58,130,85,.1);}
+  .flower.in .fadd{background:var(--grass);color:#fff;border-color:var(--grass);}
+  .flower .fbar{margin:9px 0 7px;}
+  .flower .fmeta{font-size:.8rem;color:var(--ink-soft);} .flower .fmeta b{color:var(--ink);} .flower .fmeta i{color:var(--ink-faint);}
+  .flower .fpills{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
+
   @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
 </head>
@@ -458,6 +479,7 @@
     <button class="tab-btn" role="tab" data-tab="mow"><svg class="ic"><use href="#i-grass"/></svg>Mow</button>
     <button class="tab-btn" role="tab" data-tab="trees"><svg class="ic"><use href="#i-tree"/></svg>Trees</button>
     <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
+    <button class="tab-btn" role="tab" data-tab="bloom"><svg class="ic"><use href="#i-flower"/></svg>Bloom</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
     <button class="tab-btn" role="tab" data-tab="snow"><svg class="ic"><use href="#i-snow"/></svg>Snow &amp; Salt</button>
     <button class="tab-btn" role="tab" data-tab="leaves"><svg class="ic"><use href="#i-leaf"/></svg>Leaves</button>
@@ -503,6 +525,7 @@
       </div>
       <div class="hubhead">Garden planners</div>
       <div class="hub">
+        <button class="hubchip" data-tool="bloom" data-scroll="bloomPlanner"><svg class="ic"><use href="#i-flower"/></svg><span class="ht">Bloom planner</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
@@ -946,6 +969,74 @@
       </div>
       <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Light is the real limiter</b>, not the method. A bright south window grows basil, mint, chives, cilantro, parsley, and leaf lettuce; anything dimmer wants a small LED grow light. Hydro grows fast because the roots get water, air, <i>and</i> nutrients all at once — and that's exactly why it's such a good teaching project: watch the roots, measure the growth, taste the difference.</div></div>
       <div class="note-card"><svg class="ic"><use href="#i-eye"/></svg><div class="txt">Worth logging: start a cutting and add a <b>sow</b> entry to your <button class="linklike" data-goto="almanac">journal</button> ("started basil in water"), then mark "first true leaves" as a <b>field note</b>. Start herbs indoors in winter and you'll earn the <b>Windowsill Green</b> Moment.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ BLOOM — FLOWERS ============ -->
+  <section class="tab" data-pane="bloom" hidden>
+    <p class="tab-intro">A yard with <b>something always in bloom</b> — spring's first crocus to the last fall aster — is a gift to you and a lifeline for the bees and butterflies. The trick is <b>variety with overlapping bloom times</b>. Build that here, then plan the budget.</p>
+
+    <div class="card" id="bloomPlanner">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Always something in bloom</h3></div>
+      <p class="hint">Tap <b>Add</b> on the flowers below and this bar fills in. Aim for an <b>unbroken run of color, March → October</b> — any pink gap is a stretch with nothing flowering.</p>
+      <div id="bloomMaster"></div>
+      <div class="cropfilter" id="bloomFilter" style="margin-top:13px;">
+        <button data-bf="all" aria-pressed="true">All</button>
+        <button data-bf="spring" aria-pressed="false">Spring</button>
+        <button data-bf="summer" aria-pressed="false">Summer</button>
+        <button data-bf="fall" aria-pressed="false">Fall</button>
+        <button data-bf="plan" aria-pressed="false">★ My plan</button>
+      </div>
+      <div id="bloomList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-layers"/></svg><h3>Perennial, annual &amp; bulb — the strategy</h3></div>
+      <p class="hint">The richest gardens layer all three. Here's what each is for, and the honest trade-off.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Perennials — the backbone</div><div class="cr-b">Plant once and they return for years (coneflower, daylily, catmint, peony, aster). <b>But</b> they cost more per plant, take a year or two to hit their stride, and each blooms for only a few weeks — so you need a <b>variety</b> for season-long color. <div class="pillrow"><span class="pill good">plant once, returns</span><span class="pill warn">pricier, slower start</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Annuals — the season-long color</div><div class="cr-b">Zinnias, marigolds, cosmos, petunias bloom hard from planting until frost and are cheap by the pack — perfect for <b>filling gaps</b> and pots. <b>But</b> they're a one-season plant: frost ends them and you buy again every spring. <div class="pillrow"><span class="pill good">long bloom, cheap</span><span class="pill warn">replant yearly</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Bulbs — spring's head start</div><div class="cr-b">Crocus, daffodils, tulips, alliums give the <b>earliest</b> color, often before much else is awake. Plant them in <b>fall</b>. Daffodils and crocus naturalize and come back for years; tulips often fade after a season or two (treat as short-lived). <div class="pillrow"><span class="pill good">earliest color</span><span class="pill warn">plant in fall</span></div></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"><b>The smart mix:</b> a <b>backbone of perennials</b> for structure that returns, <b>bulbs</b> for the early weeks, and a few <b>annuals</b> each year to fill gaps and containers. Lean on <b>natives</b> (coneflower, aster, bee balm, black-eyed Susan) — they're tough, low-input, and the pollinators evolved with them. <button class="linklike" data-goto="wildlife">Pollinators &amp; host plants →</button></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-ruler"/></svg><h3>What will it cost?</h3></div>
+      <p class="hint">Rough out the budget for a bed — and see why perennials win over time even though they cost more up front.</p>
+      <div class="seg" id="bloomStratSeg" style="margin-bottom:11px;">
+        <button data-strat="perennial" aria-pressed="true">Perennials</button>
+        <button data-strat="annual" aria-pressed="false">Annuals</button>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="bcArea">Bed area <span class="meta">sq ft</span></label><input id="bcArea" type="number" inputmode="numeric" value="50" step="5" min="0"/></div>
+        <div class="field"><label for="bcSpace">Spacing <span class="meta">inches apart</span></label><input id="bcSpace" type="number" inputmode="decimal" value="12" step="1" min="1"/></div>
+      </div>
+      <div class="field"><label for="bcPrice">Price per plant <span class="meta">$ — perennials ~$8–15, annual packs ~$3–5</span></label><input id="bcPrice" type="number" inputmode="decimal" value="10" step="1" min="0"/></div>
+      <div class="hero soil" id="bloomCostHero"></div>
+      <div class="note-card" id="bloomCostNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
+      <div class="note-card"><svg class="ic"><use href="#i-recycle"/></svg><div class="txt"><b>Stretch the budget:</b> perennials can be <b>divided</b> every few years to make free plants (and friends share divisions); many annuals and natives grow cheaply <b>from seed</b>; and buying small "plugs" or quart pots beats gallon containers if you're patient. <button class="linklike" data-goto="grow">Seed vs. transplant →</button></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Roses, made simple</h3></div>
+      <p class="hint">Roses have a fussy reputation, but that's mostly the old hybrid teas. Pick the right type and they're easy.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-shield"/></svg>Landscape / shrub roses (start here)</div><div class="cr-b"><b>Knock Out, Drift, Oso Easy</b> and kin: bred to be <b>disease-resistant and self-cleaning</b>, they repeat-bloom spring to frost with almost no fuss and <b>no spraying</b>. <i>Trade-off:</i> less fragrance and not classic cut-flower form. The clear pick for a low-input yard. <div class="pillrow"><span class="pill good">easy, repeat bloom</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-star"/></svg>Hybrid teas — the florist rose</div><div class="cr-b">Gorgeous long-stem blooms and fragrance, <b>but</b> the fussy ones: prone to blackspot and pests, often needing a spray routine. Choose <b>disease-resistant varieties</b> and good airflow to skip the chemical treadmill. <div class="pillrow"><span class="pill warn">showy but needier</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-tree"/></svg>Climbers &amp; old garden roses</div><div class="cr-b">Climbers dress up a trellis, arbor, or fence; many old garden and shrub roses are tough and fragrant (some bloom once, gloriously, in June). Great for structure and scent.</div></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-droplet"/></svg><div class="txt"><b>Rose basics:</b> <b>6+ hours of sun</b> and good airflow; water deeply <b>at the base, not the leaves</b> (wet leaves invite blackspot); a 2–3″ mulch ring (off the stem); <b>prune in late winter</b> as buds swell — open the center and cut to outward buds; deadhead spent blooms to keep repeat-bloomers going. The biggest lever is simply <b>choosing a disease-resistant variety</b> so you never need a fungicide.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-recycle"/></svg><h3>Keep it blooming</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Deadhead for repeat bloom</div><div class="cr-b">Snipping spent flowers off many annuals and perennials (zinnias, salvia, coreopsis, roses) pushes a fresh flush instead of seed. A few minutes turns one bloom cycle into many.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Right plant, right place</div><div class="cr-b">Match sun to the plant — most bloomers want <b>6+ hours</b>; for shade lean on hostas, astilbe, bleeding heart, impatiens. A sun-lover in shade just sulks and won't flower.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bird"/></svg>But leave some standing for winter</div><div class="cr-b">Stop deadheading coneflowers, black-eyed Susans, and asters in fall — the <b>seedheads feed finches and shelter insects</b>, and they look beautiful in frost. Tidy isn't always kind. <button class="linklike" data-goto="wildlife">A living yard →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bee"/></svg>Plant in drifts, for the pollinators</div><div class="cr-b">Three or five of one flower together reads better and is far easier for bees to work than singles dotted around. Group by water/sun needs, and tuck flowers among the veg, too. <button class="linklike" data-goto="grow">Flowers in the veg bed →</button></div></div>
+      </div>
     </div>
   </section>
 
@@ -2207,6 +2298,103 @@
   if($("mowChecksReset"))$("mowChecksReset").addEventListener("click",function(){lsSet("ycMowChecks",{});renderMowChecks();toast("Checks reset for a new round");});
   function renderMow(){renderMowCadence();renderTimeline("mowTl",MOWFREQ);renderMowerAdvice();renderMowChecks();}
 
+  /* ---------- Bloom: succession planner + cost ---------- */
+  var BLOOM_LABELS=["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"]; // cells 0..7 = calendar months 2..9
+  var FLOWERS=[
+    {id:"crocus",name:"Crocus",type:"bulb",bloom:[1,2],sun:"Sun–part",ht:"4″",pol:1,why:"The very first color, often through snow.",pair:"daffodils, under deciduous trees"},
+    {id:"daffodil",name:"Daffodil",type:"bulb",bloom:[2,3],sun:"Sun–part",ht:"1–1.5′",pol:1,why:"Cheerful, deer- and rodent-proof, naturalizes for years.",pair:"tulips, creeping phlox"},
+    {id:"phlox-creep",name:"Creeping phlox",type:"perennial",bloom:[3,4],sun:"Sun",ht:"6″",why:"A carpet of color spilling over walls and edges.",pair:"daffodils, tulips"},
+    {id:"columbine",name:"Columbine",type:"perennial",bloom:[3,4,5],sun:"Part",ht:"1–2′",native:1,pol:1,why:"Delicate native; an early hummingbird favorite.",pair:"bleeding heart, ferns"},
+    {id:"tulip",name:"Tulip",type:"bulb",bloom:[3,4],sun:"Sun",ht:"1–2′",why:"Classic spring color — often short-lived, so plant fresh.",pair:"daffodils, allium"},
+    {id:"allium",name:"Allium",type:"bulb",bloom:[4,5],sun:"Sun",ht:"1–3′",pol:1,why:"Architectural purple globes the bees adore.",pair:"peony, salvia, iris"},
+    {id:"peony",name:"Peony",type:"perennial",bloom:[4,5],sun:"Sun",ht:"2–3′",why:"Lush, fragrant, and lives for decades — a true heirloom.",pair:"iris, salvia, roses"},
+    {id:"iris",name:"Bearded iris",type:"perennial",bloom:[4,5],sun:"Sun",ht:"2–3′",why:"Elegant ruffled blooms; tough and drought-tolerant.",pair:"peony, allium"},
+    {id:"salvia",name:"Salvia",type:"perennial",bloom:[4,5,6],sun:"Sun",ht:"1.5–2′",pol:1,why:"Spikes of blue/purple; cut back for a second flush.",pair:"catmint, coneflower, roses"},
+    {id:"catmint",name:"Catmint",type:"perennial",bloom:[4,5,6,7,8],sun:"Sun",ht:"1.5′",pol:1,why:"Blooms for months, drought-proof, hums with bees.",pair:"roses, salvia, daylily"},
+    {id:"coreopsis",name:"Coreopsis",type:"perennial",bloom:[5,6,7,8],sun:"Sun",ht:"1–2′",native:1,pol:1,why:"Sunny daisies all summer; nearly indestructible.",pair:"coneflower, black-eyed Susan"},
+    {id:"daylily",name:"Daylily",type:"perennial",bloom:[5,6,7],sun:"Sun–part",ht:"1–3′",why:"The 'perfect perennial' — tough, blooms even in poor soil.",pair:"catmint, coneflower, phlox"},
+    {id:"shasta",name:"Shasta daisy",type:"perennial",bloom:[5,6,7],sun:"Sun",ht:"2–3′",pol:1,why:"Crisp white classic; great cut flower.",pair:"salvia, coreopsis, bee balm"},
+    {id:"coneflower",name:"Coneflower",type:"perennial",bloom:[5,6,7,8],sun:"Sun",ht:"2–4′",native:1,pol:1,why:"Native workhorse — pollinator magnet, then finch seedheads.",pair:"black-eyed Susan, bee balm, aster"},
+    {id:"beebalm",name:"Bee balm",type:"perennial",bloom:[6,7],sun:"Sun–part",ht:"2–4′",native:1,pol:1,why:"Hummingbird and bee favorite; pick mildew-resistant kinds.",pair:"coneflower, phlox, joe-pye"},
+    {id:"rudbeckia",name:"Black-eyed Susan",type:"perennial",bloom:[6,7,8],sun:"Sun",ht:"2–3′",native:1,pol:1,why:"Golden, dependable, and self-sows a cheerful colony.",pair:"coneflower, sedum, aster"},
+    {id:"phlox-tall",name:"Garden phlox",type:"perennial",bloom:[6,7,8],sun:"Sun",ht:"3–4′",pol:1,why:"Fragrant mid-summer clouds of color; butterflies love it.",pair:"bee balm, coneflower, daylily"},
+    {id:"joepye",name:"Joe-pye weed",type:"perennial",bloom:[6,7,8],sun:"Sun–part",ht:"4–7′",native:1,pol:1,why:"Big native butterfly anchor for the back of the bed.",pair:"coneflower, aster, goldenrod"},
+    {id:"rose",name:"Landscape rose",type:"shrub",bloom:[5,6,7,8,9],sun:"Sun",ht:"2–4′",why:"Knock Out–type: easy, no-spray, repeat bloom to frost.",pair:"catmint, salvia, lavender"},
+    {id:"zinnia",name:"Zinnia",type:"annual",bloom:[5,6,7,8,9],sun:"Sun",ht:"1–4′",pol:1,why:"Cheap from seed, blooms till frost, butterflies swarm it.",pair:"marigold, cosmos, sunflower"},
+    {id:"marigold",name:"Marigold",type:"annual",bloom:[5,6,7,8,9],sun:"Sun",ht:"6–18″",why:"Tireless color; a classic edging and veg-bed companion.",pair:"zinnia, tomatoes, peppers"},
+    {id:"cosmos",name:"Cosmos",type:"annual",bloom:[6,7,8,9],sun:"Sun",ht:"2–4′",pol:1,why:"Airy and effortless from a scatter of seed; pollinator buffet.",pair:"zinnia, sunflower, bee balm"},
+    {id:"sunflower",name:"Sunflower",type:"annual",bloom:[6,7,8],sun:"Sun",ht:"3–10′",pol:1,why:"Fast, dramatic, and the seedheads feed the birds.",pair:"zinnia, cosmos"},
+    {id:"sedum",name:"Sedum 'Autumn Joy'",type:"perennial",bloom:[7,8,9],sun:"Sun",ht:"1.5–2′",pol:1,why:"Late nectar when little else is open; drought-proof.",pair:"aster, grasses, black-eyed Susan"},
+    {id:"goldenrod",name:"Goldenrod",type:"perennial",bloom:[7,8,9],sun:"Sun",ht:"2–4′",native:1,pol:1,why:"Crucial late nectar — and it does NOT cause hay fever (that's ragweed).",pair:"aster, joe-pye, sedum"},
+    {id:"aster",name:"Aster",type:"perennial",bloom:[8,9],sun:"Sun–part",ht:"1–4′",native:1,pol:1,why:"The grand finale — feeds migrating monarchs and late bees.",pair:"goldenrod, sedum, mums"},
+    {id:"mum",name:"Garden mum",type:"perennial",bloom:[8,9],sun:"Sun",ht:"1–3′",why:"Fall's signature color; pick hardy 'garden' mums to overwinter.",pair:"aster, sedum, ornamental kale"}
+  ];
+  function bloomPlan(){var p=lsGet("ycBloomPlan");return (p&&typeof p==="object"&&!Array.isArray(p))?p:{};}
+  function bloomCells(bloom){var c=[];for(var i=0;i<8;i++)c.push(bloom.indexOf(i+2)>=0);return c;}
+  function bloomFilterMatch(f,flt){
+    if(flt==="all")return true;
+    if(flt==="plan")return !!bloomPlan()[f.id];
+    if(flt==="spring")return f.bloom.some(function(m){return m>=2&&m<=4;});
+    if(flt==="summer")return f.bloom.some(function(m){return m>=5&&m<=7;});
+    if(flt==="fall")return f.bloom.some(function(m){return m>=8&&m<=9;});
+    return true;
+  }
+  var bloomFilter="all";
+  function renderBloomList(){
+    var el=$("bloomList");if(!el)return;var plan=bloomPlan();
+    var list=FLOWERS.filter(function(f){return bloomFilterMatch(f,bloomFilter);});
+    if(!list.length){el.innerHTML='<div class="empty">Nothing in your plan yet — tap <b>Add</b> on a flower to start.</div>';return;}
+    el.innerHTML=list.map(function(f){
+      var on=!!plan[f.id];
+      var bars='<div class="bbar fbar">'+bloomCells(f.bloom).map(function(c){return '<span class="bcell'+(c?" on":"")+'"></span>';}).join("")+'</div>';
+      var pills='<span class="pill">'+f.type+'</span>'+(f.native?'<span class="pill good">native</span>':"")+(f.pol?'<span class="pill good">pollinator</span>':"");
+      return '<div class="flower'+(on?" in":"")+'"><div class="fh">'+ic("flower")+'<span class="fn">'+f.name+'</span>'+
+        '<button class="fadd" data-bloom="'+f.id+'">'+ic(on?"check":"plus")+(on?"In plan":"Add")+'</button></div>'+
+        bars+'<div class="fmeta"><b>'+f.sun+' · '+f.ht+'.</b> '+f.why+' <i>Pairs with '+f.pair+'.</i></div>'+
+        '<div class="fpills">'+pills+'</div></div>';
+    }).join("");
+  }
+  function renderBloomMaster(){
+    var el=$("bloomMaster");if(!el)return;var plan=bloomPlan();
+    var sel=FLOWERS.filter(function(f){return plan[f.id];});
+    var cov=[0,0,0,0,0,0,0,0];
+    sel.forEach(function(f){bloomCells(f.bloom).forEach(function(c,i){if(c)cov[i]=1;});});
+    var cells=cov.map(function(c){return '<span class="bcell'+(c?" on":(sel.length?" gap":""))+'"></span>';}).join("");
+    var labels=BLOOM_LABELS.map(function(l){return "<span>"+l+"</span>";}).join("");
+    var msg;
+    if(!sel.length){msg="";}
+    else{
+      var gaps=[];for(var i=0;i<8;i++)if(!cov[i])gaps.push(i);
+      if(!gaps.length){msg='<div class="note-card" style="margin-top:11px;">'+ic("check")+'<div class="txt"><b>'+sel.length+' picked — full coverage, March through October!</b> Something will always be in bloom. Beautiful work.</div></div>';}
+      else{
+        var names=gaps.map(function(i){return BLOOM_LABELS[i];});
+        var sugg=gaps.slice(0,4).map(function(i){var m=i+2;var picks=FLOWERS.filter(function(f){return !plan[f.id]&&f.bloom.indexOf(m)>=0;}).slice(0,3).map(function(f){return f.name;});return "<b>"+BLOOM_LABELS[i]+":</b> "+(picks.length?picks.join(", "):"(you've got them all)");}).join("<br>");
+        msg='<div class="note-card warn" style="margin-top:11px;">'+ic("info")+'<div class="txt"><b>'+sel.length+' picked · gap'+(names.length>1?"s":"")+' in '+names.join(", ")+'.</b> Add something to cover those weeks:<br>'+sugg+'</div></div>';
+      }
+    }
+    el.innerHTML='<div class="bbar bmaster">'+cells+'</div><div class="blabels">'+labels+'</div>'+msg;
+  }
+  function renderBloom(){renderBloomMaster();renderBloomList();}
+  if($("bloomList"))$("bloomList").addEventListener("click",function(e){var b=e.target.closest("[data-bloom]");if(!b)return;var id=b.getAttribute("data-bloom"),p=bloomPlan();if(p[id])delete p[id];else p[id]=1;lsSet("ycBloomPlan",p);renderBloom();});
+  if($("bloomFilter"))$("bloomFilter").addEventListener("click",function(e){var b=e.target.closest("[data-bf]");if(!b)return;bloomFilter=b.getAttribute("data-bf");document.querySelectorAll("#bloomFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderBloomList();});
+  var bloomStrat="perennial";
+  function updateBloomCost(){
+    if(!$("bloomCostHero")||!$("bloomCostNote"))return;
+    var area=num("bcArea"),sp=num("bcSpace"),price=num("bcPrice");
+    if(area==null||sp==null||sp<=0||price==null){$("bloomCostHero").innerHTML="";return;}
+    area=Math.max(0,area);price=Math.max(0,price);
+    var plants=Math.ceil(area*144/(sp*sp)),cost=plants*price,fiveYr=(bloomStrat==="annual")?cost*5:Math.round(cost*1.15);
+    $("bloomCostHero").innerHTML='<div class="h-amt">'+money(cost)+' <small>up front</small></div>'+
+      '<div class="h-sub">'+plants+' plants for '+r0(area)+' sq ft at '+r0(sp)+'″ spacing ('+money(price)+'/plant).</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+plants+'</span><span class="l">plants</span></div><div class="h-stat"><span class="v">'+money(cost)+'</span><span class="l">up front</span></div><div class="h-stat"><span class="v">'+money(fiveYr)+'</span><span class="l">~5-year</span></div></div>';
+    var note=(bloomStrat==="annual")?
+      "Annuals bloom hard all season, but you replant every spring — about "+money(cost)+" a year, roughly "+money(cost*5)+" over 5 years. Cheap to start, ongoing to keep.":
+      "Perennials cost more per plant, but you plant <b>once</b> and they return for years — about "+money(cost)+" up front, then little after (and free divisions later). The slower, cheaper-over-time choice.";
+    $("bloomCostNote").querySelector(".txt").innerHTML=note;
+  }
+  if($("bloomStratSeg"))$("bloomStratSeg").addEventListener("click",function(e){var b=e.target.closest("[data-strat]");if(!b)return;bloomStrat=b.getAttribute("data-strat");document.querySelectorAll("#bloomStratSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});var pe=$("bcPrice");if(pe)pe.value=(bloomStrat==="annual"?4:10);updateBloomCost();});
+  ["bcArea","bcSpace","bcPrice"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateBloomCost);});
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -2221,7 +2409,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
