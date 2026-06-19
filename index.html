@@ -461,6 +461,7 @@
   <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 4h16"/></symbol>
+  <symbol id="i-soil" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16"/><path d="M9 4v2.5M14.5 10v2.5M9.5 15v2.5"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -484,6 +485,7 @@
     <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
     <button class="tab-btn" role="tab" data-tab="bloom"><svg class="ic"><use href="#i-flower"/></svg>Bloom</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
+    <button class="tab-btn" role="tab" data-tab="soil"><svg class="ic"><use href="#i-soil"/></svg>Soil</button>
     <button class="tab-btn" role="tab" data-tab="snow"><svg class="ic"><use href="#i-snow"/></svg>Snow &amp; Salt</button>
     <button class="tab-btn" role="tab" data-tab="leaves"><svg class="ic"><use href="#i-leaf"/></svg>Leaves</button>
     <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
@@ -527,6 +529,7 @@
         <button class="hubchip" data-tool="mow" data-scroll="mowCadence"><svg class="ic"><use href="#i-grass"/></svg><span class="ht">Mowing guide</span></button>
         <button class="hubchip" data-tool="beds" data-scroll="mArea"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Mulch</span></button>
         <button class="hubchip" data-tool="season" data-scroll="fwNights"><svg class="ic"><use href="#i-flask"/></svg><span class="ht">Firewood</span></button>
+        <button class="hubchip" data-tool="soil" data-scroll="phCalc"><svg class="ic"><use href="#i-soil"/></svg><span class="ht">Soil pH</span></button>
         <button class="hubchip" data-tool="pond" data-scroll="pondCalc"><svg class="ic"><use href="#i-waves"/></svg><span class="ht">Pond size</span></button>
       </div>
       <div class="hubhead">Garden planners</div>
@@ -1097,6 +1100,61 @@
         <p>Order of operations: <b>weed → edge → amend → mulch.</b> Pull or smother weeds first (a layer of cardboard under mulch smothers grass for a new bed). Cut the edge. Work an inch or two of <b>compost</b> into the top few inches if the soil is poor. Then mulch 2–3 inches, keeping it off plant stems.</p>
       </div>
       <div class="tipcard warn"><svg class="ic"><use href="#i-alert"/></svg><div><div class="t-name">Skip the landscape fabric under mulch</div><div class="t-body">It sounds smart but it backfires in planted beds: weeds root in the mulch <i>on top</i> of it, the fabric clogs and starves the soil of organic matter and air, and it's miserable to plant through later. Fabric belongs under <b>stone or gravel</b>, not under organic mulch in a living bed. A 2–3 inch mulch layer (re-upped yearly) is the better weed blocker.</div></div></div>
+    </div>
+  </section>
+
+  <!-- ============ SOIL ============ -->
+  <section class="tab" data-pane="soil" hidden>
+    <p class="tab-intro">Healthy soil is the whole game — feed it and almost everything else gets easier. The app keeps saying "get a soil test"; here's how, what it means, and how to fix what it finds (including Ohio's famous clay).</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flask"/></svg><h3>Get a soil test — stop guessing</h3></div>
+      <p class="hint">A <b>$15–25</b> test from your county OSU Extension office tells you pH and what's actually lacking, so you add only what's needed (and stop washing the rest into streams). The single best $20 in this whole app.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-ruler"/></svg>How to take a sample</div><div class="cr-b">Take <b>8–12 small cores or slices</b> from across the area — <b>4–6″ deep</b> for beds, 3–4″ for lawn — drop them in a clean plastic bucket, mix, let air-dry, and send about a cup or two. Keep <b>separate samples</b> for lawn, veg garden, and any problem spot; they differ.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cal"/></svg>When &amp; how often</div><div class="cr-b">Any time the soil isn't frozen or soggy — <b>fall is ideal</b>, leaving time to amend before spring. Re-test every <b>2–3 years</b>, or when something's struggling.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-info"/></svg>Ask for the recommendations</div><div class="cr-b">A good lab reports pH, phosphorus (P), potassium (K), often organic matter and CEC — <b>and a lime/fertilizer recommendation</b> tailored to your crop. That recommendation (it uses "buffer pH") beats any generic estimate, including the one below.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-book"/></svg><h3>Reading your results</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-thermo"/></svg>pH — the master dial</div><div class="cr-b">Below 7 is acidic, above 7 alkaline. It controls whether nutrients are even <b>available</b>. Most <b>lawns and vegetables want 6.0–7.0</b> (sweet spot ~6.5). <b>Acid-lovers</b> — blueberries, azaleas, rhododendrons — want <b>4.5–5.5</b>. Fix pH first; it makes everything else work.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-spread"/></svg>P &amp; K — add only if low</div><div class="cr-b">Phosphorus (roots) and potassium (hardiness) are reported low / optimum / high. <b>Only add what's low.</b> Excess <b>phosphorus is runoff-restricted</b> in Ohio — don't apply it "just because." Most established soils have plenty.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Organic matter — aim 3–5%</div><div class="cr-b">The big one for clay and sand alike: more organic matter means better structure, water-holding, and a living soil that slow-releases nutrients. Raise it with <b>compost, mulch, and mulched leaves</b> over time.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-layers"/></svg>CEC — how much it holds</div><div class="cr-b">Cation exchange capacity is the soil's "pantry size." High-CEC clay holds lots of nutrients (and needs more lime to shift pH); sandy, low-CEC soil holds little and leaches fast (feed lightly and often).</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="phCalc">
+      <div class="card-head"><svg class="ic"><use href="#i-scale"/></svg><h3>pH amendment calculator</h3></div>
+      <p class="hint">A planning estimate for how much <b>lime</b> (to raise pH) or <b>elemental sulfur</b> (to lower it) you'll need. Texture matters — clay resists change. Use your lab's exact recommendation if you have one.</p>
+      <div class="seg" id="phTexSeg" style="margin-bottom:11px;">
+        <button data-tex="sandy" aria-pressed="false">Sandy</button>
+        <button data-tex="loam" aria-pressed="true">Loam</button>
+        <button data-tex="clay" aria-pressed="false">Clay</button>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="phArea">Area <span class="meta">sq ft</span></label><input id="phArea" type="number" inputmode="numeric" value="1000" step="100" min="0"/></div>
+        <div class="field"><label for="phCur">Current pH <span class="meta">from your test</span></label><input id="phCur" type="number" inputmode="decimal" value="5.5" step="0.1" min="3" max="9"/></div>
+      </div>
+      <div class="field"><label for="phTgt">Target pH <span class="meta">~6.5 for lawn &amp; veg</span></label><input id="phTgt" type="number" inputmode="decimal" value="6.5" step="0.1" min="3" max="9"/></div>
+      <div class="hero soil" id="phHero"></div>
+      <div class="note-card" id="phNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-layers"/></svg><h3>Fixing Ohio clay</h3></div>
+      <div class="prose">
+        <p>Clay isn't bad soil — it's <b>rich</b> in nutrients and holds water well. It just packs tight, drains slowly, and turns to brick when dry. The fix is almost always the same one thing: <b>organic matter.</b></p>
+      </div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Add organic matter, repeatedly</div><div class="cr-b">Compost, leaf mold, and mulch feed the soil life that <b>glues clay into crumbs</b> — opening it up for air, roots, and drainage. Top-dress beds and let worms work it in; it gets better every year. <button class="linklike" data-goto="leaves">Leaf mold →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-alert"/></svg>Never add sand</div><div class="cr-b">Sand + clay + not enough organic matter makes something closer to <b>concrete</b>. Skip it. And don't dig or till clay when it's <b>wet</b> — you'll smear it into dense clods that set up hard.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-mower"/></svg>Open it without flipping it</div><div class="cr-b"><b>Core-aerate</b> lawns; <b>broadfork</b> beds. Both relieve compaction without inverting the soil layers. Keep it mulched and never bare, so rain doesn't seal the surface.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-info"/></svg>Gypsum — usually a myth here</div><div class="cr-b">Gypsum only loosens specific <b>sodic</b> soils (rare in Ohio). For ordinary clay it does little that compost won't do better. Save your money for compost.</div></div>
+      </div>
     </div>
   </section>
 
@@ -2550,6 +2608,38 @@
   ];
   function renderPond(){renderTimeline("pondTl",POND);updatePond();}
 
+  /* ---------- Soil: pH amendment calculator ---------- */
+  var phTex="loam";
+  var PH_LIME={sandy:25,loam:50,clay:70};   // lb ground limestone /1000 sqft to raise pH ~1 point
+  var PH_SULF={sandy:11,loam:16,clay:23};    // lb elemental sulfur /1000 sqft to lower pH ~1 point
+  function updatePh(){
+    if(!$("phHero"))return;
+    var area=num("phArea"),cur=num("phCur"),tgt=num("phTgt");
+    if(area==null||cur==null||tgt==null||area<=0){$("phHero").innerHTML="";return;}
+    var delta=Math.round((tgt-cur)*10)/10;
+    if(Math.abs(delta)<0.15){
+      $("phHero").innerHTML='<div class="h-amt">In range</div><div class="h-sub">pH '+r1(cur)+' is right about your '+r1(tgt)+' target — no lime or sulfur needed. Keep building organic matter and re-test in a couple of years.</div>';
+      $("phNote").querySelector(".txt").innerHTML="Most lawns and vegetables are happy anywhere from 6.0 to 7.0, so don't chase a decimal. Compost gently buffers pH toward neutral over time, too.";
+      return;
+    }
+    var raising=delta>0,per1000=Math.abs(delta)*(raising?PH_LIME:PH_SULF)[phTex],total=per1000*(area/1000);
+    var mat=raising?"ground limestone":"elemental sulfur";
+    $("phHero").innerHTML='<div class="h-amt">'+r0(total)+' <small>lb '+mat+'</small></div>'+
+      '<div class="h-sub">to move '+r0(area).toLocaleString()+' sq ft of '+phTex+' soil from pH '+r1(cur)+' to '+r1(tgt)+'. About '+r0(per1000)+' lb per 1,000 sq ft.</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+(raising?"+":"")+delta+'</span><span class="l">pH change</span></div><div class="h-stat"><span class="v">'+r0(per1000)+'</span><span class="l">lb / 1,000 ft²</span></div><div class="h-stat"><span class="v">'+r0(total)+'</span><span class="l">lb total</span></div></div>';
+    var note;
+    if(raising){
+      note="Lime is slow — it takes <b>months</b> to move pH, so apply in <b>fall</b> and re-test before adding more. ";
+      if(per1000>50)note+="That's a big jump; <b>split it across two applications</b> (spring &amp; fall), no more than ~50 lb/1,000 ft² at once. ";
+      note+="Use pelletized/ground limestone, water it in, and don't pile it on — overshooting locks out iron and manganese (those yellow-with-green-veins leaves).";
+    } else {
+      note="Lowering pH is harder and slower than raising it — <b>elemental sulfur</b> works over a season or two as soil microbes convert it. Apply small amounts, water in, and re-test. For acid-lovers like blueberries it's worth it; for a whole lawn, it rarely is.";
+    }
+    $("phNote").querySelector(".txt").innerHTML=note+" <i>This is a planning estimate — your lab's buffer-pH recommendation is more exact.</i>";
+  }
+  if($("phTexSeg"))$("phTexSeg").addEventListener("click",function(e){var b=e.target.closest("[data-tex]");if(!b)return;phTex=b.getAttribute("data-tex");document.querySelectorAll("#phTexSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});updatePh();});
+  ["phArea","phCur","phTgt"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePh);});
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -2564,7 +2654,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
