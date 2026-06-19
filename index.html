@@ -2642,7 +2642,7 @@
     function done(){toast(msg||"Copied");}
     try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb);return;}}catch(e){}
     fb();
-    function fb(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.top="0";ta.style.left="-9999px";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
+    function fb(){try{var ta=document.createElement("textarea");ta.value=txt;ta.readOnly=true;ta.style.position="fixed";ta.style.top="0";ta.style.left="-9999px";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
   }
   function yardSummaryText(){
     var L=["My Ohio yard — a snapshot",""];
@@ -3558,7 +3558,7 @@
     function done(){toast("List copied — paste it anywhere");}
     try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback);return;}}catch(e){}
     fallback();
-    function fallback(){try{var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.top="0";ta.style.left="-9999px";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
+    function fallback(){try{var ta=document.createElement("textarea");ta.value=txt;ta.readOnly=true;ta.style.position="fixed";ta.style.top="0";ta.style.left="-9999px";ta.style.opacity="0";document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");document.body.removeChild(ta);done();}catch(e){toast("Couldn't copy automatically");}}
   }
   if($("shopExport"))$("shopExport").addEventListener("click",copyShopList);
   function renderShopQuick(){var el=$("shopQuick");if(!el)return;el.innerHTML=SHOP_QUICK.map(function(q,i){return '<button class="hubchip" data-shopq="'+i+'"><svg class="ic"><use href="#i-plus"/></svg><span class="ht">'+esc(q.name)+'</span></button>';}).join("");}
@@ -3766,7 +3766,7 @@
     $("weekendList").innerHTML=items.slice(0,4).map(function(it){
       var actions=[];
       if(it.tab)actions.push('<button class="linklike" data-goto="'+it.tab+'">Open →</button>');
-      if(it.r)actions.push('<button class="linklike" data-wremind="'+esc(it.r)+'">+ Remind me</button>');
+      if(it.r){var have=remindAll().some(function(r){return (r.text||"").toLowerCase()===it.r.toLowerCase();});if(!have)actions.push('<button class="linklike" data-wremind="'+esc(it.r)+'">+ Remind me</button>');}
       return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-'+it.icon+'"/></svg>'+(it.tab?'This weekend':'This month')+'</div><div class="cr-b">'+it.t+(actions.length?' <span style="white-space:nowrap">'+actions.join(' · ')+'</span>':'')+'</div></div>';
     }).join("");
   }
