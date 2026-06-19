@@ -474,6 +474,8 @@
   <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
   <symbol id="i-grass" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M12 21c0-4 .3-7 1.2-10M12 21c-1.2-4-3.4-6.5-6.5-8 .8 4 2.4 7 5.5 9M12 21c1.2-5 3.4-8 7-10-.6 5-3 8.5-6 10"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-fruit" viewBox="0 0 24 24"><path d="M12 8c-1.6-1.6-4.2-1.7-6 0s-1.8 5.2 0 8 5 3.6 6 2.6c1 1 4.2.2 6-2.6s1.8-6.4 0-8-4.4-1.6-6 0z"/><path d="M12 8c0-2 .6-3.6 2.5-4.5"/><path d="M12 8c-.4-1.2-1.2-2-2.4-2.3"/></symbol>
+  <symbol id="i-barrel" viewBox="0 0 24 24"><path d="M6 4h12M6 20h12"/><path d="M6 4c-1 5-1 11 0 16M18 4c1 5 1 11 0 16"/><path d="M5 9h14M5 15h14"/></symbol>
   <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 4h16"/></symbol>
@@ -503,6 +505,9 @@
     <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
     <button class="tab-btn" role="tab" data-tab="bloom"><svg class="ic"><use href="#i-flower"/></svg>Bloom</button>
     <button class="tab-btn" role="tab" data-tab="pests"><svg class="ic"><use href="#i-bug"/></svg>Pests &amp; Weeds</button>
+    <button class="tab-btn" role="tab" data-tab="fruit"><svg class="ic"><use href="#i-fruit"/></svg>Fruit</button>
+    <button class="tab-btn" role="tab" data-tab="native"><svg class="ic"><use href="#i-clover"/></svg>Native &amp; Lawn-Free</button>
+    <button class="tab-btn" role="tab" data-tab="rain"><svg class="ic"><use href="#i-droplet"/></svg>Rain &amp; Water</button>
     <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
     <button class="tab-btn" role="tab" data-tab="soil"><svg class="ic"><use href="#i-soil"/></svg>Soil</button>
     <button class="tab-btn" role="tab" data-tab="compost"><svg class="ic"><use href="#i-compost"/></svg>Compost</button>
@@ -560,6 +565,8 @@
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
         <button class="hubchip" data-tool="pests" data-scroll="issueFinder"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Pest finder</span></button>
+        <button class="hubchip" data-tool="rain" data-scroll="rainCalc"><svg class="ic"><use href="#i-barrel"/></svg><span class="ht">Rain barrel</span></button>
+        <button class="hubchip" data-tool="native" data-scroll="seedCalc"><svg class="ic"><use href="#i-clover"/></svg><span class="ht">Clover seed</span></button>
         <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
       </div>
     </div>
@@ -1121,6 +1128,115 @@
     </div>
 
     <div class="note-card warn" style="margin:0 2px 14px;"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>The honest thread:</b> reach for a chemical only when you truly must, choose the most targeted one, hit only the spot, and keep it off blooms and beneficials. A garden that hosts predators and lives in healthy soil mostly defends itself.</div></div>
+  </section>
+
+  <!-- ============ FRUIT & BERRIES ============ -->
+  <section class="tab" data-pane="fruit" hidden>
+    <p class="tab-intro">Growing your own fruit in Ohio is deeply rewarding — and the path runs from <b>easy to patient</b>. Berries reward you in a year or two; tree fruit is a longer commitment with a pollination puzzle to solve. Start with berries.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-fruit"/></svg><h3>Berries — start here</h3></div>
+      <p class="hint">Fast, forgiving, and productive in a small space. Plant in spring; most fruit within a year or two.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sprout"/></svg>Strawberries — the quickest win</div><div class="cr-b"><b>June-bearing</b> gives one big early-summer flush (best for jam/freezing); <b>day-neutral/everbearing</b> dribbles fruit all season. Plant in spring, pinch the first year's flowers to build roots, and renew the bed every few years. <div class="pillrow"><span class="pill good">easy, fast</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-fruit"/></svg>Raspberries &amp; blackberries</div><div class="cr-b">Generous and tough. <b>Summer-bearing</b> fruits on last year's canes; <b>fall-bearing (primocane)</b> fruits on new canes — easiest to prune (just cut everything down each winter). Give them a trellis and room; they spread. <div class="pillrow"><span class="pill good">productive</span><span class="pill warn">spreads</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>Blueberries — worth the soil work</div><div class="cr-b">The catch: a blueberry bush demands <b>acidic soil, pH 4.5–5.5</b> — most Ohio soils are too high, so amend with elemental sulfur and peat well ahead, or just grow them in <b>containers/raised beds</b> of acidic mix. Plant <b>two different varieties</b> for cross-pollination. Long-lived once happy. <button class="linklike" data-goto="soil">Lower your pH →</button> <div class="pillrow"><span class="pill warn">needs acid soil</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-globe"/></svg>Grapes</div><div class="cr-b">A sunny fence or arbor and a hard annual prune (they fruit on new wood from last year's canes). Hardy American/hybrid types (Concord, Reliance) do well here; table grapes need heat and time.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-tree"/></svg><h3>Fruit trees — the longer game</h3></div>
+      <p class="hint">Years to first harvest, and a few decisions up front that make or break it. The big one: <b>pollination</b>.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Apples &amp; pears — need a partner</div><div class="cr-b">Most need a <b>second, different variety</b> blooming at the same time to set fruit (or a crabapple nearby). Choose <b>dwarf/semi-dwarf</b> rootstock for a small yard and earlier fruit, and lean on <b>disease-resistant varieties</b> (Liberty, Enterprise, Goldrush apples) so you can skip the spray treadmill. Prune in late winter.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Cherries, peaches, plums</div><div class="cr-b"><b>Sour/tart cherries</b> are self-fertile, hardy, and the easiest tree fruit here; sweet cherries need a partner and space. <b>Peaches</b> are self-fertile but short-lived and need attention (borers, brown rot) — pick hardy varieties for zone 6. Most plums want a pollination partner too.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Right tree, right place</div><div class="cr-b"><b>Full sun</b>, good airflow, and well-drained soil (never a wet spot). Space for the mature size, and don't plant a single tree expecting fruit unless it's self-fertile. Water it like any young tree. <button class="linklike" data-goto="trees">Young-tree care →</button></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bug"/></svg><div class="txt"><b>Spray or accept spots?</b> Backyard tree fruit usually needs <i>some</i> management for clean fruit (codling moth, scab, brown rot). The low-input path: plant <b>disease-resistant varieties</b>, keep up sanitation (pick up dropped fruit), and accept a few blemishes rather than a calendar of sprays. <button class="linklike" data-goto="pests">Least-harm approach →</button></div></div>
+    </div>
+  </section>
+
+  <!-- ============ NATIVE & LAWN-FREE ============ -->
+  <section class="tab" data-pane="native" hidden>
+    <p class="tab-intro">Less lawn, more life. A perfect carpet of grass is thirsty, hungry, and nearly empty of wildlife — so trade some of it for <b>clover, no-mow grasses, groundcovers, a little meadow, and native plants</b>. Start with one patch and grow it.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-clover"/></svg><h3>Lawn alternatives</h3></div>
+      <p class="hint">Keep the lawn you actually use (play, paths); rethink the rest. From easiest to boldest:</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Add clover — the easy first step</div><div class="cr-b">Overseed <b>microclover</b> right into your existing lawn: it fixes its own nitrogen (free feeding), stays green in drought, feeds bees, and needs less mowing. You barely change anything. <button class="linklike" data-goto="wildlife">The clover case →</button> <div class="pillrow"><span class="pill good">easiest</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-grass"/></svg>No-mow / fine fescue</div><div class="cr-b">Fine-fescue blends grow low and slow — mow a few times a year (or leave it to flop into soft waves). Great for low-traffic areas and slopes. <i>Trade-off:</i> not for heavy play, and it looks relaxed, not crisp.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Groundcovers for the tough spots</div><div class="cr-b">Where grass sulks: <b>creeping thyme</b> or sedum in hot, dry, sunny strips; native <b>sedges</b> or wild ginger in dry shade. Walkable patches, no mowing.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bee"/></svg>A pocket meadow / pollinator strip</div><div class="cr-b">Convert a sunny patch to native wildflowers and bunchgrasses. Smother the existing grass first (cardboard + mulch, or solarize), sow in <b>fall or spring</b>, and be patient — it's weedy in year one and glorious by year three. Mow once a year, late winter. <i>Trade-off:</i> looks "wild" — keep a mown edge so it reads as intentional (and check local weed ordinances).</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="seedCalc">
+      <div class="card-head"><svg class="ic"><use href="#i-ruler"/></svg><h3>Seed calculator</h3></div>
+      <p class="hint">How much seed to buy for overseeding clover or starting an alternative. Rates are per 1,000 sq ft.</p>
+      <div class="seg" id="seedTypeSeg" style="margin-bottom:11px;">
+        <button data-seed="microover" aria-pressed="true">Microclover (overseed)</button>
+        <button data-seed="clovernew" aria-pressed="false">Clover (new)</button>
+        <button data-seed="meadow" aria-pressed="false">Meadow mix</button>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="seedArea">Area <span class="meta">sq ft</span></label><input id="seedArea" type="number" inputmode="numeric" value="1000" step="100" min="0"/></div>
+        <div class="field"><label for="seedPrice">Seed price <span class="meta">$ per lb</span></label><input id="seedPrice" type="number" inputmode="decimal" value="20" step="1" min="0"/></div>
+      </div>
+      <div class="hero green" id="seedHero"></div>
+      <div class="note-card" id="seedNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Why native plants</h3></div>
+      <div class="prose">
+        <p>Native plants evolved with local insects and birds, so they feed far more wildlife than exotics — and once established they're <b>tougher and lower-input</b> (deep roots, drought tolerance, no coddling). They're the backbone of a living yard.</p>
+      </div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Sun-loving Ohio natives</div><div class="cr-b">Coneflower, black-eyed Susan, bee balm, asters, milkweed, joe-pye weed, little bluestem &amp; switchgrass. Tough, gorgeous, pollinator magnets. <button class="linklike" data-goto="bloom">Plan the bloom →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-leaf"/></svg>Shade natives</div><div class="cr-b">Wild geranium, foamflower, woodland phlox, native ferns, and sedges fill dry or dappled shade where lawn struggles.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Plant for the whole cycle</div><div class="cr-b">Include <b>host plants</b> (milkweed for monarchs, natives for caterpillars), leave seedheads and stems over winter, and skip the sprays. <button class="linklike" data-goto="wildlife">A living yard →</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RAIN & WATER ============ -->
+  <section class="tab" data-pane="rain" hidden>
+    <p class="tab-intro">Rain is free water and the single biggest force shaping your yard. The goal: <b>slow it, spread it, sink it</b> — capture some, let the rest soak into your ground instead of rushing off (carrying soil and nutrients to the storm drain and streams).</p>
+
+    <div class="card" id="rainCalc">
+      <div class="card-head"><svg class="ic"><use href="#i-barrel"/></svg><h3>Rain-barrel calculator</h3></div>
+      <p class="hint">A roof catches a surprising amount. Enter the area that drains to one downspout, and a rainfall amount.</p>
+      <div class="grid2">
+        <div class="field"><label for="rnL">Roof length <span class="meta">ft (footprint)</span></label><input id="rnL" type="number" inputmode="numeric" value="40" step="1" min="0"/></div>
+        <div class="field"><label for="rnW">Roof width <span class="meta">ft (footprint)</span></label><input id="rnW" type="number" inputmode="numeric" value="30" step="1" min="0"/></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="rnIn">Rainfall <span class="meta">inches</span></label><input id="rnIn" type="number" inputmode="decimal" value="1" step="0.25" min="0"/></div>
+        <div class="field"><label for="rnShare">Drains to this spout <span class="meta">% of roof</span></label><input id="rnShare" type="number" inputmode="numeric" value="25" step="5" min="0" max="100"/></div>
+      </div>
+      <div class="hero sky" id="rainHero"></div>
+      <div class="note-card" id="rainNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-droplet"/></svg><h3>Rain barrels — the basics</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Set one up</div><div class="cr-b">Put it under a downspout on a sturdy, level base (raised, so gravity gives you pressure). Add a <b>screen</b> over the inlet to keep out debris and mosquitoes, and an <b>overflow</b> hose routed away from the foundation for when it's full.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Keep it mosquito-free</div><div class="cr-b">A sealed, screened barrel won't breed mosquitoes; an open one will. Screen every opening, and drop in a <b>BTI dunk</b> if needed. <button class="linklike" data-goto="wildlife">Mosquito control →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-snow"/></svg>Use it &amp; winterize</div><div class="cr-b">Great for beds, lawns, and containers (use roof water on ornamentals; for edibles, water the soil, not the leaves you'll eat). <b>Drain and disconnect before hard freeze</b> so it doesn't crack.</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-waves"/></svg><h3>Slow it &amp; sink it</h3></div>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flower"/></svg>Rain garden</div><div class="cr-b">A shallow planted depression that catches runoff from a roof or drive and lets it soak in over a day or two — beautiful, and it keeps nutrients out of the storm drain. Site it <b>10+ ft from the foundation</b>, size it about <b>20–30% of the area draining into it</b>, and fill with deep-rooted natives. <button class="linklike" data-goto="native">Native plants →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Keep rain on your land</div><div class="cr-b">Extend downspouts onto lawn or beds (not pavement), carve gentle <b>swales</b> to spread flow, use gravel/permeable surfaces, and <b>mulch everything</b> — bare soil sheds water and erodes. Healthy, organic-rich soil drinks rain like a sponge.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Water smart — drip &amp; soaker</div><div class="cr-b">For beds and veg, <b>drip lines or soaker hoses on a timer</b> put water at the roots with little waste or disease — far better than sprinklers that wet leaves and pavement. Deep and infrequent still wins. <button class="linklike" data-goto="lawn">Watering math →</button></div></div>
+      </div>
+    </div>
   </section>
 
   <!-- ============ BEDS & MULCH ============ -->
@@ -2868,6 +2984,37 @@
   if($("issuePick"))$("issuePick").addEventListener("change",renderIssueOut);
   function renderPests(){renderIssueOptions();renderIssueOut();renderIssueList();}
 
+  /* ---------- Native: seed calculator ---------- */
+  var seedType="microover";
+  var SEED_RATE={microover:{rate:0.13,price:20,label:"microclover (overseed)",note:"Overseed in spring or early fall into mowed, raked lawn — it's tiny seed, so mix with sand for even spread, then keep it moist until it's up. Microclover blends in finely; it draws bees, so weigh that against bare feet."},clovernew:{rate:0.5,price:14,label:"white clover (new stand)",note:"For a fresh clover or clover-grass area on bare soil. Rake in, keep moist. Establishes fast and starts fixing nitrogen the same season."},meadow:{rate:0.25,price:30,label:"native meadow mix",note:"Most native meadow mixes sow at about ¼ lb/1,000 ft² (≈10–11 lb/acre). Smother the existing grass first, sow in fall (or spring), and be patient — year one looks weedy, year three sings. Buy a regional native mix."}};
+  function updateSeed(){
+    if(!$("seedHero"))return;
+    var area=num("seedArea"),price=num("seedPrice");
+    if(area==null||area<0){$("seedHero").innerHTML="";return;}
+    var s=SEED_RATE[seedType],lbs=s.rate*(area/1000),oz=lbs*16,cost=(price!=null?lbs*price:null);
+    var amt=lbs<1?(r1(oz)+' <small>oz</small>'):(r1(lbs)+' <small>lb</small>');
+    $("seedHero").innerHTML='<div class="h-amt">'+amt+'</div>'+
+      '<div class="h-sub">of '+s.label+' for '+r0(area).toLocaleString()+' sq ft (about '+r2(s.rate)+' lb / 1,000)'+(cost!=null?' — roughly '+money(cost):'')+'.</div>';
+    if($("seedNote"))$("seedNote").querySelector(".txt").innerHTML=s.note;
+  }
+  if($("seedTypeSeg"))$("seedTypeSeg").addEventListener("click",function(e){var b=e.target.closest("[data-seed]");if(!b)return;seedType=b.getAttribute("data-seed");document.querySelectorAll("#seedTypeSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});var pe=$("seedPrice");if(pe)pe.value=SEED_RATE[seedType].price;updateSeed();});
+  ["seedArea","seedPrice"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateSeed);});
+
+  /* ---------- Rain: barrel / harvest calculator ---------- */
+  function updateRain(){
+    if(!$("rainHero"))return;
+    var L=num("rnL"),W=num("rnW"),inch=num("rnIn"),share=num("rnShare");
+    if(L==null||W==null||inch==null||L<=0||W<=0){$("rainHero").innerHTML="";return;}
+    if(share==null)share=100;share=clamp(share,0,100);
+    var area=L*W*(share/100),gal=area*inch*0.623;          // 0.623 gal per sq ft per inch
+    var barrels=Math.ceil(gal/55),perInch=L*W*(share/100)*0.623;
+    $("rainHero").innerHTML='<div class="h-amt">'+r0(gal).toLocaleString()+' <small>gallons</small></div>'+
+      '<div class="h-sub">caught from '+r0(area).toLocaleString()+' sq ft of roof in '+r1(inch)+'″ of rain — that’s about '+barrels+' rain barrel'+(barrels===1?"":"s")+' (55 gal).</div>'+
+      '<div class="h-stats"><div class="h-stat"><span class="v">'+r0(perInch).toLocaleString()+'</span><span class="l">gal / inch</span></div><div class="h-stat"><span class="v">'+r0(area).toLocaleString()+'</span><span class="l">sq ft roof</span></div><div class="h-stat"><span class="v">'+barrels+'</span><span class="l">barrels-worth</span></div></div>';
+    if($("rainNote"))$("rainNote").querySelector(".txt").innerHTML="A single barrel fills <b>fast</b> — even a small roof overruns it in one storm, so the real win is a barrel for hand-watering <i>plus</i> sending the overflow into the ground (a rain garden, a mulched bed) rather than the street. About <b>0.62 gallons per square foot per inch</b> of rain.";
+  }
+  ["rnL","rnW","rnIn","rnShare"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateRain);});
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -2882,7 +3029,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
