@@ -3436,7 +3436,7 @@
     {id:"fruit",icon:"fruit",label:"Fruit & berries",tabs:["fruit"],dk:"Homegrown fruit",db:"Berries reward you in a year; a few raspberry canes are the easiest fruit there is.",nudge:"Prune or check the fruit plants",
       tools:[{tab:"fruit",scroll:"fruitGuides",icon:"fruit",label:"Fruit guides"}]},
     {id:"bloom",icon:"flower",label:"Flowers & blooms",tabs:["bloom"],dk:"Color all season",db:"A backbone of perennials plus a few annuals means blooms — and bees — spring to frost.",nudge:"Deadhead and plan the next blooms",
-      tools:[{tab:"bloom",scroll:"bloomPlanner",icon:"flower",label:"Bloom planner"}]},
+      tools:[{tab:"bloom",scroll:"bloomPlanner",icon:"flower",label:"Bloom planner"},{tab:"bloom",scroll:"bloomGuides",icon:"flower",label:"Bloom guides"}]},
     {id:"trees",icon:"tree",label:"Trees & shrubs",tabs:["trees"],dk:"Trees & shrubs",db:"The right tree, planted and pruned well, is the longest-lasting thing you'll plant.",nudge:"Water young trees / check the mulch",
       tools:[{tab:"trees",scroll:null,icon:"tree",label:"Tree care"}]},
     {id:"beds",icon:"layers",label:"Beds, mulch & soil",tabs:["beds","soil","compost"],dk:"Better soil & beds",db:"Mulch math, a $15 soil test, and a compost pile quietly make everything else easier.",nudge:"Top up mulch or test the soil",
@@ -3453,7 +3453,7 @@
       tools:[{tab:"season",scroll:"fwNights",icon:"flask",label:"Firewood"},{tab:"season",scroll:"zipInput",icon:"cloud",label:"Forecast"}]}
   ];
   // which areas the current month/weather make most relevant — drives the Discover spotlight
-  var SEASON_FOCUS={0:["season"],1:["season","grow"],2:["grow","bloom","lawn"],3:["grow","bloom","lawn"],4:["grow","fruit","bloom"],5:["water","wild","pests"],6:["water","wild","pests"],7:["grow","beds","lawn"],8:["lawn","bloom","beds"],9:["season","trees","beds"],10:["season","trees","leaves"],11:["season","wild"]};
+  var SEASON_FOCUS={0:["season"],1:["season","grow"],2:["grow","bloom","lawn"],3:["grow","bloom","lawn"],4:["grow","fruit","bloom"],5:["water","wild","pests"],6:["water","wild","pests"],7:["grow","beds","lawn"],8:["lawn","bloom","beds"],9:["season","trees","beds"],10:["season","trees","beds"],11:["season","wild"]};
   function focusAreaIds(){
     var ids=[];
     // weather override when a forecast is loaded
@@ -3518,9 +3518,10 @@
   }
   function seedProfileReminders(){
     var sel=selectedAreas();if(!sel.length){toast("Pick your areas first");return;}
-    var existing={};remindAll().forEach(function(r){existing[(r.text||"").toLowerCase()]=1;});
+    var list=remindAll(),existing={};list.forEach(function(r){existing[(r.text||"").toLowerCase()]=1;});
     var added=0;
-    AREAS.forEach(function(a){if(sel.indexOf(a.id)>=0&&a.nudge&&!existing[a.nudge.toLowerCase()]){remindAdd(a.nudge,"");existing[a.nudge.toLowerCase()]=1;added++;}});
+    AREAS.forEach(function(a){if(sel.indexOf(a.id)>=0&&a.nudge&&!existing[a.nudge.toLowerCase()]){list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,text:a.nudge,date:"",done:0});existing[a.nudge.toLowerCase()]=1;added++;}});
+    if(added){remindSaveAll(list);renderRemind();}
     lsSet("ycRemindSeeded",1);
     var sb=$("forYouSeed");if(sb)sb.hidden=true;
     toast(added?("Added "+added+" reminder"+(added===1?"":"s")+" — see the Reminders tab"):"You're all set — those are already on your list");
