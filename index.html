@@ -549,7 +549,7 @@
         <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-star"/></svg><span class="ht">Yard journal</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
         <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
-        <button class="hubchip" data-tool="remind" data-scroll="remindText"><svg class="ic"><use href="#i-bell"/></svg><span class="ht">Reminders</span></button>
+        <button class="hubchip" data-tool="remind" data-scroll="remindText"><svg class="ic"><use href="#i-bell"/></svg><span class="ht" id="hubRemindLabel">Reminders</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="backupCard"><svg class="ic"><use href="#i-download"/></svg><span class="ht">Back up</span></button>
       </div>
       <div class="hubhead">Calculators</div>
@@ -683,6 +683,7 @@
       </div>
       <div class="field"><label for="fRate">Target nitrogen this application <span class="meta">lb N per 1,000 sq ft</span></label><input id="fRate" type="number" inputmode="decimal" value="0.75" step="0.05"/></div>
       <div class="hero soil" id="fertHero"></div>
+      <div style="margin-top:9px;"><button class="linklike" data-shopadd="fert"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px;"><use href="#i-cart"/></svg> Add fertilizer to shopping list →</button></div>
       <div class="note-card" id="fertNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
       <details class="ex"><summary><svg class="ic lead"><use href="#i-info"/></svg>Your season nitrogen budget<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body" id="nbudgetBody"></div></details>
     </div>
@@ -1217,6 +1218,69 @@
       </div>
       <div class="note-card"><svg class="ic"><use href="#i-bug"/></svg><div class="txt"><b>Spray or accept spots?</b> Backyard tree fruit usually needs <i>some</i> management for clean fruit (codling moth, scab, brown rot). The low-input path: plant <b>disease-resistant varieties</b>, keep up sanitation (pick up dropped fruit), and accept a few blemishes rather than a calendar of sprays. <button class="linklike" data-goto="pests">Least-harm approach →</button></div></div>
     </div>
+
+    <div class="card" id="fruitGuides">
+      <div class="card-head"><svg class="ic"><use href="#i-fruit"/></svg><h3>Grow-it-well guides — fruit by fruit</h3></div>
+      <p class="hint">Open one for the specifics: what it needs at each age, the pruning that drives yield, and the easiest path for a low-fuss Ohio (zone 6) yard.</p>
+
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Peach <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— self-fertile, fast, short-lived</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>The quickest tree fruit to reward you — and the most hands-on. <b>One tree fruits on its own</b> (self-fertile), but peaches bloom <b>early</b>, so a late frost can wipe out a year's crop. Site matters more than anything: full sun, sharp drainage, and ideally a <b>slope or raised spot</b> so cold air drains away on frost nights. For zone 6 choose cold-hardy, later-blooming varieties — <b>'Reliance', 'Contender', 'Redhaven'</b>.</p>
+        <ul>
+          <li><b>Years 1–2 (establish):</b> water deeply and train the shape — peaches want an <b>open-center "vase"</b> (no central leader). Cut the young tree to an outward set of 3–4 scaffold branches; let light into the middle. Don't expect fruit yet.</li>
+          <li><b>Years 3–4 (first crops):</b> fruiting begins. Now the two yield levers kick in.</li>
+          <li><b>Prune hard, every year (late winter/early spring):</b> peaches bear <b>only on last year's wood</b>, so remove roughly <b>40% of the growth</b> annually to force fresh fruiting shoots. A peach you don't prune hard fruits high, small, and on the outside only.</li>
+          <li><b>Thin the fruit — the #1 yield/quality move:</b> when fruitlets are marble-sized, thin to <b>one every 6–8 inches</b>. It feels brutal but you get bigger, sweeter peaches and you spare the limbs from breaking under the load.</li>
+          <li><b>Ease &amp; trouble:</b> the common ones are <b>peach leaf curl</b> (puckered red leaves — prevented by a single <b>dormant copper spray at bud swell</b>, before buds open), <b>borers</b> at the trunk base, and <b>brown rot</b> on the fruit (sanitation: clear mummies and drops). Mature peaches are productive but <b>short-lived (~10–15 years)</b> — plant a replacement around year 8.</li>
+        </ul>
+        <div class="pillrow"><span class="pill good">1 tree fruits</span><span class="pill good">fast (yr 3)</span><span class="pill warn">prune hard yearly</span><span class="pill warn">frost-risk blooms</span></div>
+      </div></details>
+
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Plum <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— European vs Japanese</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Two families, and the choice decides your ease. <b>European plums</b> (Stanley, Italian prune) bloom <b>later</b> (dodging frost), are hardier, and many are <b>self-fertile</b> — <b>'Stanley' is the easy one-tree Ohio pick</b>. <b>Japanese plums</b> (Santa Rosa, Methley) are juicier and earlier-blooming but usually need a <b>second variety to pollinate</b> and risk frost. Long-lived once established.</p>
+        <ul>
+          <li><b>Years 1–2:</b> water and shape. Train <b>European</b> plums to a <b>central leader</b> (a main trunk with tiers of branches); train <b>Japanese</b> plums to an <b>open center</b> like peaches — they're more spreading.</li>
+          <li><b>Years 3–5 (bearing begins):</b> plums often set <b>too much</b> fruit. <b>Thin Japanese types to ~3–4 inches apart</b> for size and to prevent limb breakage; European plums need less thinning.</li>
+          <li><b>Prune lightly, late winter:</b> remove crossing/inward shoots and keep the center open for air and light — much lighter than a peach.</li>
+          <li><b>Ease &amp; trouble:</b> the signature Ohio problem is <b>black knot</b> — black, warty swellings on twigs. <b>Prune them out 6+ inches below the knot</b> in winter and burn/bin them; choose resistant varieties. <b>Plum curculio</b> dimples the fruit; sanitation (pick up drops) keeps it in check. Overall lower-maintenance than peaches.</li>
+        </ul>
+        <div class="pillrow"><span class="pill good">Stanley = self-fertile</span><span class="pill good">long-lived</span><span class="pill warn">Japanese needs a partner</span><span class="pill warn">watch black knot</span></div>
+      </div></details>
+
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-flask"/></svg>Blueberry <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— acid-soil, very long-lived</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Get the soil right once and a blueberry bush feeds you for <b>20–30 years</b> with almost no pests. The whole game is <b>acidity</b>: they need <b>pH 4.5–5.5</b> and most Ohio soil is far too high. Amend a planting bed with <b>elemental sulfur</b> the season before (re-test), mix in <b>peat/pine bark</b>, or simply grow in <b>containers or raised beds</b> of acidic mix where you control it. Plant <b>2–3 different varieties</b> of <b>northern highbush</b> ('Bluecrop', 'Patriot', 'Duke', 'Elliott') — cross-pollination means bigger berries and a longer harvest.</p>
+        <ul>
+          <li><b>Year 1 (counterintuitive):</b> <b>pick off all the flowers</b> so no fruit forms — it pushes the plant to build roots and wood. You're investing in decades.</li>
+          <li><b>Years 2–4 (light cropping):</b> minimal pruning — just remove weak, low, or crossing twigs. Mulch <b>heavily</b> (3–4″ of pine bark or needles); blueberry roots are shallow, fibrous, and hate drying out, so <b>consistent water</b> is essential.</li>
+          <li><b>Years 5+ (full bearing):</b> now prune annually in <b>late winter</b>: remove the oldest canes (over ~6 years / fading gray wood) at the base to make room for vigorous young canes. Aim to keep <b>6–8 productive canes</b> of mixed ages. This single habit keeps yield high for decades.</li>
+          <li><b>Ease &amp; trouble:</b> wonderfully pest-light — the main thief is <b>birds</b>, so drape <b>netting</b> as fruit colors. Never lime near them, and feed (if needed) with an <b>acid/azalea fertilizer</b>, never a standard one.</li>
+        </ul>
+        <div class="pillrow"><span class="pill good">decades of fruit</span><span class="pill good">pest-light</span><span class="pill warn">needs acid soil</span><span class="pill warn">net from birds</span></div>
+        <div class="note-card"><svg class="ic"><use href="#i-soil"/></svg><div class="txt">Test and adjust pH <b>before</b> planting — it's far easier than fixing it around established roots. <button class="linklike" data-goto="soil">Soil &amp; pH calculator →</button></div></div>
+      </div></details>
+
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-fruit"/></svg>Raspberry <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— summer vs fall-bearing</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Fast and generous — a small crop the year after planting, full production by <b>year 3</b>. The canes are <b>biennial</b>: a green first-year cane (<b>primocane</b>) becomes a woody fruiting cane (<b>floricane</b>) the next year, then dies. Which type you plant decides how you prune — and <b>fall-bearing is the easiest berry there is</b>.</p>
+        <ul>
+          <li><b>Fall-bearing / primocane</b> ('Heritage', 'Caroline'): fruit on <b>new canes in late summer/fall</b>. The easy-mode prune: in late winter, <b>mow the entire patch to the ground</b>. One cut, no sorting old from new, one big fall crop. Best choice for low effort.</li>
+          <li><b>Summer-bearing / floricane</b> ('Latham', black raspberries): one early-summer crop on last year's canes. After they fruit, <b>cut those spent floricanes out at the base</b> and keep the green primocanes for next year — more sorting, but an earlier harvest.</li>
+          <li><b>Every age — airflow is yield:</b> keep rows <b>narrow (~18″ wide)</b>, thin to the <b>strongest 4–5 canes per foot</b>, and trellis them upright. Crowded canes mean disease and small berries; open canes mean big, clean fruit.</li>
+          <li><b>Ease &amp; trouble:</b> they <b>sucker and spread</b> aggressively — mow or edge the row borders to contain them. Give full sun and good drainage; renew or move the patch every <b>8–10 years</b> as soil-borne disease builds. Net or pick daily against birds.</li>
+        </ul>
+        <div class="pillrow"><span class="pill good">fruit in year 2</span><span class="pill good">fall type = easiest</span><span class="pill warn">spreads — contain it</span></div>
+      </div></details>
+
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-fruit"/></svg>Blackberry <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— go thornless &amp; erect</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Big, easy, and forgiving if you start with the right kind: <b>thornless, erect varieties</b> ('Triple Crown', 'Navaho', 'Ouachita') need little or no trellis and skip the thorns entirely. Like raspberries the canes are <b>biennial</b> (primocane year 1, floricane fruits year 2 then dies), with a small first crop and <b>full production by year 3</b>. The crowns are long-lived.</p>
+        <ul>
+          <li><b>Years 1–2 (establish + the key yield trick):</b> when first-year <b>primocanes reach ~3–4 ft, tip them</b> — pinch out the growing tip. That forces side branches (laterals), and <b>more laterals = far more fruit</b> next year. This summer tipping is the single biggest yield lever for blackberries.</li>
+          <li><b>Late winter:</b> shorten those side laterals to ~18″ to keep berries reachable and the plant productive.</li>
+          <li><b>After harvest:</b> the canes that just fruited (floricanes) <b>die — cut them out at the base</b> and let this year's primocanes carry next year. Clean removal also cuts disease.</li>
+          <li><b>Newer option:</b> <b>primocane-fruiting</b> blackberries ('Prime-Ark') can fruit on first-year canes for a fall crop, mowed-down like fall raspberries — simplest care, though summer heat can limit the crop.</li>
+          <li><b>Ease &amp; trouble:</b> full sun, well-drained soil, and steady water as berries swell. Very low-trouble; main pests are <b>birds</b> and (lately) <b>spotted-wing drosophila</b> — pick frequently and keep ripe fruit cleared.</li>
+        </ul>
+        <div class="pillrow"><span class="pill good">thornless = easy</span><span class="pill good">long-lived crown</span><span class="pill warn">tip primocanes for yield</span></div>
+      </div></details>
+    </div>
   </section>
 
   <!-- ============ NATIVE & LAWN-FREE ============ -->
@@ -1247,6 +1311,7 @@
         <div class="field"><label for="seedPrice">Seed price <span class="meta">$ per lb</span></label><input id="seedPrice" type="number" inputmode="decimal" value="20" step="1" min="0"/></div>
       </div>
       <div class="hero green" id="seedHero"></div>
+      <div style="margin-top:9px;"><button class="linklike" data-shopadd="seed"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px;"><use href="#i-cart"/></svg> Add seed to shopping list →</button></div>
       <div class="note-card" id="seedNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
     </div>
 
@@ -1323,6 +1388,7 @@
         <div class="field"><label for="mBagCost">Bag price <span class="meta">$ per bag</span></label><input id="mBagCost" type="number" inputmode="decimal" value="4" step="0.5"/></div>
       </div>
       <div class="hero soil" id="mulchHero"></div>
+      <div style="margin-top:9px;"><button class="linklike" data-shopadd="mulch"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px;"><use href="#i-cart"/></svg> Add mulch to shopping list →</button></div>
       <div class="note-card" id="mulchNote"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt"></div></div>
     </div>
 
@@ -2006,6 +2072,7 @@
     $("fertHero").innerHTML='<div class="h-amt">'+r1(lbProduct)+' <small>lb of your bag</small></div>'+
       '<div class="h-sub">delivers '+r2(lbN)+' lb of nitrogen across '+r0(area).toLocaleString()+' sq ft ('+r1(rate)+' lb N / 1,000)</div>'+
       '<div class="h-stats"><div class="h-stat"><span class="v">'+r1(per1000)+'</span><span class="l">lb product / 1,000</span></div><div class="h-stat"><span class="v">'+npct+'%</span><span class="l">nitrogen in bag</span></div><div class="h-stat"><span class="v">'+r2(lbN)+'</span><span class="l">lb N total</span></div></div>';
+    SHOP_SUG.fert={name:"Lawn fertilizer (bag)",cat:"Lawn",qty:Math.max(1,Math.ceil(lbProduct/16)),price:22};
     var warn="";
     if(rate>1.1) warn=" That's a heavy single dose — over ~1 lb N/1,000 of quick-release can burn. Split it, use a slow-release bag, or water it in well.";
     else warn=" Spread on a dry lawn and water it in. Slow-release feeds longer and won't surge.";
@@ -2053,6 +2120,7 @@
     var cuft=area*(depth/12);
     var cuyd=cuft/27;
     var bags=Math.ceil(cuft/bagCf);
+    SHOP_SUG.mulch={name:"Mulch (bag, "+r1(bagCf)+" cu ft)",cat:"Beds",qty:bags,price:(bagCost!=null&&bagCost>=0?bagCost:4)};
     var bulkPrice=(yardCost!=null)?Math.ceil(cuyd*10)/10*yardCost:null;   // can't buy fractional yard usually, but show scaled
     var bulkPriceRounded=(yardCost!=null)?yardCost*cuyd:null;
     var bagPrice=(bagCost!=null)?bags*bagCost:null;
@@ -3107,6 +3175,7 @@
     if(area==null||area<0){$("seedHero").innerHTML="";return;}
     var s=SEED_RATE[seedType],lbs=s.rate*(area/1000),oz=lbs*16,cost=(price!=null&&price>=0?lbs*price:null);
     var amt=lbs<1?(r1(oz)+' <small>oz</small>'):(r1(lbs)+' <small>lb</small>');
+    SHOP_SUG.seed=(area>0)?{name:s.label+" ("+(lbs<1?r1(oz)+" oz":r1(lbs)+" lb")+")",cat:"Native",qty:1,price:cost}:null;
     $("seedHero").innerHTML='<div class="h-amt">'+amt+'</div>'+
       '<div class="h-sub">of '+s.label+' for '+r0(area).toLocaleString()+' sq ft (about '+r2(s.rate)+' lb / 1,000)'+(cost!=null?' — roughly '+money(cost):'')+'.</div>';
     if($("seedNote"))$("seedNote").querySelector(".txt").innerHTML=s.note;
@@ -3130,6 +3199,7 @@
   ["rnL","rnW","rnIn","rnShare"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateRain);});
 
   /* ---------- plan & shop: shopping list ---------- */
+  var SHOP_SUG={};
   var SHOP_QUICK=[
     {name:"Grass seed (cool-season blend)",cat:"Lawn",price:35},
     {name:"Lawn / starter fertilizer",cat:"Lawn",price:22},
@@ -3144,6 +3214,8 @@
   ];
   function shopAll(){var a=lsGet("ycShop");return Array.isArray(a)?a:[];}
   function shopSave(a){lsSet("ycShop",a);}
+  function shopFromCalc(key){var s=SHOP_SUG[key];if(!s){toast("Enter values above first");return;}shopAddItem(s.name,s.cat,s.qty,s.price);toast("Added to your shopping list");}
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-shopadd]");if(b)shopFromCalc(b.getAttribute("data-shopadd"));});
   function shopAddItem(name,cat,qty,price){
     var a=shopAll();
     a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,cat:cat||"Other",qty:(qty!=null&&qty>0?qty:1),price:(price!=null&&price>=0?price:null),got:0});
@@ -3210,10 +3282,18 @@
   function remindAll(){var a=lsGet("ycReminders");return Array.isArray(a)?a:[];}
   function remindSaveAll(a){lsSet("ycReminders",a);}
   function remindAdd(text,date){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0});remindSaveAll(a);renderRemind();}
+  function localToday(){try{var nd=new Date();return nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){return "";}}
+  function updateRemindBadge(){
+    var lbl=$("hubRemindLabel");if(!lbl)return;
+    var today=localToday();
+    var due=remindAll().filter(function(it){return it.date&&!it.done&&today&&it.date<=today;}).length;
+    lbl.textContent=due>0?('Reminders · '+due+' due'):'Reminders';
+  }
   function renderRemind(){
+    updateRemindBadge();
     var el=$("remindList");if(!el)return;var a=remindAll();
     if(!a.length){el.innerHTML='<div class="empty">No reminders yet — add one above, or tap a seasonal task.</div>';return;}
-    var todayStr="";try{var nd=new Date();todayStr=nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){}
+    var todayStr=localToday();
     a=a.slice().sort(function(x,y){if(x.done!==y.done)return x.done?1:-1;var xd=x.date||"9999-99",yd=y.date||"9999-99";return xd<yd?-1:(xd>yd?1:0);});
     el.innerHTML=a.map(function(it){
       var overdue=(it.date&&!it.done&&todayStr&&it.date<todayStr);
