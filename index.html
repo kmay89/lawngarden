@@ -3204,16 +3204,16 @@
     var el=$("seasonTasks");if(!el)return;
     var m=new Date().getMonth(),tasks=SEASON_TASKS[m]||[];
     if($("seasonTasksSub"))$("seasonTasksSub").innerHTML='Typical cool-season Ohio tasks for <b>'+MONTH_NAMES[m]+'</b> — tap <b>+ Add reminder</b> on any to keep it.';
-    el.innerHTML=tasks.map(function(t,i){return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-'+t.icon+'"/></svg>'+t.t+'</div><div class="cr-b">'+t.b+' <button class="linklike" data-addtask="'+i+'">+ Add reminder</button></div></div>';}).join("");
+    el.innerHTML=tasks.map(function(t,i){return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-'+t.icon+'"/></svg>'+t.t+'</div><div class="cr-b">'+t.b+' <button class="linklike" data-addtask="'+i+'" data-month="'+m+'">+ Add reminder</button></div></div>';}).join("");
   }
-  if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[new Date().getMonth()]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders");}});
+  if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[b.getAttribute("data-month")]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders");}});
   function remindAll(){var a=lsGet("ycReminders");return Array.isArray(a)?a:[];}
   function remindSaveAll(a){lsSet("ycReminders",a);}
   function remindAdd(text,date){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0});remindSaveAll(a);renderRemind();}
   function renderRemind(){
     var el=$("remindList");if(!el)return;var a=remindAll();
     if(!a.length){el.innerHTML='<div class="empty">No reminders yet — add one above, or tap a seasonal task.</div>';return;}
-    var todayStr="";try{todayStr=new Date().toISOString().slice(0,10);}catch(e){}
+    var todayStr="";try{var nd=new Date();todayStr=nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){}
     a=a.slice().sort(function(x,y){if(x.done!==y.done)return x.done?1:-1;var xd=x.date||"9999-99",yd=y.date||"9999-99";return xd<yd?-1:(xd>yd?1:0);});
     el.innerHTML=a.map(function(it){
       var overdue=(it.date&&!it.done&&todayStr&&it.date<todayStr);
