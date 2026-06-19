@@ -2709,7 +2709,7 @@
     if(g===0){$("compostHero").innerHTML='<div class="h-amt">Add some greens</div><div class="h-sub">Toss in kitchen scraps, coffee grounds, or fresh clippings — then layer 2–3× as much browns over them.</div>';return;}
     var lo=r1(g*2),hi=r1(g*3),total=r1(g+g*2.5);
     $("compostHero").innerHTML='<div class="h-amt">'+lo+'–'+hi+' <small>buckets of browns</small></div>'+
-      '<div class="h-sub">to balance '+r1(g)+' bucket'+(g===1?"":"s")+' of greens (the 2–3 : 1 browns-to-greens mix). That builds roughly '+total+' buckets of pile.</div>'+
+      '<div class="h-sub">to balance '+r1(g)+' bucket'+(r1(g)===1?"":"s")+' of greens (the 2–3 : 1 browns-to-greens mix). That builds roughly '+total+' buckets of pile.</div>'+
       '<div class="h-stats"><div class="h-stat"><span class="v">'+r1(g)+'</span><span class="l">greens</span></div><div class="h-stat"><span class="v">'+lo+'–'+hi+'</span><span class="l">browns</span></div><div class="h-stat"><span class="v">'+total+'</span><span class="l">total pile</span></div></div>';
   }
   if($("cgGreens"))$("cgGreens").addEventListener("input",updateCompost);
