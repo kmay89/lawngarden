@@ -405,6 +405,21 @@
   .flower .fmeta{font-size:.8rem;color:var(--ink-soft);} .flower .fmeta b{color:var(--ink);} .flower .fmeta i{color:var(--ink-faint);}
   .flower .fpills{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
 
+  /* search overlay */
+  .search-ov{position:fixed;inset:0;z-index:150;background:var(--bg);display:flex;flex-direction:column;animation:wfade .18s ease both;}
+  .search-bar{display:flex;align-items:center;gap:9px;padding:calc(env(safe-area-inset-top) + 12px) 14px 12px;background:#fff;border-bottom:1px solid var(--line);}
+  .search-bar .ic{width:20px;height:20px;color:var(--ink-faint);flex:0 0 auto;}
+  .search-bar input{flex:1;min-width:0;font-family:var(--body);font-size:1.05rem;border:none;outline:none;background:transparent;color:var(--ink);padding:6px 0;-webkit-appearance:none;}
+  .search-bar .s-cancel{flex:0 0 auto;background:none;border:none;color:var(--grass-deep);font-family:var(--body);font-weight:600;font-size:.9rem;cursor:pointer;padding:6px 2px;}
+  .search-results{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:9px 13px calc(env(safe-area-inset-bottom) + 20px);}
+  .search-res{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;margin-bottom:7px;cursor:pointer;font-family:var(--body);}
+  .search-res .ic{width:17px;height:17px;color:var(--grass);flex:0 0 auto;}
+  .search-res .sr-t{font-weight:600;font-size:.9rem;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .search-res .sr-tab{margin-left:auto;flex:0 0 auto;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--grass-deep);background:#EEF4ED;padding:3px 8px;border-radius:999px;}
+  .search-hint{font-size:.86rem;color:var(--ink-faint);text-align:center;padding:26px 18px;line-height:1.5;}
+  .searchflash{animation:searchflash 1.7s ease;}
+  @keyframes searchflash{0%,100%{box-shadow:var(--shadow);}18%,55%{box-shadow:0 0 0 3px rgba(58,130,85,.5);}}
+
   @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
 </head>
@@ -458,6 +473,7 @@
   <symbol id="i-jar" viewBox="0 0 24 24"><path d="M7.5 8h9M8.5 8V5a1 1 0 011-1h5a1 1 0 011 1v3M7.7 8l-.4 10.4a2 2 0 002 2.1h5.4a2 2 0 002-2.1L16.3 8"/><path d="M7.4 14.5c1.7-1 2.8.6 4.6 0s2.9.7 4.6 0"/></symbol>
   <symbol id="i-feed" viewBox="0 0 24 24"><path d="M12 21c-5-3-8-6.5-8-10a4 4 0 017.4-2.1L12 9l.6-.1A4 4 0 0120 11c0 3.5-3 7-8 10z"/><path d="M9.5 11.5L12 9l1.2 3 2-2"/></symbol>
   <symbol id="i-grass" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M12 21c0-4 .3-7 1.2-10M12 21c-1.2-4-3.4-6.5-6.5-8 .8 4 2.4 7 5.5 9M12 21c1.2-5 3.4-8 7-10-.6 5-3 8.5-6 10"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
   <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 4h16"/></symbol>
@@ -473,6 +489,7 @@
     </div>
     <div class="toolbar">
       <button class="tbtn" id="installBtn" hidden><svg class="ic"><use href="#i-plus"/></svg>Install</button>
+      <button class="tbtn" id="searchBtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg>Search</button>
       <button class="tbtn" id="weatherBtn"><svg class="ic"><use href="#i-cloud"/></svg>Weather</button>
     </div>
   </header>
@@ -1623,6 +1640,15 @@
   </div>
 </div>
 
+<div class="search-ov" id="searchOv" role="dialog" aria-modal="true" aria-label="Search" hidden>
+  <div class="search-bar">
+    <svg class="ic"><use href="#i-search"/></svg>
+    <input id="searchInput" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search the whole app…" aria-label="Search the app" />
+    <button class="s-cancel" id="searchClose">Cancel</button>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
 <div id="sheetHost"></div>
 <div id="toast"></div>
 
@@ -2711,6 +2737,50 @@
   }
   if($("phTexSeg"))$("phTexSeg").addEventListener("click",function(e){var b=e.target.closest("[data-tex]");if(!b)return;phTex=b.getAttribute("data-tex");document.querySelectorAll("#phTexSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});updatePh();});
   ["phArea","phCur","phTgt"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePh);});
+
+  /* ---------- search (indexes the DOM, jumps to any topic) ---------- */
+  var SEARCH_IDX=null,searchCur=[];
+  function tabLabelOf(name){var b=document.querySelector('.tab-btn[data-tab="'+name+'"]');return b?b.textContent.trim():name;}
+  function buildSearchIndex(){
+    var idx=[];
+    document.querySelectorAll('section[data-pane]').forEach(function(pane){
+      var tab=pane.getAttribute("data-pane"),label=tabLabelOf(tab),intro=pane.querySelector(".tab-intro");
+      idx.push({tab:tab,label:label,title:label+" tab",text:(label+" "+(intro?intro.textContent:"")).toLowerCase(),el:null});
+      pane.querySelectorAll(".card, .leadcard").forEach(function(card){
+        var h=card.querySelector("h3");
+        idx.push({tab:tab,label:label,title:h?h.textContent.trim():label,text:(card.textContent||"").toLowerCase(),el:card});
+      });
+    });
+    SEARCH_IDX=idx;
+  }
+  function runSearch(q){
+    var res=$("searchResults");if(!res)return;
+    q=(q||"").trim().toLowerCase();
+    if(!q){res.innerHTML='<div class="search-hint">Search anything — <b>mowing height</b>, <b>compost</b>, <b>duckweed</b>, <b>tomatoes</b>, <b>frost</b>, <b>clover</b>…</div>';searchCur=[];return;}
+    if(!SEARCH_IDX)buildSearchIndex();
+    var terms=q.split(/\s+/);
+    var hits=SEARCH_IDX.filter(function(it){return terms.every(function(t){return it.text.indexOf(t)>=0;});});
+    hits.sort(function(a,b){return (a.title.toLowerCase().indexOf(q)>=0?0:1)-(b.title.toLowerCase().indexOf(q)>=0?0:1);});
+    searchCur=hits.slice(0,24);
+    res.innerHTML=searchCur.length? searchCur.map(function(it,i){return '<button class="search-res" data-si="'+i+'">'+ic("chev")+'<span class="sr-t">'+esc(it.title)+'</span><span class="sr-tab">'+esc(it.label)+'</span></button>';}).join("") : '<div class="search-hint">No matches for “'+esc(q)+'.” Try a simpler word.</div>';
+  }
+  function openSearch(){var ov=$("searchOv");if(!ov)return;ov.hidden=false;document.body.style.overflow="hidden";SEARCH_IDX=null;var i=$("searchInput");if(i){i.value="";runSearch("");setTimeout(function(){try{i.focus();}catch(e){}},30);}}
+  function closeSearch(){var ov=$("searchOv");if(ov)ov.hidden=true;document.body.style.overflow="";}
+  if($("searchBtn"))$("searchBtn").addEventListener("click",openSearch);
+  if($("searchClose"))$("searchClose").addEventListener("click",closeSearch);
+  if($("searchInput"))$("searchInput").addEventListener("input",function(){runSearch(this.value);});
+  if($("searchResults"))$("searchResults").addEventListener("click",function(e){
+    var b=e.target.closest("[data-si]");if(!b)return;
+    var it=searchCur[+b.getAttribute("data-si")];if(!it)return;
+    closeSearch();
+    if(it.el){
+      var orig=window.scrollTo;window.scrollTo=function(){};   // suppress showTab's top-scroll so it doesn't fight the card scroll
+      showTab(it.tab);
+      window.scrollTo=orig;
+      setTimeout(function(){try{it.el.scrollIntoView({behavior:"smooth",block:"start"});}catch(ex){}it.el.classList.add("searchflash");setTimeout(function(){it.el.classList.remove("searchflash");},1800);},60);
+    } else { showTab(it.tab); }
+  });
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var ov=$("searchOv");if(ov&&!ov.hidden)closeSearch();}});
 
   /* ---------- Compost: browns:greens balance ---------- */
   function updateCompost(){
