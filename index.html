@@ -481,6 +481,8 @@
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 21V9"/><path d="M7 13l5-5 5 5"/><path d="M4 4h16"/></symbol>
   <symbol id="i-soil" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16"/><path d="M9 4v2.5M14.5 10v2.5M9.5 15v2.5"/></symbol>
   <symbol id="i-compost" viewBox="0 0 24 24"><path d="M5.5 8h13l-1.3 11a2 2 0 01-2 1.8H8.8a2 2 0 01-2-1.8z"/><path d="M4 8h16"/><path d="M9 8c-.4-2 1-3.7 3-3.7M14.5 8c.4-2-1-3.7-3-3.7"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2.5 4h2.3l2.4 12h10l1.9-8.5H6.7"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0112 0v6l1.6 2H4.4z"/><path d="M9.8 21a2.2 2.2 0 004.4 0"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -516,6 +518,8 @@
     <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
     <button class="tab-btn" role="tab" data-tab="pond"><svg class="ic"><use href="#i-waves"/></svg>Pond</button>
     <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
+    <button class="tab-btn" role="tab" data-tab="shop"><svg class="ic"><use href="#i-cart"/></svg>Plan &amp; Shop</button>
+    <button class="tab-btn" role="tab" data-tab="remind"><svg class="ic"><use href="#i-bell"/></svg>Reminders</button>
   </nav>
     <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
     <button class="tabnudge right" id="tabNudgeRight" aria-label="More tabs — scroll right" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
@@ -545,6 +549,7 @@
         <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-star"/></svg><span class="ht">Yard journal</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
         <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
+        <button class="hubchip" data-tool="remind" data-scroll="remindText"><svg class="ic"><use href="#i-bell"/></svg><span class="ht">Reminders</span></button>
         <button class="hubchip" data-tool="almanac" data-scroll="backupCard"><svg class="ic"><use href="#i-download"/></svg><span class="ht">Back up</span></button>
       </div>
       <div class="hubhead">Calculators</div>
@@ -567,6 +572,7 @@
         <button class="hubchip" data-tool="pests" data-scroll="issueFinder"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Pest finder</span></button>
         <button class="hubchip" data-tool="rain" data-scroll="rainCalc"><svg class="ic"><use href="#i-barrel"/></svg><span class="ht">Rain barrel</span></button>
         <button class="hubchip" data-tool="native" data-scroll="seedCalc"><svg class="ic"><use href="#i-clover"/></svg><span class="ht">Clover seed</span></button>
+        <button class="hubchip" data-tool="shop" data-scroll="shopName"><svg class="ic"><use href="#i-cart"/></svg><span class="ht">Shopping list</span></button>
         <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
       </div>
     </div>
@@ -921,6 +927,24 @@
           <li>If leaves yellow with green veins, <b>test the soil pH before reaching for anything.</b> <i>Trade-off:</i> a chelated-iron foliar spray is a fast cosmetic fix but temporary; amending soil and pH with organic matter is slower but the real, lasting cure. <button class="linklike" data-goto="grow">How to feed well →</button></li>
         </ul>
       </div></details>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Hydrangea <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— the pruning everyone gets wrong</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Almost every "my hydrangea won't bloom" problem is <b>pruning at the wrong time</b> — because the two common types are opposite. Know which you have and it's easy.</p>
+        <ul>
+          <li><b>Bigleaf / mophead &amp; oakleaf</b> (the blue/pink ones) bloom on <b>old wood</b> — buds form the previous summer. Prune <b>right after they flower</b>, never in fall or spring, or you cut off this year's blooms. A late frost can also nip the buds; site them with some shelter.</li>
+          <li><b>Panicle &amp; smooth</b> ('Annabelle', 'Limelight') bloom on <b>new wood</b>. Cut them back in <b>late winter/early spring</b> and they bloom reliably every year — these are the foolproof ones for Ohio.</li>
+          <li>When in doubt, <b>don't prune</b> — just remove dead stems in spring. Most hydrangeas need far less cutting than people give them.</li>
+          <li>Bigleaf flower color follows soil pH: <b>acidic = blue, alkaline = pink</b>. Wilting in afternoon sun usually means thirsty, not sick — they want morning sun, afternoon shade, and steady moisture. <button class="linklike" data-goto="soil">Soil pH →</button></li>
+        </ul>
+      </div></details>
+      <details class="ex"><summary><svg class="ic lead"><use href="#i-tree"/></svg>Boxwood <span style="font-weight:500;font-style:italic;color:var(--ink-faint);font-size:.85rem;">— the evergreen hedge</span><svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>The classic tidy evergreen for edging and foundations — slow, dense, and shapeable. Mostly trouble-free if you give it <b>good drainage and airflow</b>.</p>
+        <ul>
+          <li><b>Shear in late spring</b> after the new growth flushes, and again lightly mid-summer if you want crisp lines. Stop by late summer so tender new growth hardens before frost.</li>
+          <li><b>Thin the interior</b> occasionally — reach in and snip out some inner branches so light and air reach the center. It prevents the dead bare core and the fungal blights that thrive in still, damp foliage.</li>
+          <li>Watch for <b>boxwood blight</b> (dark leaf spots, rapid defoliation) and <b>leafminer</b>. Buy blight-resistant varieties, don't shear when wet, and clean up dropped leaves. <i>Trade-off:</i> if blight takes hold there's no cure — many gardeners now plant <b>inkberry holly or dwarf yaupon</b> as a tougher look-alike.</li>
+          <li>A deep fall watering and a light mulch (off the stem) carry it through winter; its shallow roots dislike drought and waterlogging alike.</li>
+        </ul>
+      </div></details>
       <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Watering a young tree is worth logging — pop it in your <button class="linklike" data-goto="almanac">yard journal</button> as a <b>water</b> entry. Do it across two seasons and you'll earn the <b>Rooted</b> Moment.</div></div>
     </div>
 
@@ -1019,6 +1043,32 @@
       <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Light is the real limiter</b>, not the method. A bright south window grows basil, mint, chives, cilantro, parsley, and leaf lettuce; anything dimmer wants a small LED grow light. Hydro grows fast because the roots get water, air, <i>and</i> nutrients all at once — and that's exactly why it's such a good teaching project: watch the roots, measure the growth, taste the difference.</div></div>
       <div class="note-card"><svg class="ic"><use href="#i-eye"/></svg><div class="txt">Worth logging: start a cutting and add a <b>sow</b> entry to your <button class="linklike" data-goto="almanac">journal</button> ("started basil in water"), then mark "first true leaves" as a <b>field note</b>. Start herbs indoors in winter and you'll earn the <b>Windowsill Green</b> Moment.</div></div>
     </div>
+
+    <!-- ===== F: Tomatoes, start to jar ===== -->
+    <div class="card" id="tomatoCard">
+      <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Tomatoes, start to jar</h3></div>
+      <p class="hint">The backyard crop everyone grows and most people prune wrong. The single most useful thing to know is <b>which kind you have</b> — it changes how you prune, support, and harvest.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-basket"/></svg>Determinate — the "bush" type</div><div class="cr-b">Grows to a set size, then sets most of its fruit in <b>one big flush over a couple weeks</b> — ideal when you want a batch to can or sauce all at once. <b>Don't prune the suckers</b>; each one carries fruit, and topping the plant just costs you tomatoes. A short cage or stake is plenty. <div class="pillrow"><span class="pill good">one big harvest</span><span class="pill good">no pruning</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-tree"/></svg>Indeterminate — the "vine" type</div><div class="cr-b">Keeps growing and fruiting <b>all season until frost</b> — the steady slicer supply. These benefit from pruning and strong support: a tall stake, string, or a sturdy cage. Most heirlooms and cherry tomatoes are indeterminate. <div class="pillrow"><span class="pill good">all-season picking</span><span class="pill warn">needs support + pruning</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Pruning (indeterminate only)</div><div class="cr-b">"Suckers" are the shoots in the <b>V between the main stem and a leaf branch</b>. Pinch them out while small to keep the plant to one or two main stems — that means better airflow, fewer diseases, and bigger fruit. Also strip the <b>lowest leaves</b> so none touch the soil (that's how blight splashes up). <i>Trade-off:</i> hard pruning = fewer but larger tomatoes and a healthier plant; little/no pruning = more, smaller fruit and a jungle that's prone to disease.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>The two classic problems</div><div class="cr-b"><b>Blossom-end rot</b> (black sunken bottoms) is a calcium-uptake issue driven by <b>uneven watering</b>, not a bug — mulch and water deeply and consistently. <b>Cracking</b> follows a dry spell then a downpour. Steady moisture fixes most tomato troubles. Water the <b>soil, not the leaves</b>, in the morning. <button class="linklike" data-goto="pests">More pest &amp; disease help →</button></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Paste types for cooking:</b> for salsa, sauce, and paste you want meaty, low-juice <b>paste/plum tomatoes</b> (Roma, San Marzano, Amish Paste) — they cook down faster with less watery waste. Slicers and cherries make great fresh salsa but a thinner sauce. Plant a few paste plants <i>specifically</i> for putting up.</div></div>
+    </div>
+
+    <!-- ===== G: Putting food by ===== -->
+    <div class="card" id="preserveCard">
+      <div class="card-head"><svg class="ic"><use href="#i-jar"/></svg><h3>Putting food by — preserving the harvest</h3></div>
+      <p class="hint">A glut is a gift if you can store it. From easiest to most involved — pick the method that fits the crop and your time.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-snow"/></svg>Freezing — the no-fuss default</div><div class="cr-b">Easiest and safest. <b>Tomatoes:</b> core and freeze whole in bags — the skins slip right off under warm water later, and they go straight into sauce. Or cook down a big batch of sauce/salsa base and freeze in jars (leave headroom). <b>Most veg</b> (beans, broccoli, corn): <b>blanch</b> 2–3 min, ice, drain, freeze on a tray then bag. <b>Herbs:</b> chop into ice-cube trays with oil or water. <i>Trade-off:</i> needs freezer space and power, but keeps flavor best with the least skill. <div class="pillrow"><span class="pill good">easy, safe</span><span class="pill warn">freezer space</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-jar"/></svg>Water-bath canning — for high-acid foods</div><div class="cr-b">Shelf-stable jars for <b>high-acid</b> foods: salsa, tomato sauce (add the bottled lemon juice or citric acid the tested recipe calls for), pickles, jams, applesauce. Use a <b>tested recipe</b> (Ball / USDA / your county extension) and the stated times — acidity and timing are what keep it safe. <i>Trade-off:</i> more equipment and care, but no freezer needed and it lasts a year-plus. <div class="pillrow"><span class="pill good">shelf-stable</span><span class="pill warn">follow tested recipes</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-alert"/></svg>Pressure canning — for low-acid foods</div><div class="cr-b">Plain vegetables, beans, and anything low-acid <b>must</b> be pressure-canned (not water-bath) to be safe from botulism. If you're not set up for it, <b>freeze those instead</b> — simpler and just as good. <div class="pillrow"><span class="pill warn">low-acid = pressure or freeze</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sun"/></svg>Drying, fermenting &amp; the cellar</div><div class="cr-b"><b>Dry</b> herbs, hot peppers, and paste tomatoes (oven on low, dehydrator, or airy shade) — store airtight. <b>Ferment</b> cabbage into kraut or cukes into sour pickles with just salt — easy and probiotic. And the oldest method: <b>cure and store</b> winter squash, onions, garlic, and potatoes somewhere cool, dark, and dry. <div class="pillrow"><span class="pill good">low/no energy</span></div></div></div>
+      </div>
+      <div class="note-card warn"><svg class="ic"><use href="#i-shield"/></svg><div class="txt"><b>Safety first, always.</b> Home canning is wonderful but unforgiving — use <b>current, tested recipes</b> (USDA Complete Guide, Ball Blue Book, or your state extension), the right method for the food's acidity, and proper headspace and processing times. When in doubt, freeze: it's the foolproof option.</div></div>
+    </div>
   </section>
 
   <!-- ============ BLOOM — FLOWERS ============ -->
@@ -1086,6 +1136,18 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bird"/></svg>But leave some standing for winter</div><div class="cr-b">Stop deadheading coneflowers, black-eyed Susans, and asters in fall — the <b>seedheads feed finches and shelter insects</b>, and they look beautiful in frost. Tidy isn't always kind. <button class="linklike" data-goto="wildlife">A living yard →</button></div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bee"/></svg>Plant in drifts, for the pollinators</div><div class="cr-b">Three or five of one flower together reads better and is far easier for bees to work than singles dotted around. Group by water/sun needs, and tuck flowers among the veg, too. <button class="linklike" data-goto="grow">Flowers in the veg bed →</button></div></div>
       </div>
+    </div>
+
+    <div class="card" id="hostaCard">
+      <div class="card-head"><svg class="ic"><use href="#i-clover"/></svg><h3>Hostas &amp; dividing — free plants forever</h3></div>
+      <p class="hint">The shade gardener's secret: a few clumps become a whole border, for nothing. Hostas are nearly indestructible and <b>multiply every year</b>, so you almost never have to buy them again.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cal"/></svg>When to split</div><div class="cr-b">Best in <b>early spring</b> as the pointed shoots ("eyes") just push up, or in <b>early fall</b> at least 4–6 weeks before frost so roots settle in. Avoid the heat of summer. A clump is ready to divide every <b>3–5 years</b>, or whenever the center thins or it outgrows its spot.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>How to do it</div><div class="cr-b">Water the day before. Dig the whole clump (or just slice a wedge from one side with a sharp spade and leave the rest in place). Shake or rinse off soil so you can see the crown, then pull or cut down through it into chunks — each piece needs <b>at least 2–3 eyes and a fist of roots</b>. A clean knife or spade through the crown is fine; hostas shrug it off. Replant at the <b>same depth</b>, water well, and mulch.</div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-droplet"/></svg>Aftercare &amp; trade-offs</div><div class="cr-b">Keep divisions <b>evenly moist for a few weeks</b> while they root; a spring division may look limp for a week, then bounce. <i>Trade-off:</i> more, smaller divisions = more plants but they take a season or two to look full; fewer, bigger divisions fill in fast. Same technique works for <b>daylilies, astilbe, ornamental grasses, coneflower, black-eyed Susan, and sedum</b> — divide, share, repeat. <div class="pillrow"><span class="pill good">free plants</span><span class="pill good">healthier clumps</span><span class="pill warn">water until rooted</span></div></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-rabbit"/></svg>The one real pest</div><div class="cr-b">Slugs chew holes in hosta leaves in damp shade. Blue-leaved, thick-textured varieties resist them; water in the morning (not evening), and if needed scatter <b>iron-phosphate</b> bait, which is safe around pets and wildlife. <button class="linklike" data-goto="pests">Gentle pest ladder →</button></div></div>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-bell"/></svg><div class="txt">Dividing is a calendar job — add "split the hostas" to your <button class="linklike" data-goto="remind">reminders</button> for early spring or early fall so it doesn't slip past the window.</div></div>
     </div>
   </section>
 
@@ -1764,6 +1826,58 @@
         <p>If you remember nothing else: <b>fall is the season that makes the lawn.</b> Cool-season grass roots and recovers in autumn's warm soil and cool air, so seeding, aeration, and most feeding pay off most then. Spring is for cleanup, crabgrass prevention, and a light feed. Summer is survival — mow high, water deep, and don't push growth.</p>
         <p>And the whole yard is one system. Clippings and leaves feed the soil, mulch feeds the beds, healthy soil holds water so you irrigate less, and going easy on salt and excess fertilizer keeps it out of the same streams a clean pond depends on. Tend the soil and the rest gets easier every year.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ PLAN & SHOP ============ -->
+  <section class="tab" data-pane="shop" hidden>
+    <p class="tab-intro">One list for everything the yard needs — so you buy it <b>once</b>, in one trip, at the right time. Jot what you're out of, pull in common supplies with a tap, and see the running total before you reach the register. It all stays private on this device.</p>
+
+    <div class="card" id="shopCard">
+      <div class="card-head"><svg class="ic"><use href="#i-cart"/></svg><h3>Your shopping list</h3></div>
+      <p class="hint">Add anything — seed, mulch, a new hose. Set a quantity and a rough price each to total the trip.</p>
+      <div class="grid2">
+        <div class="field"><label for="shopName">Item</label><input id="shopName" type="text" maxlength="60" placeholder="e.g. grass seed, mulch, tomato cages"/></div>
+        <div class="field"><label for="shopCat">Category</label><select id="shopCat"><option>Lawn</option><option>Beds</option><option>Soil</option><option>Grow</option><option>Bloom</option><option>Trees</option><option>Pest</option><option>Water</option><option>Tools</option><option>Other</option></select></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="shopQty">Quantity</label><input id="shopQty" type="number" inputmode="numeric" value="1" step="1" min="0"/></div>
+        <div class="field"><label for="shopPrice">Price each <span class="meta">optional</span></label><input id="shopPrice" type="number" inputmode="decimal" step="0.5" min="0" placeholder="$"/></div>
+      </div>
+      <button class="act btn-ghost" id="shopAdd"><svg class="ic"><use href="#i-plus"/></svg>Add to list</button>
+      <div class="hero soil" id="shopHero"></div>
+      <div class="loglist" id="shopList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-bulb"/></svg><h3>Quick-add common supplies</h3></div>
+      <p class="hint">Tap to drop a typical item (with a rough price) onto your list — adjust the quantity after.</p>
+      <div class="hub" id="shopQuick"></div>
+    </div>
+
+    <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Buy with the calendar, not the impulse.</b> The best deals follow the season — <b>grass seed and fall fertilizer</b> are cheapest late summer, <b>spring bulbs</b> ship in fall, and <b>plants and mulch</b> dip at end-of-season clearance. A standing list means you grab them at the right moment and skip the second trip. <i>Trade-off:</i> stocking up saves money but seed and chemicals lose potency in storage — buy what you'll use within a year.</div></div>
+  </section>
+
+  <!-- ============ REMINDERS ============ -->
+  <section class="tab" data-pane="remind" hidden>
+    <p class="tab-intro">The yard runs on timing — seed in fall, prune in late winter, drain the hose before the freeze. This is your gentle nudge list: what the season tends to ask for, plus your own reminders. No accounts, no notifications that leave the device — just a list that's here when you open it.</p>
+
+    <div class="card" id="seasonTasksCard">
+      <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>What the season's asking for</h3></div>
+      <p class="hint" id="seasonTasksSub"></p>
+      <div class="cmp" id="seasonTasks"></div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">These are <b>typical for cool-season Ohio (zone 6)</b> — read them as a rhythm, not a rulebook. A late spring or a warm fall shifts everything by a week or two, so let the weather and your own plants have the final say.</div></div>
+    </div>
+
+    <div class="card" id="remindCard">
+      <div class="card-head"><svg class="ic"><use href="#i-bell"/></svg><h3>Your reminders</h3></div>
+      <p class="hint">Add a private nudge with an optional due date — overdue and soonest ones rise to the top.</p>
+      <div class="field"><label for="remindText">Reminder</label><input id="remindText" type="text" maxlength="90" placeholder="e.g. drain the rain barrel, order garlic, split the hostas"/></div>
+      <div class="grid2">
+        <div class="field"><label for="remindDate">Due <span class="meta">optional</span></label><input id="remindDate" type="date"/></div>
+        <div class="field" style="display:flex;align-items:flex-end;"><button class="act btn-ghost" id="remindAdd"><svg class="ic"><use href="#i-plus"/></svg>Add reminder</button></div>
+      </div>
+      <div class="loglist" id="remindList"></div>
     </div>
   </section>
 
@@ -3015,6 +3129,109 @@
   }
   ["rnL","rnW","rnIn","rnShare"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updateRain);});
 
+  /* ---------- plan & shop: shopping list ---------- */
+  var SHOP_QUICK=[
+    {name:"Grass seed (cool-season blend)",cat:"Lawn",price:35},
+    {name:"Lawn / starter fertilizer",cat:"Lawn",price:22},
+    {name:"Mulch (bag)",cat:"Beds",price:4},
+    {name:"Compost / topsoil (bag)",cat:"Beds",price:6},
+    {name:"Garden lime (bag)",cat:"Soil",price:8},
+    {name:"Potting / seed-start mix",cat:"Grow",price:11},
+    {name:"Vegetable seeds or starts",cat:"Grow",price:4},
+    {name:"Flower bulbs",cat:"Bloom",price:12},
+    {name:"Insecticidal soap / neem",cat:"Pest",price:9},
+    {name:"Rain barrel (55 gal)",cat:"Water",price:90}
+  ];
+  function shopAll(){var a=lsGet("ycShop");return Array.isArray(a)?a:[];}
+  function shopSave(a){lsSet("ycShop",a);}
+  function shopAddItem(name,cat,qty,price){
+    var a=shopAll();
+    a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,cat:cat||"Other",qty:(qty!=null&&qty>0?qty:1),price:(price!=null&&price>=0?price:null),got:0});
+    shopSave(a);renderShop();
+  }
+  function renderShop(){
+    var el=$("shopList");if(!el)return;var a=shopAll();
+    var need=0,have=0;
+    a.forEach(function(it){var line=(it.price!=null?it.price*it.qty:0);if(it.got)have+=line;else need+=line;});
+    var hero=$("shopHero");
+    if(hero){
+      if(!a.length){hero.innerHTML='<div class="h-sub">Your list is empty — add an item above, or tap a common supply below.</div>';}
+      else{var items=a.length,left=a.filter(function(x){return !x.got;}).length;
+        hero.innerHTML='<div class="h-amt">'+money(need)+' <small>still to buy</small></div>'+
+          '<div class="h-sub">'+left+' of '+items+' item'+(items===1?"":"s")+' left'+(have>0?' · '+money(have)+' already checked off':'')+'.</div>';}
+    }
+    if(!a.length){el.innerHTML='<div class="empty">Nothing on the list yet.</div>';return;}
+    a=a.slice().sort(function(x,y){if(x.got!==y.got)return x.got?1:-1;return x.cat<y.cat?-1:(x.cat>y.cat?1:0);});
+    el.innerHTML=a.map(function(it){
+      var sub=it.cat+(it.qty>1?' · ×'+it.qty:'')+(it.price!=null?' · '+money(it.price*it.qty):'');
+      var title=it.got?'<span style="text-decoration:line-through;opacity:.6">'+esc(it.name)+'</span>':esc(it.name);
+      return '<div class="logrow">'+
+        '<button class="lr-del" data-shopget="'+esc(it.id)+'" aria-label="Toggle bought" style="color:'+(it.got?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.got?"check":"plus")+'</button>'+
+        '<div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s">'+esc(sub)+'</div></div>'+
+        '<button class="lr-del" data-shopdel="'+esc(it.id)+'" aria-label="Delete">'+ic("x")+'</button>'+
+      '</div>';
+    }).join("");
+  }
+  function renderShopQuick(){var el=$("shopQuick");if(!el)return;el.innerHTML=SHOP_QUICK.map(function(q,i){return '<button class="hubchip" data-shopq="'+i+'"><svg class="ic"><use href="#i-plus"/></svg><span class="ht">'+esc(q.name)+'</span></button>';}).join("");}
+  if($("shopAdd"))$("shopAdd").addEventListener("click",function(){
+    var name=$("shopName").value.trim();if(!name){toast("Name the item first");return;}
+    shopAddItem(name,$("shopCat").value,num("shopQty"),num("shopPrice"));
+    $("shopName").value="";$("shopPrice").value="";$("shopQty").value="1";toast("Added to your list");
+  });
+  if($("shopQuick"))$("shopQuick").addEventListener("click",function(e){var b=e.target.closest("[data-shopq]");if(!b)return;var q=SHOP_QUICK[+b.getAttribute("data-shopq")];if(q){shopAddItem(q.name,q.cat,1,q.price);toast("Added — tweak the quantity if you like");}});
+  if($("shopList"))$("shopList").addEventListener("click",function(e){
+    var g=e.target.closest("[data-shopget]");if(g){var id=g.getAttribute("data-shopget");var a=shopAll();a.forEach(function(x){if(x.id===id)x.got=x.got?0:1;});shopSave(a);renderShop();return;}
+    var d=e.target.closest("[data-shopdel]");if(d){var id2=d.getAttribute("data-shopdel");shopSave(shopAll().filter(function(x){return x.id!==id2;}));renderShop();}
+  });
+
+  /* ---------- reminders: seasonal + personal ---------- */
+  var SEASON_TASKS={
+    0:[{icon:"cut",t:"Sharpen & plan",b:"A quiet month — sharpen the mower blade, clean tools, and sketch this year's beds. A clean cut and a plan now save work all season."},{icon:"basket",t:"Order seeds early",b:"The best varieties sell out. Order vegetable and flower seeds now while selection is full."},{icon:"bird",t:"Keep the birds fed",b:"Feeders and unfrozen water carry your wildlife through the lean weeks — and they'll repay you eating pests come spring."}],
+    1:[{icon:"cut",t:"Late-winter pruning",b:"Prune dormant trees and summer-blooming shrubs now — but <b>not</b> spring bloomers like lilac or forsythia, or you'll cut off this year's flowers."},{icon:"sprout",t:"Start slow seeds indoors",b:"Onions, leeks, and some perennials can go under lights now. Most things are still too early — patience beats leggy seedlings."}],
+    2:[{icon:"grass",t:"Crabgrass pre-emergent",b:"When soil holds about 50–55°F (forsythia dropping its bloom is the cue), apply pre-emergent. <i>Trade-off:</i> it also stops grass seed, so don't do it where you plan to seed. <button class=\"linklike\" data-goto=\"lawn\">Timing →</button>"},{icon:"leaf",t:"Tidy the beds gently",b:"Cut back last year's perennials and rake lightly. Wait for a stretch of 50°F days so you don't evict overwintering pollinators too soon."},{icon:"sprout",t:"Start tomatoes & peppers",b:"About 6–8 weeks before your last frost, start warm-season seedlings indoors."}],
+    3:[{icon:"grass",t:"Seed thin spots",b:"Early spring is the second-best time to overseed (fall is best). Keep the top half-inch moist until it's up."},{icon:"carrot",t:"Plant cool crops",b:"Peas, potatoes, lettuce, spinach, and onions love cool soil — get them in. Hold the heat-lovers a few more weeks."},{icon:"flower",t:"Divide perennials",b:"Split crowded hostas, daylilies, and grasses as they emerge — free plants, healthier clumps. <button class=\"linklike\" data-goto=\"bloom\">How to divide →</button>"}],
+    4:[{icon:"thermo",t:"Wait out the last frost",b:"Ohio's last frost is usually mid-May. Once it's reliably past, plant tomatoes, peppers, beans, and squash. Harden seedlings off first."},{icon:"layers",t:"Mulch the beds",b:"Once soil has warmed, 2–3 inches of mulch holds moisture and smothers weeds for the whole season."}],
+    5:[{icon:"grass",t:"Mow high in the heat",b:"Raise the deck to 3–4 inches — taller grass shades its own roots and outcompetes weeds. Never cut more than a third at once."},{icon:"droplet",t:"Water deep, not often",b:"New plants and lawns want a deep soak once or twice a week, not a daily sprinkle. Deep roots survive the dry weeks ahead."},{icon:"bug",t:"Scout for pests by hand",b:"Walk the garden, hand-pick beetles and caterpillars, and let the good bugs work before reaching for anything. <button class=\"linklike\" data-goto=\"pests\">Least-harm ladder →</button>"}],
+    6:[{icon:"droplet",t:"Decide: water or dormancy",b:"In a drought, either give the lawn an inch a week or let it go gold and dormant — just pick one. Flip-flopping is what stresses it."},{icon:"basket",t:"Harvest often",b:"Pick beans, zucchini, and cucumbers young and often — it keeps the plants producing for weeks longer."},{icon:"carrot",t:"Sow for fall",b:"Mid-summer is the time to start fall brassicas, carrots, and beets for a second harvest."}],
+    7:[{icon:"grass",t:"Plan fall lawn seeding",b:"Late August into September is the prime window for cool-season seed. Buy seed and starter fertilizer now."},{icon:"worm",t:"Scout grubs — don't spray on habit",b:"Cut a square foot of turf and count. Under ~10 grubs is nothing to act on. <button class=\"linklike\" data-goto=\"lawn\">The gentle approach →</button>"},{icon:"carrot",t:"Sow fall greens",b:"Lettuce, spinach, kale, and radishes sown now thrive in the cooling weeks."}],
+    8:[{icon:"grass",t:"Seed & overseed now",b:"This is the best lawn-seeding window of the year — warm soil, cool air, fading weeds. Follow with a fall feeding."},{icon:"flower",t:"Plant spring bulbs",b:"Daffodils, crocus, and tulips go in now for spring color. Plant garlic late this month into October too."},{icon:"flower",t:"Divide & move perennials",b:"Cool, moist soil makes fall a great time to split and transplant — they'll root before winter."}],
+    9:[{icon:"leaf",t:"Mulch-mow the leaves",b:"Shred leaves back into the lawn for free fertilizer, or pile them on beds. Leave some in a corner for overwintering wildlife."},{icon:"droplet",t:"Drain hoses & barrels",b:"Before the first hard freeze, disconnect and drain hoses and rain barrels so they don't crack."},{icon:"tree",t:"Plant trees & shrubs",b:"Fall planting lets roots establish in cool soil with less stress than spring. Water until the ground freezes."}],
+    10:[{icon:"cut",t:"Winterize the mower",b:"Last mow a touch lower, then stabilize or drain the fuel and change the oil so spring starts easy."},{icon:"tree",t:"Protect young trees",b:"Wrap trunks against sunscald and gnawing rodents, and mulch (not against the bark) to buffer the roots."},{icon:"leaf",t:"Final leaf pass",b:"Clear leaves off the lawn so it doesn't smother — but a leaf layer left on beds and in corners feeds the soil and shelters fireflies and bees."}],
+    11:[{icon:"snow",t:"Salt sparingly",b:"Use de-icer only where you must, and the least that works — it runs off into soil and streams. <button class=\"linklike\" data-goto=\"snow\">Gentler options →</button>"},{icon:"bird",t:"Feed & water wildlife",b:"Keep feeders full and water unfrozen through the cold. Rest, plan next year, and enjoy the quiet."}]
+  };
+  var MONTH_NAMES=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  function renderSeasonTasks(){
+    var el=$("seasonTasks");if(!el)return;
+    var m=new Date().getMonth(),tasks=SEASON_TASKS[m]||[];
+    if($("seasonTasksSub"))$("seasonTasksSub").innerHTML='Typical cool-season Ohio tasks for <b>'+MONTH_NAMES[m]+'</b> — tap <b>+ Add reminder</b> on any to keep it.';
+    el.innerHTML=tasks.map(function(t,i){return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-'+t.icon+'"/></svg>'+t.t+'</div><div class="cr-b">'+t.b+' <button class="linklike" data-addtask="'+i+'" data-month="'+m+'">+ Add reminder</button></div></div>';}).join("");
+  }
+  if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[b.getAttribute("data-month")]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders");}});
+  function remindAll(){var a=lsGet("ycReminders");return Array.isArray(a)?a:[];}
+  function remindSaveAll(a){lsSet("ycReminders",a);}
+  function remindAdd(text,date){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0});remindSaveAll(a);renderRemind();}
+  function renderRemind(){
+    var el=$("remindList");if(!el)return;var a=remindAll();
+    if(!a.length){el.innerHTML='<div class="empty">No reminders yet — add one above, or tap a seasonal task.</div>';return;}
+    var todayStr="";try{var nd=new Date();todayStr=nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){}
+    a=a.slice().sort(function(x,y){if(x.done!==y.done)return x.done?1:-1;var xd=x.date||"9999-99",yd=y.date||"9999-99";return xd<yd?-1:(xd>yd?1:0);});
+    el.innerHTML=a.map(function(it){
+      var overdue=(it.date&&!it.done&&todayStr&&it.date<todayStr);
+      var sub=it.date?((overdue?'Overdue · ':'Due ')+fmtDate(it.date)):'No date';
+      var title=it.done?'<span style="text-decoration:line-through;opacity:.6">'+esc(it.text)+'</span>':esc(it.text);
+      return '<div class="logrow">'+
+        '<button class="lr-del" data-rdone="'+esc(it.id)+'" aria-label="Toggle done" style="color:'+(it.done?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.done?"check":"plus")+'</button>'+
+        '<div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s"'+(overdue?' style="color:#b4532a"':'')+'>'+esc(sub)+'</div></div>'+
+        '<button class="lr-del" data-rdel="'+esc(it.id)+'" aria-label="Delete">'+ic("x")+'</button>'+
+      '</div>';
+    }).join("");
+  }
+  if($("remindAdd"))$("remindAdd").addEventListener("click",function(){var t=$("remindText").value.trim();if(!t){toast("Write the reminder first");return;}remindAdd(t,$("remindDate").value);$("remindText").value="";$("remindDate").value="";toast("Reminder added");});
+  if($("remindList"))$("remindList").addEventListener("click",function(e){
+    var d=e.target.closest("[data-rdone]");if(d){var id=d.getAttribute("data-rdone");var a=remindAll();a.forEach(function(x){if(x.id===id)x.done=x.done?0:1;});remindSaveAll(a);renderRemind();return;}
+    var del=e.target.closest("[data-rdel]");if(del){var id2=del.getAttribute("data-rdel");remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();}
+  });
+
   /* ---------- welcome / onboarding ---------- */
   var welcomePrevFocus=null;
   function openWelcome(){var w=$("welcome");if(!w)return;welcomePrevFocus=document.activeElement;w.hidden=false;w.scrollTop=0;document.body.style.overflow="hidden";var s=$("welcomeStart");if(s)try{s.focus();}catch(e){}}
@@ -3029,7 +3246,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();
     showTab("almanac");
     updateTabHints();
     if(!lsGet("ycWelcomeSeen"))openWelcome();
