@@ -3979,7 +3979,51 @@
     s+='</svg>';
     return s;
   }
-  function refreshDerived(){var l=$("planLegend");if(l)l.innerHTML=legendHTML();var e=$("planElev");if(e)e.innerHTML=elevationSVG();}
+  function refreshDerived(){var l=$("planLegend");if(l)l.innerHTML=legendHTML();var e=$("planElev");if(e)e.innerHTML=elevationSVG();var x=$("planExtra");if(x)x.innerHTML=extrasHTML();}
+  // classify plants by name so companion/trellis advice needs no extra data fields
+  function famOf(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();
+    if(/onion|garlic|chive|scallion|leek/.test(n))return"allium";
+    if(/bean|pea\b|peas/.test(n))return"legume";
+    if(/tomato|pepper|potato|eggplant|jalape/.test(n))return"nightshade";
+    if(/corn/.test(n))return"corn";
+    if(/cabbage|kale|broccoli|bok|napa|gai\s?lan|cauliflower|daikon|turnip/.test(n))return"brassica";
+    if(/carrot|dill|cilantro|parsley|fennel/.test(n))return"umbel";
+    if(/squash|pumpkin|cucumber|cuke|melon|zucchini/.test(n))return"cucurbit";
+    if(/basil|oregano|thyme|sage|mint|rosemary|balm|chamomile|bee\s?balm|lavender|hibiscus/.test(n))return"herb";
+    if(/sunflower|cosmos|zinnia|marigold|calendula|nasturtium|bachelor|dahlia|glad|snap|celosia|rudbeck/.test(n))return"flower";
+    if(/lettuce|spinach|chard|arugula|radish/.test(n))return"leafy";
+    return"other";}
+  function needsTrellis(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();if(/bush bean/.test(n))return false;return /tomato|pole bean|\bpea|peas|cucumber|cuke|gladiolus/.test(n);}
+  function placedPlants(){var g=curGoal(),seen={},out=[];planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi]&&!seen[pi]){seen[pi]=1;out.push(g.plants[pi]);}});return out;}
+  function extrasHTML(){
+    var g=curGoal(),placed=placedPlants();
+    if(!placed.length)return "";
+    // totals
+    var counts={},filled=0,totalPlants=0;
+    planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi]){counts[pi]=(counts[pi]||0)+1;filled++;}});
+    Object.keys(counts).forEach(function(k){totalPlants+=plantCount(counts[k],g.plants[+k].per);});
+    var bedSq=planSize.w*planSize.l;
+    var html='<div class="note-card" style="margin-top:11px">'+ic("grid")+'<div class="txt"><b>This bed:</b> about <b>'+totalPlants+' plant'+(totalPlants===1?"":"s")+'</b> across '+filled+' of '+bedSq+' squares.</div></div>';
+    // overflow flag — does the kit's ideal footprint exceed this bed?
+    var idealSq=0;g.plants.forEach(function(p){idealSq+=p.sq;});
+    if(idealSq>bedSq)html+='<div class="note-card warn">'+ic("alert")+'<div class="txt"><b>This kit is a tight fit.</b> It’s designed for about <b>'+idealSq+' sq ft</b>, but your '+planSize.w+'×'+planSize.l+' bed has '+bedSq+' — so the lower-priority plants got left out. A <b>4×8</b> fits the whole kit, or trim a few crops.</div></div>';
+    // trellis callout
+    var tr=placed.filter(needsTrellis).map(function(p){return (p.e||"")+" "+p.n;});
+    if(tr.length)html+='<div class="note-card">'+ic("ruler")+'<div class="txt"><b>Give these a trellis or cage</b> — and put it on the <b>north edge</b> so it doesn’t shade the rest: '+tr.join(", ")+'.</div></div>';
+    // companions — surface a classic conflict and a synergy from what's placed
+    var fams={};placed.forEach(function(p){fams[famOf(p)]=1;});
+    var warns=[],wins=[];
+    if(fams.allium&&fams.legume)warns.push("Keep the <b>onions/garlic</b> away from the <b>beans &amp; peas</b> — alliums stunt legumes. Put them at opposite ends.");
+    if(fams.nightshade&&fams.brassica)warns.push("<b>Tomatoes/peppers</b> and the <b>cabbage family</b> compete for the same food — give them separate ends.");
+    if(fams.nightshade&&(fams.herb||fams.flower))wins.push("Tuck the <b>basil &amp; marigolds</b> among the tomatoes and peppers — they help mask them from pests.");
+    if(fams.umbel&&fams.allium)wins.push("<b>Carrots and onions</b> are great neighbours — the onions throw the carrot fly off the scent.");
+    if(fams.corn&&fams.legume&&fams.cucurbit)wins.push("That’s the classic <b>Three Sisters</b> — corn is the trellis, beans feed the soil, squash shades out weeds.");
+    if(fams.cucurbit&&fams.umbel)wins.push("<b>Dill</b> near the squash/cucumbers draws in the wasps that eat their pests.");
+    if(warns.length||wins.length){
+      html+='<div class="note-card">'+ic("bee")+'<div class="txt"><b>Companions:</b> '+(warns.concat(wins.slice(0,2)).slice(0,3).join(" "))+'</div></div>';
+    }
+    return html;
+  }
   function brushBarHTML(){
     var g=curGoal();
     var chips=g.plants.map(function(p,i){return '<button data-brush="'+i+'" aria-pressed="'+(planBrush===i?"true":"false")+'"><span class="em">'+(p.e||"🌱")+'</span><span class="sw" style="background:'+colorFor(i)+'"></span>'+esc(p.s)+'</button>';}).join("");
@@ -4007,6 +4051,7 @@
       '<div class="note-card" style="margin-top:10px">'+ic("info")+'<div class="txt"><b>Why this layout:</b> run the longer side <b>north–south</b> and keep the tall plants at the <b>north end</b> so they don’t shade the shorter crops as the sun crosses the south sky. Each square is 1 ft.</div></div>'+
       '<p class="hint" style="margin:13px 0 2px;font-size:.78rem">Plant counts use <b>square-foot-garden spacing</b> — e.g. 16 carrots, 9 beans, 4 lettuce, or 1 tomato per 1-ft square. Sprawlers like squash count as one plant that <b>trails out of the bed</b>.</p>'+
       '<div class="bedleg" id="planLegend">'+legendHTML()+'</div>'+
+      '<div id="planExtra">'+extrasHTML()+'</div>'+
       '<div class="note-card" style="margin-top:13px">'+ic("soil")+'<div class="txt"><b>Soil:</b> '+g.soil+' A great raised-bed fill is roughly <b>⅓ compost, ⅓ peat or coir, ⅓ coarse vermiculite</b>; top up with compost each season.</div></div>'+
       '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
       '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
