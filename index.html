@@ -107,7 +107,10 @@
   .tabbar-wrap.can-left .tabnudge.left{display:flex;}
   .tabbar-wrap.can-right .tabnudge.right{animation:tabnudge 1.5s ease-in-out 3;}
   @keyframes tabnudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(3px)}}
-  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}}
+  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}*,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}}
+  /* visible keyboard focus for everyone who tabs through */
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible,.hubchip:focus-visible,.tab-btn:focus-visible,.bedcell:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
+  .welcome a:focus-visible,.welcome button:focus-visible{outline-color:#fff;}
   .tab-btn{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.68rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:12px;padding:7px 11px;cursor:pointer;white-space:nowrap;}
   .tab-btn .ic{width:21px;height:21px;}
   .tab-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
@@ -603,8 +606,9 @@
     </div>
 
     <div class="card" id="weekendCard" hidden>
-      <div class="card-head"><svg class="ic"><use href="#i-check"/></svg><h3>This weekend</h3></div>
+      <div class="card-head"><svg class="ic"><use href="#i-check"/></svg><h3>Today &amp; this week</h3></div>
       <p class="hint" id="weekendSub">A short, sensible to-do drawn from the season, the weather, and your reminders.</p>
+      <div id="weekendDue"></div>
       <div class="cmp" id="weekendList"></div>
     </div>
 
@@ -2227,12 +2231,13 @@
 
     <div class="card" id="remindCard">
       <div class="card-head"><svg class="ic"><use href="#i-bell"/></svg><h3>Your reminders</h3></div>
-      <p class="hint">Add a private nudge with an optional due date — overdue and soonest ones rise to the top.</p>
-      <div class="field"><label for="remindText">Reminder</label><input id="remindText" type="text" maxlength="90" placeholder="e.g. drain the rain barrel, order garlic, split the hostas"/></div>
+      <p class="hint">Add a private nudge with an optional due date — overdue and soonest ones rise to the top. Set it to <b>repeat</b> and checking it off rolls it to the next time.</p>
+      <div class="field"><label for="remindText">Reminder</label><input id="remindText" type="text" maxlength="90" placeholder="e.g. drain the rain barrel, water tomatoes, split the hostas"/></div>
       <div class="grid2">
         <div class="field"><label for="remindDate">Due <span class="meta">optional</span></label><input id="remindDate" type="date"/></div>
-        <div class="field" style="display:flex;align-items:flex-end;"><button class="act btn-ghost" id="remindAdd"><svg class="ic"><use href="#i-plus"/></svg>Add reminder</button></div>
+        <div class="field"><label for="remindRepeat">Repeat</label><select id="remindRepeat"><option value="none">Once</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option></select></div>
       </div>
+      <button class="act btn-ghost" id="remindAdd"><svg class="ic"><use href="#i-plus"/></svg>Add reminder</button>
       <div class="loglist" id="remindList"></div>
     </div>
   </section>
@@ -2344,7 +2349,7 @@
 </div>
 
 <div id="sheetHost"></div>
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -3689,7 +3694,18 @@
   if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[b.getAttribute("data-month")]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders");}});
   function remindAll(){var a=lsGet("ycReminders");return Array.isArray(a)?a:[];}
   function remindSaveAll(a){lsSet("ycReminders",a);}
-  function remindAdd(text,date){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0});remindSaveAll(a);renderRemind();}
+  function remindAdd(text,date,repeat){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0,repeat:(repeat&&repeat!=="none")?repeat:""});remindSaveAll(a);renderRemind();}
+  var REPEAT_LABEL={weekly:"weekly",monthly:"monthly",yearly:"yearly"};
+  function nextDate(iso,repeat){try{var d=new Date(iso+"T12:00:00");if(isNaN(d.getTime()))return iso;if(repeat==="weekly")d.setDate(d.getDate()+7);else if(repeat==="monthly")d.setMonth(d.getMonth()+1);else if(repeat==="yearly")d.setFullYear(d.getFullYear()+1);else return iso;return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}catch(e){return iso;}}
+  function remindToggle(id){
+    var a=remindAll(),adv=null;
+    a.forEach(function(x){if(x.id!==id)return;
+      if(x.repeat&&x.date&&!x.done){x.date=nextDate(x.date,x.repeat);adv=x.date;}
+      else{x.done=x.done?0:1;}
+    });
+    remindSaveAll(a);renderRemind();
+    if(adv)toast("Done — next "+fmtDate(adv));
+  }
   function localToday(){try{var nd=new Date();return nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){return "";}}
   function updateRemindBadge(){
     var lbl=$("hubRemindLabel");if(!lbl)return;
@@ -3706,18 +3722,26 @@
     a=a.slice().sort(function(x,y){if(x.done!==y.done)return x.done?1:-1;var xd=x.date||"9999-99",yd=y.date||"9999-99";return xd<yd?-1:(xd>yd?1:0);});
     el.innerHTML=a.map(function(it){
       var overdue=(it.date&&!it.done&&todayStr&&it.date<todayStr);
-      var sub=it.date?((overdue?'Overdue · ':'Due ')+fmtDate(it.date)):'No date';
+      var rep=it.repeat&&REPEAT_LABEL[it.repeat]?' · ↻ '+REPEAT_LABEL[it.repeat]:'';
+      var sub=(it.date?((overdue?'Overdue · ':'Due ')+fmtDate(it.date)):'No date')+rep;
       var title=it.done?'<span style="text-decoration:line-through;opacity:.6">'+esc(it.text)+'</span>':esc(it.text);
       return '<div class="logrow">'+
-        '<button class="lr-del" data-rdone="'+esc(it.id)+'" aria-label="Toggle done" style="color:'+(it.done?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.done?"check":"plus")+'</button>'+
+        '<button class="lr-del" data-rdone="'+esc(it.id)+'" aria-label="'+(it.repeat?'Done — roll to next':'Toggle done')+'" style="color:'+(it.done?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.done?"check":"plus")+'</button>'+
         '<div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s"'+(overdue?' style="color:#b4532a"':'')+'>'+esc(sub)+'</div></div>'+
         '<button class="lr-del" data-rdel="'+esc(it.id)+'" aria-label="Delete">'+ic("x")+'</button>'+
       '</div>';
     }).join("");
   }
-  if($("remindAdd"))$("remindAdd").addEventListener("click",function(){var t=$("remindText").value.trim();if(!t){toast("Write the reminder first");return;}remindAdd(t,$("remindDate").value);$("remindText").value="";$("remindDate").value="";toast("Reminder added");});
+  if($("remindAdd"))$("remindAdd").addEventListener("click",function(){
+    var t=$("remindText").value.trim();if(!t){toast("Write the reminder first");return;}
+    var rep=$("remindRepeat")?$("remindRepeat").value:"none",date=$("remindDate").value;
+    if(rep&&rep!=="none"&&!date)date=localToday(); // a repeat needs an anchor date
+    remindAdd(t,date,rep);
+    $("remindText").value="";$("remindDate").value="";if($("remindRepeat"))$("remindRepeat").value="none";
+    toast(rep&&rep!=="none"?"Repeating reminder added":"Reminder added");
+  });
   if($("remindList"))$("remindList").addEventListener("click",function(e){
-    var d=e.target.closest("[data-rdone]");if(d){var id=d.getAttribute("data-rdone");var a=remindAll();a.forEach(function(x){if(x.id===id)x.done=x.done?0:1;});remindSaveAll(a);renderRemind();return;}
+    var d=e.target.closest("[data-rdone]");if(d){remindToggle(d.getAttribute("data-rdone"));return;}
     var del=e.target.closest("[data-rdel]");if(del){var id2=del.getAttribute("data-rdel");remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();}
   });
 
@@ -3977,6 +4001,7 @@
       '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
       '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
       '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>'+
+      '<button class="act btn-ghost" id="planRemind" style="margin-top:9px"><svg class="ic"><use href="#i-bell"/></svg>Add planting reminders</button>'+
       '<button class="act btn-ghost" id="planCopy" style="margin-top:9px"><svg class="ic"><use href="#i-upload"/></svg>Copy this plan as text</button>';
     wireBedPaint();
   }
@@ -4016,7 +4041,15 @@
       toast(added?("Added "+added+" plants + soil to your shopping list"):"Place some plants first");
       return;
     }
-    if(e.target.closest("#planCopy"))copyToClipboard(planSummaryText(),"Plan copied — paste it anywhere");
+    if(e.target.closest("#planCopy")){copyToClipboard(planSummaryText(),"Plan copied — paste it anywhere");return;}
+    if(e.target.closest("#planRemind")){
+      var gg=curGoal(),present={};planLayout.forEach(function(pi){if(pi>=0)present[pi]=1;});
+      var existing={};remindAll().forEach(function(r){existing[(r.text||"").toLowerCase()]=1;});
+      var list=remindAll(),added=0;
+      Object.keys(present).forEach(function(k){var p=gg.plants[+k];if(!p)return;var txt="Plant "+p.n+" — "+p.when;if(existing[txt.toLowerCase()])return;list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,text:txt,date:"",done:0,repeat:""});existing[txt.toLowerCase()]=1;added++;});
+      if(added){remindSaveAll(list);renderRemind();}
+      toast(added?("Added "+added+" planting reminder"+(added===1?"":"s")):"Place some plants, or they're already on your list");
+    }
   });
   function planSummaryText(){
     var g=curGoal(),cols=planSize.w,rows=planSize.l,counts={};
@@ -4223,10 +4256,18 @@
     // 1–2 seasonal tasks for the month, tilted toward the user's chosen areas if any
     var mt=(SEASON_TASKS[new Date().getMonth()]||[]).slice();
     mt.slice(0,2).forEach(function(t){items.push({icon:t.icon,t:t.t+".",tab:null,r:t.t});});
-    // overdue / due reminders
-    var today=localToday();var due=remindAll().filter(function(r){return r.date&&!r.done&&today&&r.date<=today;});
-    if(due.length)items.push({icon:"bell",tab:"remind",t:due.length+" reminder"+(due.length>1?"s":"")+" due — tap to catch up on the Reminders tab.",r:null});
-    if(!items.length){card.hidden=true;return;}
+    // due / overdue reminders — listed inline with quick complete (within ~7 days)
+    var today=localToday();
+    var soon="";try{var sd=new Date();sd.setDate(sd.getDate()+7);soon=sd.getFullYear()+'-'+('0'+(sd.getMonth()+1)).slice(-2)+'-'+('0'+sd.getDate()).slice(-2);}catch(e){soon="9999";}
+    var due=remindAll().filter(function(r){return r.date&&!r.done&&today&&r.date<=soon;}).sort(function(x,y){return x.date<y.date?-1:1;});
+    var dueBox=$("weekendDue");
+    if(dueBox){
+      dueBox.innerHTML=due.length?('<div class="loglist" style="margin:10px 0 2px">'+due.slice(0,4).map(function(r){
+        var od=(r.date<today);
+        return '<div class="logrow"><button class="lr-del" data-wdone="'+esc(r.id)+'" aria-label="Mark done" style="color:var(--ink-faint)">'+ic("plus")+'</button><div class="lr-main"><div class="lr-t">'+esc(r.text)+'</div><div class="lr-s"'+(od?' style="color:#b4532a"':'')+'>'+(od?'Overdue · ':'Due ')+fmtDate(r.date)+(r.repeat&&REPEAT_LABEL[r.repeat]?' · ↻ '+REPEAT_LABEL[r.repeat]:'')+'</div></div></div>';
+      }).join("")+(due.length>4?'<button class="linklike" data-goto="remind" style="margin-top:4px">+ '+(due.length-4)+' more on Reminders →</button>':'')+'</div>'):'';
+    }
+    if(!items.length&&!due.length){card.hidden=true;return;}
     card.hidden=false;
     if($("weekendSub"))$("weekendSub").textContent=(WX&&WX.place)?("For "+WX.place+" — from the season, the forecast, and your reminders."):"From the season and your reminders — add your ZIP on the Season tab for weather-aware tips.";
     $("weekendList").innerHTML=items.slice(0,4).map(function(it){
@@ -4243,6 +4284,7 @@
     if(exists){toast("Already on your reminders");return;}
     remindAdd(txt,"");toast("Added to your reminders");
   });
+  if($("weekendDue"))$("weekendDue").addEventListener("click",function(e){var b=e.target.closest("[data-wdone]");if(!b)return;remindToggle(b.getAttribute("data-wdone"));});
 
   /* ---------- welcome / onboarding wizard ---------- */
   var welcomePrevFocus=null,wizardSel=[];
