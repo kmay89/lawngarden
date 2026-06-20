@@ -2273,6 +2273,16 @@
       <div class="goalseg" id="planSizeSeg"></div>
       <div id="planOut"></div>
     </div>
+
+    <div class="card" id="savedBedsCard">
+      <div class="card-head"><svg class="ic"><use href="#i-map"/></svg><h3>My saved beds</h3></div>
+      <p class="hint">Save the plan above to keep several beds — front bed, back corner, the kids' patch — and reopen any of them later.</p>
+      <div class="grid2">
+        <div class="field"><label for="bedName">Name this bed</label><input id="bedName" type="text" maxlength="40" placeholder="e.g. Front bed"/></div>
+        <div class="field" style="display:flex;align-items:flex-end;"><button class="act btn-ghost" id="bedSave"><svg class="ic"><use href="#i-plus"/></svg>Save current bed</button></div>
+      </div>
+      <div id="savedBedsList" style="margin-top:6px;"></div>
+    </div>
   </section>
 
   <footer class="appfoot">
@@ -3737,9 +3747,15 @@
         '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:9px;line-height:1.45;"><b style="color:var(--ink)">Plant:</b> '+adv.p+'.</div>'+
         '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:4px;line-height:1.45;"><b style="color:var(--ink)">Edibles:</b> '+adv.e+'.</div>'+
         '<div class="note-card" style="margin-top:9px;"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt">'+adv.tip+'</div></div>'+
+        '<div style="margin-top:9px;"><button class="linklike" data-spotplan="'+esc(s.id)+'"><svg class="ic" style="width:14px;height:14px;vertical-align:-2px;"><use href="#i-grid"/></svg> Plan a bed for this spot →</button></div>'+
       '</div>';
     }).join("");
   }
+  if($("spotList"))$("spotList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-spotplan]");if(!b)return;
+    var s=spotAll().filter(function(x){return x.id===b.getAttribute("data-spotplan");})[0];if(!s)return;
+    planForSpot(s);
+  });
   if($("spotAdd"))$("spotAdd").addEventListener("click",function(){
     var name=$("spotName").value.trim();if(!name){toast("Name the spot first");return;}
     var a=spotAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,sun:$("spotSun").value,moist:$("spotMoist").value});spotSave(a);
@@ -3863,8 +3879,21 @@
     {id:"stirfry",label:"Stir-fry greens",icon:"basket",tag:"An Asian-inspired bed — bok choy, snow peas, scallions, and aromatics.",
       plants:[{n:"Snow / snap pea",s:"Peas",e:"🟢",sq:4,per:8,h:"tall",when:"early spring",note:"trellis on the north"},{n:"Napa cabbage",s:"Napa",e:"🥬",sq:4,per:1,h:"med",when:"spring & fall"},{n:"Bok choy",s:"Bok",e:"🥬",sq:6,per:4,h:"short",when:"spring & fall",note:"fast; bolts in heat"},{n:"Gai lan (Chinese broccoli)",s:"Gailan",e:"🥦",sq:4,per:1,h:"med",when:"spring & fall"},{n:"Scallion",s:"Scal",e:"🧅",sq:4,per:9,h:"short",when:"early spring"},{n:"Daikon radish",s:"Daikon",e:"🔴",sq:4,per:9,h:"short",when:"late summer for fall"},{n:"Cilantro",s:"Cilan",e:"🌿",sq:2,per:4,h:"short",when:"succession-sow"},{n:"Hot pepper",s:"Pep",e:"🌶️",sq:4,per:1,h:"med",when:"after last frost"}],
       soil:"Rich, moisture-retentive soil with steady water — the leafy brassicas grow fast and want to keep growing. Plenty of compost; pH 6.0–7.0.",
-      care:"Most of these are cool-season — plant in spring and again in late summer for fall, when they're sweetest. Harvest bok choy and greens young; keep cutting cilantro before it bolts."}
+      care:"Most of these are cool-season — plant in spring and again in late summer for fall, when they're sweetest. Harvest bok choy and greens young; keep cutting cilantro before it bolts."},
+    {id:"cocktail",label:"Cocktail & tea",icon:"jar",tag:"Muddle, garnish, and steep — mint, lemon balm, lavender, and friends.",
+      plants:[{n:"Mint (in a pot!)",s:"Mint*",e:"🪴",sq:4,per:1,h:"short",when:"perennial",note:"mojitos — but it spreads, so pot it"},{n:"Lemon balm",s:"Balm",e:"🍋",sq:4,per:1,h:"med",when:"perennial",note:"lemony tea"},{n:"Lavender",s:"Lav",e:"🪻",sq:4,per:1,h:"med",when:"perennial",note:"lean, dry soil"},{n:"Chamomile",s:"Cham",e:"🌼",sq:4,per:9,h:"short",when:"spring",note:"calming tea"},{n:"Thai basil",s:"Basil",e:"🌿",sq:4,per:1,h:"med",when:"after last frost"},{n:"Bee balm",s:"Bergmt",e:"🌸",sq:4,per:1,h:"tall",when:"perennial",note:"bergamot tea, loves pollinators"},{n:"Rosemary",s:"Rosem",e:"🌱",sq:2,per:1,h:"med",when:"pot & overwinter"},{n:"Hibiscus (roselle)",s:"Hibis",e:"🌺",sq:4,per:1,h:"tall",when:"after last frost",note:"tart red tea"}],
+      soil:"Most of these want full sun and lean, well-drained soil — go easy on compost. Lavender and rosemary especially hate wet feet; raise or grit the bed for them.",
+      care:"Harvest leaves often to keep plants bushy. Mint and lemon balm are vigorous — keep mint potted. Lavender, bee balm, and lemon balm are perennial here; basil and roselle are annual. Dry herbs for winter tea."},
+    {id:"cutflower",label:"Cut flowers",icon:"flower",tag:"A bed grown purely for the vase — long stems, all summer long.",
+      plants:[{n:"Sunflower (branching)",s:"Sunfl",e:"🌻",sq:4,per:1,h:"tall",when:"after last frost",note:"sow in succession"},{n:"Dahlia",s:"Dahlia",e:"🌸",sq:4,per:1,h:"tall",when:"after last frost",note:"lift tubers in fall"},{n:"Gladiolus",s:"Glad",e:"🌷",sq:4,per:4,h:"tall",when:"after last frost",note:"plant in waves"},{n:"Zinnia",s:"Zinn",e:"🌺",sq:8,per:1,h:"med",when:"after last frost",note:"the easy cut flower"},{n:"Cosmos",s:"Cosm",e:"🌸",sq:4,per:1,h:"tall",when:"after last frost"},{n:"Snapdragon",s:"Snap",e:"🌼",sq:4,per:4,h:"med",when:"early spring",note:"cool-season"},{n:"Celosia",s:"Celo",e:"🔴",sq:2,per:1,h:"med",when:"after last frost"},{n:"Rudbeckia",s:"Rudb",e:"🟠",sq:2,per:1,h:"med",when:"spring"}],
+      soil:"Average, well-drained soil with a little compost — full sun is the must-have. Too-rich soil gives leaves over flowers; even moisture and good drainage are the goal.",
+      care:"Cut deep and often — it's how you get more, longer stems. Pinch young plants once to force branching, net or stake the tall ones, and harvest in the cool of morning."},
+    {id:"pickling",label:"Pickling & kraut",icon:"jar",tag:"A summer of pickles, relish, and sauerkraut — cukes, dill, cabbage, beans.",
+      plants:[{n:"Pickling cucumber",s:"Cuke",e:"🥒",sq:4,per:2,h:"tall",when:"after last frost",note:"trellis on the north"},{n:"Dill",s:"Dill",e:"🌾",sq:4,per:1,h:"tall",when:"spring & succession",note:"for the brine"},{n:"Cabbage",s:"Cabb",e:"🥬",sq:4,per:1,h:"med",when:"spring & fall",note:"for kraut"},{n:"Green bean",s:"Bean",e:"🫘",sq:4,per:9,h:"med",when:"after last frost",note:"dilly beans"},{n:"Beet",s:"Beet",e:"🔴",sq:4,per:9,h:"short",when:"spring & late summer"},{n:"Carrot",s:"Carr",e:"🥕",sq:4,per:16,h:"short",when:"spring"},{n:"Garlic",s:"Garlic",e:"🧄",sq:4,per:4,h:"short",when:"plant prior October"},{n:"Jalapeño",s:"Jal",e:"🌶️",sq:4,per:1,h:"med",when:"after last frost",note:"pickled rings"}],
+      soil:"Rich, evenly moist, well-composted soil — cucumbers and cabbage are thirsty, heavy feeders. Mulch to keep moisture steady (uneven water makes bitter cukes). pH 6.0–7.0.",
+      care:"Pick cucumbers small and daily or the vines quit. Plant dill in succession so it's ready with the cukes. Use tested recipes when you can the harvest. <button class=\"linklike\" data-goto=\"grow\">Preserving guide →</button>"}
   ];
+  var GOAL_SUN={salsa:"full",salad:"part",sauce:"full",herb:"full",pollinator:"full",kids:"full",sisters:"full",stirfry:"part",cocktail:"full",cutflower:"full",pickling:"full"};
   var PLAN_SIZES=[{w:4,l:8},{w:4,l:6},{w:4,l:4},{w:3,l:8},{w:3,l:6},{w:8,l:2},{w:4,l:2}];
   var planGoal="salsa",planSize=PLAN_SIZES[0],planBrush=0,planLayout=[];
   function curGoal(){var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});return g||GARDEN_GOALS[0];}
@@ -3934,6 +3963,7 @@
     var cells="";for(var c=0;c<planLayout.length;c++){var pi=planLayout[c];if(pi>=0&&g.plants[pi]){cells+='<div class="bedcell" data-cell="'+c+'" style="background:'+colorFor(pi)+'22;border:1px solid '+colorFor(pi)+'">'+cellInner(g.plants[pi])+'</div>';}else{cells+='<div class="bedcell empty" data-cell="'+c+'"><span class="be">+</span></div>';}}
     out.innerHTML=
       '<p class="hint" style="margin-top:13px">'+esc(g.tag)+'</p>'+
+      planFitNote()+
       '<div class="brushbar" id="planBrushBar">'+brushBarHTML()+'</div>'+
       '<p class="hint" style="margin:2px 0 6px;font-size:.78rem">Tap a plant, then <b>tap or drag across squares</b> to place it. Pick <b>erase</b> to clear.</p>'+
       '<div class="bed-orient">'+ic("sun")+'North ▲ — tallest plants up here</div>'+
@@ -4004,7 +4034,67 @@
     L.push("","— made with the Yard & Garden Console");
     return L.join("\n");
   }
-  function renderPlanner(){renderPlanGoals();loadLayout();renderPlan();}
+  /* ---------- plan ↔ spots: sun-fit advisory ---------- */
+  var planSpot=null; // {name, sun} when arriving from a mapped spot
+  var SUNRANK={shade:0,part:1,full:2};
+  function planFitNote(){
+    var need=GOAL_SUN[planGoal]||"full",needFull=(need==="full");
+    if(planSpot){
+      var ok=SUNRANK[planSpot.sun]>=(needFull?2:1);
+      var spotLab=esc(SUN_LABEL[planSpot.sun]||planSpot.sun).toLowerCase();
+      if(ok)return '<div class="note-card" style="margin-top:9px"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Planning for '+esc(planSpot.name)+'</b> ('+spotLab+'). '+(needFull?"This bed wants full sun and your spot delivers — good match.":"Tolerates part shade, so it fits here nicely.")+'</div></div>';
+      var msg=needFull
+        ? "this bed really wants <b>6+ hrs of sun</b>. In part shade lean on leafy goals — <b>Salad bowl</b> or <b>Stir-fry greens</b> — which crop fine with less."
+        : "even leafy greens want a few hours of sun — this is the best fit for the light here, but they'll be leggier and slower than in a brighter spot.";
+      return '<div class="note-card warn" style="margin-top:9px"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>Heads up for '+esc(planSpot.name)+'</b> ('+spotLab+'): '+msg+'</div></div>';
+    }
+    var spots=(typeof spotAll==="function")?spotAll():[];
+    if(!spots.length)return '<div class="note-card" style="margin-top:9px"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Tip: map your yard’s sunny and shady spots over in <button class="linklike" data-goto="spots">My Yard</button>, and a bed will tell you whether it fits where you want to put it.</div></div>';
+    var hasFull=spots.some(function(s){return s.sun==="full";});
+    if(needFull&&!hasFull)return '<div class="note-card warn" style="margin-top:9px"><svg class="ic"><use href="#i-alert"/></svg><div class="txt">This bed wants <b>6+ hrs of sun</b>, but none of your mapped spots are full sun. Leafy goals (<b>Salad bowl</b>, <b>Stir-fry greens</b>) do better in the shade you have. <button class="linklike" data-goto="spots">Your spots →</button></div></div>';
+    return '<div class="note-card" style="margin-top:9px"><svg class="ic"><use href="#i-sun"/></svg><div class="txt">'+(needFull?"This bed wants <b>full sun</b> — put it in your sunniest mapped spot.":"This one <b>tolerates part shade</b>, so it fits most of your spots.")+' <button class="linklike" data-goto="spots">Your spots →</button></div></div>';
+  }
+  function planForSpot(s){
+    planSpot={name:s.name,sun:s.sun};
+    // pick a goal that fits the spot's light
+    var fits=GARDEN_GOALS.filter(function(g){var need=GOAL_SUN[g.id]||"full";return SUNRANK[s.sun]>=(need==="full"?2:1);});
+    var pick=(fits[0]||GARDEN_GOALS[0]);
+    if(SUNRANK[s.sun]<2){var leafy=GARDEN_GOALS.filter(function(g){return (GOAL_SUN[g.id]||"full")==="part";});if(leafy[0])pick=leafy[0];}
+    planGoal=pick.id;planBrush=0;
+    renderPlanGoals();loadLayout();renderPlan();
+    showTab("plan");
+    toast("Planning a bed for "+s.name);
+  }
+
+  /* ---------- saved beds ---------- */
+  function bedsAll(){var a=lsGet("ycSavedBeds");return Array.isArray(a)?a:[];}
+  function bedsSave(a){return lsSet("ycSavedBeds",a);}
+  function renderSavedBeds(){
+    var el=$("savedBedsList");if(!el)return;var a=bedsAll();
+    if(!a.length){el.innerHTML='<div class="empty">No saved beds yet — set up a plan above, name it, and tap Save.</div>';return;}
+    el.innerHTML=a.slice().reverse().map(function(b){
+      var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===b.goal)g=x;});
+      var placed=(b.layout||[]).filter(function(p){return p>=0;}).length;
+      return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-grid"/></svg><div class="lr-main"><div class="lr-t">'+esc(b.name)+'</div><div class="lr-s">'+(g?esc(g.label):esc(b.goal))+' · '+esc(String(b.w))+'×'+esc(String(b.l))+' ft · '+placed+' sq filled</div></div><button class="lr-del" data-bedload="'+esc(b.id)+'" aria-label="Open" style="color:var(--grass-deep)"><svg class="ic" style="transform:rotate(-90deg)"><use href="#i-chev"/></svg></button><button class="lr-del" data-beddel="'+esc(b.id)+'" aria-label="Delete">'+ic("x")+'</button></div>';
+    }).join("");
+  }
+  if($("bedSave"))$("bedSave").addEventListener("click",function(){
+    var name=($("bedName").value||"").trim();if(!name){toast("Name the bed first");return;}
+    var a=bedsAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,goal:planGoal,w:planSize.w,l:planSize.l,layout:planLayout.slice()});
+    if(bedsSave(a)){$("bedName").value="";renderSavedBeds();toast("Saved “"+name+"”");}
+    else toast("Couldn't save — storage full or disabled");
+  });
+  if($("savedBedsList"))$("savedBedsList").addEventListener("click",function(e){
+    var load=e.target.closest("[data-bedload]");
+    if(load){var b=bedsAll().filter(function(x){return x.id===load.getAttribute("data-bedload");})[0];if(!b)return;
+      planGoal=b.goal;planSize={w:b.w,l:b.l};planLayout=(Array.isArray(b.layout)?b.layout.slice():autoFill());planBrush=0;planSpot=null;
+      saveLayout();renderPlanGoals();renderPlan();
+      var top=$("planCard");if(top)top.scrollIntoView({behavior:"smooth",block:"start"});
+      toast("Opened “"+b.name+"”");return;}
+    var del=e.target.closest("[data-beddel]");
+    if(del){bedsSave(bedsAll().filter(function(x){return x.id!==del.getAttribute("data-beddel");}));renderSavedBeds();}
+  });
+  function renderPlanner(){renderPlanGoals();loadLayout();renderPlan();renderSavedBeds();}
 
   /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
   var AREAS=[
