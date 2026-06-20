@@ -3891,7 +3891,7 @@
   }
   function elevationSVG(){
     var g=curGoal(),cols=planSize.w,rows=planSize.l,rowPlant=[];
-    for(var r=0;r<rows;r++){var best=-1,bestRank=0;for(var c=0;c<cols;c++){var pi=planLayout[r*cols+c];if(pi>=0){var rk=HRANK[g.plants[pi].h]||1;if(rk>bestRank){bestRank=rk;best=pi;}}}rowPlant.push(best);}
+    for(var r=0;r<rows;r++){var best=-1,bestRank=0;for(var c=0;c<cols;c++){var pi=planLayout[r*cols+c];if(pi>=0&&g.plants[pi]){var rk=HRANK[g.plants[pi].h]||1;if(rk>bestRank){bestRank=rk;best=pi;}}}rowPlant.push(best);}
     var W=300,H=118,padL=12,padR=12,groundY=94,bw=(W-padL-padR)/rows,hpx={3:62,2:36,1:17};
     var s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Side view of the bed: plant heights with the sun in the south and shadows falling north">';
     s+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#eef6fb"/>';
