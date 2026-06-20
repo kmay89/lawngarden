@@ -413,8 +413,8 @@
   .welcome h2{font-family:var(--display);font-size:1.85rem;font-weight:650;text-align:center;margin:15px 0 0;letter-spacing:-.01em;line-height:1.12;}
   .welcome .wkick{font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:#A9D6BA;text-align:center;margin-top:10px;}
   .welcome .wlede{font-size:.94rem;color:#D7ECDE;text-align:center;margin:13px 6px 0;line-height:1.5;}
-  .welcome .wlist{display:flex;flex-direction:column;gap:12px;margin:24px 0 0;}
-  .welcome .wrow{display:flex;gap:13px;align-items:flex-start;}
+  .welcome .wlist{display:flex;flex-direction:column;gap:15px;margin:26px 0 0;}
+  .welcome .wrow{display:flex;gap:13px;align-items:center;}
   .welcome .wic{width:42px;height:42px;flex:0 0 auto;border-radius:12px;background:rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;}
   .welcome .wic .ic{width:22px;height:22px;color:#BFE3CC;}
   .welcome .wt{font-family:var(--display);font-weight:650;font-size:1.02rem;color:#fff;}
@@ -2342,12 +2342,12 @@
 
     <!-- Step 1: what this is -->
     <div class="wstep" id="wStep1">
-      <p class="wlede">A calm companion for tending — and noticing — your yard. Honest, low-input advice that works <i>with</i> nature, not against it. Everything stays on your device.</p>
+      <p class="wlede">A calm companion for tending — and noticing — your yard. Everything stays on your device.</p>
       <div class="wlist">
-        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators for lawn, mowing, beds, an edible garden, trees, snow &amp; leaves — each with the honest trade-offs, never one handed-down answer.</div></div></div>
-        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes turn a year in the yard into a story — and quietly earn Moments as you go.</div></div></div>
-        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP (optional) and local soil temp, rain, and frost drive the timing across the whole app.</div></div></div>
-        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the resilient, low-input way, with people and wildlife in mind.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators, each with the honest trade-offs.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes become your yard's story.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP and the timing follows along.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the low-input way.</div></div></div>
       </div>
       <button class="wstart" id="wNext"><svg class="ic"><use href="#i-chev"/></svg>Make it yours</button>
       <button class="wskip" id="wSkip1">Skip — show me everything</button>
@@ -2356,7 +2356,7 @@
     <!-- Step 2: what's in your yard -->
     <div class="wstep" id="wStep2" hidden>
       <div class="wq">What's in your yard?</div>
-      <p class="wqsub">Pick what you tend (or dream of). We'll feature those on your home screen — nothing's hidden, everything stays one or two taps away, and you can change it anytime.</p>
+      <p class="wqsub">Pick a few you tend (or dream of) and we'll feature them on your home screen. Nothing's hidden, and you can change it anytime.</p>
       <div class="wchips" id="wChips"></div>
       <div class="wnav">
         <button class="wback" id="wBack" aria-label="Back"><svg class="ic"><use href="#i-chev" style="transform:rotate(90deg)"/></svg></button>
