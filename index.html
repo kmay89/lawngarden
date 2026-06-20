@@ -115,6 +115,18 @@
   .tab-btn .ic{width:21px;height:21px;}
   .tab-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
 
+  /* sectioned nav — a calm top row of themes, plus a pill row that appears only inside a multi-place section */
+  .navwrap{position:sticky;top:0;z-index:40;margin:0 -2px 14px;background:rgba(243,246,241,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-top:6px;}
+  nav.sectionbar{display:flex;gap:3px;}
+  .sec-btn{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.66rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:13px;padding:8px 3px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;}
+  .sec-btn .ic{width:22px;height:22px;}
+  .sec-btn span{max-width:100%;overflow:hidden;text-overflow:ellipsis;}
+  .sec-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
+  nav.subbar{display:flex;flex-wrap:wrap;gap:6px;padding:9px 1px 5px;}
+  .sub-btn{font-family:var(--body);font-size:.78rem;font-weight:600;color:var(--ink-soft);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
+  .sub-btn[aria-selected=true]{color:#fff;background:var(--grass-deep);border-color:var(--grass-deep);}
+  .sec-btn:focus-visible,.sub-btn:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
+
   /* cards + type */
   .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:17px 17px 18px;margin-bottom:14px;box-shadow:var(--shadow);}
   .card-head{display:flex;align-items:center;gap:9px;margin-bottom:4px;}
@@ -481,7 +493,7 @@
   .searchflash{animation:searchflash 1.7s ease;}
   @keyframes searchflash{0%,100%{box-shadow:var(--shadow);}18%,55%{box-shadow:0 0 0 3px rgba(58,130,85,.5);}}
 
-  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .sec-btn{font-size:.74rem;padding:8px 6px;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 </style>
 </head>
 <body>
@@ -561,7 +573,25 @@
     </div>
   </header>
 
-  <div class="tabbar-wrap" id="tabbarWrap">
+  <!-- Calm, two-level navigation: a handful of themed sections, with a second pill row
+       that appears only inside a section that holds more than one place. Nothing is hidden —
+       every one of the panes below lives in exactly one section. -->
+  <div class="navwrap" id="navWrap">
+    <nav class="sectionbar" id="sectionBar" role="tablist" aria-label="Sections">
+      <button class="sec-btn" role="tab" data-section="home" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg><span>Home</span></button>
+      <button class="sec-btn" role="tab" data-section="lawn"><svg class="ic"><use href="#i-mower"/></svg><span>Lawn</span></button>
+      <button class="sec-btn" role="tab" data-section="garden"><svg class="ic"><use href="#i-basket"/></svg><span>Garden</span></button>
+      <button class="sec-btn" role="tab" data-section="yard"><svg class="ic"><use href="#i-tree"/></svg><span>Yard</span></button>
+      <button class="sec-btn" role="tab" data-section="soil"><svg class="ic"><use href="#i-soil"/></svg><span>Soil</span></button>
+      <button class="sec-btn" role="tab" data-section="seasons"><svg class="ic"><use href="#i-snow"/></svg><span>Seasons</span></button>
+      <button class="sec-btn" role="tab" data-section="plan"><svg class="ic"><use href="#i-grid"/></svg><span>Plan</span></button>
+    </nav>
+    <nav class="subbar" id="subBar" role="tablist" aria-label="In this section" hidden></nav>
+  </div>
+
+  <!-- The original flat tab bar is kept (hidden) as the canonical pane registry: showTab,
+       the search index, and personalization still read these buttons. -->
+  <div class="tabbar-wrap" id="tabbarWrap" hidden aria-hidden="true">
   <nav class="tabbar" id="tabbar" role="tablist">
     <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
     <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
@@ -614,7 +644,7 @@
 
     <div class="card" id="forYouCard" hidden>
       <div class="card-head"><svg class="ic"><use href="#i-star"/></svg><h3>For your yard</h3></div>
-      <p class="hint">Pinned to the front of your tabs, too. <button class="linklike" id="personalizeBtn">Change what matters →</button></p>
+      <p class="hint">The tools you tend most, kept one tap away. <button class="linklike" id="personalizeBtn">Change what matters →</button></p>
       <div id="forYouHub"></div>
       <button class="act btn-ghost" id="forYouSeed" hidden style="margin-top:12px;"><svg class="ic"><use href="#i-bell"/></svg>Add seasonal reminders for these</button>
       <div id="forYouDiscover"></div>
@@ -2326,7 +2356,7 @@
     <!-- Step 2: what's in your yard -->
     <div class="wstep" id="wStep2" hidden>
       <div class="wq">What's in your yard?</div>
-      <p class="wqsub">Pick what you tend (or dream of). We'll pin those to the front — nothing's hidden, and you can change it anytime.</p>
+      <p class="wqsub">Pick what you tend (or dream of). We'll feature those on your home screen — nothing's hidden, everything stays one or two taps away, and you can change it anytime.</p>
       <div class="wchips" id="wChips"></div>
       <div class="wnav">
         <button class="wback" id="wBack" aria-label="Back"><svg class="ic"><use href="#i-chev" style="transform:rotate(90deg)"/></svg></button>
@@ -2387,14 +2417,56 @@
     var b=document.querySelector('.tab-btn[data-tab="'+name+'"]');if(!b)return;
     tabScroll(b.offsetLeft-(tabBar.clientWidth-b.offsetWidth)/2);
   }
+  /* The few calm themes the panes are grouped under. Every pane lives in exactly one. */
+  var SECTIONS=[
+    {id:"home",tabs:["almanac"]},
+    {id:"lawn",tabs:["lawn","mow"]},
+    {id:"garden",tabs:["grow","bloom","fruit","pests"]},
+    {id:"yard",tabs:["trees","native","wildlife","rain","pond"]},
+    {id:"soil",tabs:["beds","soil","compost"]},
+    {id:"seasons",tabs:["leaves","snow","season"]},
+    {id:"plan",tabs:["spots","plan","shop","remind"]}
+  ];
+  /* short, friendly pill labels for the second row (falls back to the tab's own label) */
+  var SUBLABEL={almanac:"Almanac",mow:"Mow",grow:"Grow",bloom:"Bloom",fruit:"Fruit",pests:"Pests & weeds",
+    trees:"Trees",native:"Lawn-free",wildlife:"Wildlife",rain:"Rain & water",pond:"Pond",
+    beds:"Beds & mulch",soil:"Soil",compost:"Compost",leaves:"Leaves",snow:"Snow & salt",season:"The year",
+    spots:"My yard",plan:"Plan a bed",shop:"Shopping list",remind:"Reminders"};
+  function sectionOf(tab){for(var i=0;i<SECTIONS.length;i++){if(SECTIONS[i].tabs.indexOf(tab)>=0)return SECTIONS[i];}return SECTIONS[0];}
+  var sectionLast={}; // remember where you were in each section, so coming back feels natural
+  function renderSubbar(sec,activeTab){
+    var bar=$("subBar");if(!bar)return;
+    if(!sec||sec.tabs.length<2){bar.hidden=true;bar.innerHTML="";return;}
+    bar.hidden=false;
+    bar.innerHTML=sec.tabs.map(function(t){
+      return '<button class="sub-btn" role="tab" data-subtab="'+t+'" aria-selected="'+(t===activeTab?"true":"false")+'">'+esc(SUBLABEL[t]||(function(){var b=document.querySelector('.tab-btn[data-tab="'+t+'"]');return b?b.textContent.trim():t;})())+'</button>';
+    }).join("");
+  }
+  function syncNav(name){
+    var sec=sectionOf(name);sectionLast[sec.id]=name;
+    [].forEach.call(document.querySelectorAll(".sec-btn"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-section")===sec.id?"true":"false");});
+    renderSubbar(sec,name);
+  }
   function showTab(name){
     if(!name||!document.querySelector('[data-pane="'+name+'"]'))return; // ignore unknown panes so a stray link can't blank the screen
     tabs.forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name?"true":"false");});
     panes.forEach(function(p){p.hidden=p.getAttribute("data-pane")!==name;});
+    syncNav(name);
     centerTab(name);
     window.scrollTo({top:0,behavior:"smooth"});
   }
   tabs.forEach(function(b){b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"));});});
+  // section row: open a section at wherever you last were in it (or its first place)
+  if($("sectionBar"))$("sectionBar").addEventListener("click",function(e){
+    var b=e.target.closest(".sec-btn");if(!b)return;
+    var id=b.getAttribute("data-section"),sec=null;
+    SECTIONS.forEach(function(x){if(x.id===id)sec=x;});
+    if(sec)showTab(sectionLast[id]||sec.tabs[0]);
+  });
+  // second row: jump straight to a place within the active section
+  if($("subBar"))$("subBar").addEventListener("click",function(e){
+    var b=e.target.closest(".sub-btn");if(b)showTab(b.getAttribute("data-subtab"));
+  });
   if(tabBar){
     tabBar.addEventListener("scroll",updateTabHints,{passive:true});
     window.addEventListener("resize",updateTabHints);
