@@ -2295,7 +2295,7 @@
       <summary><svg class="ic"><use href="#i-info"/></svg>Disclaimer &amp; privacy</summary>
       <div class="db">
         <p><b>Guidance, not a guarantee.</b> This is general, educational information tuned for cool-season lawns in Ohio (USDA zone ~6). Your yard, soil, and microclimate differ — a local soil test and your county extension office are the gold standard. Always follow product labels and safety instructions, especially for fertilizers, de-icers, and power equipment; the label is the law.</p>
-        <p><b>Privacy.</b> No accounts, no analytics, no tracking. Your log and ZIP live only in this browser. The only network calls are the optional weather lookup (Open-Meteo) and ZIP geocode (Zippopotam.us), made only when you request a forecast. No web fonts are loaded.</p>
+        <p><b>Privacy.</b> No accounts, no analytics, no tracking. Your log and ZIP live only in this browser. The only network calls are the optional weather lookup (Open-Meteo) and ZIP geocode (Zippopotam.us), made only when you request a forecast. No web fonts are loaded. <b>Once it's loaded it works offline</b> — handy out in the yard with no signal.</p>
         <p>Use at your own risk; the author assumes no liability for outcomes, damage, or injury arising from use of this tool.</p>
       </div>
     </details>
@@ -3014,10 +3014,14 @@
     $("zipInput").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();fetchWeather();}});
   }
 
-  /* ---------- PWA install ---------- */
+  /* ---------- PWA install + offline ---------- */
   var deferredPrompt=null;
   window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e;var b=$("installBtn");if(b)b.hidden=false;});
   if($("installBtn"))$("installBtn").addEventListener("click",function(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.finally(function(){deferredPrompt=null;$("installBtn").hidden=true;});});
+  // register the service worker so the app keeps working with no signal (https only; never on file://)
+  if("serviceWorker" in navigator && (location.protocol==="https:"||location.protocol==="http:")){
+    window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});
+  }
 
   /* ---------- cross-tab navigation links ---------- */
   document.addEventListener("click",function(e){var b=e.target.closest("[data-goto]");if(b){showTab(b.getAttribute("data-goto"));}});
