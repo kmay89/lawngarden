@@ -3759,7 +3759,7 @@
     {n:"Basil",a:"herb",tab:"grow",card:"herbGuides",det:"Basil"},
     {n:"Mint",a:"herb",tab:"grow",card:"herbGuides",det:"Mint"},
     {n:"Cilantro",a:"coriander dill herb",tab:"grow",card:"herbGuides",det:"Cilantro"},
-    {n:"Dill",a:"herb",tab:"grow",card:"herbGuides",det:"Cilantro"},
+    {n:"Dill",a:"herb",tab:"grow",card:"herbGuides",det:"dill"},
     {n:"Thyme",a:"oregano sage chives perennial herb rosemary",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
     {n:"Rosemary",a:"herb perennial",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
     {n:"Chives",a:"herb perennial",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
@@ -3795,7 +3795,7 @@
     showTab(p.tab);
     setTimeout(function(){
       var card=$(p.card);
-      if(card&&p.det){var ds=card.parentNode?card.parentNode.querySelectorAll("details"):card.querySelectorAll("details");
+      if(card&&p.det){
         // search within the whole pane for the matching details (cards like feedHostTrees are anchors, details live in a sibling card)
         var pane=document.querySelector('[data-pane="'+p.tab+'"]'),dets=pane?pane.querySelectorAll("details"):[];
         for(var i=0;i<dets.length;i++){var sm=dets[i].querySelector("summary");if(sm&&sm.textContent.toLowerCase().indexOf(p.det.toLowerCase())>=0){dets[i].open=true;dets[i].scrollIntoView({behavior:"smooth",block:"center"});return;}}
@@ -3873,8 +3873,11 @@
   if($("planOut"))$("planOut").addEventListener("click",function(e){
     var b=e.target.closest("#planShop");if(!b)return;
     var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});if(!g)return;
-    var added=0;g.plants.forEach(function(p){shopAddItem(p.n+" — seeds or starts","Grow",1,null);added++;});
-    shopAddItem("Raised-bed mix / compost","Beds",1,null);
+    var a=shopAll(),added=0;
+    function mk(name,cat){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,name:name,cat:cat,qty:1,price:null,got:0};}
+    g.plants.forEach(function(p){a.push(mk(p.n+" — seeds or starts","Grow"));added++;});
+    a.push(mk("Raised-bed mix / compost","Beds"));
+    shopSave(a);renderShop();
     toast("Added "+added+" plants + soil to your shopping list");
   });
   function renderPlanner(){renderPlanGoals();renderPlan();}
