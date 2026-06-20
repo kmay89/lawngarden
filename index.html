@@ -512,6 +512,7 @@
   <symbol id="i-compost" viewBox="0 0 24 24"><path d="M5.5 8h13l-1.3 11a2 2 0 01-2 1.8H8.8a2 2 0 01-2-1.8z"/><path d="M4 8h16"/><path d="M9 8c-.4-2 1-3.7 3-3.7M14.5 8c.4-2-1-3.7-3-3.7"/></symbol>
   <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2.5 4h2.3l2.4 12h10l1.9-8.5H6.7"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0112 0v6l1.6 2H4.4z"/><path d="M9.8 21a2.2 2.2 0 004.4 0"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -549,6 +550,7 @@
     <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
     <button class="tab-btn" role="tab" data-tab="shop"><svg class="ic"><use href="#i-cart"/></svg>Plan &amp; Shop</button>
     <button class="tab-btn" role="tab" data-tab="remind"><svg class="ic"><use href="#i-bell"/></svg>Reminders</button>
+    <button class="tab-btn" role="tab" data-tab="spots"><svg class="ic"><use href="#i-map"/></svg>My Yard</button>
   </nav>
     <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
     <button class="tabnudge right" id="tabNudgeRight" aria-label="More tabs — scroll right" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
@@ -608,6 +610,7 @@
       </div>
       <div class="hubhead">Garden planners</div>
       <div class="hub">
+        <button class="hubchip" data-tool="spots" data-scroll="spotCard"><svg class="ic"><use href="#i-map"/></svg><span class="ht">My spots</span></button>
         <button class="hubchip" data-tool="bloom" data-scroll="bloomPlanner"><svg class="ic"><use href="#i-flower"/></svg><span class="ht">Bloom planner</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
@@ -2194,6 +2197,30 @@
     </div>
   </section>
 
+  <!-- ============ MY YARD — SPOTS & STARTER ============ -->
+  <section class="tab" data-pane="spots" hidden>
+    <p class="tab-intro">Every yard is really a patchwork of little <b>microclimates</b> — a baking south wall, a damp shady corner, a dry strip under the eaves. Tag your spots by <b>sun</b> and <b>moisture</b> and the right-plant-right-place advice comes to you. The golden rule of easy gardening: <b>work with each spot, not against it.</b></p>
+
+    <div class="card" id="spotCard">
+      <div class="card-head"><svg class="ic"><use href="#i-map"/></svg><h3>Map your spots</h3></div>
+      <p class="hint">Watch a spot across a day: <b>full sun</b> is 6+ hours of direct sun, <b>part</b> is 3–6, <b>shade</b> is under 3. For moisture, think about how it feels a day after rain.</p>
+      <div class="field"><label for="spotName">Spot name</label><input id="spotName" type="text" maxlength="40" placeholder="e.g. front bed, back corner, by the patio"/></div>
+      <div class="grid2">
+        <div class="field"><label for="spotSun">Sun</label><select id="spotSun"><option value="full">Full sun (6+ hrs)</option><option value="part">Part sun / shade (3–6)</option><option value="shade">Shade (under 3)</option></select></div>
+        <div class="field"><label for="spotMoist">Moisture</label><select id="spotMoist"><option value="avg">Average — drains well</option><option value="dry">Dry — sandy or under eaves</option><option value="wet">Wet — slow to drain</option></select></div>
+      </div>
+      <button class="act btn-ghost" id="spotAdd"><svg class="ic"><use href="#i-plus"/></svg>Add this spot</button>
+      <div id="spotList" style="margin-top:13px;"></div>
+    </div>
+
+    <div class="card" id="starterCard">
+      <div class="card-head"><svg class="ic"><use href="#i-sprout"/></svg><h3>New yard? Start here</h3></div>
+      <p class="hint" id="starterSub">A calm, in-order path for a brand-new yard — tap each as you go. No rush; a yard is built over seasons, not a weekend.</p>
+      <div class="ritlist" id="starterList"></div>
+      <button class="act btn-ghost" id="starterReset" style="margin-top:11px;"><svg class="ic"><use href="#i-recycle"/></svg>Reset the path</button>
+    </div>
+  </section>
+
   <footer class="appfoot">
     <details class="discl">
       <summary><svg class="ic"><use href="#i-info"/></svg>Disclaimer &amp; privacy</summary>
@@ -3630,6 +3657,63 @@
     var del=e.target.closest("[data-rdel]");if(del){var id2=del.getAttribute("data-rdel");remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();}
   });
 
+  /* ---------- My Yard: spots (sun/moisture) + first-year starter path ---------- */
+  var SUN_LABEL={full:"Full sun",part:"Part shade",shade:"Shade"},MOIST_LABEL={dry:"Dry",avg:"Average",wet:"Wet"};
+  var SPOT_ADVICE={
+    "full-avg":{p:"the premium spot — most perennials, roses, peonies, dahlias, coneflower, black-eyed Susan",e:"the whole vegetable garden: tomatoes, beans, squash, peppers",tip:"Your best ground — give it to the veg garden and the sun-loving flowers."},
+    "full-dry":{p:"drought-tough plants — lavender, Russian sage, sedum, yarrow, coneflower, ornamental grasses",e:"Mediterranean herbs (rosemary, thyme, oregano); tomatoes &amp; peppers with mulch and deep watering",tip:"It bakes — choose drought-lovers and natives, and mulch to hold what rain you get."},
+    "full-wet":{p:"swamp milkweed, Joe Pye weed, switchgrass, blue flag iris, winterberry",e:"raised beds to lift roots above the wet — or make it a rain garden",tip:"Perfect for a rain garden; raise or amend beds before most vegetables."},
+    "part-avg":{p:"versatile favorites — hydrangea, astilbe, coral bells, hosta, bleeding heart, foamflower",e:"cool-season greens (lettuce, spinach, kale, chard) and most herbs",tip:"A friendly, flexible spot — woodland-edge plants and leafy greens both thrive."},
+    "part-dry":{p:"daylily, catmint, salvia, coreopsis, sedum, spring bulbs, epimedium",e:"leafy greens and herbs — mulch well to hold moisture",tip:"Dry-ish shade is tougher — lean on daylilies and tough natives, and mulch deeply."},
+    "part-wet":{p:"astilbe, ligularia, cardinal flower, Japanese iris, ferns",e:"raised beds for veg; moisture-lovers do beautifully otherwise",tip:"Lush for moisture-lovers — fix drainage first if you want vegetables here."},
+    "shade-avg":{p:"the classic shade garden — hosta, ferns, astilbe, bleeding heart, hellebore, foamflower",e:"a little early lettuce or spinach; mostly grow foliage and texture",tip:"Go for foliage, texture, and form over big flowers — and it'll still be beautiful."},
+    "shade-dry":{p:"the toughest spot — epimedium, hellebore, lungwort, wild ginger, hardy hostas, dry-shade ferns",e:"not really edible — use tough groundcovers or a mulched path",tip:"Dry shade is the hardest ground there is — don't fight it with lawn or veg; plant tough groundcovers."},
+    "shade-wet":{p:"ferns, hosta, ligularia, marsh marigold, cardinal flower, sedges",e:"no — turn it into a rain or bog garden",tip:"Embrace it: a rain/bog garden of ferns and sedges turns a soggy problem into a feature."}
+  };
+  function spotAll(){var a=lsGet("ycSpots");return Array.isArray(a)?a:[];}
+  function spotSave(a){lsSet("ycSpots",a);}
+  function renderSpots(){
+    var el=$("spotList");if(!el)return;var a=spotAll();
+    if(!a.length){el.innerHTML='<div class="empty">No spots yet — add one above and you’ll get plants matched to its sun and moisture.</div>';return;}
+    el.innerHTML=a.map(function(s){
+      var adv=SPOT_ADVICE[s.sun+"-"+s.moist]||SPOT_ADVICE["part-avg"];
+      return '<div style="border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;margin-bottom:11px;background:#fff;">'+
+        '<div style="display:flex;align-items:center;gap:8px;"><svg class="ic" style="width:18px;height:18px;color:var(--grass);flex:0 0 auto;"><use href="#i-map"/></svg><b style="flex:1;min-width:0;">'+esc(s.name)+'</b><button class="lr-del" data-spotdel="'+esc(s.id)+'" aria-label="Delete spot">'+ic("x")+'</button></div>'+
+        '<div class="pillrow" style="margin-top:7px;"><span class="pill">'+(SUN_LABEL[s.sun]||"?")+'</span><span class="pill">'+(MOIST_LABEL[s.moist]||"?")+' soil</span></div>'+
+        '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:9px;line-height:1.45;"><b style="color:var(--ink)">Plant:</b> '+adv.p+'.</div>'+
+        '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:4px;line-height:1.45;"><b style="color:var(--ink)">Edibles:</b> '+adv.e+'.</div>'+
+        '<div class="note-card" style="margin-top:9px;"><svg class="ic"><use href="#i-bulb"/></svg><div class="txt">'+adv.tip+'</div></div>'+
+      '</div>';
+    }).join("");
+  }
+  if($("spotAdd"))$("spotAdd").addEventListener("click",function(){
+    var name=$("spotName").value.trim();if(!name){toast("Name the spot first");return;}
+    var a=spotAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,sun:$("spotSun").value,moist:$("spotMoist").value});spotSave(a);
+    $("spotName").value="";renderSpots();toast("Spot added — here's what suits it");
+  });
+  if($("spotList"))$("spotList").addEventListener("click",function(e){var b=e.target.closest("[data-spotdel]");if(!b)return;var id=b.getAttribute("data-spotdel");spotSave(spotAll().filter(function(x){return x.id!==id;}));renderSpots();});
+
+  var STARTER=[
+    {t:"Watch before you dig",s:"Note where the sun falls through the day (and how it shifts with the seasons) before you commit to beds."},
+    {t:"Map your spots",s:"Tag each area's sun and moisture above, so every plant choice fits its place."},
+    {t:"Test your soil",s:"A $15 lab test beats guessing — learn your pH and texture before you amend anything."},
+    {t:"Start small",s:"One bed or a few pots done well beats a big plot you can't keep up with."},
+    {t:"Feed the soil",s:"Add compost and mulch; healthy living soil does most of the work for you."},
+    {t:"Right plant, right place",s:"Match each plant to a spot's sun and water — the single biggest predictor of success."},
+    {t:"Sort out watering",s:"A rain barrel, a soaker hose, or just a deep-and-infrequent habit — make it easy to keep up."},
+    {t:"Keep a journal",s:"Jot what you plant and how it does — next year's you will be grateful."},
+    {t:"Welcome wildlife, go easy on chemicals",s:"Let pollinators and good bugs do the heavy lifting; reach for sprays last, if ever."},
+    {t:"Be patient",s:"A yard matures over years — enjoy the slow unfolding. That's the whole point."}
+  ];
+  function renderStarter(){
+    var el=$("starterList");if(!el)return;var st=lsGet("ycStarter")||{};
+    var done=STARTER.filter(function(a,i){return st[i];}).length;
+    if($("starterSub"))$("starterSub").textContent=done?(done+" of "+STARTER.length+" done — "+(done===STARTER.length?"you've got the rhythm. 🌱":"keep going at your own pace.")):"A calm, in-order path for a brand-new yard — tap each as you go. No rush; a yard is built over seasons.";
+    el.innerHTML=STARTER.map(function(a,i){var on=!!st[i];return '<button class="ritrow" aria-pressed="'+on+'" data-starter="'+i+'"><span class="rk">'+ic("check")+'</span><span><span class="rt">'+(i+1)+'. '+a.t+'</span><span class="rs">'+a.s+'</span></span></button>';}).join("");
+  }
+  if($("starterList"))$("starterList").addEventListener("click",function(e){var b=e.target.closest("[data-starter]");if(!b)return;var i=b.getAttribute("data-starter"),st=lsGet("ycStarter")||{};if(st[i])delete st[i];else st[i]=1;lsSet("ycStarter",st);renderStarter();});
+  if($("starterReset"))$("starterReset").addEventListener("click",function(){lsSet("ycStarter",{});renderStarter();toast("Path reset — fresh start");});
+
   /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
   var AREAS=[
     {id:"lawn",icon:"mower",label:"Lawn care",tabs:["lawn","mow"],dk:"A greener lawn",db:"Feeding, mowing right, and thickening turf — clover can do half the work.",nudge:"Check the mowing height for the season",
@@ -3812,7 +3896,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();
     applyProfile();renderForYou();renderWeekend();
     showTab("almanac");
     updateTabHints();
