@@ -3678,7 +3678,7 @@
     el.innerHTML=a.map(function(s){
       var adv=SPOT_ADVICE[s.sun+"-"+s.moist]||SPOT_ADVICE["part-avg"];
       return '<div style="border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;margin-bottom:11px;background:#fff;">'+
-        '<div style="display:flex;align-items:center;gap:8px;"><svg class="ic" style="width:18px;height:18px;color:var(--grass);flex:0 0 auto;"><use href="#i-map"/></svg><b style="flex:1;min-width:0;">'+esc(s.name)+'</b><button class="lr-del" data-spotdel="'+esc(s.id)+'" aria-label="Delete spot">'+ic("x")+'</button></div>'+
+        '<div class="logrow" style="border:none;padding:0;background:transparent;gap:8px;"><svg class="ic" style="width:18px;height:18px;color:var(--grass);flex:0 0 auto;"><use href="#i-map"/></svg><b style="flex:1;min-width:0;">'+esc(s.name)+'</b><button class="lr-del" data-spotdel="'+esc(s.id)+'" aria-label="Delete spot">'+ic("x")+'</button></div>'+
         '<div class="pillrow" style="margin-top:7px;"><span class="pill">'+(SUN_LABEL[s.sun]||"?")+'</span><span class="pill">'+(MOIST_LABEL[s.moist]||"?")+' soil</span></div>'+
         '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:9px;line-height:1.45;"><b style="color:var(--ink)">Plant:</b> '+adv.p+'.</div>'+
         '<div style="font-size:.85rem;color:var(--ink-soft);margin-top:4px;line-height:1.45;"><b style="color:var(--ink)">Edibles:</b> '+adv.e+'.</div>'+
@@ -3749,7 +3749,7 @@
     var m=new Date().getMonth();(SEASON_FOCUS[m]||[]).forEach(function(i){if(ids.indexOf(i)<0)ids.push(i);});
     return ids;
   }
-  var UNIVERSAL=["shop","remind"]; // useful to everyone, kept near the front
+  var UNIVERSAL=["shop","remind","spots"]; // useful to everyone, kept near the front
   var TAB_ORDER=[].map.call($("tabbar")?$("tabbar").querySelectorAll(".tab-btn"):[],function(b){return b.getAttribute("data-tab");}); // canonical original order, captured once
   function getProfile(){var p=lsGet("ycProfile");return (p&&typeof p==="object")?p:null;}
   function selectedAreas(){var p=getProfile();return (p&&Array.isArray(p.areas))?p.areas:[];}
