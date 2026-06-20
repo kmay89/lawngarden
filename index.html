@@ -4041,7 +4041,7 @@
     var need=GOAL_SUN[planGoal]||"full",needFull=(need==="full");
     if(planSpot){
       var ok=SUNRANK[planSpot.sun]>=(needFull?2:1);
-      var spotLab=(SUN_LABEL[planSpot.sun]||planSpot.sun).toLowerCase();
+      var spotLab=esc(SUN_LABEL[planSpot.sun]||planSpot.sun).toLowerCase();
       if(ok)return '<div class="note-card" style="margin-top:9px"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Planning for '+esc(planSpot.name)+'</b> ('+spotLab+'). '+(needFull?"This bed wants full sun and your spot delivers — good match.":"Tolerates part shade, so it fits here nicely.")+'</div></div>';
       var msg=needFull
         ? "this bed really wants <b>6+ hrs of sun</b>. In part shade lean on leafy goals — <b>Salad bowl</b> or <b>Stir-fry greens</b> — which crop fine with less."
@@ -4068,26 +4068,27 @@
 
   /* ---------- saved beds ---------- */
   function bedsAll(){var a=lsGet("ycSavedBeds");return Array.isArray(a)?a:[];}
-  function bedsSave(a){lsSet("ycSavedBeds",a);}
+  function bedsSave(a){return lsSet("ycSavedBeds",a);}
   function renderSavedBeds(){
     var el=$("savedBedsList");if(!el)return;var a=bedsAll();
     if(!a.length){el.innerHTML='<div class="empty">No saved beds yet — set up a plan above, name it, and tap Save.</div>';return;}
     el.innerHTML=a.slice().reverse().map(function(b){
       var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===b.goal)g=x;});
       var placed=(b.layout||[]).filter(function(p){return p>=0;}).length;
-      return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-grid"/></svg><div class="lr-main"><div class="lr-t">'+esc(b.name)+'</div><div class="lr-s">'+(g?esc(g.label):b.goal)+' · '+b.w+'×'+b.l+' ft · '+placed+' sq filled</div></div><button class="lr-del" data-bedload="'+esc(b.id)+'" aria-label="Open" style="color:var(--grass-deep)"><svg class="ic" style="transform:rotate(-90deg)"><use href="#i-chev"/></svg></button><button class="lr-del" data-beddel="'+esc(b.id)+'" aria-label="Delete">'+ic("x")+'</button></div>';
+      return '<div class="logrow"><svg class="ic lr-ic"><use href="#i-grid"/></svg><div class="lr-main"><div class="lr-t">'+esc(b.name)+'</div><div class="lr-s">'+(g?esc(g.label):esc(b.goal))+' · '+esc(String(b.w))+'×'+esc(String(b.l))+' ft · '+placed+' sq filled</div></div><button class="lr-del" data-bedload="'+esc(b.id)+'" aria-label="Open" style="color:var(--grass-deep)"><svg class="ic" style="transform:rotate(-90deg)"><use href="#i-chev"/></svg></button><button class="lr-del" data-beddel="'+esc(b.id)+'" aria-label="Delete">'+ic("x")+'</button></div>';
     }).join("");
   }
   if($("bedSave"))$("bedSave").addEventListener("click",function(){
     var name=($("bedName").value||"").trim();if(!name){toast("Name the bed first");return;}
     var a=bedsAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,goal:planGoal,w:planSize.w,l:planSize.l,layout:planLayout.slice()});
-    bedsSave(a);$("bedName").value="";renderSavedBeds();toast("Saved “"+name+"”");
+    if(bedsSave(a)){$("bedName").value="";renderSavedBeds();toast("Saved “"+name+"”");}
+    else toast("Couldn't save — storage full or disabled");
   });
   if($("savedBedsList"))$("savedBedsList").addEventListener("click",function(e){
     var load=e.target.closest("[data-bedload]");
     if(load){var b=bedsAll().filter(function(x){return x.id===load.getAttribute("data-bedload");})[0];if(!b)return;
       planGoal=b.goal;planSize={w:b.w,l:b.l};planLayout=(Array.isArray(b.layout)?b.layout.slice():autoFill());planBrush=0;planSpot=null;
-      renderPlanGoals();renderPlan();
+      saveLayout();renderPlanGoals();renderPlan();
       var top=$("planCard");if(top)top.scrollIntoView({behavior:"smooth",block:"start"});
       toast("Opened “"+b.name+"”");return;}
     var del=e.target.closest("[data-beddel]");
