@@ -333,6 +333,7 @@
   .bedcell .be{font-size:1.05rem;line-height:1;}
   .bedcell .bl{font-size:.45rem;font-weight:700;letter-spacing:.01em;margin-top:1px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .bedcell.empty{background:#e3d9c9;color:#bcae95;font-weight:600;}
+  .bedcell.clash{box-shadow:0 0 0 2px #d9534f inset;}
   .bedcell.empty .be{font-size:.8rem;opacity:.6;}
   .brushbar{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 4px;}
   .brushbar button{display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:.76rem;font-weight:600;padding:5px 10px;border-radius:999px;border:1.5px solid var(--line-strong);background:#fff;color:var(--ink-soft);cursor:pointer;}
@@ -4051,7 +4052,20 @@
     s+='</svg>';
     return s;
   }
-  function refreshDerived(){var l=$("planLegend");if(l)l.innerHTML=legendHTML();var e=$("planElev");if(e)e.innerHTML=elevationSVG();var x=$("planExtra");if(x)x.innerHTML=extrasHTML();}
+  function refreshDerived(){var l=$("planLegend");if(l)l.innerHTML=legendHTML();var e=$("planElev");if(e)e.innerHTML=elevationSVG();var x=$("planExtra");if(x)x.innerHTML=extrasHTML();markClashes();}
+  function sowType(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();return /tomato|pepper|eggplant|jalape|cabbage|broccoli|cauliflower|napa|bok|gai|kale|basil|parsley|dahlia|gladiolus|strawberr|thyme|oregano|sage|rosemary|lavender|\bmint|balm|hibiscus|bee\s?balm|garlic|bulb onion/.test(n)?"start":"seed";}
+  // which placed squares sit next to a clashing neighbour (orthogonal)
+  var FAM_CONFLICT={allium:{legume:1},legume:{allium:1},nightshade:{brassica:1},brassica:{nightshade:1}};
+  function clashCells(){
+    var g=curGoal(),w=planSize.w,l=planSize.l,bad={};
+    for(var idx=0;idx<planLayout.length;idx++){var pi=planLayout[idx];if(pi<0||!g.plants[pi])continue;
+      var fa=famOf(g.plants[pi]),r=Math.floor(idx/w),c=idx%w,nb=[];
+      if(c>0)nb.push(idx-1);if(c<w-1)nb.push(idx+1);if(r>0)nb.push(idx-w);if(r<l-1)nb.push(idx+w);
+      for(var k=0;k<nb.length;k++){var np=planLayout[nb[k]];if(np<0||!g.plants[np])continue;var fb=famOf(g.plants[np]);if(FAM_CONFLICT[fa]&&FAM_CONFLICT[fa][fb]){bad[idx]=1;bad[nb[k]]=1;}}
+    }
+    return bad;
+  }
+  function markClashes(){var grid=$("bedGrid");if(!grid)return;var bad=clashCells();[].forEach.call(grid.querySelectorAll("[data-cell]"),function(cell){cell.classList.toggle("clash",!!bad[+cell.getAttribute("data-cell")]);});}
   // classify plants by name so companion/trellis advice needs no extra data fields
   function famOf(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();
     if(/onion|garlic|chive|scallion|leek/.test(n))return"allium";
@@ -4073,9 +4087,14 @@
     // totals
     var counts={},filled=0,totalPlants=0;
     planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi]){counts[pi]=(counts[pi]||0)+1;filled++;}});
-    Object.keys(counts).forEach(function(k){totalPlants+=plantCount(counts[k],g.plants[+k].per);});
+    var seedN=0,startN=0;
+    Object.keys(counts).forEach(function(k){var n=plantCount(counts[k],g.plants[+k].per);totalPlants+=n;if(sowType(g.plants[+k])==="seed")seedN+=n;else startN+=n;});
     var bedSq=planSize.w*planSize.l;
-    var html='<div class="note-card" style="margin-top:11px">'+ic("grid")+'<div class="txt"><b>This bed:</b> about <b>'+totalPlants+' plant'+(totalPlants===1?"":"s")+'</b> across '+filled+' of '+bedSq+' squares.</div></div>';
+    var split=(seedN&&startN)?(' — about '+seedN+' from seed, '+startN+' as starts/bulbs'):(seedN?' — all direct-sown from seed':(startN?' — all transplants/bulbs':''));
+    var html='<div class="note-card" style="margin-top:11px">'+ic("grid")+'<div class="txt"><b>This bed:</b> about <b>'+totalPlants+' plant'+(totalPlants===1?"":"s")+'</b> across '+filled+' of '+bedSq+' squares'+split+'.'+(seedN?' <span style="color:var(--ink-faint)">One seed packet of each sown crop is plenty.</span>':'')+'</div></div>';
+    // adjacency clashes — neighbours that don't get along
+    var nClash=Object.keys(clashCells()).length;
+    if(nClash)html+='<div class="note-card warn">'+ic("alert")+'<div class="txt"><b>'+nClash+' square'+(nClash===1?"":"s")+' outlined in red</b> sit next to a clashing neighbour (e.g. onions touching beans, or tomatoes touching the cabbage family). Slide one a square over to fix it.</div></div>';
     // overflow flag — does the kit's ideal footprint exceed this bed?
     var idealSq=0;g.plants.forEach(function(p){idealSq+=p.sq;});
     if(idealSq>bedSq)html+='<div class="note-card warn">'+ic("alert")+'<div class="txt"><b>This kit is a tight fit.</b> It’s designed for about <b>'+idealSq+' sq ft</b>, but your '+planSize.w+'×'+planSize.l+' bed has '+bedSq+' — so the lower-priority plants got left out. A <b>4×8</b> fits the whole kit, or trim a few crops.</div></div>';
@@ -4094,6 +4113,9 @@
     if(warns.length||wins.length){
       html+='<div class="note-card">'+ic("bee")+'<div class="txt"><b>Companions:</b> '+(warns.concat(wins.slice(0,2)).slice(0,3).join(" "))+'</div></div>';
     }
+    // succession — quick crops free up their squares for a second round
+    var quick=placed.filter(function(p){return /radish|lettuce|spinach|arugula|cilantro|scallion|bush bean|bok|\bpeas?\b/.test(((p.n||"")+" "+(p.s||"")).toLowerCase());}).map(function(p){return p.n;});
+    if(quick.length)html+='<div class="note-card">'+ic("recycle")+'<div class="txt"><b>Keep it producing:</b> re-sow the quick crops ('+quick.slice(0,3).join(", ")+') <b>every 2–3 weeks</b>, and once a spring square is spent, replant it for a <b>fall crop</b> instead of leaving it bare.</div></div>';
     return html;
   }
   function brushBarHTML(){
@@ -4130,7 +4152,7 @@
       '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>'+
       '<button class="act btn-ghost" id="planRemind" style="margin-top:9px"><svg class="ic"><use href="#i-bell"/></svg>Add planting reminders</button>'+
       '<button class="act btn-ghost" id="planCopy" style="margin-top:9px"><svg class="ic"><use href="#i-upload"/></svg>Copy this plan as text</button>';
-    wireBedPaint();
+    wireBedPaint();markClashes();
   }
   function paintCell(idx){
     if(idx<0||idx>=planLayout.length)return false;
