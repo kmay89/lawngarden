@@ -3905,22 +3905,23 @@
     wireBedPaint();
   }
   function paintCell(idx){
-    if(idx<0||idx>=planLayout.length)return;
-    if(planLayout[idx]===planBrush)return;
+    if(idx<0||idx>=planLayout.length)return false;
+    if(planLayout[idx]===planBrush)return false;
     planLayout[idx]=planBrush;
     var cell=document.querySelector('#bedGrid [data-cell="'+idx+'"]');if(cell)styleCell(cell,planBrush);
     refreshLegend();
+    return true;
   }
-  var planPainting=false;
+  var planPainting=false,planPaintDirty=false;
   function cellIdxFromPoint(x,y){var el=document.elementFromPoint(x,y);var c=el&&el.closest?el.closest("[data-cell]"):null;return c?+c.getAttribute("data-cell"):-1;}
   function wireBedPaint(){
     var grid=$("bedGrid");if(!grid)return;
-    grid.addEventListener("pointerdown",function(e){planPainting=true;var c=e.target.closest&&e.target.closest("[data-cell]");if(c){paintCell(+c.getAttribute("data-cell"));saveLayout();}if(grid.setPointerCapture&&e.pointerId!=null){try{grid.setPointerCapture(e.pointerId);}catch(err){}}e.preventDefault();});
-    grid.addEventListener("pointermove",function(e){if(!planPainting)return;var i=cellIdxFromPoint(e.clientX,e.clientY);if(i>=0)paintCell(i);});
-    grid.addEventListener("pointerup",function(){if(planPainting){planPainting=false;saveLayout();}});
-    grid.addEventListener("pointercancel",function(){if(planPainting){planPainting=false;saveLayout();}});
+    grid.addEventListener("pointerdown",function(e){planPainting=true;planPaintDirty=false;var c=e.target.closest&&e.target.closest("[data-cell]");if(c&&paintCell(+c.getAttribute("data-cell")))planPaintDirty=true;if(grid.setPointerCapture&&e.pointerId!=null){try{grid.setPointerCapture(e.pointerId);}catch(err){}}e.preventDefault();});
+    grid.addEventListener("pointermove",function(e){if(!planPainting)return;var i=cellIdxFromPoint(e.clientX,e.clientY);if(i>=0&&paintCell(i))planPaintDirty=true;});
+    grid.addEventListener("pointerup",function(){if(planPainting){planPainting=false;if(planPaintDirty)saveLayout();}});
+    grid.addEventListener("pointercancel",function(){if(planPainting){planPainting=false;if(planPaintDirty)saveLayout();}});
     // click fallback (covers environments without pointer events)
-    grid.addEventListener("click",function(e){var c=e.target.closest("[data-cell]");if(c){paintCell(+c.getAttribute("data-cell"));saveLayout();}});
+    grid.addEventListener("click",function(e){var c=e.target.closest("[data-cell]");if(c&&paintCell(+c.getAttribute("data-cell")))saveLayout();});
   }
   if($("planGoalSeg"))$("planGoalSeg").addEventListener("click",function(e){var b=e.target.closest("[data-goal]");if(!b)return;planGoal=b.getAttribute("data-goal");planBrush=0;document.querySelectorAll("#planGoalSeg [data-goal]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});loadLayout();renderPlan();});
   if($("planSizeSeg"))$("planSizeSeg").addEventListener("click",function(e){var b=e.target.closest("[data-size]");if(!b)return;var v=b.getAttribute("data-size").split("x");planSize={w:+v[0],l:+v[1]};document.querySelectorAll("#planSizeSeg [data-size]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});loadLayout();renderPlan();});
