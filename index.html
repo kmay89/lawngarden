@@ -4091,7 +4091,7 @@
     Object.keys(counts).forEach(function(k){var n=plantCount(counts[k],g.plants[+k].per);totalPlants+=n;if(sowType(g.plants[+k])==="seed")seedN+=n;else startN+=n;});
     var bedSq=planSize.w*planSize.l;
     var split=(seedN&&startN)?(' — about '+seedN+' from seed, '+startN+' as starts/bulbs'):(seedN?' — all direct-sown from seed':(startN?' — all transplants/bulbs':''));
-    var html='<div class="note-card" style="margin-top:11px">'+ic("grid")+'<div class="txt"><b>This bed:</b> about <b>'+totalPlants+' plant'+(totalPlants===1?"":"s")+'</b> across '+filled+' of '+bedSq+' squares'+split+'. <span style="color:var(--ink-faint)">One seed packet of each sown crop is plenty.</span></div></div>';
+    var html='<div class="note-card" style="margin-top:11px">'+ic("grid")+'<div class="txt"><b>This bed:</b> about <b>'+totalPlants+' plant'+(totalPlants===1?"":"s")+'</b> across '+filled+' of '+bedSq+' squares'+split+'.'+(seedN?' <span style="color:var(--ink-faint)">One seed packet of each sown crop is plenty.</span>':'')+'</div></div>';
     // adjacency clashes — neighbours that don't get along
     var nClash=Object.keys(clashCells()).length;
     if(nClash)html+='<div class="note-card warn">'+ic("alert")+'<div class="txt"><b>'+nClash+' square'+(nClash===1?"":"s")+' outlined in red</b> sit next to a clashing neighbour (e.g. onions touching beans, or tomatoes touching the cabbage family). Slide one a square over to fix it.</div></div>';
