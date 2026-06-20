@@ -313,9 +313,13 @@
   .goalseg button[aria-pressed=true]{background:var(--grass);color:#fff;border-color:var(--grass);}
   .goalseg button[aria-pressed=true] .ic{color:#fff;}
   .bed-orient{display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--grass-deep);font-weight:700;margin:4px 0 5px;}
-  .bedgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border:3px solid #8a6d4f;border-radius:8px;padding:5px;background:#efe6da;}
-  .bedcell{aspect-ratio:1/1;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.55rem;font-weight:700;line-height:1.04;color:#16331f;padding:2px;overflow:hidden;}
+  .bedgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border:3px solid #8a6d4f;border-radius:8px;padding:5px;background:#efe6da;touch-action:none;-webkit-user-select:none;user-select:none;}
+  .bedcell{aspect-ratio:1/1;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.55rem;font-weight:700;line-height:1.04;color:#16331f;padding:2px;overflow:hidden;cursor:pointer;}
   .bedcell.empty{background:#e3d9c9;color:#b3a68f;font-weight:500;}
+  .brushbar{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 4px;}
+  .brushbar button{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:.76rem;font-weight:600;padding:6px 10px;border-radius:999px;border:1.5px solid var(--line-strong);background:#fff;color:var(--ink-soft);cursor:pointer;}
+  .brushbar button .sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;}
+  .brushbar button[aria-pressed=true]{border-color:var(--ink);box-shadow:0 0 0 1.5px var(--ink) inset;color:var(--ink);}
   .bed-side{text-align:center;font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:5px;}
   .bedleg{display:flex;flex-direction:column;gap:7px;margin-top:13px;}
   .bedleg-row{display:flex;align-items:flex-start;gap:9px;font-size:.83rem;}
@@ -2254,8 +2258,10 @@
 
     <div class="card" id="planCard">
       <div class="card-head"><svg class="ic"><use href="#i-grid"/></svg><h3>What do you want to grow?</h3></div>
-      <p class="hint">Choose a goal — like an AeroGarden seed kit, but for a real bed. We'll fill the squares for you.</p>
+      <p class="hint">Choose a goal — like an AeroGarden seed kit, but for a real bed. We'll fill the squares, then you can rearrange them.</p>
       <div class="seg" id="planGoalSeg" role="tablist"></div>
+      <div class="hubhead" style="margin-top:14px;">Bed size</div>
+      <div class="goalseg" id="planSizeSeg"></div>
       <div id="planOut"></div>
     </div>
   </section>
@@ -3838,49 +3844,102 @@
       soil:"Easy — most annual flowers bloom best in average, not-too-rich soil (rich soil makes leaves, not flowers). Full sun, good drainage, a little compost is plenty.",
       care:"Deadhead and cut often — the more you pick, the more they bloom. Leave the last sunflowers and zinnias standing in fall for the birds."}
   ];
-  var planGoal="salsa";
-  function planTiles(g){
-    var rank={tall:0,vine:0,med:1,short:2};
+  var PLAN_SIZES=[{w:4,l:8},{w:4,l:6},{w:4,l:4},{w:3,l:8},{w:3,l:6},{w:8,l:2},{w:4,l:2}];
+  var planGoal="salsa",planSize=PLAN_SIZES[0],planBrush=0,planLayout=[];
+  function curGoal(){var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});return g||GARDEN_GOALS[0];}
+  function colorFor(i){return PLAN_PAL[i%PLAN_PAL.length];}
+  function sizeKey(){return planGoal+"_"+planSize.w+"x"+planSize.l;}
+  function autoFill(){
+    var g=curGoal(),n=planSize.w*planSize.l,rank={tall:0,vine:0,med:1,short:2};
     var ps=g.plants.map(function(p,i){return {p:p,i:i};}).sort(function(a,b){var ra=rank[a.p.h]==null?1:rank[a.p.h],rb=rank[b.p.h]==null?1:rank[b.p.h];if(ra!==rb)return ra-rb;return a.i-b.i;});
-    var tiles=[];ps.forEach(function(o){for(var k=0;k<o.p.sq&&tiles.length<32;k++)tiles.push(o.i);});
+    var tiles=[];ps.forEach(function(o){for(var k=0;k<o.p.sq&&tiles.length<n;k++)tiles.push(o.i);});
+    while(tiles.length<n)tiles.push(-1);
     return tiles;
   }
-  function colorFor(i){return PLAN_PAL[i%PLAN_PAL.length];}
+  function loadLayout(){
+    var all=lsGet("ycPlanLayouts")||{},saved=all[sizeKey()];
+    planLayout=(Array.isArray(saved)&&saved.length===planSize.w*planSize.l)?saved.slice():autoFill();
+  }
+  function saveLayout(){var all=lsGet("ycPlanLayouts")||{};all[sizeKey()]=planLayout.slice();lsSet("ycPlanLayouts",all);}
+  function styleCell(cell,pi){
+    var g=curGoal();
+    if(pi<0||!g.plants[pi]){cell.className="bedcell empty";cell.style.background="";cell.style.border="";cell.textContent="open";}
+    else{cell.className="bedcell";cell.style.background=colorFor(pi)+"33";cell.style.border="1px solid "+colorFor(pi);cell.textContent=g.plants[pi].s;}
+  }
+  function legendHTML(){
+    var g=curGoal(),counts={};planLayout.forEach(function(pi){if(pi>=0)counts[pi]=(counts[pi]||0)+1;});
+    return g.plants.map(function(p,i){
+      var sq=counts[i]||0,total=sq*p.per;
+      return '<div class="bedleg-row" style="'+(sq?"":"opacity:.4")+'"><span class="bedleg-sw" style="background:'+colorFor(i)+'"></span><div><div class="bedleg-n"><b>'+esc(p.n)+'</b> — '+(sq?total+' plant'+(total===1?"":"s")+' ('+sq+' sq'+(p.per>1?' · '+p.per+'/sq':'')+')':'not placed')+'</div><div class="bedleg-d">'+esc(p.when)+(p.note?' · '+esc(p.note):'')+'</div></div></div>';
+    }).join("");
+  }
+  function refreshLegend(){var l=$("planLegend");if(l)l.innerHTML=legendHTML();}
+  function brushBarHTML(){
+    var g=curGoal();
+    var chips=g.plants.map(function(p,i){return '<button data-brush="'+i+'" aria-pressed="'+(planBrush===i?"true":"false")+'"><span class="sw" style="background:'+colorFor(i)+'"></span>'+esc(p.s)+'</button>';}).join("");
+    chips+='<button data-brush="-1" aria-pressed="'+(planBrush===-1?"true":"false")+'"><span class="sw" style="background:#e3d9c9"></span>erase</button>';
+    return chips;
+  }
   function renderPlanGoals(){
-    var seg=$("planGoalSeg");if(!seg)return;
-    seg.className="goalseg";
-    seg.innerHTML=GARDEN_GOALS.map(function(g){return '<button data-goal="'+g.id+'" aria-pressed="'+(g.id===planGoal?"true":"false")+'"><svg class="ic"><use href="#i-'+g.icon+'"/></svg>'+esc(g.label)+'</button>';}).join("");
+    var seg=$("planGoalSeg");if(seg){seg.className="goalseg";seg.innerHTML=GARDEN_GOALS.map(function(g){return '<button data-goal="'+g.id+'" aria-pressed="'+(g.id===planGoal?"true":"false")+'"><svg class="ic"><use href="#i-'+g.icon+'"/></svg>'+esc(g.label)+'</button>';}).join("");}
+    var ss=$("planSizeSeg");if(ss)ss.innerHTML=PLAN_SIZES.map(function(s){var on=(s.w===planSize.w&&s.l===planSize.l);return '<button data-size="'+s.w+'x'+s.l+'" aria-pressed="'+(on?"true":"false")+'">'+s.w+'×'+s.l+' ft</button>';}).join("");
   }
   function renderPlan(){
     var out=$("planOut");if(!out)return;
-    var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});if(!g)g=GARDEN_GOALS[0];
-    var tiles=planTiles(g);
-    var cells="";for(var c=0;c<32;c++){if(c<tiles.length){var pi=tiles[c],p=g.plants[pi];cells+='<div class="bedcell" style="background:'+colorFor(pi)+'33;border:1px solid '+colorFor(pi)+'">'+esc(p.s)+'</div>';}else{cells+='<div class="bedcell empty">open</div>';}}
-    var legend=g.plants.map(function(p,i){var total=p.sq*p.per;return '<div class="bedleg-row"><span class="bedleg-sw" style="background:'+colorFor(i)+'"></span><div><div class="bedleg-n"><b>'+esc(p.n)+'</b> — '+total+' plant'+(total===1?"":"s")+' ('+p.sq+' sq'+(p.per>1?' · '+p.per+'/sq':'')+')</div><div class="bedleg-d">'+esc(p.when)+(p.note?' · '+esc(p.note):'')+'</div></div></div>';}).join("");
+    var g=curGoal();
+    var cells="";for(var c=0;c<planLayout.length;c++){var pi=planLayout[c];if(pi>=0&&g.plants[pi]){cells+='<div class="bedcell" data-cell="'+c+'" style="background:'+colorFor(pi)+'33;border:1px solid '+colorFor(pi)+'">'+esc(g.plants[pi].s)+'</div>';}else{cells+='<div class="bedcell empty" data-cell="'+c+'">open</div>';}}
     out.innerHTML=
       '<p class="hint" style="margin-top:13px">'+esc(g.tag)+'</p>'+
+      '<div class="brushbar" id="planBrushBar">'+brushBarHTML()+'</div>'+
+      '<p class="hint" style="margin:2px 0 6px;font-size:.78rem">Tap a plant, then <b>tap or drag across squares</b> to place it. Pick <b>erase</b> to clear.</p>'+
       '<div class="bed-orient">'+ic("sun")+'North ▲ — tallest plants up here</div>'+
-      '<div class="bedgrid">'+cells+'</div>'+
-      '<div class="bed-side">◀ 4 ft ▶ &nbsp;·&nbsp; 8 ft long, north–south</div>'+
-      '<div class="note-card" style="margin-top:12px">'+ic("info")+'<div class="txt"><b>Why this layout:</b> run the 8-ft length <b>north–south</b> and keep the tall plants (tomatoes, sunflowers) at the <b>north end</b> so they don’t shade the shorter crops as the sun crosses the south sky. Each square is 1 ft.</div></div>'+
-      '<div class="bedleg">'+legend+'</div>'+
+      '<div class="bedgrid" id="bedGrid" style="grid-template-columns:repeat('+planSize.w+',1fr)">'+cells+'</div>'+
+      '<div class="bed-side">◀ '+planSize.w+' ft ▶ &nbsp;·&nbsp; '+planSize.l+' ft long, north–south</div>'+
+      '<div style="text-align:center;margin-top:9px"><button class="linklike" id="planAuto">↺ Auto-arrange (tall to the north)</button></div>'+
+      '<div class="note-card" style="margin-top:10px">'+ic("info")+'<div class="txt"><b>Why this layout:</b> run the longer side <b>north–south</b> and keep the tall plants (tomatoes, sunflowers) at the <b>north end</b> so they don’t shade the shorter crops as the sun crosses the south sky. Each square is 1 ft.</div></div>'+
+      '<div class="bedleg" id="planLegend">'+legendHTML()+'</div>'+
       '<div class="note-card" style="margin-top:13px">'+ic("soil")+'<div class="txt"><b>Soil:</b> '+g.soil+' A great raised-bed fill is roughly <b>⅓ compost, ⅓ peat or coir, ⅓ coarse vermiculite</b>; top up with compost each season.</div></div>'+
       '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
       '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
       '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>';
+    wireBedPaint();
   }
-  if($("planGoalSeg"))$("planGoalSeg").addEventListener("click",function(e){var b=e.target.closest("[data-goal]");if(!b)return;planGoal=b.getAttribute("data-goal");document.querySelectorAll("#planGoalSeg [data-goal]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderPlan();});
+  function paintCell(idx){
+    if(idx<0||idx>=planLayout.length)return;
+    if(planLayout[idx]===planBrush)return;
+    planLayout[idx]=planBrush;
+    var cell=document.querySelector('#bedGrid [data-cell="'+idx+'"]');if(cell)styleCell(cell,planBrush);
+    refreshLegend();
+  }
+  var planPainting=false;
+  function cellIdxFromPoint(x,y){var el=document.elementFromPoint(x,y);var c=el&&el.closest?el.closest("[data-cell]"):null;return c?+c.getAttribute("data-cell"):-1;}
+  function wireBedPaint(){
+    var grid=$("bedGrid");if(!grid)return;
+    grid.addEventListener("pointerdown",function(e){planPainting=true;var c=e.target.closest&&e.target.closest("[data-cell]");if(c){paintCell(+c.getAttribute("data-cell"));saveLayout();}if(grid.setPointerCapture&&e.pointerId!=null){try{grid.setPointerCapture(e.pointerId);}catch(err){}}e.preventDefault();});
+    grid.addEventListener("pointermove",function(e){if(!planPainting)return;var i=cellIdxFromPoint(e.clientX,e.clientY);if(i>=0)paintCell(i);});
+    grid.addEventListener("pointerup",function(){if(planPainting){planPainting=false;saveLayout();}});
+    grid.addEventListener("pointercancel",function(){if(planPainting){planPainting=false;saveLayout();}});
+    // click fallback (covers environments without pointer events)
+    grid.addEventListener("click",function(e){var c=e.target.closest("[data-cell]");if(c){paintCell(+c.getAttribute("data-cell"));saveLayout();}});
+  }
+  if($("planGoalSeg"))$("planGoalSeg").addEventListener("click",function(e){var b=e.target.closest("[data-goal]");if(!b)return;planGoal=b.getAttribute("data-goal");planBrush=0;document.querySelectorAll("#planGoalSeg [data-goal]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});loadLayout();renderPlan();});
+  if($("planSizeSeg"))$("planSizeSeg").addEventListener("click",function(e){var b=e.target.closest("[data-size]");if(!b)return;var v=b.getAttribute("data-size").split("x");planSize={w:+v[0],l:+v[1]};document.querySelectorAll("#planSizeSeg [data-size]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});loadLayout();renderPlan();});
   if($("planOut"))$("planOut").addEventListener("click",function(e){
-    var b=e.target.closest("#planShop");if(!b)return;
-    var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});if(!g)return;
-    var a=shopAll(),added=0;
-    function mk(name,cat){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,name:name,cat:cat,qty:1,price:null,got:0};}
-    g.plants.forEach(function(p){a.push(mk(p.n+" — seeds or starts","Grow"));added++;});
-    a.push(mk("Raised-bed mix / compost","Beds"));
-    shopSave(a);renderShop();
-    toast("Added "+added+" plants + soil to your shopping list");
+    var brush=e.target.closest("[data-brush]");
+    if(brush){planBrush=+brush.getAttribute("data-brush");document.querySelectorAll("#planBrushBar [data-brush]").forEach(function(x){x.setAttribute("aria-pressed",x===brush?"true":"false");});return;}
+    if(e.target.closest("#planAuto")){planLayout=autoFill();saveLayout();renderPlan();toast("Re-arranged — tall plants to the north");return;}
+    var shop=e.target.closest("#planShop");
+    if(shop){
+      var g=curGoal(),present={};planLayout.forEach(function(pi){if(pi>=0)present[pi]=1;});
+      var a=shopAll(),added=0;
+      function mk(name,cat){return {id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,name:name,cat:cat,qty:1,price:null,got:0};}
+      Object.keys(present).forEach(function(k){a.push(mk(g.plants[+k].n+" — seeds or starts","Grow"));added++;});
+      if(added)a.push(mk("Raised-bed mix / compost","Beds"));
+      shopSave(a);renderShop();
+      toast(added?("Added "+added+" plants + soil to your shopping list"):"Place some plants first");
+    }
   });
-  function renderPlanner(){renderPlanGoals();renderPlan();}
+  function renderPlanner(){renderPlanGoals();loadLayout();renderPlan();}
 
   /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
   var AREAS=[
