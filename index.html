@@ -3851,7 +3851,19 @@
     {id:"pollinator",label:"Pollinator & cutting",icon:"bee",tag:"A bed alive with bees and butterflies — and vases full of blooms.",
       plants:[{n:"Sunflower",s:"Sunfl",e:"🌻",sq:4,per:1,h:"tall",when:"after last frost",note:"birds love the seed"},{n:"Cosmos",s:"Cosm",e:"🌸",sq:6,per:1,h:"tall",when:"after last frost"},{n:"Zinnia",s:"Zinn",e:"🌺",sq:8,per:1,h:"med",when:"after last frost",note:"cut for more blooms"},{n:"Calendula",s:"Cale",e:"🟠",sq:4,per:1,h:"short",when:"spring"},{n:"Marigold",s:"Mari",e:"🌼",sq:4,per:1,h:"short",when:"after frost"},{n:"Bachelor button",s:"Bach",e:"🔵",sq:4,per:1,h:"med",when:"spring"},{n:"Nasturtium",s:"Nast",e:"🧡",sq:2,per:1,h:"short",when:"after frost",note:"edible flowers"}],
       soil:"Easy — most annual flowers bloom best in average, not-too-rich soil (rich soil makes leaves, not flowers). Full sun, good drainage, a little compost is plenty.",
-      care:"Deadhead and cut often — the more you pick, the more they bloom. Leave the last sunflowers and zinnias standing in fall for the birds."}
+      care:"Deadhead and cut often — the more you pick, the more they bloom. Leave the last sunflowers and zinnias standing in fall for the birds."},
+    {id:"kids",label:"Kids' garden",icon:"sun",tag:"Fast, fun, and snackable — big seeds, quick wins, and things to pick.",
+      plants:[{n:"Sunflower",s:"Sunfl",e:"🌻",sq:3,per:1,h:"tall",when:"after last frost",note:"giant & easy to plant"},{n:"Cherry tomato",s:"Cherry",e:"🍅",sq:2,per:1,h:"tall",when:"after last frost",note:"snack off the vine"},{n:"Sugar snap pea",s:"Peas",e:"🟢",sq:3,per:8,h:"tall",when:"early spring",note:"give it a trellis"},{n:"Pumpkin",s:"Pump",e:"🎃",sq:4,per:1,h:"short",when:"after last frost",note:"let it sprawl out a corner"},{n:"Bush bean",s:"Bean",e:"🫘",sq:4,per:9,h:"med",when:"after last frost",note:"easy to pick"},{n:"Carrot",s:"Carr",e:"🥕",sq:4,per:16,h:"short",when:"spring",note:"pull-and-eat"},{n:"Radish",s:"Rad",e:"🔴",sq:2,per:16,h:"short",when:"spring",note:"ready in ~4 wks!"},{n:"Lettuce",s:"Lett",e:"🥬",sq:4,per:4,h:"short",when:"spring & fall"},{n:"Nasturtium",s:"Nast",e:"🧡",sq:2,per:1,h:"short",when:"after frost",note:"edible flowers"}],
+      soil:"Rich and forgiving — lots of compost, easy to dig, and well watered. Big seeds (beans, peas, sunflowers, pumpkins) are perfect for little hands to plant.",
+      care:"Choose fast, dramatic plants so kids see results — radishes in a month, towering sunflowers, snackable cherry tomatoes and peas. Let them water and harvest; a little chaos is the point."},
+    {id:"sisters",label:"Three Sisters",icon:"clover",tag:"The classic Native American trio — corn, beans, and squash helping each other.",
+      plants:[{n:"Sweet corn",s:"Corn",e:"🌽",sq:12,per:1,h:"tall",when:"after last frost",note:"plant in a block, not a row"},{n:"Pole bean",s:"Bean",e:"🫘",sq:4,per:4,h:"tall",when:"2–3 wks after corn",note:"climbs the cornstalks"},{n:"Winter squash",s:"Squash",e:"🎃",sq:8,per:1,h:"short",when:"with the beans",note:"sprawls & shades out weeds"},{n:"Sunflower",s:"Sunfl",e:"🌻",sq:4,per:1,h:"tall",when:"after last frost",note:"optional 4th sister — for the birds"}],
+      soil:"Rich, deep, well-composted soil — corn is a heavy feeder. The beans give back nitrogen, and the squash leaves mulch the ground; together they need less from you.",
+      care:"Plant corn first in a <b>block</b> (so it pollinates) and let it get ~6″ tall; then sow beans to climb it and squash to ramble below. The corn is the trellis, the beans feed the soil, the squash shades out weeds — a self-supporting team."},
+    {id:"stirfry",label:"Stir-fry greens",icon:"basket",tag:"An Asian-inspired bed — bok choy, snow peas, scallions, and aromatics.",
+      plants:[{n:"Snow / snap pea",s:"Peas",e:"🟢",sq:4,per:8,h:"tall",when:"early spring",note:"trellis on the north"},{n:"Napa cabbage",s:"Napa",e:"🥬",sq:4,per:1,h:"med",when:"spring & fall"},{n:"Bok choy",s:"Bok",e:"🥬",sq:6,per:4,h:"short",when:"spring & fall",note:"fast; bolts in heat"},{n:"Gai lan (Chinese broccoli)",s:"Gailan",e:"🥦",sq:4,per:1,h:"med",when:"spring & fall"},{n:"Scallion",s:"Scal",e:"🧅",sq:4,per:9,h:"short",when:"early spring"},{n:"Daikon radish",s:"Daikon",e:"🔴",sq:4,per:9,h:"short",when:"late summer for fall"},{n:"Cilantro",s:"Cilan",e:"🌿",sq:2,per:4,h:"short",when:"succession-sow"},{n:"Hot pepper",s:"Pep",e:"🌶️",sq:4,per:1,h:"med",when:"after last frost"}],
+      soil:"Rich, moisture-retentive soil with steady water — the leafy brassicas grow fast and want to keep growing. Plenty of compost; pH 6.0–7.0.",
+      care:"Most of these are cool-season — plant in spring and again in late summer for fall, when they're sweetest. Harvest bok choy and greens young; keep cutting cilantro before it bolts."}
   ];
   var PLAN_SIZES=[{w:4,l:8},{w:4,l:6},{w:4,l:4},{w:3,l:8},{w:3,l:6},{w:8,l:2},{w:4,l:2}];
   var planGoal="salsa",planSize=PLAN_SIZES[0],planBrush=0,planLayout=[];
@@ -3934,7 +3946,8 @@
       '<div class="note-card" style="margin-top:13px">'+ic("soil")+'<div class="txt"><b>Soil:</b> '+g.soil+' A great raised-bed fill is roughly <b>⅓ compost, ⅓ peat or coir, ⅓ coarse vermiculite</b>; top up with compost each season.</div></div>'+
       '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
       '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
-      '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>';
+      '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>'+
+      '<button class="act btn-ghost" id="planCopy" style="margin-top:9px"><svg class="ic"><use href="#i-upload"/></svg>Copy this plan as text</button>';
     wireBedPaint();
   }
   function paintCell(idx){
@@ -3971,8 +3984,26 @@
       if(added)a.push(mk("Raised-bed mix / compost","Beds"));
       shopSave(a);renderShop();
       toast(added?("Added "+added+" plants + soil to your shopping list"):"Place some plants first");
+      return;
     }
+    if(e.target.closest("#planCopy"))copyToClipboard(planSummaryText(),"Plan copied — paste it anywhere");
   });
+  function planSummaryText(){
+    var g=curGoal(),cols=planSize.w,rows=planSize.l,counts={};
+    planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi])counts[pi]=(counts[pi]||0)+1;});
+    var L=["Garden bed plan — "+g.label,planSize.w+"×"+planSize.l+" ft raised bed",""];
+    L.push("Plants:");
+    var any=false;
+    g.plants.forEach(function(p,i){var sq=counts[i]||0;if(!sq)return;any=true;var total=sq*p.per;L.push("  • "+(p.e||"")+" "+p.n+" — "+total+" plant"+(total===1?"":"s")+" ("+sq+" sq), "+({tall:"tall",vine:"vine",med:"medium",short:"short"}[p.h]||"")+"; plant "+p.when);});
+    if(!any)L.push("  (no plants placed yet)");
+    L.push("","Layout (north → south, each □ = 1 ft):");
+    for(var r=0;r<rows;r++){var row=[];for(var c=0;c<cols;c++){var pi=planLayout[r*cols+c];row.push(pi>=0&&g.plants[pi]?(g.plants[pi].e||"🌱"):"·");}L.push("  "+(r===0?"N ":"  ")+row.join(" ")+(r===rows-1?"  S":""));}
+    L.push("","Soil: "+g.soil.replace(/<[^>]+>/g,""));
+    L.push("Care: "+g.care.replace(/<[^>]+>/g,""));
+    L.push("In-ground option: plant in rows running east–west, tallest crops in the north row.");
+    L.push("","— made with the Yard & Garden Console");
+    return L.join("\n");
+  }
   function renderPlanner(){renderPlanGoals();loadLayout();renderPlan();}
 
   /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
