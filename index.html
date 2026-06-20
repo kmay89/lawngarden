@@ -3857,7 +3857,7 @@
       soil:"Rich and forgiving — lots of compost, easy to dig, and well watered. Big seeds (beans, peas, sunflowers, pumpkins) are perfect for little hands to plant.",
       care:"Choose fast, dramatic plants so kids see results — radishes in a month, towering sunflowers, snackable cherry tomatoes and peas. Let them water and harvest; a little chaos is the point."},
     {id:"sisters",label:"Three Sisters",icon:"clover",tag:"The classic Native American trio — corn, beans, and squash helping each other.",
-      plants:[{n:"Sweet corn",s:"Corn",e:"🌽",sq:12,per:1,h:"tall",when:"after last frost",note:"plant in a block, not a row"},{n:"Pole bean",s:"Bean",e:"🫘",sq:4,per:4,h:"tall",when:"2–3 wks after corn",note:"climbs the cornstalks"},{n:"Winter squash",s:"Squash",e:"🎃",sq:8,per:1,h:"short",when:"with the beans",note:"sprawls &amp; shades out weeds"},{n:"Sunflower",s:"Sunfl",e:"🌻",sq:4,per:1,h:"tall",when:"after last frost",note:"optional 4th sister — for the birds"}],
+      plants:[{n:"Sweet corn",s:"Corn",e:"🌽",sq:12,per:1,h:"tall",when:"after last frost",note:"plant in a block, not a row"},{n:"Pole bean",s:"Bean",e:"🫘",sq:4,per:4,h:"tall",when:"2–3 wks after corn",note:"climbs the cornstalks"},{n:"Winter squash",s:"Squash",e:"🎃",sq:8,per:1,h:"short",when:"with the beans",note:"sprawls & shades out weeds"},{n:"Sunflower",s:"Sunfl",e:"🌻",sq:4,per:1,h:"tall",when:"after last frost",note:"optional 4th sister — for the birds"}],
       soil:"Rich, deep, well-composted soil — corn is a heavy feeder. The beans give back nitrogen, and the squash leaves mulch the ground; together they need less from you.",
       care:"Plant corn first in a <b>block</b> (so it pollinates) and let it get ~6″ tall; then sow beans to climb it and squash to ramble below. The corn is the trellis, the beans feed the soil, the squash shades out weeds — a self-supporting team."},
     {id:"stirfry",label:"Stir-fry greens",icon:"basket",tag:"An Asian-inspired bed — bok choy, snow peas, scallions, and aromatics.",
@@ -3994,10 +3994,10 @@
     var L=["Garden bed plan — "+g.label,planSize.w+"×"+planSize.l+" ft raised bed",""];
     L.push("Plants:");
     var any=false;
-    g.plants.forEach(function(p,i){var sq=counts[i]||0;if(!sq)return;any=true;var total=sq*p.per;L.push("  • "+(p.e||"")+" "+p.n+" — "+total+" plant"+(total===1?"":"s")+" ("+sq+" sq), "+({tall:"tall",med:"medium",short:"short"}[p.h]||"")+"; plant "+p.when);});
+    g.plants.forEach(function(p,i){var sq=counts[i]||0;if(!sq)return;any=true;var total=sq*p.per;L.push("  • "+(p.e||"")+" "+p.n+" — "+total+" plant"+(total===1?"":"s")+" ("+sq+" sq), "+({tall:"tall",vine:"vine",med:"medium",short:"short"}[p.h]||"")+"; plant "+p.when);});
     if(!any)L.push("  (no plants placed yet)");
     L.push("","Layout (north → south, each □ = 1 ft):");
-    for(var r=0;r<rows;r++){var row=[];for(var c=0;c<cols;c++){var pi=planLayout[r*cols+c];row.push(pi>=0&&g.plants[pi]?(g.plants[pi].e||"#"):"·");}L.push("  "+(r===0?"N ":"  ")+row.join(" ")+(r===rows-1?"  S":""));}
+    for(var r=0;r<rows;r++){var row=[];for(var c=0;c<cols;c++){var pi=planLayout[r*cols+c];row.push(pi>=0&&g.plants[pi]?(g.plants[pi].e||"🌱"):"·");}L.push("  "+(r===0?"N ":"  ")+row.join(" ")+(r===rows-1?"  S":""));}
     L.push("","Soil: "+g.soil.replace(/<[^>]+>/g,""));
     L.push("Care: "+g.care.replace(/<[^>]+>/g,""));
     L.push("In-ground option: plant in rows running east–west, tallest crops in the north row.");
