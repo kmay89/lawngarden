@@ -306,6 +306,22 @@
   .locked-head .ic{width:14px;height:14px;}
 
   /* ===== Grow / crops ===== */
+  /* garden bed planner */
+  .goalseg{display:flex;flex-wrap:wrap;gap:7px;}
+  .goalseg button{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:.82rem;font-weight:600;padding:8px 12px;border-radius:999px;border:1.5px solid var(--line-strong);background:#fff;color:var(--ink-soft);cursor:pointer;}
+  .goalseg button .ic{width:15px;height:15px;}
+  .goalseg button[aria-pressed=true]{background:var(--grass);color:#fff;border-color:var(--grass);}
+  .goalseg button[aria-pressed=true] .ic{color:#fff;}
+  .bed-orient{display:flex;align-items:center;justify-content:center;gap:6px;font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--grass-deep);font-weight:700;margin:4px 0 5px;}
+  .bedgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border:3px solid #8a6d4f;border-radius:8px;padding:5px;background:#efe6da;}
+  .bedcell{aspect-ratio:1/1;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.55rem;font-weight:700;line-height:1.04;color:#16331f;padding:2px;overflow:hidden;}
+  .bedcell.empty{background:#e3d9c9;color:#b3a68f;font-weight:500;}
+  .bed-side{text-align:center;font-family:var(--mono);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:5px;}
+  .bedleg{display:flex;flex-direction:column;gap:7px;margin-top:13px;}
+  .bedleg-row{display:flex;align-items:flex-start;gap:9px;font-size:.83rem;}
+  .bedleg-sw{width:15px;height:15px;border-radius:4px;flex:0 0 auto;margin-top:2px;}
+  .bedleg-n b{color:var(--ink);}
+  .bedleg-d{color:var(--ink-faint);font-size:.76rem;}
   .cropgrid{display:flex;flex-direction:column;gap:9px;}
   .crop{border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;background:#fff;}
   .crop .ch{display:flex;align-items:center;gap:8px;}
@@ -513,6 +529,7 @@
   <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9.5" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2.5 4h2.3l2.4 12h10l1.9-8.5H6.7"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0112 0v6l1.6 2H4.4z"/><path d="M9.8 21a2.2 2.2 0 004.4 0"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -551,6 +568,7 @@
     <button class="tab-btn" role="tab" data-tab="shop"><svg class="ic"><use href="#i-cart"/></svg>Plan &amp; Shop</button>
     <button class="tab-btn" role="tab" data-tab="remind"><svg class="ic"><use href="#i-bell"/></svg>Reminders</button>
     <button class="tab-btn" role="tab" data-tab="spots"><svg class="ic"><use href="#i-map"/></svg>My Yard</button>
+    <button class="tab-btn" role="tab" data-tab="plan"><svg class="ic"><use href="#i-grid"/></svg>Plan a Bed</button>
   </nav>
     <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
     <button class="tabnudge right" id="tabNudgeRight" aria-label="More tabs — scroll right" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
@@ -611,6 +629,8 @@
       <div class="hubhead">Garden planners</div>
       <div class="hub">
         <button class="hubchip" data-tool="spots" data-scroll="spotCard"><svg class="ic"><use href="#i-map"/></svg><span class="ht">My spots</span></button>
+        <button class="hubchip" data-tool="plan" data-scroll="planCard"><svg class="ic"><use href="#i-grid"/></svg><span class="ht">Plan a bed</span></button>
+        <button class="hubchip" data-tool="grow" data-scroll="plantFinder"><svg class="ic"><use href="#i-search"/></svg><span class="ht">Find a plant</span></button>
         <button class="hubchip" data-tool="bloom" data-scroll="bloomPlanner"><svg class="ic"><use href="#i-flower"/></svg><span class="ht">Bloom planner</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
@@ -1022,6 +1042,13 @@
   <section class="tab" data-pane="grow" hidden>
     <p class="tab-intro">A planning companion for an edible garden in <b>zone-6 Ohio</b>. Everything here keys off your frost dates — set them once below and the timelines fill in. The thread running through it all: grow <i>with</i> nature — feed the soil, mix things up, share a little with the bugs and birds, and let the climate do the work.</p>
 
+    <div class="card" id="plantFinder">
+      <div class="card-head"><svg class="ic"><use href="#i-search"/></svg><h3>Find a plant guide</h3></div>
+      <p class="hint">Type a plant — tomato, blueberry, clematis, garlic — and jump straight to its grow-it-well guide, wherever it lives.</p>
+      <div class="field"><input id="plantQuery" type="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search plants…" aria-label="Search plant guides"/></div>
+      <div id="plantResults"></div>
+    </div>
+
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-thermo"/></svg><h3>Your frost dates</h3></div>
       <p class="hint">Average frost dates aren't in any live forecast — they're long-term averages, roughly 50/50, <b>not guarantees</b>. Set yours and every planting window below adjusts. Southern Ohio runs earlier in spring and later in fall; the far north is the reverse.</p>
@@ -1261,7 +1288,7 @@
       <div class="note-card"><svg class="ic"><use href="#i-recycle"/></svg><div class="txt"><b>Stretch the budget:</b> perennials can be <b>divided</b> every few years to make free plants (and friends share divisions); many annuals and natives grow cheaply <b>from seed</b>; and buying small "plugs" or quart pots beats gallon containers if you're patient. <button class="linklike" data-goto="grow">Seed vs. transplant →</button></div></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="rosesCard">
       <div class="card-head"><svg class="ic"><use href="#i-flower"/></svg><h3>Roses, made simple</h3></div>
       <p class="hint">Roses have a fussy reputation, but that's mostly the old hybrid teas. Pick the right type and they're easy.</p>
       <div class="cmp">
@@ -2218,6 +2245,18 @@
       <p class="hint" id="starterSub">A calm, in-order path for a brand-new yard — tap each as you go. No rush; a yard is built over seasons, not a weekend.</p>
       <div class="ritlist" id="starterList"></div>
       <button class="act btn-ghost" id="starterReset" style="margin-top:11px;"><svg class="ic"><use href="#i-recycle"/></svg>Reset the path</button>
+    </div>
+  </section>
+
+  <!-- ============ PLAN A BED — first garden plan ============ -->
+  <section class="tab" data-pane="plan" hidden>
+    <p class="tab-intro">Your <b>first garden plan</b>, made simple. Pick what you want to grow toward, and you'll get a ready-to-plant <b>4×8 raised bed</b> — laid out so the tall plants never shade the short ones — plus soil, spacing, and an in-ground option. The classic starter size: <b>4 ft wide</b> (reachable from both sides) by <b>8 ft long</b> = 32 one-foot squares.</p>
+
+    <div class="card" id="planCard">
+      <div class="card-head"><svg class="ic"><use href="#i-grid"/></svg><h3>What do you want to grow?</h3></div>
+      <p class="hint">Choose a goal — like an AeroGarden seed kit, but for a real bed. We'll fill the squares for you.</p>
+      <div class="seg" id="planGoalSeg" role="tablist"></div>
+      <div id="planOut"></div>
     </div>
   </section>
 
@@ -3714,6 +3753,132 @@
   if($("starterList"))$("starterList").addEventListener("click",function(e){var b=e.target.closest("[data-starter]");if(!b)return;var i=b.getAttribute("data-starter"),st=lsGet("ycStarter")||{};if(st[i])delete st[i];else st[i]=1;lsSet("ycStarter",st);renderStarter();});
   if($("starterReset"))$("starterReset").addEventListener("click",function(){lsSet("ycStarter",{});renderStarter();toast("Path reset — fresh start");});
 
+  /* ---------- plant finder: jump to any grow-it-well guide ---------- */
+  var PLANT_INDEX=[
+    {n:"Tomato",a:"tomatoes paste cherry slicer",tab:"grow",card:"tomatoCard"},
+    {n:"Basil",a:"herb",tab:"grow",card:"herbGuides",det:"Basil"},
+    {n:"Mint",a:"herb",tab:"grow",card:"herbGuides",det:"Mint"},
+    {n:"Cilantro",a:"coriander dill herb",tab:"grow",card:"herbGuides",det:"Cilantro"},
+    {n:"Dill",a:"herb",tab:"grow",card:"herbGuides",det:"Cilantro"},
+    {n:"Thyme",a:"oregano sage chives perennial herb rosemary",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
+    {n:"Rosemary",a:"herb perennial",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
+    {n:"Chives",a:"herb perennial",tab:"grow",card:"herbGuides",det:"Perennial herbs"},
+    {n:"Garlic",a:"allium",tab:"grow",card:"herbGuides",det:"Garlic"},
+    {n:"Onion",a:"onions allium scallion",tab:"grow",card:"herbGuides",det:"Onions"},
+    {n:"Asparagus",a:"perennial vegetable",tab:"grow",card:"perennialVeg",det:"Asparagus"},
+    {n:"Rhubarb",a:"perennial vegetable",tab:"grow",card:"perennialVeg",det:"Rhubarb"},
+    {n:"Peach",a:"fruit tree stone",tab:"fruit",card:"fruitGuides",det:"Peach"},
+    {n:"Plum",a:"fruit tree",tab:"fruit",card:"fruitGuides",det:"Plum"},
+    {n:"Blueberry",a:"berry fruit acid",tab:"fruit",card:"fruitGuides",det:"Blueberry"},
+    {n:"Raspberry",a:"berry bramble cane",tab:"fruit",card:"fruitGuides",det:"Raspberry"},
+    {n:"Blackberry",a:"berry bramble cane",tab:"fruit",card:"fruitGuides",det:"Blackberry"},
+    {n:"Apple",a:"pear fruit tree pome",tab:"fruit",card:"fruitGuides",det:"Apple"},
+    {n:"Pear",a:"apple fruit tree pome",tab:"fruit",card:"fruitGuides",det:"Apple"},
+    {n:"Cherry",a:"fruit tree tart sweet stone",tab:"fruit",card:"fruitGuides",det:"Cherry"},
+    {n:"Grape",a:"vine fruit",tab:"fruit",card:"fruitGuides",det:"Grape"},
+    {n:"Strawberry",a:"berry fruit",tab:"fruit",card:"fruitGuides",det:"Strawberry"},
+    {n:"Rose",a:"roses shrub climber",tab:"bloom",card:"rosesCard"},
+    {n:"Hosta",a:"shade perennial divide",tab:"bloom",card:"hostaCard"},
+    {n:"Lilac",a:"shrub fragrant",tab:"bloom",card:"bloomGuides",det:"Lilac"},
+    {n:"Peony",a:"perennial",tab:"bloom",card:"bloomGuides",det:"Peony"},
+    {n:"Ornamental grasses",a:"grass switchgrass bluestem",tab:"bloom",card:"bloomGuides",det:"Ornamental grasses"},
+    {n:"Dahlia",a:"tuber cut flower",tab:"bloom",card:"bloomGuides",det:"Dahlia"},
+    {n:"Clematis",a:"vine climber",tab:"bloom",card:"bloomGuides",det:"Clematis"},
+    {n:"Arborvitae",a:"evergreen thuja hedge",tab:"trees",card:"feedHostTrees",det:"Arborvitae"},
+    {n:"Japanese maple",a:"acer tree",tab:"trees",card:"feedHostTrees",det:"Japanese maple"},
+    {n:"Red maple",a:"acer native tree",tab:"trees",card:"feedHostTrees",det:"Red maple"},
+    {n:"Hydrangea",a:"shrub prune",tab:"trees",card:"feedHostTrees",det:"Hydrangea"},
+    {n:"Boxwood",a:"evergreen hedge shrub",tab:"trees",card:"feedHostTrees",det:"Boxwood"},
+    {n:"Holly",a:"evergreen winterberry shrub",tab:"trees",card:"feedHostTrees",det:"Holly"}
+  ];
+  function jumpToPlant(p){
+    showTab(p.tab);
+    setTimeout(function(){
+      var card=$(p.card);
+      if(card&&p.det){var ds=card.parentNode?card.parentNode.querySelectorAll("details"):card.querySelectorAll("details");
+        // search within the whole pane for the matching details (cards like feedHostTrees are anchors, details live in a sibling card)
+        var pane=document.querySelector('[data-pane="'+p.tab+'"]'),dets=pane?pane.querySelectorAll("details"):[];
+        for(var i=0;i<dets.length;i++){var sm=dets[i].querySelector("summary");if(sm&&sm.textContent.toLowerCase().indexOf(p.det.toLowerCase())>=0){dets[i].open=true;dets[i].scrollIntoView({behavior:"smooth",block:"center"});return;}}
+      }
+      if(card)card.scrollIntoView({behavior:"smooth",block:"start"});
+    },190);
+  }
+  function renderPlantResults(q){
+    var box=$("plantResults");if(!box)return;
+    q=(q||"").trim().toLowerCase();
+    if(!q){box.innerHTML="";return;}
+    var hits=PLANT_INDEX.filter(function(p){return (p.n+" "+(p.a||"")).toLowerCase().indexOf(q)>=0;}).slice(0,8);
+    if(!hits.length){box.innerHTML='<div class="empty" style="margin-top:10px">No match — try tomato, blueberry, clematis, garlic…</div>';return;}
+    box.innerHTML='<div class="loglist" style="margin-top:10px">'+hits.map(function(p,i){return '<button class="logrow" data-plant="'+PLANT_INDEX.indexOf(p)+'" style="cursor:pointer;text-align:left"><svg class="ic lr-ic"><use href="#i-sprout"/></svg><div class="lr-main"><div class="lr-t">'+esc(p.n)+'</div></div><svg class="ic" style="width:16px;height:16px;color:var(--ink-faint)"><use href="#i-chev" style="transform:rotate(-90deg)"/></svg></button>';}).join("")+'</div>';
+  }
+  if($("plantQuery"))$("plantQuery").addEventListener("input",function(){renderPlantResults(this.value);});
+  if($("plantResults"))$("plantResults").addEventListener("click",function(e){var b=e.target.closest("[data-plant]");if(!b)return;var p=PLANT_INDEX[+b.getAttribute("data-plant")];if(p){jumpToPlant(p);if($("plantQuery"))$("plantQuery").value="";renderPlantResults("");}});
+
+  /* ---------- Plan a Bed: goal-driven 4×8 square-foot planner ---------- */
+  var PLAN_PAL=["#e06c4f","#e0a13f","#3f9d57","#5b8fd6","#9b6dc4","#d6699e","#4bb39a","#8a9b3f"];
+  var GARDEN_GOALS=[
+    {id:"salsa",label:"Salsa",icon:"fruit",tag:"Fresh pico to roasted salsa — tomatoes, peppers, onions, cilantro.",
+      plants:[{n:"Paste tomato",s:"Tom",sq:4,per:1,h:"tall",when:"after last frost (mid-May)",note:"cage or stake each"},{n:"Pepper (jalapeño/bell)",s:"Pep",sq:6,per:1,h:"med",when:"after last frost"},{n:"Bunching onion",s:"Onion",sq:4,per:4,h:"short",when:"early spring"},{n:"Cilantro",s:"Cilan",sq:4,per:4,h:"short",when:"spring, re-sow every 3 wks",note:"bolts in heat"},{n:"Garlic",s:"Garlic",sq:4,per:4,h:"short",when:"plant prior October"},{n:"Marigold",s:"Mari",sq:2,per:1,h:"short",when:"after frost",note:"pest helper"}],
+      soil:"Tomatoes and peppers are heavy feeders — work 2–3″ of compost in, and keep moisture even (mulch!) to prevent blossom-end rot. Aim pH 6.2–6.8.",
+      care:"Stake tomatoes at planting and prune suckers. Pick peppers often. Re-sow cilantro every few weeks; it bolts when hot."},
+    {id:"salad",label:"Salad bowl",icon:"sprout",tag:"Cut-and-come-again greens and quick roots, all season.",
+      plants:[{n:"Leaf lettuce",s:"Lett",sq:8,per:4,h:"short",when:"early spring & again in fall"},{n:"Spinach",s:"Spin",sq:4,per:9,h:"short",when:"early spring & fall"},{n:"Arugula",s:"Arug",sq:2,per:4,h:"short",when:"spring & fall"},{n:"Radish",s:"Rad",sq:4,per:16,h:"short",when:"spring, every 2 wks",note:"ready in ~4 wks"},{n:"Carrot",s:"Carr",sq:6,per:16,h:"short",when:"spring"},{n:"Scallion",s:"Scal",sq:4,per:9,h:"short",when:"early spring"},{n:"Kale",s:"Kale",sq:4,per:1,h:"med",when:"spring & fall"}],
+      soil:"Greens want loose, rich, moisture-retentive soil — mix in plenty of compost. Loosen deeply for straight carrots (no fresh manure or they fork). pH 6.0–7.0.",
+      care:"Harvest outer leaves and they keep giving. Succession-sow lettuce, radish, and arugula every 2–3 weeks. Most are cool-season — replant for a fall crop."},
+    {id:"sauce",label:"Pasta & pizza",icon:"basket",tag:"Sauce, pesto, and pizza night — paste tomatoes, basil, peppers.",
+      plants:[{n:"Paste tomato",s:"Tom",sq:6,per:1,h:"tall",when:"after last frost",note:"the sauce workhorse"},{n:"Basil",s:"Basil",sq:6,per:1,h:"med",when:"after last frost",note:"pinch often"},{n:"Sweet pepper",s:"Pep",sq:4,per:1,h:"med",when:"after last frost"},{n:"Bulb onion",s:"Onion",sq:4,per:4,h:"short",when:"early spring"},{n:"Oregano",s:"Oreg",sq:2,per:1,h:"short",when:"perennial — once",note:"comes back yearly"},{n:"Garlic",s:"Garlic",sq:2,per:4,h:"short",when:"plant prior October"}],
+      soil:"Rich and well-drained with steady moisture for the tomatoes. Compost-amend, mulch, and aim pH 6.2–6.8. Oregano is happiest a touch leaner.",
+      care:"Stake and prune tomatoes; pinch basil to keep it bushy and unflowered. Oregano returns each year — give it a corner it can keep."},
+    {id:"herb",label:"Herb garden",icon:"jar",tag:"A snip-as-you-cook kitchen garden of the essentials.",
+      plants:[{n:"Basil",s:"Basil",sq:4,per:1,h:"med",when:"after last frost"},{n:"Parsley",s:"Pars",sq:4,per:1,h:"short",when:"spring"},{n:"Cilantro",s:"Cilan",sq:4,per:4,h:"short",when:"succession-sow"},{n:"Dill",s:"Dill",sq:2,per:1,h:"tall",when:"spring",note:"swallowtail host"},{n:"Thyme",s:"Thyme",sq:2,per:1,h:"short",when:"perennial"},{n:"Oregano",s:"Oreg",sq:2,per:1,h:"short",when:"perennial"},{n:"Sage",s:"Sage",sq:2,per:1,h:"med",when:"perennial"},{n:"Chives",s:"Chive",sq:2,per:1,h:"short",when:"perennial"},{n:"Parsley/mint (pot!)",s:"Mint*",sq:2,per:1,h:"short",when:"keep mint potted",note:"mint spreads — pot it"}],
+      soil:"Most herbs want full sun and lean, well-drained soil — go easy on compost and don't over-water; that's when they're most flavorful. Basil and parsley like a bit richer.",
+      care:"Harvest little and often to keep them bushy. Perennials (thyme, oregano, sage, chives) return each year; basil, cilantro, dill are annuals. Never let mint loose — keep it in a sunken pot."},
+    {id:"pollinator",label:"Pollinator & cutting",icon:"bee",tag:"A bed alive with bees and butterflies — and vases full of blooms.",
+      plants:[{n:"Sunflower",s:"Sunfl",sq:4,per:1,h:"tall",when:"after last frost",note:"birds love the seed"},{n:"Cosmos",s:"Cosm",sq:6,per:1,h:"tall",when:"after last frost"},{n:"Zinnia",s:"Zinn",sq:8,per:1,h:"med",when:"after last frost",note:"cut for more blooms"},{n:"Calendula",s:"Cale",sq:4,per:1,h:"short",when:"spring"},{n:"Marigold",s:"Mari",sq:4,per:1,h:"short",when:"after frost"},{n:"Bachelor button",s:"Bach",sq:4,per:1,h:"med",when:"spring"},{n:"Nasturtium",s:"Nast",sq:2,per:1,h:"short",when:"after frost",note:"edible flowers"}],
+      soil:"Easy — most annual flowers bloom best in average, not-too-rich soil (rich soil makes leaves, not flowers). Full sun, good drainage, a little compost is plenty.",
+      care:"Deadhead and cut often — the more you pick, the more they bloom. Leave the last sunflowers and zinnias standing in fall for the birds."}
+  ];
+  var planGoal="salsa";
+  function planTiles(g){
+    var rank={tall:0,vine:0,med:1,short:2};
+    var ps=g.plants.map(function(p,i){return {p:p,i:i};}).sort(function(a,b){var ra=rank[a.p.h]==null?1:rank[a.p.h],rb=rank[b.p.h]==null?1:rank[b.p.h];if(ra!==rb)return ra-rb;return a.i-b.i;});
+    var tiles=[];ps.forEach(function(o){for(var k=0;k<o.p.sq&&tiles.length<32;k++)tiles.push(o.i);});
+    return tiles;
+  }
+  function colorFor(i){return PLAN_PAL[i%PLAN_PAL.length];}
+  function renderPlanGoals(){
+    var seg=$("planGoalSeg");if(!seg)return;
+    seg.className="goalseg";
+    seg.innerHTML=GARDEN_GOALS.map(function(g){return '<button data-goal="'+g.id+'" aria-pressed="'+(g.id===planGoal?"true":"false")+'"><svg class="ic"><use href="#i-'+g.icon+'"/></svg>'+esc(g.label)+'</button>';}).join("");
+  }
+  function renderPlan(){
+    var out=$("planOut");if(!out)return;
+    var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});if(!g)g=GARDEN_GOALS[0];
+    var tiles=planTiles(g);
+    var cells="";for(var c=0;c<32;c++){if(c<tiles.length){var pi=tiles[c],p=g.plants[pi];cells+='<div class="bedcell" style="background:'+colorFor(pi)+'33;border:1px solid '+colorFor(pi)+'">'+esc(p.s)+'</div>';}else{cells+='<div class="bedcell empty">open</div>';}}
+    var legend=g.plants.map(function(p,i){var total=p.sq*p.per;return '<div class="bedleg-row"><span class="bedleg-sw" style="background:'+colorFor(i)+'"></span><div><div class="bedleg-n"><b>'+esc(p.n)+'</b> — '+total+' plant'+(total===1?"":"s")+' ('+p.sq+' sq'+(p.per>1?' · '+p.per+'/sq':'')+')</div><div class="bedleg-d">'+esc(p.when)+(p.note?' · '+esc(p.note):'')+'</div></div></div>';}).join("");
+    out.innerHTML=
+      '<p class="hint" style="margin-top:13px">'+esc(g.tag)+'</p>'+
+      '<div class="bed-orient">'+ic("sun")+'North ▲ — tallest plants up here</div>'+
+      '<div class="bedgrid">'+cells+'</div>'+
+      '<div class="bed-side">◀ 4 ft ▶ &nbsp;·&nbsp; 8 ft long, north–south</div>'+
+      '<div class="note-card" style="margin-top:12px">'+ic("info")+'<div class="txt"><b>Why this layout:</b> run the 8-ft length <b>north–south</b> and keep the tall plants (tomatoes, sunflowers) at the <b>north end</b> so they don’t shade the shorter crops as the sun crosses the south sky. Each square is 1 ft.</div></div>'+
+      '<div class="bedleg">'+legend+'</div>'+
+      '<div class="note-card" style="margin-top:13px">'+ic("soil")+'<div class="txt"><b>Soil:</b> '+g.soil+' A great raised-bed fill is roughly <b>⅓ compost, ⅓ peat or coir, ⅓ coarse vermiculite</b>; top up with compost each season.</div></div>'+
+      '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
+      '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
+      '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>';
+  }
+  if($("planGoalSeg"))$("planGoalSeg").addEventListener("click",function(e){var b=e.target.closest("[data-goal]");if(!b)return;planGoal=b.getAttribute("data-goal");document.querySelectorAll("#planGoalSeg [data-goal]").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderPlan();});
+  if($("planOut"))$("planOut").addEventListener("click",function(e){
+    var b=e.target.closest("#planShop");if(!b)return;
+    var g=null;GARDEN_GOALS.forEach(function(x){if(x.id===planGoal)g=x;});if(!g)return;
+    var added=0;g.plants.forEach(function(p){shopAddItem(p.n+" — seeds or starts","Grow",1,null);added++;});
+    shopAddItem("Raised-bed mix / compost","Beds",1,null);
+    toast("Added "+added+" plants + soil to your shopping list");
+  });
+  function renderPlanner(){renderPlanGoals();renderPlan();}
+
   /* ---------- personalization: areas, profile, wizard, self-organize ---------- */
   var AREAS=[
     {id:"lawn",icon:"mower",label:"Lawn care",tabs:["lawn","mow"],dk:"A greener lawn",db:"Feeding, mowing right, and thickening turf — clover can do half the work.",nudge:"Check the mowing height for the season",
@@ -3896,7 +4061,7 @@
     ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
-    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();
+    renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();renderPlanner();
     applyProfile();renderForYou();renderWeekend();
     showTab("almanac");
     updateTabHints();
