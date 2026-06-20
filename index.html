@@ -579,12 +579,12 @@
   <div class="navwrap" id="navWrap">
     <nav class="sectionbar" id="sectionBar" role="tablist" aria-label="Sections">
       <button class="sec-btn" role="tab" data-section="home" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg><span>Home</span></button>
-      <button class="sec-btn" role="tab" data-section="lawn"><svg class="ic"><use href="#i-mower"/></svg><span>Lawn</span></button>
-      <button class="sec-btn" role="tab" data-section="garden"><svg class="ic"><use href="#i-basket"/></svg><span>Garden</span></button>
-      <button class="sec-btn" role="tab" data-section="yard"><svg class="ic"><use href="#i-tree"/></svg><span>Yard</span></button>
-      <button class="sec-btn" role="tab" data-section="soil"><svg class="ic"><use href="#i-soil"/></svg><span>Soil</span></button>
-      <button class="sec-btn" role="tab" data-section="seasons"><svg class="ic"><use href="#i-snow"/></svg><span>Seasons</span></button>
-      <button class="sec-btn" role="tab" data-section="plan"><svg class="ic"><use href="#i-grid"/></svg><span>Plan</span></button>
+      <button class="sec-btn" role="tab" data-section="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg><span>Lawn</span></button>
+      <button class="sec-btn" role="tab" data-section="garden" aria-selected="false"><svg class="ic"><use href="#i-basket"/></svg><span>Garden</span></button>
+      <button class="sec-btn" role="tab" data-section="yard" aria-selected="false"><svg class="ic"><use href="#i-tree"/></svg><span>Yard</span></button>
+      <button class="sec-btn" role="tab" data-section="soil" aria-selected="false"><svg class="ic"><use href="#i-soil"/></svg><span>Soil</span></button>
+      <button class="sec-btn" role="tab" data-section="seasons" aria-selected="false"><svg class="ic"><use href="#i-snow"/></svg><span>Seasons</span></button>
+      <button class="sec-btn" role="tab" data-section="plan" aria-selected="false"><svg class="ic"><use href="#i-grid"/></svg><span>Plan</span></button>
     </nav>
     <nav class="subbar" id="subBar" role="tablist" aria-label="In this section" hidden></nav>
   </div>
@@ -2428,7 +2428,7 @@
     {id:"plan",tabs:["spots","plan","shop","remind"]}
   ];
   /* short, friendly pill labels for the second row (falls back to the tab's own label) */
-  var SUBLABEL={almanac:"Almanac",mow:"Mow",grow:"Grow",bloom:"Bloom",fruit:"Fruit",pests:"Pests & weeds",
+  var SUBLABEL={almanac:"Almanac",lawn:"Lawn",mow:"Mow",grow:"Grow",bloom:"Bloom",fruit:"Fruit",pests:"Pests & weeds",
     trees:"Trees",native:"Lawn-free",wildlife:"Wildlife",rain:"Rain & water",pond:"Pond",
     beds:"Beds & mulch",soil:"Soil",compost:"Compost",leaves:"Leaves",snow:"Snow & salt",season:"The year",
     spots:"My yard",plan:"Plan a bed",shop:"Shopping list",remind:"Reminders"};
@@ -2439,7 +2439,7 @@
     if(!sec||sec.tabs.length<2){bar.hidden=true;bar.innerHTML="";return;}
     bar.hidden=false;
     bar.innerHTML=sec.tabs.map(function(t){
-      return '<button class="sub-btn" role="tab" data-subtab="'+t+'" aria-selected="'+(t===activeTab?"true":"false")+'">'+esc(SUBLABEL[t]||(function(){var b=document.querySelector('.tab-btn[data-tab="'+t+'"]');return b?b.textContent.trim():t;})())+'</button>';
+      return '<button class="sub-btn" role="tab" data-subtab="'+t+'" aria-selected="'+(t===activeTab?"true":"false")+'">'+esc(SUBLABEL[t]||t)+'</button>';
     }).join("");
   }
   function syncNav(name){
