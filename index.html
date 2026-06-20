@@ -3983,7 +3983,7 @@
   // classify plants by name so companion/trellis advice needs no extra data fields
   function famOf(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();
     if(/onion|garlic|chive|scallion|leek/.test(n))return"allium";
-    if(/bean|pea\b|peas/.test(n))return"legume";
+    if(/bean|peas?\b/.test(n))return"legume";
     if(/tomato|pepper|potato|eggplant|jalape/.test(n))return"nightshade";
     if(/corn/.test(n))return"corn";
     if(/cabbage|kale|broccoli|bok|napa|gai\s?lan|cauliflower|daikon|turnip/.test(n))return"brassica";
@@ -3993,7 +3993,7 @@
     if(/sunflower|cosmos|zinnia|marigold|calendula|nasturtium|bachelor|dahlia|glad|snap|celosia|rudbeck/.test(n))return"flower";
     if(/lettuce|spinach|chard|arugula|radish/.test(n))return"leafy";
     return"other";}
-  function needsTrellis(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();if(/bush bean/.test(n))return false;return /tomato|pole bean|\bpea|peas|cucumber|cuke|gladiolus/.test(n);}
+  function needsTrellis(p){var n=((p.n||"")+" "+(p.s||"")).toLowerCase();if(/bush bean/.test(n))return false;return /tomato|pole bean|\bpeas?\b|cucumber|cuke|gladiolus/.test(n);}
   function placedPlants(){var g=curGoal(),seen={},out=[];planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi]&&!seen[pi]){seen[pi]=1;out.push(g.plants[pi]);}});return out;}
   function extrasHTML(){
     var g=curGoal(),placed=placedPlants();
