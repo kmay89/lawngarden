@@ -4043,6 +4043,20 @@
     while(tiles.length<n)tiles.push(-1);
     return tiles;
   }
+  // Re-sort the squares the user has actually placed, tall plants to the north,
+  // keeping their counts intact — unlike autoFill, this never resets to kit defaults.
+  function arrangeByHeight(){
+    var g=curGoal(),n=planSize.w*planSize.l,rank={tall:0,vine:0,med:1,short:2};
+    var counts={};planLayout.forEach(function(pi){if(pi>=0&&g.plants[pi])counts[pi]=(counts[pi]||0)+1;});
+    var order=Object.keys(counts).map(function(k){return +k;}).sort(function(a,b){
+      var ra=rank[g.plants[a].h]==null?1:rank[g.plants[a].h],rb=rank[g.plants[b].h]==null?1:rank[g.plants[b].h];
+      if(ra!==rb)return ra-rb;return a-b;});
+    // nothing placed yet — fall back to the suggested kit so the button still does something
+    if(!order.length)return autoFill();
+    var tiles=[];order.forEach(function(pi){for(var k=0;k<counts[pi]&&tiles.length<n;k++)tiles.push(pi);});
+    while(tiles.length<n)tiles.push(-1);
+    return tiles;
+  }
   function loadLayout(){
     var all=lsGet("ycPlanLayouts")||{},saved=all[sizeKey()];
     planLayout=(Array.isArray(saved)&&saved.length===planSize.w*planSize.l)?saved.slice():autoFill();
@@ -4214,7 +4228,7 @@
   if($("planOut"))$("planOut").addEventListener("click",function(e){
     var brush=e.target.closest("[data-brush]");
     if(brush){planBrush=+brush.getAttribute("data-brush");document.querySelectorAll("#planBrushBar [data-brush]").forEach(function(x){x.setAttribute("aria-pressed",x===brush?"true":"false");});return;}
-    if(e.target.closest("#planAuto")){planLayout=autoFill();saveLayout();renderPlan();toast("Re-arranged — tall plants to the north");return;}
+    if(e.target.closest("#planAuto")){planLayout=arrangeByHeight();saveLayout();renderPlan();toast("Re-arranged — tall plants to the north");return;}
     var shop=e.target.closest("#planShop");
     if(shop){
       var g=curGoal(),present={};planLayout.forEach(function(pi){if(pi>=0)present[pi]=1;});
