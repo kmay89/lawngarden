@@ -4669,7 +4669,7 @@
       ptSetFilter("mine");
       showTab("grow");
       setTimeout(function(){var elc=$("plantChart");if(elc)elc.scrollIntoView({behavior:"smooth",block:"start"});},220);
-      toast(sel.length+" crop"+(sel.length===1?"":"s")+" sent to your timeline"+(skipped?" — "+skipped+" herb/flower type"+(skipped===1?"":"s")+" aren’t charted":""));
+      toast(sel.length+" crop"+(sel.length===1?"":"s")+" sent to your timeline"+(skipped?" — "+skipped+" herb/flower type"+(skipped===1?" isn’t":"s aren’t")+" charted":""));
       return;
     }
     var shop=e.target.closest("#planShop");
