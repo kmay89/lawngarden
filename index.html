@@ -389,6 +389,7 @@
   .ptbar.b-harv{top:14px;background:#E6C15E;}
   .pttick{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.7;}
   .ptfrost{position:absolute;top:0;bottom:0;width:2px;background:#C0432F;opacity:.5;border-radius:2px;}
+  .ptfband{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,rgba(192,67,47,0),rgba(192,67,47,.14) 35%,rgba(192,67,47,.14) 65%,rgba(192,67,47,0));}
   .pttoday{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.45;}
   .ptdetail{margin:3px 0 9px;padding:10px 11px;background:#F5F9F4;border:1px solid var(--line);border-radius:9px;}
   .ptleg{display:flex;flex-wrap:wrap;gap:5px 13px;margin-top:10px;font-size:.71rem;color:var(--ink-soft);}
@@ -1130,7 +1131,7 @@
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-thermo"/></svg><h3>Your frost dates</h3></div>
-      <p class="hint">Average frost dates aren't in any live forecast — they're long-term averages, roughly 50/50, <b>not guarantees</b>. Set yours and every planting window below adjusts. Southern Ohio runs earlier in spring and later in fall; the far north is the reverse.</p>
+      <p class="hint">Average frost dates aren't in any live forecast — they're long-term averages, roughly 50/50, <b>not guarantees</b>. Rule of thumb: the odds swing about ten points a week, so two weeks past the average the frost risk is down to roughly 1-in-10. Set yours and every planting window below adjusts. Southern Ohio runs earlier in spring and later in fall; the far north is the reverse.</p>
       <div class="grid2">
         <div class="field"><label for="frostSpring">Avg. last spring frost <span class="meta">zone-6 default ~May 10 — year is ignored, only the day matters</span></label><input id="frostSpring" type="date"/></div>
         <div class="field"><label for="frostFall">Avg. first fall frost <span class="meta">zone-6 default ~Oct 10 — year is ignored, only the day matters</span></label><input id="frostFall" type="date"/></div>
@@ -1156,7 +1157,7 @@
     <!-- ===== Planting timeline (slide-chart style) ===== -->
     <div class="card" id="plantChart">
       <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>Planting timeline — the whole season on one chart</h3></div>
-      <p class="hint">Every crop on one timeline, like the classic cardboard slide-chart planners — but computed from <i>your</i> frost dates above. <b>Blue</b> = start seeds indoors, <b>green</b> = sow or plant outside (spring and fall), <b>gold</b> = harvest window. <b>Tap a crop</b> for its full data sheet: depth, spacing, how much to sow, and what a 10-ft row gives back.</p>
+      <p class="hint">Every crop on one timeline, like the classic cardboard slide-chart planners — but computed from <i>your</i> frost dates above. <b>Blue</b> = start seeds indoors, <b>green</b> = sow or plant outside (spring and fall), <b>gold</b> = harvest window. The <b>red haze</b> around each frost line is the honest error bar: frost is a coin flip <i>at</i> the line and still about 1-in-10 odds at the edge of the haze. <b>Tap a crop</b> for its full data sheet: depth, spacing, how much to sow, and what a 10-ft row gives back.</p>
       <div class="cropfilter" id="ptFilter">
         <button data-ptf="all" aria-pressed="true">All</button>
         <button data-ptf="cool" aria-pressed="false">Cool-season</button>
@@ -1167,10 +1168,11 @@
         <span><i class="sw" style="background:#9FC3E4"></i>start indoors</span>
         <span><i class="sw" style="background:var(--grass)"></i>sow / plant outside</span>
         <span><i class="sw" style="background:#E6C15E"></i>harvest window</span>
-        <span><i class="sw tall" style="background:#C0432F"></i>your frost dates</span>
+        <span><i class="sw tall" style="background:#C0432F"></i>avg. frost (50/50)</span>
+        <span><i class="sw" style="background:linear-gradient(90deg,rgba(192,67,47,0),rgba(192,67,47,.35),rgba(192,67,47,0))"></i>frost haze (~±2 wks)</span>
         <span><i class="sw tall" style="background:var(--ink);opacity:.5"></i>today</span>
       </div>
-      <p class="zip-note" style="margin-top:9px;">Windows are averages for zone-6 Ohio, shifted by your frost dates — guides, not guarantees. Cool-season bars show both the spring sowing and the late-summer sowing for a fall crop.</p>
+      <p class="zip-note" style="margin-top:9px;">Windows are averages for zone-6 Ohio, shifted by your frost dates — guides, not guarantees. Cool-season bars show both the spring sowing and the late-summer sowing for a fall crop. Hardy crops (peas, greens, onions, brassicas) can gamble into the haze; save tomatoes, peppers, and basil for the far side of it.</p>
     </div>
 
     <!-- ===== Row calculator ===== -->
@@ -3503,9 +3505,13 @@
     var mos=["Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"];
     var head='<div class="pthead">'+mos.map(function(m,i){return '<span style="left:'+ptPct(new Date(yr,i+1,15,12,0,0),t0,t1).toFixed(1)+'%">'+m+'</span>';}).join("")+'</div>';
     var ticks="";
+    // frost "error bars": the 10%–90% probability window runs roughly ±16 days around the average date
+    function fband(d,label){var a=ptPct(addDays(d,-16),t0,t1),b=ptPct(addDays(d,16),t0,t1);return '<i class="ptfband" style="left:'+a.toFixed(2)+'%;width:'+(b-a).toFixed(2)+'%" title="'+esc(label)+'"></i>';}
+    ticks+=fband(sp,"Spring frost odds: a coin flip at "+fmtMD(sp)+", still ~1-in-10 after "+fmtMD(addDays(sp,16)));
+    ticks+=fband(fa,"Fall frost odds: a coin flip at "+fmtMD(fa)+", already ~1-in-10 by "+fmtMD(addDays(fa,-16)));
     for(var i=2;i<=10;i++)ticks+='<i class="pttick" style="left:'+ptPct(new Date(yr,i,1,12,0,0),t0,t1).toFixed(2)+'%"></i>';
-    ticks+='<i class="ptfrost" style="left:'+ptPct(sp,t0,t1).toFixed(2)+'%" title="Avg. last spring frost '+fmtMD(sp)+'"></i>';
-    ticks+='<i class="ptfrost" style="left:'+ptPct(fa,t0,t1).toFixed(2)+'%" title="Avg. first fall frost '+fmtMD(fa)+'"></i>';
+    ticks+='<i class="ptfrost" style="left:'+ptPct(sp,t0,t1).toFixed(2)+'%" title="Avg. last spring frost '+fmtMD(sp)+' — 50/50 odds"></i>';
+    ticks+='<i class="ptfrost" style="left:'+ptPct(fa,t0,t1).toFixed(2)+'%" title="Avg. first fall frost '+fmtMD(fa)+' — 50/50 odds"></i>';
     if(today>t0&&today<t1)ticks+='<i class="pttoday" style="left:'+ptPct(today,t0,t1).toFixed(2)+'%" title="Today"></i>';
     var rows=CROPS.map(function(c,idx){
       if(ptFilterV!=="all"&&c.season!==ptFilterV)return "";
