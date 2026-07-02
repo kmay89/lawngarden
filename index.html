@@ -358,19 +358,42 @@
   .crop .cname{font-family:var(--display);font-weight:650;font-size:1rem;}
   .crop .cdiff{margin-left:auto;font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:999px;}
   .crop .cdiff.easy{background:#E2F0E6;color:#1E5235;} .crop .cdiff.medium{background:#FAF0D9;color:#8A5E12;} .crop .cdiff.fussy{background:#F8E2DD;color:#8E2E1E;}
-  .crop .cwhen{font-size:.82rem;color:var(--ink);margin-top:7px;background:#F5F9F4;border-radius:9px;padding:7px 9px;}
-  .crop .cwhen b{color:var(--grass-deep);}
-  .crop .crec{font-size:.82rem;color:var(--ink-soft);margin-top:7px;}
-  .crop .crec b{color:var(--ink);}
-  .crop .cfacts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
-  .crop .cfact{font-family:var(--mono);font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:999px;background:#EEF4ED;color:var(--ink-soft);}
-  .crop .cfact b{color:var(--grass-deep);}
+  .crop .cwhen,.ptdetail .cwhen{font-size:.82rem;color:var(--ink);margin-top:7px;background:#F5F9F4;border-radius:9px;padding:7px 9px;}
+  .crop .cwhen b,.ptdetail .cwhen b{color:var(--grass-deep);}
+  .crop .crec,.ptdetail .crec{font-size:.82rem;color:var(--ink-soft);margin-top:7px;}
+  .crop .crec b,.ptdetail .crec b{color:var(--ink);}
+  .crop .cfacts,.ptdetail .cfacts,#rcOut .cfacts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .crop .cfact,.ptdetail .cfact,#rcOut .cfact{font-family:var(--mono);font-size:.64rem;font-weight:600;padding:3px 8px;border-radius:999px;background:#EEF4ED;color:var(--ink-soft);}
+  .crop .cfact b,.ptdetail .cfact b,#rcOut .cfact b{color:var(--grass-deep);}
   .seasontag{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;border-radius:999px;}
   .seasontag.cool{background:#E3EEF6;color:#27567C;} .seasontag.warm{background:#FBEFD9;color:#945514;}
   .cropfilter{display:flex;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:11px;}
   .cropfilter button{flex:1;font-family:var(--body);font-size:.78rem;font-weight:600;padding:9px 4px;background:#fff;color:var(--ink-soft);border:none;border-left:1px solid var(--line);cursor:pointer;}
   .cropfilter button:first-child{border-left:none;}
   .cropfilter button[aria-pressed=true]{background:var(--grass);color:#fff;}
+  /* planting timeline (slide-chart style) */
+  .ptwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:4px;}
+  .pt{min-width:580px;}
+  .pthead{position:relative;height:15px;margin-left:106px;font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);}
+  .pthead span{position:absolute;top:0;transform:translateX(-50%);}
+  .ptrow{display:flex;align-items:center;}
+  .ptname{flex:0 0 106px;display:block;text-align:left;font-family:var(--body);font-size:.73rem;font-weight:600;color:var(--ink);padding:5px 6px 5px 2px;background:none;border:none;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ptname[aria-expanded=true]{color:var(--grass-deep);}
+  .ptname .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px;}
+  .ptname .dot.cool{background:#4A7FA8;} .ptname .dot.warm{background:#D08A2E;}
+  .pttrack{position:relative;flex:1;height:25px;border-top:1px solid var(--line);}
+  .ptrow:last-of-type .pttrack{border-bottom:1px solid var(--line);}
+  .ptbar{position:absolute;height:7px;border-radius:4px;}
+  .ptbar.b-si{top:4px;background:#9FC3E4;}
+  .ptbar.b-sow{top:4px;background:var(--grass);}
+  .ptbar.b-harv{top:14px;background:#E6C15E;}
+  .pttick{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.7;}
+  .ptfrost{position:absolute;top:0;bottom:0;width:2px;background:#C0432F;opacity:.5;border-radius:2px;}
+  .pttoday{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.45;}
+  .ptdetail{margin:3px 0 9px;padding:10px 11px;background:#F5F9F4;border:1px solid var(--line);border-radius:9px;}
+  .ptleg{display:flex;flex-wrap:wrap;gap:5px 13px;margin-top:10px;font-size:.71rem;color:var(--ink-soft);}
+  .ptleg .sw{display:inline-block;width:14px;height:7px;border-radius:4px;margin-right:5px;vertical-align:1px;}
+  .ptleg .sw.tall{height:11px;width:3px;border-radius:2px;vertical-align:-1px;}
 
   /* activity gauge (pests) */
   .gauge{margin:6px 0 4px;}
@@ -686,6 +709,8 @@
         <button class="hubchip" data-tool="grow" data-scroll="plantFinder"><svg class="ic"><use href="#i-search"/></svg><span class="ht">Find a plant</span></button>
         <button class="hubchip" data-tool="bloom" data-scroll="bloomPlanner"><svg class="ic"><use href="#i-flower"/></svg><span class="ht">Bloom planner</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
+        <button class="hubchip" data-tool="grow" data-scroll="plantChart"><svg class="ic"><use href="#i-cal"/></svg><span class="ht">Planting timeline</span></button>
+        <button class="hubchip" data-tool="grow" data-scroll="rowCalc"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Row calculator</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
         <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
         <button class="hubchip" data-tool="pests" data-scroll="issueFinder"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Pest finder</span></button>
@@ -1126,6 +1151,37 @@
         <button data-cf="warm" aria-pressed="false">Warm-season</button>
       </div>
       <div class="cropgrid" id="cropGuide"></div>
+    </div>
+
+    <!-- ===== Planting timeline (slide-chart style) ===== -->
+    <div class="card" id="plantChart">
+      <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>Planting timeline — the whole season on one chart</h3></div>
+      <p class="hint">Every crop on one timeline, like the classic cardboard slide-chart planners — but computed from <i>your</i> frost dates above. <b>Blue</b> = start seeds indoors, <b>green</b> = sow or plant outside (spring and fall), <b>gold</b> = harvest window. <b>Tap a crop</b> for its full data sheet: depth, spacing, how much to sow, and what a 10-ft row gives back.</p>
+      <div class="cropfilter" id="ptFilter">
+        <button data-ptf="all" aria-pressed="true">All</button>
+        <button data-ptf="cool" aria-pressed="false">Cool-season</button>
+        <button data-ptf="warm" aria-pressed="false">Warm-season</button>
+      </div>
+      <div class="ptwrap"><div class="pt" id="ptChart"></div></div>
+      <div class="ptleg">
+        <span><i class="sw" style="background:#9FC3E4"></i>start indoors</span>
+        <span><i class="sw" style="background:var(--grass)"></i>sow / plant outside</span>
+        <span><i class="sw" style="background:#E6C15E"></i>harvest window</span>
+        <span><i class="sw tall" style="background:#C0432F"></i>your frost dates</span>
+        <span><i class="sw tall" style="background:var(--ink);opacity:.5"></i>today</span>
+      </div>
+      <p class="zip-note" style="margin-top:9px;">Windows are averages for zone-6 Ohio, shifted by your frost dates — guides, not guarantees. Cool-season bars show both the spring sowing and the late-summer sowing for a fall crop.</p>
+    </div>
+
+    <!-- ===== Row calculator ===== -->
+    <div class="card" id="rowCalc">
+      <div class="card-head"><svg class="ic"><use href="#i-ruler"/></svg><h3>How much to plant — row calculator</h3></div>
+      <p class="hint">The old seed-chart math, done for you: pick a crop and a row length and get what to sow, what it thins to, and roughly what it yields — so the seed order matches the actual bed.</p>
+      <div class="grid2">
+        <div class="field"><label for="rcCrop">Crop</label><select id="rcCrop"></select></div>
+        <div class="field"><label for="rcFeet">Row length (feet) <span class="meta">a 4×8 bed holds three to four 8-ft rows</span></label><input id="rcFeet" type="number" min="1" max="200" step="1" value="10" inputmode="numeric"/></div>
+      </div>
+      <div id="rcOut"></div>
     </div>
 
     <div class="card">
@@ -3298,6 +3354,7 @@
     else line="The growing window’s closed for the year (first frost ~"+fmtMD(fa)+"). Time to plan next season — and plant garlic.";
     $("frostReadout").innerHTML='<div class="h-amt">~'+days+' <small>frost-free days</small></div><div class="h-sub">Average window: <b>'+fmtMD(sp)+'</b> to <b>'+fmtMD(fa)+'</b> (50/50 odds either side). '+line+'</div>';
     renderCrops();
+    renderPlantChart();
   }
   function renderFrostAdvisory(){
     var el=$("frostAdvisory");if(!el)return;
@@ -3309,24 +3366,58 @@
     }
   }
   var CROPS=[
-    {name:"Lettuce & greens",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:8},method:"Direct-sow, or buy transplants",rec:"Seed is cheap and lets you cut-and-come-again; a transplant gives a head start. Sow a little every 2–3 weeks for a steady supply.",home:"pot, bed or ground",space:"6–8” apart (or broadcast & thin)",yield:"cut leaves for weeks per plant"},
-    {name:"Spinach",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:7},method:"Direct-sow",rec:"Loves cool soil and bolts in heat — a spring and fall crop. Seed beats transplants (it resents root disturbance).",home:"bed or ground",space:"3–4” apart",yield:"a few cuttings per plant"},
-    {name:"Kale",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Sow or transplant — both easy",rec:"Tough and forgiving; a fall crop sweetens after frost. Transplants speed it up, seed is cheaper.",home:"bed or ground",space:"12–18” apart",yield:"leaves for months per plant"},
-    {name:"Peas",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:9},method:"Direct-sow",rec:"One of the earliest crops — sow as soon as soil can be worked. A giver: it fixes its own nitrogen. Give it something to climb.",home:"bed or ground",space:"2–3” apart, on a trellis",yield:"a handful of pods per plant"},
-    {name:"Radishes",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:6},method:"Direct-sow",rec:"Seed to plate in ~4 weeks — the confidence-builder. Sow in short rows every couple weeks; they get woody if left too long.",home:"pot, bed or ground",space:"1–2” apart",yield:"one root per seed, fast"},
-    {name:"Carrots",icon:"carrot",season:"cool",diff:"medium",t:{type:"cool",bw:2,fw:9},method:"Direct-sow (don’t transplant)",rec:"Reward patience: keep the surface moist to germinate, and <b>thin them</b> or they tangle. Loose, stone-free soil grows straight roots.",home:"deep pot, bed or ground",space:"thin to 2–3” apart",yield:"one root per plant"},
-    {name:"Beets",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Direct-sow",rec:"Two crops in one — roots and edible greens. Each “seed” is a cluster, so thin the seedlings.",home:"bed or ground",space:"thin to 3–4” apart",yield:"one root + greens per plant"},
-    {name:"Broccoli",icon:"sprout",season:"cool",diff:"medium",t:{type:"indoorcool",lo:4,hi:6},method:"Start indoors or buy transplants",rec:"Best as a transplant for spring, or direct-sown in summer for a fall head (fall crops are often better here). Watch for cabbage worms — pick them off.",home:"bed or ground",space:"18–24” apart",yield:"one main head + side shoots"},
-    {name:"Swiss chard",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:9},method:"Direct-sow or transplant",rec:"Heat-tolerant for a green — it carries from spring into fall. Cut outer stalks and it keeps coming.",home:"pot, bed or ground",space:"8–10” apart",yield:"stalks all season per plant"},
-    {name:"Green onions",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:8},method:"Direct-sow (or regrow from scraps)",rec:"Almost foolproof — and you can regrow the white root-ends in water on the sill. Sow thickly and snip as needed.",home:"pot, bed or ground",space:"1” apart",yield:"snip-and-regrow"},
-    {name:"Tomatoes",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors ~6–8 wks early, or buy transplants",rec:"The classic “just buy a transplant” crop unless you want unusual varieties — seed = variety + effort, transplant = easy + fast. Needs warmth, sun, and a cage.",home:"5-gal pot, bed or ground",space:"24–36” apart, staked",yield:"pounds per plant all summer"},
-    {name:"Peppers",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors early, or buy transplants",rec:"Slow from seed and loves heat — most people buy transplants. Don’t rush them out; cold soil sulks them.",home:"5-gal pot, bed or ground",space:"18–24” apart",yield:"several per plant, more as it warms"},
-    {name:"Bush beans",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:0},method:"Direct-sow after frost",rec:"Fast, generous, and a giver (fixes nitrogen). Sow successions for a long harvest; pick often to keep them coming.",home:"bed or ground",space:"3–4” apart",yield:"a steady picking per plant"},
-    {name:"Cucumbers",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Quick and prolific once it’s warm. Give it a trellis to save space and grow straighter fruit; keep it watered.",home:"bed, ground, or big pot w/ trellis",space:"12–18” apart",yield:"many per vine"},
-    {name:"Zucchini / squash",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Famously productive — two plants feed a household (and then some). A heavy feeder; give it room and rich soil.",home:"bed or ground",space:"24–36” apart",yield:"more than you expect"},
-    {name:"Basil",icon:"flower",season:"warm",diff:"easy",t:{type:"indoor",lo:4,hi:6},method:"Start indoors, buy a transplant, or sow when warm",rec:"Loves heat — don’t rush it out. Pinch the tops often to keep it bushy and stop it flowering. Also thrives on a windowsill.",home:"pot, bed or ground",space:"10–12” apart",yield:"leaves all summer, cut often"},
-    {name:"Sweet corn",icon:"sprout",season:"warm",diff:"medium",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Plant in a <b>block, not a row</b>, so it pollinates well. A heavy feeder and space-hungry — the anchor of the Three Sisters.",home:"ground or big bed",space:"8–12” apart, in blocks",yield:"1–2 ears per stalk"},
-    {name:"Garlic",icon:"sprout",season:"cool",diff:"easy",t:{type:"garlic"},method:"Plant cloves in fall",rec:"The set-it-and-forget-it crop: plant cloves in mid–late fall, mulch, and harvest the next midsummer. Plant the biggest cloves you’ve got.",home:"bed or ground",space:"6” apart, pointy end up",yield:"one bulb per clove"}
+    {name:"Lettuce & greens",sn:"Lettuce",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:8},method:"Direct-sow, or buy transplants",rec:"Seed is cheap and lets you cut-and-come-again; a transplant gives a head start. Sow a little every 2–3 weeks for a steady supply.",home:"pot, bed or ground",space:"6–8” apart (or broadcast & thin)",yield:"cut leaves for weeks per plant",
+      q:{depth:"¼”",rows:"12–18”",thin:[6,8],sow:{n:0.05,u:"oz seed"},y10:[4,6],sun:"part",dtm:[30,60],comp:"Carrots, radishes, onions, strawberries — and tall crops for summer shade"}},
+    {name:"Spinach",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:7},method:"Direct-sow",rec:"Loves cool soil and bolts in heat — a spring and fall crop. Seed beats transplants (it resents root disturbance).",home:"bed or ground",space:"3–4” apart",yield:"a few cuttings per plant",
+      q:{depth:"½”",rows:"12–14”",thin:[3,4],sow:{n:0.2,u:"oz seed"},y10:[3,5],sun:"part",dtm:[37,50],comp:"Peas, onions, radishes, cauliflower, strawberries"}},
+    {name:"Kale",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Sow or transplant — both easy",rec:"Tough and forgiving; a fall crop sweetens after frost. Transplants speed it up, seed is cheaper.",home:"bed or ground",space:"12–18” apart",yield:"leaves for months per plant",
+      q:{depth:"½”",rows:"18–24”",thin:[12,18],sow:{n:0.1,u:"oz seed"},y10:[4,8],sun:"part",dtm:[50,65],comp:"Beets, onions, potatoes, aromatic herbs"}},
+    {name:"Peas",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:9},method:"Direct-sow",rec:"One of the earliest crops — sow as soon as soil can be worked. A giver: it fixes its own nitrogen. Give it something to climb.",home:"bed or ground",space:"2–3” apart, on a trellis",yield:"a handful of pods per plant",
+      q:{depth:"1”",rows:"18–30”",thin:[2,3],sow:{n:3,u:"oz seed"},y10:[2,4],sun:"full",dtm:[58,70],comp:"Carrots, turnips, radishes, corn, beans"}},
+    {name:"Radishes",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:6},method:"Direct-sow",rec:"Seed to plate in ~4 weeks — the confidence-builder. Sow in short rows every couple weeks; they get woody if left too long.",home:"pot, bed or ground",space:"1–2” apart",yield:"one root per seed, fast",
+      q:{depth:"½”",rows:"12”",thin:[1,2],sow:{n:0.1,u:"oz seed"},y10:[4,6],sun:"part",dtm:[22,30],comp:"Lettuce, peas, spinach — the classic row-marker crop"}},
+    {name:"Carrots",icon:"carrot",season:"cool",diff:"medium",t:{type:"cool",bw:2,fw:9},method:"Direct-sow (don’t transplant)",rec:"Reward patience: keep the surface moist to germinate, and <b>thin them</b> or they tangle. Loose, stone-free soil grows straight roots.",home:"deep pot, bed or ground",space:"thin to 2–3” apart",yield:"one root per plant",
+      q:{depth:"¼”",rows:"12–18”",thin:[2,3],sow:{n:0.1,u:"oz seed"},y10:[7,10],sun:"full",dtm:[60,80],comp:"Onions, leeks, lettuce, tomatoes, radishes"}},
+    {name:"Beets",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Direct-sow",rec:"Two crops in one — roots and edible greens. Each “seed” is a cluster, so thin the seedlings.",home:"bed or ground",space:"thin to 3–4” apart",yield:"one root + greens per plant",
+      q:{depth:"½”",rows:"12–18”",thin:[3,4],sow:{n:0.2,u:"oz seed"},y10:[8,12],sun:"part",dtm:[50,70],comp:"Onions, lettuce, cabbage, bush beans, radishes"}},
+    {name:"Broccoli",icon:"sprout",season:"cool",diff:"medium",t:{type:"indoorcool",lo:4,hi:6,fw:11},method:"Start indoors or buy transplants",rec:"Best as a transplant for spring, or direct-sown in summer for a fall head (fall crops are often better here). Watch for cabbage worms — pick them off.",home:"bed or ground",space:"18–24” apart",yield:"one main head + side shoots",
+      q:{depth:"½” (or transplants)",rows:"24–36”",thin:[18,24],sow:{n:5,u:"plants"},y10:[4,8],sun:"full",dtm:[55,75],comp:"Onions, lettuce, beets, potatoes, dill"}},
+    {name:"Swiss chard",sn:"Chard",icon:"leaf",season:"cool",diff:"easy",t:{type:"cool",bw:2,fw:9},method:"Direct-sow or transplant",rec:"Heat-tolerant for a green — it carries from spring into fall. Cut outer stalks and it keeps coming.",home:"pot, bed or ground",space:"8–10” apart",yield:"stalks all season per plant",
+      q:{depth:"½”",rows:"18”",thin:[8,10],sow:{n:0.4,u:"oz seed"},y10:[8,12],sun:"part",dtm:[50,60],comp:"Beans, onions, the cabbage family"}},
+    {name:"Green onions",sn:"Green onion",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,fw:8},method:"Direct-sow (or regrow from scraps)",rec:"Almost foolproof — and you can regrow the white root-ends in water on the sill. Sow thickly and snip as needed.",home:"pot, bed or ground",space:"1” apart",yield:"snip-and-regrow",
+      q:{depth:"½”",rows:"12”",thin:[1,2],sow:{n:0.2,u:"oz seed"},y10:[2,4],sun:"part",dtm:[60,70],comp:"Carrots, beets, lettuce — tucks in anywhere"}},
+    {name:"Onions (sets)",sn:"Onions",icon:"sprout",season:"cool",diff:"easy",t:{type:"cool",bw:4,nofall:1},method:"Plant sets in early spring",rec:"Push each little bulb in pointy-end up as soon as the bed is workable. Pull every other one young as green onions; let the rest bulb up, then cure them in the sun a few days once the tops flop.",home:"bed or ground",space:"3–4” apart",yield:"one bulb per set",
+      q:{depth:"1”",rows:"12–18”",thin:[3,4],sow:{n:50,u:"sets"},y10:[8,12],sun:"full",dtm:[90,110],comp:"Beets, carrots, lettuce, spinach, tomatoes"}},
+    {name:"Turnips",icon:"carrot",season:"cool",diff:"easy",t:{type:"cool",bw:3,fw:8},method:"Direct-sow",rec:"Fast roots plus edible greens, and the fall crop sweetens after a light frost. Sow where the early peas came out for a free second harvest.",home:"bed or ground",space:"3–4” apart",yield:"one root + greens per plant",
+      q:{depth:"½”",rows:"12–18”",thin:[3,4],sow:{n:0.05,u:"oz seed"},y10:[10,15],sun:"part",dtm:[40,60],comp:"Peas — sow into their spent bed"}},
+    {name:"Potatoes",icon:"soil",season:"cool",diff:"easy",t:{type:"cool",bw:3,nofall:1},method:"Plant certified seed potatoes",rec:"Cut seed potatoes so each chunk has an eye or two, let the cuts dry a day, and plant. <b>Hill soil up the stems twice</b> as they grow — the crop forms above the seed piece, and sunlight greens (and ruins) exposed spuds.",home:"ground or a deep bed",space:"10–12” apart, hilled",yield:"~6–10 spuds per plant",
+      q:{depth:"3–4”",rows:"30–36”",thin:[10,12],sow:{n:10,u:"seed potatoes"},y10:[10,15],sun:"full",dtm:[90,120],comp:"Beans, corn, cabbage — keep away from tomatoes (shared blights)"}},
+    {name:"Cabbage",icon:"leaf",season:"cool",diff:"medium",t:{type:"indoorcool",lo:4,hi:6,fw:12},method:"Transplants, spring & fall",rec:"Loves cool weather — a fall planting often makes the sweetest, tightest heads, and they keep for months somewhere cold. Same cabbage-worm patrol as broccoli.",home:"bed or ground",space:"12–18” apart",yield:"one head per plant",
+      q:{depth:"½” (or transplants)",rows:"24–30”",thin:[12,18],sow:{n:5,u:"plants"},y10:[10,20],sun:"full",dtm:[65,85],comp:"Onions, potatoes, beets, dill — not strawberries"}},
+    {name:"Cauliflower",icon:"sprout",season:"cool",diff:"fussy",t:{type:"indoorcool",lo:4,hi:6,fw:13},method:"Transplants — babied ones",rec:"The diva of the brassicas: any stress (heat, drought, root shock) makes sad little button heads. Fall crops are more forgiving here. When a head shows, bend a leaf over it to keep it white.",home:"bed or ground",space:"18–24” apart",yield:"one head per plant",
+      q:{depth:"½” (or transplants)",rows:"24–30”",thin:[18,24],sow:{n:5,u:"plants"},y10:[8,12],sun:"full",dtm:[55,80],comp:"Onions, beets, celery, dill"}},
+    {name:"Tomatoes",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors ~6–8 wks early, or buy transplants",rec:"The classic “just buy a transplant” crop unless you want unusual varieties — seed = variety + effort, transplant = easy + fast. Needs warmth, sun, and a cage.",home:"5-gal pot, bed or ground",space:"24–36” apart, staked",yield:"pounds per plant all summer",
+      q:{depth:"¼” (indoors)",rows:"36–48”",thin:[24,36],sow:{n:4,u:"plants"},y10:[20,40],sun:"full",dtm:[60,85],comp:"Basil, carrots, onions, lettuce, marigold — not potatoes or fennel"}},
+    {name:"Peppers",icon:"flower",season:"warm",diff:"medium",t:{type:"indoor",lo:6,hi:8},method:"Start indoors early, or buy transplants",rec:"Slow from seed and loves heat — most people buy transplants. Don’t rush them out; cold soil sulks them.",home:"5-gal pot, bed or ground",space:"18–24” apart",yield:"several per plant, more as it warms",
+      q:{depth:"¼” (indoors)",rows:"24–36”",thin:[18,24],sow:{n:6,u:"plants"},y10:[5,10],sun:"full",dtm:[60,90],comp:"Basil, onions, carrots, okra"}},
+    {name:"Bush beans",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:0,tf:1},method:"Direct-sow after frost",rec:"Fast, generous, and a giver (fixes nitrogen). Sow successions for a long harvest; pick often to keep them coming.",home:"bed or ground",space:"3–4” apart",yield:"a steady picking per plant",
+      q:{depth:"1”",rows:"18–24”",thin:[3,4],sow:{n:2,u:"oz seed"},y10:[4,8],sun:"full",dtm:[50,60],comp:"Corn, cucumbers, potatoes, strawberries"}},
+    {name:"Cucumbers",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1,tf:1},method:"Direct-sow when soil’s warm",rec:"Quick and prolific once it’s warm. Give it a trellis to save space and grow straighter fruit; keep it watered.",home:"bed, ground, or big pot w/ trellis",space:"12–18” apart",yield:"many per vine",
+      q:{depth:"1”",rows:"36–48”",thin:[12,18],sow:{n:0.1,u:"oz seed"},y10:[8,12],sun:"full",dtm:[50,65],comp:"Beans, corn, radishes, dill, nasturtium"}},
+    {name:"Zucchini / squash",sn:"Zucchini",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:1,tf:1},method:"Direct-sow when soil’s warm",rec:"Famously productive — two plants feed a household (and then some). A heavy feeder; give it room and rich soil.",home:"bed or ground",space:"24–36” apart",yield:"more than you expect",
+      q:{depth:"1”",rows:"36–48”",thin:[24,36],sow:{n:0.1,u:"oz seed"},y10:[15,25],sun:"full",dtm:[45,60],comp:"Beans, corn, nasturtium, borage"}},
+    {name:"Melons",icon:"fruit",season:"warm",diff:"medium",t:{type:"warm",aw:2,sw:14},method:"Direct-sow in warm soil (or transplants)",rec:"Cantaloupe and watermelon want real heat, room to run, and steady water — then ease off as fruit ripens for sweeter melons. A ripe cantaloupe slips off the vine; a watermelon’s nearest tendril browns.",home:"ground — give it room",space:"hills 4–6 ft apart",yield:"3–6 melons per hill",
+      q:{depth:"1”",rows:"60–72”",thin:[24,36],sow:{n:0.1,u:"oz seed"},y10:[8,15],sun:"full",dtm:[80,100],comp:"Corn, sunflowers, radishes, nasturtium"}},
+    {name:"Pumpkins & winter squash",sn:"Pumpkins",icon:"fruit",season:"warm",diff:"easy",t:{type:"warm",aw:1,sw:21},method:"Direct-sow in hills",rec:"Butternut, acorn, and jack-o’-lanterns all play the same way: big vines, big appetite. Harvest hard-shelled with a stub of stem before frost, cure a week in the sun, and they store all winter.",home:"ground — vines run 10 ft+",space:"hills 5–6 ft apart",yield:"2–5 fruits per hill",
+      q:{depth:"1”",rows:"60–72”",thin:[24,36],sow:{n:0.05,u:"oz seed"},y10:[15,30],sun:"full",dtm:[95,120],comp:"Corn & beans — the Three Sisters"}},
+    {name:"Okra",icon:"sprout",season:"warm",diff:"easy",t:{type:"warm",aw:2,tf:1},method:"Direct-sow when truly warm",rec:"Shrugs off the July heat that wilts everything else. Pick the pods young (3–4”) every other day or they turn woody — and wear sleeves; the plants are prickly.",home:"bed or ground",space:"12” apart",yield:"steady pods all summer",
+      q:{depth:"1”",rows:"36”",thin:[12,12],sow:{n:0.25,u:"oz seed"},y10:[5,10],sun:"full",dtm:[55,65],comp:"Peppers, melons, cucumbers"}},
+    {name:"Basil",icon:"flower",season:"warm",diff:"easy",t:{type:"indoor",lo:4,hi:6},method:"Start indoors, buy a transplant, or sow when warm",rec:"Loves heat — don’t rush it out. Pinch the tops often to keep it bushy and stop it flowering. Also thrives on a windowsill.",home:"pot, bed or ground",space:"10–12” apart",yield:"leaves all summer, cut often",
+      q:{depth:"¼”",rows:"12–18”",thin:[10,12],sow:{n:8,u:"plants"},ytxt:"cut a handful weekly, all summer",sun:"full",dtm:[30,60],comp:"Tomatoes and peppers — the kitchen trio"}},
+    {name:"Sweet corn",sn:"Sweet corn",icon:"sprout",season:"warm",diff:"medium",t:{type:"warm",aw:1},method:"Direct-sow when soil’s warm",rec:"Plant in a <b>block, not a row</b>, so it pollinates well. A heavy feeder and space-hungry — the anchor of the Three Sisters.",home:"ground or big bed",space:"8–12” apart, in blocks",yield:"1–2 ears per stalk",
+      q:{depth:"1–2”",rows:"30–36”",thin:[8,12],sow:{n:0.4,u:"oz seed"},y10:[10,15],yu:"ears",sun:"full",dtm:[65,90],comp:"Beans & squash (Three Sisters), cucumbers, melons"}},
+    {name:"Garlic",icon:"sprout",season:"cool",diff:"easy",t:{type:"garlic"},method:"Plant cloves in fall",rec:"The set-it-and-forget-it crop: plant cloves in mid–late fall, mulch, and harvest the next midsummer. Plant the biggest cloves you’ve got.",home:"bed or ground",space:"6” apart, pointy end up",yield:"one bulb per clove",
+      q:{depth:"2”",rows:"12”",thin:[4,6],sow:{n:24,u:"cloves"},y10:[2,5],sun:"full",dtmTxt:"overwinters — harvest next July",comp:"Roses, fruit trees, the cabbage family — keep away from beans & peas"}}
   ];
   function cropWhen(c,sp,fa){
     var t=c.t;
@@ -3336,6 +3427,7 @@
     if(t.type==="garlic"){return '<b>Plant cloves ~'+fmtMD(addDays(fa,7))+'</b> (a few weeks before hard freeze); harvest the next midsummer.';}
     // cool-season
     var spring=addDays(sp,-(t.bw||3)*7),fall=addDays(fa,-(t.fw||8)*7);
+    if(t.nofall)return '<b>Plant ~'+fmtMD(spring)+'</b> ('+(t.bw||3)+' weeks before your last frost — these take light frost); one spring planting is the crop.';
     return '<b>Sow ~'+fmtMD(spring)+'</b> ('+(t.bw||3)+' weeks before your last frost — these take light frost), and again ~'+fmtMD(fall)+' for a fall crop.';
   }
   var cropFilter="all";
@@ -3348,10 +3440,118 @@
         '<div class="cwhen">'+cropWhen(c,sp,fa)+'</div>'+
         '<div class="crec"><b>'+c.method+'.</b> '+c.rec+'</div>'+
         '<div class="cfacts"><span class="seasontag '+c.season+'">'+(c.season==="cool"?"cool-season":"warm-season")+'</span>'+
-        '<span class="cfact"><b>Home:</b> '+c.home+'</span><span class="cfact"><b>Space:</b> '+c.space+'</span><span class="cfact"><b>Yield:</b> '+c.yield+'</span></div></div>';
+        '<span class="cfact"><b>Home:</b> '+c.home+'</span><span class="cfact"><b>Space:</b> '+c.space+'</span><span class="cfact"><b>Yield:</b> '+c.yield+'</span>'+
+        (c.q?'<span class="cfact"><b>Depth:</b> '+c.q.depth+'</span><span class="cfact"><b>Rows:</b> '+c.q.rows+'</span>'+(c.q.y10?'<span class="cfact"><b>10-ft row:</b> ~'+c.q.y10[0]+'–'+c.q.y10[1]+' '+(c.q.yu||"lb")+'</span>':''):'')+
+        '</div></div>';
     }).join("");
   }
   if($("cropFilter"))$("cropFilter").addEventListener("click",function(e){var b=e.target.closest("[data-cf]");if(!b)return;cropFilter=b.getAttribute("data-cf");document.querySelectorAll("#cropFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderCrops();});
+
+  /* ---------- planting timeline (slide-chart style) ---------- */
+  function dmin(a,b){return a<b?a:b;}
+  function cropWindows(c,sp,fa){
+    var t=c.t,q=c.q||{},d=q.dtm||[60,80],w={};
+    if(t.type==="indoor"){
+      w.si=[addDays(sp,-t.hi*7),addDays(sp,-t.lo*7)];
+      w.sow=[addDays(sp,7),addDays(sp,28)];
+      w.harv=[addDays(w.sow[0],d[0]),fa];
+    } else if(t.type==="indoorcool"){
+      w.si=[addDays(sp,-t.hi*7),addDays(sp,-t.lo*7)];
+      w.sow=[addDays(sp,-21),addDays(sp,-7)];
+      w.harv=[addDays(w.sow[0],d[0]),addDays(w.sow[1],d[1])];
+      if(t.fw){var m=addDays(fa,-t.fw*7);w.fall=[addDays(m,-14),addDays(m,7)];w.harvF=[addDays(w.fall[0],d[0]),addDays(fa,10)];}
+    } else if(t.type==="warm"){
+      var s0=addDays(sp,(t.aw||0)*7);
+      w.sow=[s0,addDays(s0,t.sw!=null?t.sw:28)];
+      w.harv=t.tf?[addDays(s0,d[0]),fa]:[addDays(s0,d[0]),dmin(addDays(w.sow[1],d[1]),addDays(fa,7))];
+    } else if(t.type==="garlic"){
+      var yr=sp.getFullYear();
+      w.sow=[addDays(fa,-7),addDays(fa,21)];
+      w.harv=[new Date(yr,6,1,12,0,0),new Date(yr,6,25,12,0,0)];
+    } else { // cool-season
+      w.sow=[addDays(sp,-(t.bw||3)*7),addDays(sp,14)];
+      w.harv=[addDays(w.sow[0],d[0]),addDays(w.sow[1],d[1])];
+      if(!t.nofall){var f0=addDays(fa,-(t.fw||8)*7);w.fall=[addDays(f0,-14),addDays(f0,10)];w.harvF=[addDays(w.fall[0],d[0]),addDays(fa,14)];}
+    }
+    return w;
+  }
+  function thinTxt(q){if(!q.thin)return "";return (q.thin[0]===q.thin[1]?q.thin[0]:q.thin[0]+"–"+q.thin[1])+"”";}
+  function ptDetailHTML(c,sp,fa){
+    var q=c.q||{};
+    function pill(k,v){return v?'<span class="cfact"><b>'+k+':</b> '+v+'</span>':'';}
+    var y=q.y10?'~'+q.y10[0]+'–'+q.y10[1]+' '+(q.yu||'lb'):(q.ytxt||'');
+    var dtm=q.dtm?q.dtm[0]+'–'+q.dtm[1]+' days':(q.dtmTxt||'');
+    return '<div class="cwhen" style="margin-top:0;">'+cropWhen(c,sp,fa)+'</div>'+
+      '<div class="cfacts">'+pill("Depth",q.depth)+pill("Rows apart",q.rows)+pill("Thin to",thinTxt(q))+
+      pill("Per 10 ft",q.sow?q.sow.n+' '+q.sow.u:'')+pill("Yield / 10 ft",y)+
+      pill("Sun",q.sun==="part"?"takes part shade":"full sun")+pill("To harvest",dtm)+'</div>'+
+      (q.comp?'<div class="crec" style="margin-top:8px;"><b>Good neighbors:</b> '+q.comp+'</div>':'');
+  }
+  var ptFilterV="all",ptOpen=-1;
+  function ptPct(d,t0,t1){return clamp((d-t0)/(t1-t0)*100,0,100);}
+  function ptBar(cls,win,t0,t1,label){
+    if(!win)return "";
+    var a=ptPct(win[0],t0,t1),b=ptPct(win[1],t0,t1);
+    if(b-a<=0.4)return "";
+    return '<span class="ptbar '+cls+'" style="left:'+a.toFixed(2)+'%;width:'+(b-a).toFixed(2)+'%" title="'+esc(label+" "+fmtMD(win[0])+" – "+fmtMD(win[1]))+'"></span>';
+  }
+  function renderPlantChart(){
+    var el=$("ptChart");if(!el)return;
+    var f=frostDates(),yr=new Date().getFullYear(),sp=mmddToDate(f.sp,yr),fa=mmddToDate(f.fa,yr);
+    var t0=new Date(yr,1,1,12,0,0),t1=new Date(yr,11,1,12,0,0);
+    var today=new Date();today.setHours(12,0,0,0);
+    var mos=["Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov"];
+    var head='<div class="pthead">'+mos.map(function(m,i){return '<span style="left:'+ptPct(new Date(yr,i+1,15,12,0,0),t0,t1).toFixed(1)+'%">'+m+'</span>';}).join("")+'</div>';
+    var ticks="";
+    for(var i=2;i<=10;i++)ticks+='<i class="pttick" style="left:'+ptPct(new Date(yr,i,1,12,0,0),t0,t1).toFixed(2)+'%"></i>';
+    ticks+='<i class="ptfrost" style="left:'+ptPct(sp,t0,t1).toFixed(2)+'%" title="Avg. last spring frost '+fmtMD(sp)+'"></i>';
+    ticks+='<i class="ptfrost" style="left:'+ptPct(fa,t0,t1).toFixed(2)+'%" title="Avg. first fall frost '+fmtMD(fa)+'"></i>';
+    if(today>t0&&today<t1)ticks+='<i class="pttoday" style="left:'+ptPct(today,t0,t1).toFixed(2)+'%" title="Today"></i>';
+    var rows=CROPS.map(function(c,idx){
+      if(ptFilterV!=="all"&&c.season!==ptFilterV)return "";
+      var w=cropWindows(c,sp,fa),open=ptOpen===idx;
+      var setLabel=(c.t.type==="indoor"||c.t.type==="indoorcool")?"Set out transplants":(c.t.type==="garlic"?"Plant cloves":"Sow outside");
+      var bars=ptBar("b-si",w.si,t0,t1,"Start seeds indoors")+ptBar("b-sow",w.sow,t0,t1,setLabel)+ptBar("b-sow",w.fall,t0,t1,"Fall planting")+
+        ptBar("b-harv",w.harv,t0,t1,"Harvest")+ptBar("b-harv",w.harvF,t0,t1,"Fall harvest");
+      return '<div class="ptrow"><button class="ptname" data-pt="'+idx+'" aria-expanded="'+open+'" title="'+esc(c.name)+' — tap for details"><span class="dot '+c.season+'"></span>'+esc(c.sn||c.name)+'</button><div class="pttrack">'+ticks+bars+'</div></div>'+
+        (open?'<div class="ptdetail">'+ptDetailHTML(c,sp,fa)+'</div>':'');
+    }).join("");
+    el.innerHTML=head+rows;
+  }
+  if($("ptChart"))$("ptChart").addEventListener("click",function(e){
+    var b=e.target.closest("[data-pt]");if(!b)return;
+    var i=+b.getAttribute("data-pt");ptOpen=(ptOpen===i?-1:i);renderPlantChart();
+  });
+  if($("ptFilter"))$("ptFilter").addEventListener("click",function(e){
+    var b=e.target.closest("[data-ptf]");if(!b)return;
+    ptFilterV=b.getAttribute("data-ptf");ptOpen=-1;
+    document.querySelectorAll("#ptFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
+    renderPlantChart();
+  });
+
+  /* ---------- row calculator ---------- */
+  function fmtQty(n){if(n>=20)return String(Math.round(n));if(n>=2)return String(Math.round(n*2)/2);return String(Math.round(n*100)/100);}
+  function renderRowCalcOptions(){
+    var s=$("rcCrop");if(!s||s.options.length)return;
+    s.innerHTML=CROPS.map(function(c,i){return c.q?'<option value="'+i+'">'+esc(c.name)+'</option>':'';}).join("");
+  }
+  function renderRowCalc(){
+    var s=$("rcCrop"),out=$("rcOut");if(!s||!out)return;
+    var c=CROPS[+s.value];if(!c||!c.q){out.innerHTML="";return;}
+    var q=c.q,ft=clamp(parseFloat($("rcFeet").value)||10,1,200),fac=ft/10;
+    var facts=[];
+    if(q.sow)facts.push('<b>Sow / set out:</b> ≈'+fmtQty(q.sow.n*fac)+' '+q.sow.u);
+    if(q.thin){var avg=(q.thin[0]+q.thin[1])/2;facts.push('<b>Thins to:</b> ~'+Math.max(1,Math.round(ft*12/avg))+' plants ('+thinTxt(q)+' apart)');}
+    if(q.rows)facts.push('<b>Between rows:</b> '+q.rows);
+    if(q.dtm)facts.push('<b>To harvest:</b> '+q.dtm[0]+'–'+q.dtm[1]+' days');
+    var hero=q.y10?'<div class="h-amt">~'+fmtQty(q.y10[0]*fac)+'–'+fmtQty(q.y10[1]*fac)+' <small>'+(q.yu||'lb')+'</small></div><div class="h-sub">a rough yield from a <b>'+ft+'-ft row</b> of '+esc(c.name.toLowerCase())+' — garden math, not a promise</div>'
+      :'<div class="h-sub">A <b>'+ft+'-ft row</b> of '+esc(c.name.toLowerCase())+': '+esc(q.ytxt||'steady picking')+'.</div>';
+    out.innerHTML='<div class="hero green" style="margin-top:4px;">'+hero+'</div>'+
+      '<div class="cfacts" style="margin-top:10px;">'+facts.map(function(x){return '<span class="cfact">'+x+'</span>';}).join("")+'</div>'+
+      '<p class="zip-note" style="margin-top:9px;">Seed packets vary — most say how many feet of row they sow on the back. When in doubt, sow a little thick and thin later: thinnings of greens, beets, and turnips are salad.</p>';
+  }
+  if($("rcCrop"))$("rcCrop").addEventListener("change",renderRowCalc);
+  if($("rcFeet"))$("rcFeet").addEventListener("input",renderRowCalc);
   if($("frostSpring"))$("frostSpring").addEventListener("change",function(){var v=$("frostSpring").value;if(v)lsSet("ycFrostSpring",v.slice(5));renderFrost();renderFrostAdvisory();});
   if($("frostFall"))$("frostFall").addEventListener("change",function(){var v=$("frostFall").value;if(v)lsSet("ycFrostFall",v.slice(5));renderFrost();renderFrostAdvisory();});
 
@@ -3466,7 +3666,7 @@
     el.innerHTML=html;
   }
 
-  function renderGrow(){renderFeeding();setFrostInputs();renderFrost();renderFrostAdvisory();renderPartnerOptions();renderPartnerOut();}
+  function renderGrow(){renderFeeding();setFrostInputs();renderFrost();renderFrostAdvisory();renderPartnerOptions();renderPartnerOut();renderRowCalcOptions();renderRowCalc();}
   function renderWildlife(){renderTimeline("fireflyTl",FIREFLY);renderAudit();renderPestLog();renderPestGauge();}
   function renderSeasonExtras(){renderTimeline("bonfireTl",BONFIRE);updateFirewood();renderWindHail();}
 
@@ -4078,7 +4278,28 @@
     {n:"Red maple",a:"acer native tree",tab:"trees",card:"feedHostTrees",det:"Red maple"},
     {n:"Hydrangea",a:"shrub prune",tab:"trees",card:"feedHostTrees",det:"Hydrangea"},
     {n:"Boxwood",a:"evergreen hedge shrub",tab:"trees",card:"feedHostTrees",det:"Boxwood"},
-    {n:"Holly",a:"evergreen winterberry shrub",tab:"trees",card:"feedHostTrees",det:"Holly"}
+    {n:"Holly",a:"evergreen winterberry shrub",tab:"trees",card:"feedHostTrees",det:"Holly"},
+    {n:"Lettuce",a:"greens salad",tab:"grow",card:"cropGuide"},
+    {n:"Spinach",a:"greens",tab:"grow",card:"cropGuide"},
+    {n:"Kale",a:"greens",tab:"grow",card:"cropGuide"},
+    {n:"Peas",a:"snap snow shelling",tab:"grow",card:"cropGuide"},
+    {n:"Radish",a:"radishes",tab:"grow",card:"cropGuide"},
+    {n:"Carrot",a:"carrots root",tab:"grow",card:"cropGuide"},
+    {n:"Beet",a:"beets root",tab:"grow",card:"cropGuide"},
+    {n:"Broccoli",a:"brassica",tab:"grow",card:"cropGuide"},
+    {n:"Swiss chard",a:"chard greens",tab:"grow",card:"cropGuide"},
+    {n:"Turnip",a:"turnips root greens",tab:"grow",card:"cropGuide"},
+    {n:"Potato",a:"potatoes spuds seed",tab:"grow",card:"cropGuide"},
+    {n:"Cabbage",a:"brassica kraut",tab:"grow",card:"cropGuide"},
+    {n:"Cauliflower",a:"brassica",tab:"grow",card:"cropGuide"},
+    {n:"Pepper",a:"peppers bell hot",tab:"grow",card:"cropGuide"},
+    {n:"Beans",a:"bush bean green pole",tab:"grow",card:"cropGuide"},
+    {n:"Cucumber",a:"cucumbers pickles",tab:"grow",card:"cropGuide"},
+    {n:"Zucchini",a:"summer squash",tab:"grow",card:"cropGuide"},
+    {n:"Melon",a:"melons cantaloupe watermelon",tab:"grow",card:"cropGuide"},
+    {n:"Pumpkin",a:"pumpkins winter squash butternut acorn",tab:"grow",card:"cropGuide"},
+    {n:"Okra",a:"",tab:"grow",card:"cropGuide"},
+    {n:"Sweet corn",a:"corn",tab:"grow",card:"cropGuide"}
   ];
   function jumpToPlant(p){
     showTab(p.tab);
@@ -4454,7 +4675,7 @@
     {id:"lawn",icon:"mower",label:"Lawn care",tabs:["lawn","mow"],dk:"A greener lawn",db:"Feeding, mowing right, and thickening turf — clover can do half the work.",nudge:"Check the mowing height for the season",
       tools:[{tab:"lawn",scroll:"fLawn",icon:"spread",label:"Fertilizer"},{tab:"lawn",scroll:"wCan",icon:"droplet",label:"Watering"},{tab:"mow",scroll:"mowCadence",icon:"grass",label:"Mowing"}]},
     {id:"grow",icon:"basket",label:"Veg & herbs",tabs:["grow"],dk:"Grow your own food",db:"Even a 4×8 bed or a few pots feeds you all summer — start with what you like to eat.",nudge:"Plan or plant this month's crops",
-      tools:[{tab:"grow",scroll:"cropGuide",icon:"basket",label:"Crop guide"},{tab:"grow",scroll:"frostSpring",icon:"thermo",label:"Frost dates"},{tab:"grow",scroll:"partnerPick",icon:"bee",label:"Companions"}]},
+      tools:[{tab:"grow",scroll:"cropGuide",icon:"basket",label:"Crop guide"},{tab:"grow",scroll:"plantChart",icon:"cal",label:"Planting timeline"},{tab:"grow",scroll:"frostSpring",icon:"thermo",label:"Frost dates"},{tab:"grow",scroll:"partnerPick",icon:"bee",label:"Companions"}]},
     {id:"fruit",icon:"fruit",label:"Fruit & berries",tabs:["fruit"],dk:"Homegrown fruit",db:"Berries reward you in a year; a few raspberry canes are the easiest fruit there is.",nudge:"Prune or check the fruit plants",
       tools:[{tab:"fruit",scroll:"fruitGuides",icon:"fruit",label:"Fruit guides"}]},
     {id:"bloom",icon:"flower",label:"Flowers & blooms",tabs:["bloom"],dk:"Color all season",db:"A backbone of perennials plus a few annuals means blooms — and bees — spring to frost.",nudge:"Deadhead and plan the next blooms",
