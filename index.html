@@ -3538,7 +3538,7 @@
   function renderRowCalc(){
     var s=$("rcCrop"),out=$("rcOut");if(!s||!out)return;
     var c=CROPS[+s.value];if(!c||!c.q){out.innerHTML="";return;}
-    var q=c.q,ft=clamp(parseFloat($("rcFeet").value)||10,1,200),fac=ft/10;
+    var q=c.q,val=num("rcFeet"),ft=clamp(val===null?10:val,1,200),fac=ft/10;
     var facts=[];
     if(q.sow)facts.push('<b>Sow / set out:</b> ≈'+fmtQty(q.sow.n*fac)+' '+q.sow.u);
     if(q.thin){var avg=(q.thin[0]+q.thin[1])/2;facts.push('<b>Thins to:</b> ~'+Math.max(1,Math.round(ft*12/avg))+' plants ('+thinTxt(q)+' apart)');}
