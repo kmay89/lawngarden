@@ -392,6 +392,16 @@
   .ptfband{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,rgba(192,67,47,0),rgba(192,67,47,.14) 35%,rgba(192,67,47,.14) 65%,rgba(192,67,47,0));}
   .pttoday{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.45;}
   .ptdetail{margin:3px 0 9px;padding:10px 11px;background:#F5F9F4;border:1px solid var(--line);border-radius:9px;}
+  .ptstar{color:#D9A62A;margin-left:4px;font-size:.7rem;}
+  #ptMoves{margin-bottom:11px;}
+  .nm{display:flex;align-items:flex-start;gap:9px;padding:7px 2px;border-bottom:1px dashed var(--line);font-size:.8rem;color:var(--ink-soft);}
+  .nm:last-of-type{border-bottom:none;}
+  .nm b{color:var(--ink);}
+  .nm-chip{flex:0 0 auto;font-family:var(--mono);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:3px 8px;border-radius:999px;margin-top:1px;}
+  .nm-chip.now{background:#E2F0E6;color:#1E5235;}
+  .nm-chip.soon{background:#FAF0D9;color:#8A5E12;}
+  .nm-chip.later{background:#EEF4ED;color:#5A6B5D;}
+  .nm-chip.harv{background:#F7ECD2;color:#8A5E12;}
   .ptleg{display:flex;flex-wrap:wrap;gap:5px 13px;margin-top:10px;font-size:.71rem;color:var(--ink-soft);}
   .ptleg .sw{display:inline-block;width:14px;height:7px;border-radius:4px;margin-right:5px;vertical-align:1px;}
   .ptleg .sw.tall{height:11px;width:3px;border-radius:2px;vertical-align:-1px;}
@@ -1157,12 +1167,14 @@
     <!-- ===== Planting timeline (slide-chart style) ===== -->
     <div class="card" id="plantChart">
       <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>Planting timeline — the whole season on one chart</h3></div>
-      <p class="hint">Every crop on one timeline, like the classic cardboard slide-chart planners — but computed from <i>your</i> frost dates above. <b>Blue</b> = start seeds indoors, <b>green</b> = sow or plant outside (spring and fall), <b>gold</b> = harvest window. The <b>red haze</b> around each frost line is the honest error bar: frost is a coin flip <i>at</i> the line and still about 1-in-10 odds at the edge of the haze. <b>Tap a crop</b> for its full data sheet: depth, spacing, how much to sow, and what a 10-ft row gives back.</p>
+      <p class="hint">Every crop on one timeline, like the classic cardboard slide-chart planners — but computed from <i>your</i> frost dates above. <b>Blue</b> = start seeds indoors, <b>green</b> = sow or plant outside (spring and fall), <b>gold</b> = harvest window. The <b>red haze</b> around each frost line is the honest error bar: frost is a coin flip <i>at</i> the line and still about 1-in-10 odds at the edge of the haze. <b>Tap a crop</b> for its full data sheet — and add it to <b>My plan</b> to turn the chart into a dated to-do list. (Or <button class="linklike" data-goto="plan">plan a bed</button> and send the whole bed here.)</p>
       <div class="cropfilter" id="ptFilter">
         <button data-ptf="all" aria-pressed="true">All</button>
-        <button data-ptf="cool" aria-pressed="false">Cool-season</button>
-        <button data-ptf="warm" aria-pressed="false">Warm-season</button>
+        <button data-ptf="cool" aria-pressed="false">Cool</button>
+        <button data-ptf="warm" aria-pressed="false">Warm</button>
+        <button data-ptf="mine" aria-pressed="false">★ My plan</button>
       </div>
+      <div id="ptMoves"></div>
       <div class="ptwrap"><div class="pt" id="ptChart"></div></div>
       <div class="ptleg">
         <span><i class="sw" style="background:#9FC3E4"></i>start indoors</span>
@@ -2502,7 +2514,7 @@
 
   <!-- ============ PLAN A BED — first garden plan ============ -->
   <section class="tab" data-pane="plan" hidden>
-    <p class="tab-intro">Your <b>first garden plan</b>, made simple. Pick what you want to grow toward, and you'll get a ready-to-plant <b>4×8 raised bed</b> — laid out so the tall plants never shade the short ones — plus soil, spacing, and an in-ground option. The classic starter size: <b>4 ft wide</b> (reachable from both sides) by <b>8 ft long</b> = 32 one-foot squares.</p>
+    <p class="tab-intro">Your <b>first garden plan</b>, made simple. Pick what you want to grow toward, and you'll get a ready-to-plant <b>4×8 raised bed</b> — laid out so the tall plants never shade the short ones — plus soil, spacing, and an in-ground option. When it's laid out, <b>send it to the planting timeline</b> for a dated, frost-aware to-do list: what to start indoors, sow, and harvest, and when. The classic starter size: <b>4 ft wide</b> (reachable from both sides) by <b>8 ft long</b> = 32 one-foot squares.</p>
 
     <div class="card" id="planCard">
       <div class="card-head"><svg class="ic"><use href="#i-grid"/></svg><h3>What do you want to grow?</h3></div>
@@ -3450,6 +3462,20 @@
   if($("cropFilter"))$("cropFilter").addEventListener("click",function(e){var b=e.target.closest("[data-cf]");if(!b)return;cropFilter=b.getAttribute("data-cf");document.querySelectorAll("#cropFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});renderCrops();});
 
   /* ---------- planting timeline (slide-chart style) ---------- */
+  function myCropsGet(){var a=lsGet("ycMyCrops");return Array.isArray(a)?a:[];}
+  function myCropsSet(a){lsSet("ycMyCrops",a);}
+  function myCropHas(n){return myCropsGet().indexOf(n)>=0;}
+  function myCropToggle(n){var a=myCropsGet(),i=a.indexOf(n);if(i>=0)a.splice(i,1);else a.push(n);myCropsSet(a);}
+  // bed-planner plant names -> timeline crop names (herbs & flowers have no timeline row)
+  var BED2CROP=[
+    [/tomato/i,"Tomatoes"],[/pepper|jalape/i,"Peppers"],[/bunching onion|scallion/i,"Green onions"],
+    [/bulb onion/i,"Onions (sets)"],[/garlic/i,"Garlic"],[/lettuce|arugula/i,"Lettuce & greens"],
+    [/spinach/i,"Spinach"],[/kale/i,"Kale"],[/\bpea\b|peas|snap pea/i,"Peas"],[/radish/i,"Radishes"],
+    [/carrot/i,"Carrots"],[/beet/i,"Beets"],[/napa|cabbage/i,"Cabbage"],[/basil/i,"Basil"],
+    [/pumpkin|winter squash/i,"Pumpkins & winter squash"],[/bean/i,"Bush beans"],
+    [/sweet corn/i,"Sweet corn"],[/cucumber|cuke/i,"Cucumbers"]
+  ];
+  function bedToCrop(name){for(var i=0;i<BED2CROP.length;i++)if(BED2CROP[i][0].test(name))return BED2CROP[i][1];return null;}
   function dmin(a,b){return a<b?a:b;}
   function cropWindows(c,sp,fa){
     var t=c.t,q=c.q||{},d=q.dtm||[60,80],w={};
@@ -3487,7 +3513,8 @@
       '<div class="cfacts">'+pill("Depth",q.depth)+pill("Rows apart",q.rows)+pill("Thin to",thinTxt(q))+
       pill("Per 10 ft",q.sow?q.sow.n+' '+q.sow.u:'')+pill("Yield / 10 ft",y)+
       pill("Sun",q.sun==="part"?"takes part shade":"full sun")+pill("To harvest",dtm)+'</div>'+
-      (q.comp?'<div class="crec" style="margin-top:8px;"><b>Good neighbors:</b> '+q.comp+'</div>':'');
+      (q.comp?'<div class="crec" style="margin-top:8px;"><b>Good neighbors:</b> '+q.comp+'</div>':'')+
+      '<button class="act btn-ghost" data-ptadd="'+CROPS.indexOf(c)+'" style="margin-top:10px;">'+(myCropHas(c.name)?'★ In my plan — tap to remove':'☆ Add to my plan')+'</button>';
   }
   var ptFilterV="all",ptOpen=-1;
   function ptPct(d,t0,t1){return clamp((d-t0)/(t1-t0)*100,0,100);}
@@ -3514,25 +3541,77 @@
     ticks+='<i class="ptfrost" style="left:'+ptPct(fa,t0,t1).toFixed(2)+'%" title="Avg. first fall frost '+fmtMD(fa)+' — 50/50 odds"></i>';
     if(today>t0&&today<t1)ticks+='<i class="pttoday" style="left:'+ptPct(today,t0,t1).toFixed(2)+'%" title="Today"></i>';
     var rows=CROPS.map(function(c,idx){
-      if(ptFilterV!=="all"&&c.season!==ptFilterV)return "";
+      if(ptFilterV==="mine"?!myCropHas(c.name):(ptFilterV!=="all"&&c.season!==ptFilterV))return "";
       var w=cropWindows(c,sp,fa),open=ptOpen===idx;
       var setLabel=(c.t.type==="indoor"||c.t.type==="indoorcool")?"Set out transplants":(c.t.type==="garlic"?"Plant cloves":"Sow outside");
       var bars=ptBar("b-si",w.si,t0,t1,"Start seeds indoors")+ptBar("b-sow",w.sow,t0,t1,setLabel)+ptBar("b-sow",w.fall,t0,t1,"Fall planting")+
         ptBar("b-harv",w.harv,t0,t1,"Harvest")+ptBar("b-harv",w.harvF,t0,t1,"Fall harvest");
-      return '<div class="ptrow"><button class="ptname" data-pt="'+idx+'" aria-expanded="'+open+'" title="'+esc(c.name)+' — tap for details"><span class="dot '+c.season+'"></span>'+esc(c.sn||c.name)+'</button><div class="pttrack">'+ticks+bars+'</div></div>'+
+      return '<div class="ptrow"><button class="ptname" data-pt="'+idx+'" aria-expanded="'+open+'" title="'+esc(c.name)+' — tap for details"><span class="dot '+c.season+'"></span>'+esc(c.sn||c.name)+(myCropHas(c.name)?'<span class="ptstar">★</span>':'')+'</button><div class="pttrack">'+ticks+bars+'</div></div>'+
         (open?'<div class="ptdetail">'+ptDetailHTML(c,sp,fa)+'</div>':'');
     }).join("");
-    el.innerHTML=head+rows;
+    el.innerHTML=(ptFilterV==="mine"&&!rows)
+      ?'<div class="empty">Nothing in your plan yet — switch to “All”, tap a crop, and “Add to my plan”. Or <button class="linklike" data-goto="plan">plan a bed</button> and send the whole bed here.</div>'
+      :head+rows;
+    var mb=document.querySelector('#ptFilter [data-ptf="mine"]');
+    if(mb){var n=myCropsGet().length;mb.textContent="★ My plan"+(n?" ("+n+")":"");}
+    renderPtMoves(sp,fa);
+  }
+  // "Your next moves" — the wizard readout for the crops in My plan
+  function renderPtMoves(sp,fa){
+    var el=$("ptMoves");if(!el)return;
+    var sel=myCropsGet();
+    if(!sel.length){el.innerHTML="";return;}
+    var today=new Date();today.setHours(12,0,0,0);
+    var items=[];
+    CROPS.forEach(function(c){
+      if(sel.indexOf(c.name)<0)return;
+      var w=cropWindows(c,sp,fa),name=c.sn||c.name;
+      var setLabel=(c.t.type==="indoor"||c.t.type==="indoorcool")?"set out transplants":(c.t.type==="garlic"?"plant cloves":"sow outside");
+      var acts=[];
+      if(w.si)acts.push({win:w.si,label:"start seeds indoors"});
+      if(w.sow)acts.push({win:w.sow,label:setLabel});
+      if(w.fall)acts.push({win:w.fall,label:"sow again for a fall crop"});
+      acts=acts.filter(function(a){return a.win[1]>=today;});
+      acts.sort(function(a,b){return a.win[0]-b.win[0];});
+      var a=acts[0];
+      if(a){
+        var active=a.win[0]<=today,soon=(a.win[0]-today)/86400000<=45;
+        items.push({s:active?0:1,d:active?a.win[1]:a.win[0],
+          chip:active?"now · closes ~"+fmtMD(a.win[1]):(soon?"opens ~"+fmtMD(a.win[0]):"later · "+fmtMD(a.win[0])),
+          cls:active?"now":(soon?"soon":"later"),
+          txt:"<b>"+esc(name)+"</b> — "+a.label+", "+fmtMD(a.win[0])+"–"+fmtMD(a.win[1])});
+      } else {
+        var h=(w.harvF&&w.harvF[1]>=today)?w.harvF:((w.harv&&w.harv[1]>=today)?w.harv:null);
+        if(h){var hOn=h[0]<=today;
+          items.push({s:hOn?0:1,d:hOn?h[1]:h[0],chip:hOn?"picking now":"harvest ~"+fmtMD(h[0]),cls:"harv",
+            txt:"<b>"+esc(name)+"</b> — harvest window "+fmtMD(h[0])+"–"+fmtMD(h[1])});
+        } else {
+          items.push({s:2,d:today,chip:"done for the year",cls:"later",
+            txt:"<b>"+esc(name)+"</b> — this year’s windows have passed; it goes on next spring’s list"});
+        }
+      }
+    });
+    items.sort(function(a,b){return a.s-b.s||a.d-b.d;});
+    el.innerHTML='<div class="hubhead" style="margin-top:2px;">Your next moves · '+sel.length+' crop'+(sel.length===1?"":"s")+' in the plan <button class="linklike" data-ptclear="1" style="margin-left:7px;text-transform:none;letter-spacing:0;">clear</button></div>'+
+      items.map(function(it){return '<div class="nm"><span class="nm-chip '+it.cls+'">'+it.chip+'</span><div>'+it.txt+'</div></div>';}).join("");
+  }
+  function ptSetFilter(v){
+    ptFilterV=v;ptOpen=-1;
+    document.querySelectorAll("#ptFilter [data-ptf]").forEach(function(x){x.setAttribute("aria-pressed",x.getAttribute("data-ptf")===v?"true":"false");});
+    renderPlantChart();
   }
   if($("ptChart"))$("ptChart").addEventListener("click",function(e){
+    var ab=e.target.closest("[data-ptadd]");
+    if(ab){var c=CROPS[+ab.getAttribute("data-ptadd")];if(c){myCropToggle(c.name);renderPlantChart();toast(myCropHas(c.name)?((c.sn||c.name)+" added to your plan"):((c.sn||c.name)+" removed from your plan"));}return;}
     var b=e.target.closest("[data-pt]");if(!b)return;
     var i=+b.getAttribute("data-pt");ptOpen=(ptOpen===i?-1:i);renderPlantChart();
   });
+  if($("ptMoves"))$("ptMoves").addEventListener("click",function(e){
+    if(e.target.closest("[data-ptclear]")){myCropsSet([]);renderPlantChart();toast("Plan cleared");}
+  });
   if($("ptFilter"))$("ptFilter").addEventListener("click",function(e){
     var b=e.target.closest("[data-ptf]");if(!b)return;
-    ptFilterV=b.getAttribute("data-ptf");ptOpen=-1;
-    document.querySelectorAll("#ptFilter button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});
-    renderPlantChart();
+    ptSetFilter(b.getAttribute("data-ptf"));
   });
 
   /* ---------- row calculator ---------- */
@@ -4547,7 +4626,8 @@
       '<div class="note-card" style="margin-top:13px">'+ic("soil")+'<div class="txt"><b>Soil:</b> '+g.soil+' A great raised-bed fill is roughly <b>⅓ compost, ⅓ peat or coir, ⅓ coarse vermiculite</b>; top up with compost each season.</div></div>'+
       '<div class="note-card">'+ic("bulb")+'<div class="txt"><b>Care:</b> '+g.care+'</div></div>'+
       '<div class="note-card">'+ic("layers")+'<div class="txt"><b>No raised bed? In-ground works too.</b> Skip the squares and plant in <b>rows running east–west</b> across a sunny, well-drained patch: tall crops in the <b>northernmost row</b>, then medium, then short, with <b>walking paths every ~4 ft</b> so you never step on the soil. Loosen the ground and mix in 2–3″ of compost first.</div></div>'+
-      '<button class="act btn-ghost" id="planShop" style="margin-top:13px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>'+
+      '<button class="act btn-ghost" id="planTimeline" style="margin-top:13px"><svg class="ic"><use href="#i-cal"/></svg>See this bed on the planting timeline</button>'+
+      '<button class="act btn-ghost" id="planShop" style="margin-top:9px"><svg class="ic"><use href="#i-cart"/></svg>Add this plan’s plants to my shopping list</button>'+
       '<button class="act btn-ghost" id="planRemind" style="margin-top:9px"><svg class="ic"><use href="#i-bell"/></svg>Add planting reminders</button>'+
       '<button class="act btn-ghost" id="planCopy" style="margin-top:9px"><svg class="ic"><use href="#i-upload"/></svg>Copy this plan as text</button>';
     wireBedPaint();markClashes();
@@ -4577,6 +4657,21 @@
     var brush=e.target.closest("[data-brush]");
     if(brush){planBrush=+brush.getAttribute("data-brush");document.querySelectorAll("#planBrushBar [data-brush]").forEach(function(x){x.setAttribute("aria-pressed",x===brush?"true":"false");});return;}
     if(e.target.closest("#planAuto")){planLayout=arrangeByHeight();saveLayout();renderPlan();toast("Re-arranged — tall plants to the north");return;}
+    if(e.target.closest("#planTimeline")){
+      var gt=curGoal(),pt={};planLayout.forEach(function(pi){if(pi>=0)pt[pi]=1;});
+      var names=Object.keys(pt).map(function(k){return gt.plants[+k]?gt.plants[+k].n:"";}).filter(Boolean);
+      if(!names.length){toast("Place some plants first");return;}
+      var mapped={},skipped=0;
+      names.forEach(function(n){var c=bedToCrop(n);if(c)mapped[c]=1;else skipped++;});
+      var sel=Object.keys(mapped);
+      if(!sel.length){toast("This bed is all herbs & flowers — the timeline charts vegetables");return;}
+      myCropsSet(sel);
+      ptSetFilter("mine");
+      showTab("grow");
+      setTimeout(function(){var elc=$("plantChart");if(elc)elc.scrollIntoView({behavior:"smooth",block:"start"});},220);
+      toast(sel.length+" crop"+(sel.length===1?"":"s")+" sent to your timeline"+(skipped?" — "+skipped+" herb/flower type"+(skipped===1?"":"s")+" aren’t charted":""));
+      return;
+    }
     var shop=e.target.closest("#planShop");
     if(shop){
       var g=curGoal(),present={};planLayout.forEach(function(pi){if(pi>=0)present[pi]=1;});
