@@ -390,6 +390,8 @@
   .hubchip .ic{width:18px;height:18px;color:var(--grass);flex:0 0 auto;}
   .hubchip .ht{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .hubchip:active{background:#F4F9F5;border-color:var(--grass);}
+  /* quick-add supplies carry longer names — let them wrap instead of clipping */
+  #shopQuick .hubchip .ht{white-space:normal;line-height:1.3;}
   .hubhead{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin:14px 2px 7px;}
   .hubhead.first{margin-top:2px;}
   .diagram{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--radius-sm);background:#FBFDFB;margin:2px 0 0;}
@@ -447,6 +449,8 @@
   .welcome .wskip{background:none;border:none;color:#A9D6BA;font-family:var(--body);font-size:.84rem;text-decoration:underline;cursor:pointer;margin:13px auto 0;display:block;}
   /* toolbar: icon-only on phones so the title isn't squished */
   @media(max-width:430px){ .tbtn .tlabel{display:none;} .tbtn{padding:8px;gap:0;} }
+  /* section bar: slightly smaller labels on phones so none of them truncate */
+  @media(max-width:430px){ .sec-btn{font-size:.6rem;padding:8px 1px;letter-spacing:-.01em;} }
   /* tab bar divider between "for you" tabs and the rest */
   .tabdiv{flex:0 0 auto;align-self:center;display:inline-flex;align-items:center;gap:5px;padding:0 8px 0 10px;margin-left:2px;border-left:1px dashed var(--line-strong);color:var(--ink-faint);font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
   /* home: "for you" + discover spotlight */
@@ -781,15 +785,6 @@
     </div>
 
     <div class="card">
-      <div class="card-head"><svg class="ic"><use href="#i-mower"/></svg><h3>Mowing — the highest-leverage habit</h3></div>
-      <div class="prose">
-        <p>If you change one thing, change height. Cut cool-season grass <b>3–4 inches</b> tall and you shade out most weeds, grow deeper roots, and lose far less water. Scalping does the opposite — it invites crabgrass and bakes the soil.</p>
-        <p><b>One-third rule:</b> never remove more than a third of the blade in a mow. In spring's fast flush that means mowing more often, not lower. <b>Keep blades sharp</b> — torn tips brown out and invite disease. And <b>grasscycle</b>: mulch clippings back in; they're free nitrogen (roughly a quarter of your season's need) and don't cause thatch.</p>
-      </div>
-      <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Summer:</b> raise to the top of the range, mow in the cool of early evening (finishing well before dew falls), and let it slow down. A cool-season lawn going tan in a July drought is usually <b>dormant, not dead</b> — it greens up with fall rain.</div></div>
-    </div>
-
-    <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-spread"/></svg><h3>Fertilizer calculator</h3></div>
       <p class="hint">Tells you how much of <i>your</i> bag to spread for a target nitrogen rate. The number on the bag is %N–%P–%K; the first one is nitrogen.</p>
       <div class="grid2">
@@ -838,6 +833,15 @@
     </div>
 
     <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-mower"/></svg><h3>Mowing — the highest-leverage habit</h3></div>
+      <div class="prose">
+        <p>If you change one thing, change height. Cut cool-season grass <b>3–4 inches</b> tall and you shade out most weeds, grow deeper roots, and lose far less water. Scalping does the opposite — it invites crabgrass and bakes the soil.</p>
+        <p><b>One-third rule:</b> never remove more than a third of the blade in a mow. In spring's fast flush that means mowing more often, not lower. <b>Keep blades sharp</b> — torn tips brown out and invite disease. And <b>grasscycle</b>: mulch clippings back in; they're free nitrogen (roughly a quarter of your season's need) and don't cause thatch.</p>
+      </div>
+      <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Summer:</b> raise to the top of the range, mow in the cool of early evening (finishing well before dew falls), and let it slow down. A cool-season lawn going tan in a July drought is usually <b>dormant, not dead</b> — it greens up with fall rain.</div></div>
+    </div>
+
+    <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-globe"/></svg><h3>Four honest ways to grow a lawn</h3></div>
       <p class="hint">There's no single "right" lawn — just trade-offs. Pick the input level you actually want to live with.</p>
       <div class="cmp">
@@ -852,6 +856,14 @@
   <!-- ============ MOW ============ -->
   <section class="tab" data-pane="mow" hidden>
     <p class="tab-intro">Mowing is the highest-leverage thing you do to a lawn — get it right and you'll need <b>fewer chemicals, less fertilizer, and almost no lime</b>. This is the how, the how-often, and the gear, all tuned for cool-season Ohio grass.</p>
+
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#i-clock"/></svg><h3>How often — by month, temp &amp; rain</h3></div>
+      <p class="hint">Cool-season grass races in spring and fall, coasts in summer, and sleeps in winter — so mowing cadence swings with the season. The honest rule isn't a calendar: <b>mow when the grass is ~50% taller than your cut height.</b></p>
+      <div class="hero green" id="mowCadence"></div>
+      <div id="mowCadenceNote"></div>
+      <div class="cal" id="mowTl" style="margin-top:12px;"></div>
+    </div>
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-grass"/></svg><h3>Mow like this, skip most chemicals</h3></div>
@@ -911,14 +923,6 @@
         <text x="257" y="155" fill="#1C2A20" font-family="system-ui,sans-serif" font-size="9" text-anchor="middle">scalped to ~2″</text>
       </svg>
       <div class="note-card warn"><svg class="ic"><use href="#i-alert"/></svg><div class="txt"><b>If it got away from you</b> (vacation, rain), don't fix it in one cut — that shocks the lawn and bares the soil. Bring it down in <b>two or three mows a few days apart</b>, taking a third each time, until you're back to 3½–4″.</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><svg class="ic"><use href="#i-clock"/></svg><h3>How often — by month, temp &amp; rain</h3></div>
-      <p class="hint">Cool-season grass races in spring and fall, coasts in summer, and sleeps in winter — so mowing cadence swings with the season. The honest rule isn't a calendar: <b>mow when the grass is ~50% taller than your cut height.</b></p>
-      <div class="hero green" id="mowCadence"></div>
-      <div id="mowCadenceNote"></div>
-      <div class="cal" id="mowTl" style="margin-top:12px;"></div>
     </div>
 
     <div class="card">
@@ -3743,14 +3747,15 @@
     var hero=$("shopHero");
     var allGot=a.length&&a.every(function(x){return x.got;});
     if(hero){
-      if(!a.length){hero.innerHTML='<div class="h-sub">Your list is empty — add an item above, or tap a common supply below.</div>';}
+      hero.hidden=!a.length; // when the list is empty, the dashed note below says it all — no need for two empty states
+      if(!a.length){hero.innerHTML="";}
       else{var items=a.length,left=a.filter(function(x){return !x.got;}).length,anyUnpriced=a.some(function(x){return x.price==null;});
         var amt=allGot?'<div class="h-amt">All set! <small>🎉</small></div>':('<div class="h-amt">'+(priced?estMoney(need)+' <small>est. still to buy</small>':left+' of '+items+' <small>left</small>')+'</div>');
         var sub=allGot?'Everything’s checked off — happy gardening.':(priced?(left+' of '+items+' item'+(items===1?"":"s")+' left'+(have>0?' · '+estMoney(have)+' checked off':'')+' · rough estimate'+(anyUnpriced?' (some items unpriced)':'')):(have>0?estMoney(have)+' checked off':'Add prices to see a running total'))+'.';
         hero.innerHTML=amt+'<div class="h-sub">'+sub+'</div>';}
     }
     var ex=$("shopExport");if(ex)ex.hidden=!a.length;
-    if(!a.length){el.innerHTML='<div class="empty">Nothing on the list yet.</div>';return;}
+    if(!a.length){el.innerHTML='<div class="empty">Nothing on the list yet — add an item above, or tap a common supply below.</div>';return;}
     a=a.slice().sort(function(x,y){if(x.got!==y.got)return x.got?1:-1;return x.cat<y.cat?-1:(x.cat>y.cat?1:0);});
     el.innerHTML=a.map(function(it){
       var sub=it.cat+(it.qty>1?' · ×'+it.qty:'')+(it.price!=null?' · '+estMoney(it.price*it.qty):'');
@@ -4478,7 +4483,7 @@
     }
     if(!items.length&&!due.length){card.hidden=true;return;}
     card.hidden=false;
-    if($("weekendSub"))$("weekendSub").textContent=(WX&&WX.place)?("For "+WX.place+" — from the season, the forecast, and your reminders."):"From the season and your reminders — add your ZIP on the Season tab for weather-aware tips.";
+    if($("weekendSub")){var wsub=$("weekendSub");if(WX&&WX.place){wsub.textContent="For "+WX.place+" — from the season, the forecast, and your reminders.";}else{wsub.innerHTML='From the season and your reminders — <button class="linklike" data-goto="season">add your ZIP</button> for weather-aware tips.';}}
     $("weekendList").innerHTML=items.slice(0,4).map(function(it){
       var actions=[];
       if(it.tab)actions.push('<button class="linklike" data-goto="'+it.tab+'">Open →</button>');
