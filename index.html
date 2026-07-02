@@ -445,6 +445,8 @@
   .welcome .wchip[aria-pressed="true"] .wchk .ic{opacity:1;}
   .welcome .wnav{display:flex;gap:10px;margin-top:20px;min-width:0;}
   .welcome .wback{flex:0 0 auto;background:rgba(255,255,255,.12);color:#EAF6EE;border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:15px 18px;font-family:var(--body);font-weight:650;font-size:.95rem;cursor:pointer;}
+  .welcome .wback .ic{width:18px;height:18px;}
+  .welcome .wnav .wstart{margin-top:0;flex:1;width:auto;min-width:0;}
   .welcome .wnav .wstart{margin-top:0;flex:1 1 0;width:auto;min-width:0;}
   .welcome .wskip{background:none;border:none;color:#A9D6BA;font-family:var(--body);font-size:.84rem;text-decoration:underline;cursor:pointer;margin:13px auto 0;display:block;}
   /* toolbar: icon-only on phones so the title isn't squished */
@@ -2401,7 +2403,7 @@
       <p class="wqsub">Pick a few you tend (or dream of) and we'll feature them on your home screen. Nothing's hidden, and you can change it anytime.</p>
       <div class="wchips" id="wChips"></div>
       <div class="wnav">
-        <button class="wback" id="wBack" aria-label="Back"><svg class="ic"><use href="#i-chev" style="transform:rotate(90deg)"/></svg></button>
+        <button class="wback" id="wBack" aria-label="Back"><svg class="ic" style="transform:rotate(90deg)"><use href="#i-chev"/></svg></button>
         <button class="wstart" id="welcomeStart"><svg class="ic"><use href="#i-check"/></svg>Personalize my yard</button>
       </div>
       <button class="wskip" id="wSkip2">Skip for now</button>
