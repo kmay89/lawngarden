@@ -1146,6 +1146,11 @@
         <div class="field"><label for="frostSpring">Avg. last spring frost <span class="meta">zone-6 default ~May 10 — year is ignored, only the day matters</span></label><input id="frostSpring" type="date"/></div>
         <div class="field"><label for="frostFall">Avg. first fall frost <span class="meta">zone-6 default ~Oct 10 — year is ignored, only the day matters</span></label><input id="frostFall" type="date"/></div>
       </div>
+      <div class="grid2" style="margin-top:2px;">
+        <div class="field"><label for="frostZip">Don’t know yours? Look them up by ZIP <span class="meta">uses the last 10 years of daily lows at your ZIP</span></label><input id="frostZip" inputmode="numeric" autocomplete="postal-code" maxlength="5" placeholder="e.g. 43215"/></div>
+        <div class="field" style="display:flex;align-items:flex-end;"><button class="act btn-ghost" id="frostZipBtn"><svg class="ic"><use href="#i-thermo"/></svg>Estimate my frost dates</button></div>
+      </div>
+      <div id="frostZipOut"></div>
       <div class="hero green" id="frostReadout"></div>
       <div id="frostAdvisory"></div>
       <p class="zip-note" id="frostZipNote">Tip: load a ZIP on the Season tab and a real frost in the 7-day forecast will flag here too.</p>
@@ -2541,7 +2546,7 @@
       <summary><svg class="ic"><use href="#i-info"/></svg>Disclaimer &amp; privacy</summary>
       <div class="db">
         <p><b>Guidance, not a guarantee.</b> This is general, educational information tuned for cool-season lawns in Ohio (USDA zone ~6). Your yard, soil, and microclimate differ — a local soil test and your county extension office are the gold standard. Always follow product labels and safety instructions, especially for fertilizers, de-icers, and power equipment; the label is the law.</p>
-        <p><b>Privacy.</b> No accounts, no analytics, no tracking. Your log and ZIP live only in this browser. The only network calls are the optional weather lookup (Open-Meteo) and ZIP geocode (Zippopotam.us), made when you request a forecast and to refresh the forecast for your saved ZIP when the app opens. No web fonts are loaded. <b>Once it's loaded it works offline</b> — handy out in the yard with no signal.</p>
+        <p><b>Privacy.</b> No accounts, no analytics, no tracking. Your log and ZIP live only in this browser. The only network calls are the optional weather lookup and frost-date history (Open-Meteo) and ZIP geocode (Zippopotam.us), made when you request a forecast or a frost-date estimate and to refresh the forecast for your saved ZIP when the app opens. No web fonts are loaded. <b>Once it's loaded it works offline</b> — handy out in the yard with no signal.</p>
         <p>Use at your own risk; the author assumes no liability for outcomes, damage, or injury arising from use of this tool.</p>
       </div>
     </details>
@@ -3682,6 +3687,49 @@
   if($("frostSpring"))$("frostSpring").addEventListener("change",function(){var v=$("frostSpring").value;if(v)lsSet("ycFrostSpring",v.slice(5));renderFrost();renderFrostAdvisory();});
   if($("frostFall"))$("frostFall").addEventListener("change",function(){var v=$("frostFall").value;if(v)lsSet("ycFrostFall",v.slice(5));renderFrost();renderFrostAdvisory();});
 
+  /* ---------- ZIP -> average frost dates (10 years of daily lows, Open-Meteo archive) ---------- */
+  function doyMD(m,d){return Math.round((Date.UTC(2001,m-1,d)-Date.UTC(2001,0,1))/86400000);}
+  function doyToMMDD(n){var dt=new Date(Date.UTC(2001,0,1+Math.round(n)));return ('0'+(dt.getUTCMonth()+1)).slice(-2)+'-'+('0'+dt.getUTCDate()).slice(-2);}
+  function fmtDOY(n){var p=doyToMMDD(n).split("-");return fmtMD(new Date(2001,+p[0]-1,+p[1],12,0,0));}
+  function medianN(a){var s=a.slice().sort(function(x,y){return x-y;}),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+  if($("frostZipBtn"))$("frostZipBtn").addEventListener("click",function(){
+    var zip=(($("frostZip")&&$("frostZip").value)||"").replace(/\D/g,"").slice(0,5);
+    if(zip.length!==5){toast("Enter a 5-digit ZIP");if($("frostZip"))$("frostZip").focus();return;}
+    var btn=$("frostZipBtn"),out=$("frostZipOut"),place="";
+    btn.disabled=true;btn.innerHTML=ic("clock")+"Crunching 10 years of lows…";
+    var yrNow=new Date().getFullYear(),y0=yrNow-10,y1=yrNow-1;
+    geocodeZip(zip).then(function(loc){
+      place=loc.place;lsSet("ycZip",zip);
+      return fetch("https://archive-api.open-meteo.com/v1/archive?latitude="+loc.lat+"&longitude="+loc.lon+
+        "&start_date="+y0+"-01-01&end_date="+y1+"-12-31&daily=temperature_2m_min&temperature_unit=fahrenheit&timezone=auto");
+    }).then(function(r){if(!r.ok)throw new Error("net");return r.json();}).then(function(j){
+      var t=j.daily&&j.daily.time,v=j.daily&&j.daily.temperature_2m_min;
+      if(!t||!v||t.length<3000)throw new Error("data");
+      var JUL15=doyMD(7,15),byYear={};
+      for(var i=0;i<t.length;i++){
+        if(v[i]==null||v[i]>32)continue;
+        var ymd=t[i].split("-"),y=+ymd[0],dd=doyMD(+ymd[1],+ymd[2]);
+        var rec=byYear[y]||(byYear[y]={sp:null,fa:null});
+        if(dd<=JUL15){if(rec.sp==null||dd>rec.sp)rec.sp=dd;}
+        else{if(rec.fa==null||dd<rec.fa)rec.fa=dd;}
+      }
+      var sps=[],fas=[];
+      Object.keys(byYear).forEach(function(y){var r=byYear[y];if(r.sp!=null)sps.push(r.sp);if(r.fa!=null)fas.push(r.fa);});
+      if(sps.length<5||fas.length<5){
+        out.innerHTML='<div class="note-card">'+ic("sun")+'<div class="txt"><b>Frost is rare at '+esc(place||zip)+'</b> — fewer than half of the last ten years even had one, so average frost dates don’t mean much there. Plant by warmth, not frost; your dates above were left unchanged.</div></div>';
+        return;
+      }
+      var spMed=Math.round(medianN(sps)),faMed=Math.round(medianN(fas));
+      var spMin=Math.min.apply(null,sps),spMax=Math.max.apply(null,sps),faMin=Math.min.apply(null,fas),faMax=Math.max.apply(null,fas);
+      lsSet("ycFrostSpring",doyToMMDD(spMed));lsSet("ycFrostFall",doyToMMDD(faMed));
+      setFrostInputs();renderFrost();renderFrostAdvisory();
+      out.innerHTML='<div class="note-card">'+ic("check")+'<div class="txt"><b>Applied — '+esc(place||zip)+', '+y0+'–'+y1+':</b> median last spring frost <b>~'+fmtDOY(spMed)+'</b> (the decade ranged '+fmtDOY(spMin)+'–'+fmtDOY(spMax)+') and median first fall frost <b>~'+fmtDOY(faMed)+'</b> (ranged '+fmtDOY(faMin)+'–'+fmtDOY(faMax)+'). That year-to-year range is exactly the <b>red haze</b> on the planting timeline. Based on modeled ~9-km weather history — a cold hollow or a warm city block can run about a week either side.</div></div>';
+      toast("Frost dates set from "+(place||zip));
+    }).catch(function(){
+      toast("Couldn’t look that up — check the ZIP, or try again later");
+    }).then(function(){btn.disabled=false;btn.innerHTML=ic("thermo")+"Estimate my frost dates";});
+  });
+
   /* ---------- Task D: companion picker ---------- */
   var PARTNERS={
     "Tomatoes":{p:[{w:"Basil",why:"A kitchen partner that may deter some pests; mostly it pulls in pollinators.",t:"diversity: real"},{w:"Marigold",why:"Draws beneficial insects; the pest-repelling part is partly tradition.",t:"partly tradition"},{w:"Borage",why:"A pollinator magnet, traditionally said to improve fruit set.",t:"pollinator magnet"},{w:"Lettuce, tucked below",why:"Shaded through summer heat, so it bolts later — solid physics.",t:"physics"}],avoid:"Keep away from potatoes (shared diseases) and from fennel."},
@@ -3793,7 +3841,7 @@
     el.innerHTML=html;
   }
 
-  function renderGrow(){renderFeeding();setFrostInputs();renderFrost();renderFrostAdvisory();renderPartnerOptions();renderPartnerOut();renderRowCalcOptions();renderRowCalc();}
+  function renderGrow(){renderFeeding();setFrostInputs();renderFrost();renderFrostAdvisory();renderPartnerOptions();renderPartnerOut();renderRowCalcOptions();renderRowCalc();if($("frostZip")&&!$("frostZip").value)$("frostZip").value=lsGet("ycZip")||"";}
   function renderWildlife(){renderTimeline("fireflyTl",FIREFLY);renderAudit();renderPestLog();renderPestGauge();}
   function renderSeasonExtras(){renderTimeline("bonfireTl",BONFIRE);updateFirewood();renderWindHail();}
 
