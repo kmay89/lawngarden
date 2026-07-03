@@ -3504,6 +3504,24 @@
     return w;
   }
   function thinTxt(q){if(!q.thin)return "";return (q.thin[0]===q.thin[1]?q.thin[0]:q.thin[0]+"–"+q.thin[1])+"”";}
+  // succession: when this crop's first harvest clears the ground, what can still be sown there?
+  function successionHTML(c,sp,fa){
+    var w=cropWindows(c,sp,fa),clear=w.harv?w.harv[1]:null;
+    if(!clear)return "";
+    if((fa-clear)/86400000<=7){
+      return c.t.type==="garlic"?"":'<div class="crec" style="margin-top:6px;"><b>After this crop:</b> it holds the spot to frost (~'+fmtMD(clear)+') — the classic handoff is <b>garlic</b>, planted right then for next July.</div>';
+    }
+    var followers=[];
+    CROPS.forEach(function(c2){
+      if(c2===c)return;
+      var w2=cropWindows(c2,sp,fa);
+      if(w2.fall&&w2.fall[1]>=clear)followers.push({n:c2.sn||c2.name,by:w2.fall[1]});
+    });
+    followers.sort(function(a,b){return a.by-b.by;});
+    var list=followers.slice(0,4).map(function(x){return x.n.toLowerCase()+" (sow by ~"+fmtMD(x.by)+")";}).join(", ")+(followers.length>4?", among others":"");
+    if(!followers.length)return '<div class="crec" style="margin-top:6px;"><b>After this crop:</b> the spot clears ~'+fmtMD(clear)+' — too late for a second sowing'+(c.t.type==="garlic"?'; give the bed a rest or a scatter of cover-crop clover':', but <b>garlic</b> takes it in October')+'.</div>';
+    return '<div class="crec" style="margin-top:6px;"><b>After this crop:</b> the spot clears ~'+fmtMD(clear)+' — follow with '+list+(c.t.type==="garlic"?"":" — or garlic in October")+'. Two crops, one spot.</div>';
+  }
   function ptDetailHTML(c,sp,fa){
     var q=c.q||{};
     function pill(k,v){return v?'<span class="cfact"><b>'+k+':</b> '+v+'</span>':'';}
@@ -3514,6 +3532,7 @@
       pill("Per 10 ft",q.sow?q.sow.n+' '+q.sow.u:'')+pill("Yield / 10 ft",y)+
       pill("Sun",q.sun==="part"?"takes part shade":"full sun")+pill("To harvest",dtm)+'</div>'+
       (q.comp?'<div class="crec" style="margin-top:8px;"><b>Good neighbors:</b> '+q.comp+'</div>':'')+
+      successionHTML(c,sp,fa)+
       '<button class="act btn-ghost" data-ptadd="'+CROPS.indexOf(c)+'" style="margin-top:10px;">'+(myCropHas(c.name)?'★ In my plan — tap to remove':'☆ Add to my plan')+'</button>';
   }
   var ptFilterV="all",ptOpen=-1;
@@ -3557,11 +3576,9 @@
     renderPtMoves(sp,fa);
   }
   // "Your next moves" — the wizard readout for the crops in My plan
-  function renderPtMoves(sp,fa){
-    var el=$("ptMoves");if(!el)return;
-    var sel=myCropsGet();
-    if(!sel.length){el.innerHTML="";return;}
-    var today=new Date();today.setHours(12,0,0,0);
+  function isoD(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  function ptMoveItems(sp,fa){
+    var sel=myCropsGet(),today=new Date();today.setHours(12,0,0,0);
     var items=[];
     CROPS.forEach(function(c){
       if(sel.indexOf(c.name)<0)return;
@@ -3579,12 +3596,16 @@
         items.push({s:active?0:1,d:active?a.win[1]:a.win[0],
           chip:active?"now · closes ~"+fmtMD(a.win[1]):(soon?"opens ~"+fmtMD(a.win[0]):"later · "+fmtMD(a.win[0])),
           cls:active?"now":(soon?"soon":"later"),
-          txt:"<b>"+esc(name)+"</b> — "+a.label+", "+fmtMD(a.win[0])+"–"+fmtMD(a.win[1])});
+          txt:"<b>"+esc(name)+"</b> — "+a.label+", "+fmtMD(a.win[0])+"–"+fmtMD(a.win[1]),
+          rtext:name+" — "+a.label+" ("+fmtMD(a.win[0])+"–"+fmtMD(a.win[1])+")",
+          rdate:active?isoD(today):isoD(a.win[0])});
       } else {
         var h=(w.harvF&&w.harvF[1]>=today)?w.harvF:((w.harv&&w.harv[1]>=today)?w.harv:null);
         if(h){var hOn=h[0]<=today;
           items.push({s:hOn?0:1,d:hOn?h[1]:h[0],chip:hOn?"picking now":"harvest ~"+fmtMD(h[0]),cls:"harv",
-            txt:"<b>"+esc(name)+"</b> — harvest window "+fmtMD(h[0])+"–"+fmtMD(h[1])});
+            txt:"<b>"+esc(name)+"</b> — harvest window "+fmtMD(h[0])+"–"+fmtMD(h[1]),
+            rtext:name+" — harvest window ("+fmtMD(h[0])+"–"+fmtMD(h[1])+")",
+            rdate:hOn?isoD(today):isoD(h[0])});
         } else {
           items.push({s:2,d:today,chip:"done for the year",cls:"later",
             txt:"<b>"+esc(name)+"</b> — this year’s windows have passed; it goes on next spring’s list"});
@@ -3592,8 +3613,16 @@
       }
     });
     items.sort(function(a,b){return a.s-b.s||a.d-b.d;});
+    return items;
+  }
+  function renderPtMoves(sp,fa){
+    var el=$("ptMoves");if(!el)return;
+    var sel=myCropsGet();
+    if(!sel.length){el.innerHTML="";return;}
+    var items=ptMoveItems(sp,fa);
     el.innerHTML='<div class="hubhead" style="margin-top:2px;">Your next moves · '+sel.length+' crop'+(sel.length===1?"":"s")+' in the plan <button class="linklike" data-ptclear="1" style="margin-left:7px;text-transform:none;letter-spacing:0;">clear</button></div>'+
-      items.map(function(it){return '<div class="nm"><span class="nm-chip '+it.cls+'">'+it.chip+'</span><div>'+it.txt+'</div></div>';}).join("");
+      items.map(function(it){return '<div class="nm"><span class="nm-chip '+it.cls+'">'+it.chip+'</span><div>'+it.txt+'</div></div>';}).join("")+
+      (items.some(function(it){return it.rtext;})?'<button class="act btn-ghost" data-ptremind="1" style="margin-top:9px;">'+ic("bell")+'Add these as dated reminders</button>':'');
   }
   function ptSetFilter(v){
     ptFilterV=v;ptOpen=-1;
@@ -3607,7 +3636,20 @@
     var i=+b.getAttribute("data-pt");ptOpen=(ptOpen===i?-1:i);renderPlantChart();
   });
   if($("ptMoves"))$("ptMoves").addEventListener("click",function(e){
-    if(e.target.closest("[data-ptclear]")){myCropsSet([]);renderPlantChart();toast("Plan cleared");}
+    if(e.target.closest("[data-ptclear]")){myCropsSet([]);renderPlantChart();toast("Plan cleared");return;}
+    if(e.target.closest("[data-ptremind]")){
+      var f=frostDates(),yr=new Date().getFullYear(),sp=mmddToDate(f.sp,yr),fa=mmddToDate(f.fa,yr);
+      var items=ptMoveItems(sp,fa).filter(function(it){return it.rtext;});
+      var list=remindAll(),existing={},added=0;
+      list.forEach(function(r){existing[(r.text||"").toLowerCase()]=1;});
+      items.forEach(function(it){
+        if(existing[it.rtext.toLowerCase()])return;
+        list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,text:it.rtext,date:it.rdate,done:0,repeat:""});
+        existing[it.rtext.toLowerCase()]=1;added++;
+      });
+      if(added){remindSaveAll(list);renderRemind();}
+      toast(added?("Added "+added+" dated reminder"+(added===1?"":"s")+" — they’ll flag when due"):"These are already on your reminder list");
+    }
   });
   if($("ptFilter"))$("ptFilter").addEventListener("click",function(e){
     var b=e.target.closest("[data-ptf]");if(!b)return;
