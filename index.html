@@ -3519,7 +3519,7 @@
     });
     followers.sort(function(a,b){return a.by-b.by;});
     var list=followers.slice(0,4).map(function(x){return x.n.toLowerCase()+" (sow by ~"+fmtMD(x.by)+")";}).join(", ")+(followers.length>4?", among others":"");
-    if(!followers.length)return '<div class="crec" style="margin-top:6px;"><b>After this crop:</b> the spot clears ~'+fmtMD(clear)+' — too late for a second sowing, but <b>garlic</b> takes it in October.</div>';
+    if(!followers.length)return '<div class="crec" style="margin-top:6px;"><b>After this crop:</b> the spot clears ~'+fmtMD(clear)+' — too late for a second sowing'+(c.t.type==="garlic"?'; give the bed a rest or a scatter of cover-crop clover':', but <b>garlic</b> takes it in October')+'.</div>';
     return '<div class="crec" style="margin-top:6px;"><b>After this crop:</b> the spot clears ~'+fmtMD(clear)+' — follow with '+list+(c.t.type==="garlic"?"":" — or garlic in October")+'. Two crops, one spot.</div>';
   }
   function ptDetailHTML(c,sp,fa){
