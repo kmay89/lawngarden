@@ -107,7 +107,7 @@
   .tabbar-wrap.can-left .tabnudge.left{display:flex;}
   .tabbar-wrap.can-right .tabnudge.right{animation:tabnudge 1.5s ease-in-out 3;}
   @keyframes tabnudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(3px)}}
-  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}*,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}}
+  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}*,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;transition-delay:0s !important;scroll-behavior:auto !important;}}
   /* visible keyboard focus for everyone who tabs through */
   a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible,.hubchip:focus-visible,.tab-btn:focus-visible,.bedcell:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
   .welcome a:focus-visible,.welcome button:focus-visible{outline-color:#fff;}
@@ -534,6 +534,93 @@
   @keyframes searchflash{0%,100%{box-shadow:var(--shadow);}18%,55%{box-shadow:0 0 0 3px rgba(58,130,85,.5);}}
 
   @media(min-width:560px){ .tab-btn{font-size:.74rem;} .sec-btn{font-size:.74rem;padding:8px 6px;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
+
+  /* ===== visual polish & motion layer =====
+     Calm, subtle motion only: transforms/opacity, short ease-out curves.
+     Every animation here is neutralized by the prefers-reduced-motion
+     kill switch above (durations AND delays zeroed). */
+  @keyframes rise-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* pane switch: gentle fade + rise every time a pane is shown (display:none -> shown restarts it) */
+  section.tab{animation:rise-in .3s cubic-bezier(.22,.61,.36,1);}
+
+  /* hub chips: staggered entrance, capped at ~10; replays whenever their pane re-appears */
+  .hub .hubchip{animation:rise-in .3s cubic-bezier(.22,.61,.36,1) backwards;}
+  .hub .hubchip:nth-child(1){animation-delay:.03s}
+  .hub .hubchip:nth-child(2){animation-delay:.06s}
+  .hub .hubchip:nth-child(3){animation-delay:.09s}
+  .hub .hubchip:nth-child(4){animation-delay:.12s}
+  .hub .hubchip:nth-child(5){animation-delay:.15s}
+  .hub .hubchip:nth-child(6){animation-delay:.18s}
+  .hub .hubchip:nth-child(7){animation-delay:.21s}
+  .hub .hubchip:nth-child(8){animation-delay:.24s}
+  .hub .hubchip:nth-child(9){animation-delay:.27s}
+  .hub .hubchip:nth-child(10){animation-delay:.3s}
+  .hub .hubchip:nth-child(n+11){animation-delay:.3s}
+  /* forecast day cards get the same gentle stagger when a forecast loads */
+  .fcday{animation:rise-in .3s cubic-bezier(.22,.61,.36,1) backwards;}
+  .fcday:nth-child(2){animation-delay:.04s}
+  .fcday:nth-child(3){animation-delay:.08s}
+  .fcday:nth-child(4){animation-delay:.12s}
+  .fcday:nth-child(5){animation-delay:.16s}
+  .fcday:nth-child(6){animation-delay:.2s}
+  .fcday:nth-child(n+7){animation-delay:.24s}
+
+  /* hero numbers: .h-amt is recreated on every recompute, so this replays exactly when the number changes */
+  .hero .h-amt{animation:rise-in .32s cubic-bezier(.22,.61,.36,1);}
+
+  /* gradient sheen: a barely-there highlight drifting across the gradient blocks (transform-only, GPU-friendly) */
+  .hero,.nowbar,.season-head,.leadcard{position:relative;overflow:hidden;}
+  .hero::before,.nowbar::before,.season-head::before,.leadcard::before{content:"";position:absolute;top:0;bottom:0;left:0;width:55%;pointer-events:none;background:linear-gradient(105deg,rgba(255,255,255,0),rgba(255,255,255,.05) 50%,rgba(255,255,255,0));transform:translateX(-110%);animation:sheen-drift 8.5s ease-in-out infinite;}
+  .nowbar::before{animation-delay:-3s;}
+  .season-head::before{animation-delay:-6s;}
+  @keyframes sheen-drift{0%,55%{transform:translateX(-110%)}100%{transform:translateX(300%)}}
+
+  /* logo life: the sprout mark grows in once, header and welcome overlay */
+  @keyframes mark-grow{from{opacity:0;transform:scale(.92) rotate(-4deg)}to{opacity:1;transform:none}}
+  .brand .mark{animation:mark-grow .6s cubic-bezier(.22,.61,.36,1) backwards;transform-origin:50% 88%;}
+  .welcome .wmark{animation:mark-grow .6s cubic-bezier(.22,.61,.36,1) .12s backwards;transform-origin:50% 88%;}
+
+  /* progress / budget bars slide instead of jump (single transition, not a loop) */
+  .bar i{transition:width .45s cubic-bezier(.22,.61,.36,1);}
+
+  /* details / accordions: the revealed body fades in as it opens */
+  details.ex[open]>.body,details.discl[open] .db{animation:rise-in .26s cubic-bezier(.22,.61,.36,1);}
+
+  /* interactive lift — pointer devices only; 1px rise + slightly deeper shadow */
+  @media(hover:hover){
+    .hubchip,.logrow,.ritrow,.search-res,.fy-discover,.tbtn,.sub-btn,.act{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,color .18s ease;}
+    .hubchip:hover,.search-res:hover,.fy-discover:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(28,42,32,.1);}
+    .logrow:hover,.ritrow:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(28,42,32,.08);}
+    .tbtn:hover{border-color:var(--grass);color:var(--grass-deep);}
+    .sub-btn:not([aria-selected=true]):hover{border-color:var(--grass);color:var(--grass-deep);}
+    .sec-btn:hover{color:var(--grass-deep);}
+    .act:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(28,42,32,.14);}
+    .act:active,.act:disabled{transform:none;box-shadow:none;}
+    .hubchip:active,.logrow:active,.ritrow:active{transform:none;}
+    .linklike:hover{color:var(--grass);}
+    .welcome .wchip:hover{border-color:rgba(255,255,255,.55);}
+  }
+
+  /* seasonal ambient touch — Seasons pane forecast card only: two faint glyphs
+     drifting a few px behind the card head, keyed to the current season
+     (html[data-season] is set by the season engine). Hidden on very narrow screens. */
+  section[data-pane="season"]>div.card:first-of-type{position:relative;overflow:hidden;}
+  section[data-pane="season"]>div.card:first-of-type::before,
+  section[data-pane="season"]>div.card:first-of-type::after{content:none;position:absolute;pointer-events:none;opacity:.16;line-height:1;animation:ambient-drift 11s ease-in-out infinite alternate;}
+  section[data-pane="season"]>div.card:first-of-type::before{top:14px;right:52px;font-size:1.35rem;}
+  section[data-pane="season"]>div.card:first-of-type::after{top:19px;right:22px;font-size:.95rem;animation-duration:14s;animation-delay:-5s;}
+  @keyframes ambient-drift{from{transform:translateY(-3px) rotate(-8deg)}to{transform:translateY(5px) rotate(9deg)}}
+  @media(min-width:421px){
+    html[data-season="spring"] section[data-pane="season"]>div.card:first-of-type::before{content:"\2740\FE0E";color:var(--grass-bright);}
+    html[data-season="spring"] section[data-pane="season"]>div.card:first-of-type::after{content:"\273F\FE0E";color:var(--grass);}
+    html[data-season="summer"] section[data-pane="season"]>div.card:first-of-type::before{content:"\273F\FE0E";color:var(--grass);}
+    html[data-season="summer"] section[data-pane="season"]>div.card:first-of-type::after{content:"\2740\FE0E";color:var(--warn);}
+    html[data-season="fall"] section[data-pane="season"]>div.card:first-of-type::before{content:"\2766\FE0E";color:var(--leaf);}
+    html[data-season="fall"] section[data-pane="season"]>div.card:first-of-type::after{content:"\2767\FE0E";color:var(--soil);}
+    html[data-season="winter"] section[data-pane="season"]>div.card:first-of-type::before{content:"\2745\FE0E";color:var(--sky);}
+    html[data-season="winter"] section[data-pane="season"]>div.card:first-of-type::after{content:"\2746\FE0E";color:var(--sky);}
+  }
 </style>
 </head>
 <body>
@@ -2863,6 +2950,7 @@
     var now=new Date(),sk=curSeason(),S=SEASONS[sk];
     document.documentElement.style.setProperty('--season',S.c);
     document.documentElement.style.setProperty('--season-deep',S.d);
+    document.documentElement.setAttribute('data-season',sk); // lets CSS key the Seasons-pane ambient glyphs to the season
     if($("shYear"))$("shYear").textContent=now.getFullYear();
     if($("shName"))$("shName").textContent=S.name;
     if($("shVibe"))$("shVibe").textContent=S.vibe;
