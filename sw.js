@@ -3,7 +3,7 @@
    working with no signal. Weather/ZIP API calls are left to the network
    (and only happen on demand). Bump CACHE to ship a new version. */
 "use strict";
-var CACHE = "yardgarden-v2";
+var CACHE = "yardgarden-v3";
 var CORE = ["./", "./index.html"];
 
 self.addEventListener("install", function (e) {
