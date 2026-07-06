@@ -51,7 +51,7 @@
     --bg:#F3F6F1; --card:#FFFFFF; --ink:#1C2A20; --ink-soft:#46584C; --ink-faint:#7A8A80;
     --line:#E3EAE2; --line-strong:#CBD7CB;
     --grass:#3A8255; --grass-deep:#235C3A; --grass-deep-2:#1B4A2E; --grass-bright:#5BAE78;
-    --soil:#9A6A3A; --leaf:#C8702A; --sky:#3F86C4; --warn:#C98A1E; --alert:#C0432F; --good:#3A8255;
+    --soil:#8F5B24; --leaf:#B85C13; --sky:#2F7BC0; --warn:#B97710; --alert:#C63A2B; --good:#188A55;
     --display:ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;
     --body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
@@ -62,7 +62,7 @@
   *{box-sizing:border-box;-webkit-text-size-adjust:100%;}
   [hidden]{display:none !important;}
   html,body{margin:0;padding:0;}
-  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom);}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom);background-image:radial-gradient(900px 480px at 92% -6%,rgba(91,174,120,.16),transparent 60%),radial-gradient(760px 560px at -10% 102%,rgba(201,161,31,.10),transparent 55%),radial-gradient(1000px 640px at 55% 128%,rgba(47,123,192,.06),transparent 60%);}
   .wrap{max-width:680px;margin:0 auto;padding:0 15px calc(64px + env(safe-area-inset-bottom));}
   a{color:var(--grass-deep);}
   b{font-weight:650;}
@@ -172,8 +172,8 @@
 
   .note-card{display:flex;gap:11px;background:#F5F9F4;border:1px solid var(--line);border-radius:var(--radius-sm);padding:13px 15px;margin-top:11px;}
   .note-card .ic{width:19px;height:19px;flex:0 0 auto;color:var(--grass);margin-top:1px;}
-  .note-card.warn{background:#FBF4E6;border-color:#EAD7AE;}.note-card.warn .ic{color:var(--warn);}
-  .note-card.alert{background:#FBEDEA;border-color:#E6C3BA;}.note-card.alert .ic{color:var(--alert);}
+  .note-card.warn{background:#F8EAC8;border-color:#E9D08F;}.note-card.warn .ic{color:var(--warn);}
+  .note-card.alert{background:#FAE1D8;border-color:#ECB5A6;}.note-card.alert .ic{color:var(--alert);}
   .note-card .txt{font-size:.84rem;color:var(--ink-soft);}.note-card .txt b{color:var(--ink);}
 
   .tipcard{border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:9px;background:#fff;display:flex;gap:11px;align-items:flex-start;}
@@ -182,7 +182,7 @@
   .tipcard .t-body{font-size:.85rem;color:var(--ink-soft);margin-top:2px;}
   .tipcard .t-body b{color:var(--ink);}
   .tipcard.soil .ic{color:var(--soil);} .tipcard.leaf .ic{color:var(--leaf);} .tipcard.sky .ic{color:var(--sky);}
-  .tipcard.warn{background:#FBF4E6;border-color:#EAD7AE;} .tipcard.warn .ic{color:var(--warn);}
+  .tipcard.warn{background:#F8EAC8;border-color:#E9D08F;} .tipcard.warn .ic{color:var(--warn);}
 
   /* expandable explainer */
   details.ex{border:1px solid var(--line);border-radius:var(--radius-sm);margin-bottom:9px;background:#fff;overflow:hidden;}
@@ -388,7 +388,7 @@
   .ptbar.b-sow{top:4px;background:var(--grass);}
   .ptbar.b-harv{top:14px;background:#E6C15E;}
   .pttick{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.7;}
-  .ptfrost{position:absolute;top:0;bottom:0;width:2px;background:#C0432F;opacity:.5;border-radius:2px;}
+  .ptfrost{position:absolute;top:0;bottom:0;width:2px;background:#C63A2B;opacity:.5;border-radius:2px;}
   .ptfband{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,rgba(192,67,47,0),rgba(192,67,47,.14) 35%,rgba(192,67,47,.14) 65%,rgba(192,67,47,0));}
   .pttoday{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.45;}
   .ptdetail{margin:3px 0 9px;padding:10px 11px;background:#F5F9F4;border:1px solid var(--line);border-radius:9px;}
@@ -408,7 +408,7 @@
 
   /* activity gauge (pests) */
   .gauge{margin:6px 0 4px;}
-  .gauge .gbar{height:13px;border-radius:999px;background:linear-gradient(90deg,#3A8255,#D6A52A,#C0432F);overflow:visible;position:relative;}
+  .gauge .gbar{height:13px;border-radius:999px;background:linear-gradient(90deg,#188A55,#C9A11F,#C63A2B);overflow:visible;position:relative;}
   .gauge .gtick{position:absolute;top:-3px;width:5px;height:19px;border-radius:3px;background:#1C2A20;box-shadow:0 0 0 2px #fff;transform:translateX(-50%);transition:left .3s;}
   .gauge .glabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--ink-faint);margin-top:5px;}
   .gauge .gnow{font-weight:700;}
@@ -1011,11 +1011,11 @@
         <title>The one-third rule</title>
         <!-- divider + grounds -->
         <line x1="171" y1="12" x2="171" y2="190" stroke="#E3EAE2" stroke-width="1.5"/>
-        <line x1="14" y1="185" x2="160" y2="185" stroke="#9A6A3A" stroke-width="3" stroke-linecap="round"/>
-        <line x1="184" y1="185" x2="330" y2="185" stroke="#9A6A3A" stroke-width="3" stroke-linecap="round"/>
+        <line x1="14" y1="185" x2="160" y2="185" stroke="#8F5B24" stroke-width="3" stroke-linecap="round"/>
+        <line x1="184" y1="185" x2="330" y2="185" stroke="#8F5B24" stroke-width="3" stroke-linecap="round"/>
         <!-- removed bands (behind blades) -->
-        <rect x="18" y="56" width="140" height="44" rx="3" fill="#C8702A" opacity="0.16"/>
-        <rect x="188" y="46" width="140" height="94" rx="3" fill="#C0432F" opacity="0.14"/>
+        <rect x="18" y="56" width="140" height="44" rx="3" fill="#B85C13" opacity="0.16"/>
+        <rect x="188" y="46" width="140" height="94" rx="3" fill="#C63A2B" opacity="0.14"/>
         <!-- DO blades -->
         <g fill="none" stroke-width="3.4" stroke-linecap="round">
           <path d="M34,185 C33,150 31,98 41,60" stroke="#3A8255"/>
@@ -1272,7 +1272,7 @@
         <span><i class="sw" style="background:#9FC3E4"></i>start indoors</span>
         <span><i class="sw" style="background:var(--grass)"></i>sow / plant outside</span>
         <span><i class="sw" style="background:#E6C15E"></i>harvest window</span>
-        <span><i class="sw tall" style="background:#C0432F"></i>avg. frost (50/50)</span>
+        <span><i class="sw tall" style="background:#C63A2B"></i>avg. frost (50/50)</span>
         <span><i class="sw" style="background:linear-gradient(90deg,rgba(192,67,47,0),rgba(192,67,47,.35),rgba(192,67,47,0))"></i>frost haze (~±2 wks)</span>
         <span><i class="sw tall" style="background:var(--ink);opacity:.5"></i>today</span>
       </div>
@@ -4330,7 +4330,7 @@
       var sub=it.cat+(it.qty>1?' · ×'+it.qty:'')+(it.price!=null?' · '+estMoney(it.price*it.qty):'');
       var title=it.got?'<span style="text-decoration:line-through;opacity:.6">'+esc(it.name)+'</span>':esc(it.name);
       return '<div class="logrow">'+
-        '<button class="lr-del" data-shopget="'+esc(it.id)+'" aria-label="Toggle bought" style="color:'+(it.got?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.got?"check":"plus")+'</button>'+
+        '<button class="lr-del" data-shopget="'+esc(it.id)+'" aria-label="Toggle bought" style="color:'+(it.got?'var(--good)':'var(--ink-faint)')+'">'+ic(it.got?"check":"plus")+'</button>'+
         '<div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s">'+esc(sub)+'</div></div>'+
         '<button class="lr-del" data-shopdel="'+esc(it.id)+'" aria-label="Delete">'+ic("x")+'</button>'+
       '</div>';
@@ -4423,7 +4423,7 @@
       var sub=(it.date?((overdue?'Overdue · ':'Due ')+fmtDate(it.date)):'No date')+rep;
       var title=it.done?'<span style="text-decoration:line-through;opacity:.6">'+esc(it.text)+'</span>':esc(it.text);
       return '<div class="logrow">'+
-        '<button class="lr-del" data-rdone="'+esc(it.id)+'" aria-label="'+(it.repeat?'Done — roll to next':'Toggle done')+'" style="color:'+(it.done?'var(--leaf)':'var(--ink-faint)')+'">'+ic(it.done?"check":"plus")+'</button>'+
+        '<button class="lr-del" data-rdone="'+esc(it.id)+'" aria-label="'+(it.repeat?'Done — roll to next':'Toggle done')+'" style="color:'+(it.done?'var(--good)':'var(--ink-faint)')+'">'+ic(it.done?"check":"plus")+'</button>'+
         '<div class="lr-main"><div class="lr-t">'+title+'</div><div class="lr-s"'+(overdue?' style="color:#b4532a"':'')+'>'+esc(sub)+'</div></div>'+
         '<button class="lr-del" data-rdel="'+esc(it.id)+'" aria-label="Delete">'+ic("x")+'</button>'+
       '</div>';
