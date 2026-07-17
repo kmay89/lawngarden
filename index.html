@@ -717,6 +717,28 @@
   #yvOvSvg{display:block;width:100%;min-width:540px;max-width:860px;margin:0 auto;}
   .yv-ovclose{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(255,255,255,.85);color:var(--ink);font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   /* the full A–Z tool index, folded away so home stays calm */
+  /* ---------- Cura-style collapsible cards: each tab reads as a calm outline ---------- */
+  .card.collapsible>.card-head{cursor:pointer;margin-bottom:0;position:relative;padding-right:48px;-webkit-tap-highlight-color:transparent;}
+  .card.collapsible>.card-head h3{flex:1 1 auto;min-width:0;}
+  .card.collapsible>.card-head .card-chev{position:absolute;right:0;top:50%;width:20px;height:20px;color:var(--ink-faint);transform:translateY(-50%);transition:transform .28s cubic-bezier(.2,.9,.3,1.2);flex:0 0 auto;}
+  .card.collapsible[data-open=true]>.card-head .card-chev{transform:translateY(-50%) rotate(180deg);color:var(--grass-deep);}
+  .card.collapsible>.card-head .card-read{position:absolute;right:26px;top:50%;width:15px;height:15px;color:var(--good);transform:translateY(-50%) scale(0);transition:transform .32s cubic-bezier(.2,.9,.3,1.6);flex:0 0 auto;}
+  .card.collapsible.is-read>.card-head .card-read{transform:translateY(-50%) scale(1);}
+  .card.collapsible>.card-head:hover h3,.card.collapsible>.card-head:focus-visible h3{color:var(--grass-deep);}
+  .card.collapsible>.card-cbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease;}
+  .card.collapsible[data-open=true]>.card-cbody{grid-template-rows:1fr;}
+  .card.collapsible>.card-cbody>.card-cinner{overflow:hidden;min-height:0;}
+  .card.collapsible[data-open=true]>.card-cbody>.card-cinner{padding-top:13px;}
+  /* the outline bar that heads each multi-card tab */
+  .outline-bar{display:flex;align-items:center;gap:11px;margin:0 3px 15px;}
+  .outline-bar .ob-prog{flex:1 1 auto;height:6px;border-radius:999px;background:var(--line);overflow:hidden;min-width:40px;}
+  .outline-bar .ob-prog i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--grass-bright),var(--grass));transition:width .45s cubic-bezier(.2,.8,.3,1);}
+  .outline-bar.done .ob-prog i{background:linear-gradient(90deg,var(--good),var(--grass-deep));}
+  .outline-bar .ob-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;flex:0 0 auto;}
+  .outline-bar.done .ob-label{color:var(--good);}
+  .outline-bar .ob-all{font-family:var(--body);font-size:.75rem;font-weight:600;color:var(--grass-deep);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;flex:0 0 auto;}
+  .outline-bar .ob-all:hover{border-color:var(--grass);}
+  @media(prefers-reduced-motion:reduce){.card.collapsible>.card-cbody{transition:none;}.card.collapsible>.card-head .card-chev,.card.collapsible>.card-head .card-read{transition:none;}}
   details.hubfold{border:0;margin:0;}
   details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
   details.hubfold>summary::-webkit-details-marker{display:none;}
@@ -3159,7 +3181,10 @@
     var fallGrow=J.some(function(e){return (e.type==="seed"||e.type==="leaves")&&e.date&&seasonOf(monthOf(e.date))==="fall";});
     var novLeaf=J.some(function(e){return e.type==="leaves"&&e.date&&monthOf(e.date)===10;});
     var firstNote=N.slice().sort(byDateDesc).pop();
+    var RS=lsGet("ycReadStats")||{total:0,fullSections:0};
     return [
+      {id:"curious",title:"Curious Mind",icon:"bulb",ok:(RS.total||0)>=1,when:null,copy:"You opened a topic and read in. A yard rewards the curious — the more you understand it, the more it gives back.",hint:"Open any topic on a tab to read it."},
+      {id:"wellread",title:"Well-Read",icon:"book",ok:(RS.fullSections||0)>=1,when:null,copy:"You read a whole tab, end to end. This is how a yard stops being a list of chores and becomes a craft you understand.",hint:"Open every topic on one tab."},
       {id:"firstmow",title:"First Mow",icon:"mower",ok:has("mow"),when:firstD("mow"),copy:"The mower's out and the smell of cut grass is back. The season has truly begun.",hint:"Log your first mow of the year."},
       {id:"sower",title:"The Sower",icon:"sprout",ok:has("seed"),when:firstD("seed"),copy:"You put seed down — small bets on a greener spring. Keep it moist and trust it.",hint:"Seed or overseed a thin patch."},
       {id:"soil",title:"Soil Tender",icon:"spread",ok:cnt("feed")>=2,when:null,copy:"You're feeding the lawn when it can actually use it — not just when a bag says so. That's the craft.",hint:"Feed the lawn twice in a year."},
@@ -6295,6 +6320,105 @@
     yvRender();
   })();
 
+  /* ---------- collapsible cards: turn each dense tab into a calm, tappable outline ----------
+     A progressive enhancement — every multi-card tab folds its cards shut, showing just
+     an outline of titles (the way a slicer hides its settings until you open a category).
+     Opening a topic quietly marks it "read"; finishing a whole tab earns a Moment. */
+  function setupCollapsibleCards(){
+    var readMap=lsGet("ycRead")||{},openMap=lsGet("ycCardOpen")||{},celebrated=lsGet("ycTabReadDone")||{};
+    var DEFAULT_OPEN={weekendCard:1,forYouCard:1},groups=[],seq=0;
+    function slug(s){return (s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,42);}
+    function saveRead(){lsSet("ycRead",readMap);}
+    function saveOpen(){lsSet("ycCardOpen",openMap);}
+    function writeStats(){lsSet("ycReadStats",{total:Object.keys(readMap).length,fullSections:Object.keys(celebrated).length});}
+    function setOpen(rec,open,persist){
+      rec.card.setAttribute("data-open",open?"true":"false");
+      rec.head.setAttribute("aria-expanded",open?"true":"false");
+      if(persist){openMap[rec.key]=open?1:0;saveOpen();}
+    }
+    function markRead(rec){
+      if(readMap[rec.key])return false;
+      readMap[rec.key]=1;saveRead();rec.card.classList.add("is-read");writeStats();
+      if(typeof renderMoments==="function")renderMoments(false); // let the reading Moments appear, quietly
+      return true;
+    }
+    function readCount(g){return g.recs.filter(function(r){return !!readMap[r.key];}).length;}
+    function updateBar(g){
+      if(!g.bar)return;
+      var n=g.recs.length,r=readCount(g),allOpen=g.recs.every(function(x){return x.card.getAttribute("data-open")==="true";});
+      g.bar.querySelector(".ob-prog i").style.width=Math.round(r/n*100)+"%";
+      g.bar.querySelector(".ob-label").textContent=r?(r+" of "+n+" read"):"Tap a heading to read it";
+      g.bar.querySelector(".ob-all").textContent=allOpen?"Collapse all":"Expand all";
+      g.bar.classList.toggle("done",r===n);
+    }
+    function celebrate(g){
+      if(readCount(g)!==g.recs.length||celebrated[g.pane])return;
+      celebrated[g.pane]=1;lsSet("ycTabReadDone",celebrated);writeStats();
+      var nm=(typeof SUBLABEL!=="undefined"&&SUBLABEL[g.pane])||g.pane;
+      toast("You've read all of "+nm+" — nicely done 🌿");
+      if(typeof renderMoments==="function")renderMoments(true); // may announce Well-Read
+    }
+    function toggle(rec,g){
+      var open=rec.card.getAttribute("data-open")==="true";
+      setOpen(rec,!open,true);
+      if(!open)markRead(rec);
+      updateBar(g);celebrate(g);
+    }
+    function expandAll(g){
+      var allOpen=g.recs.every(function(r){return r.card.getAttribute("data-open")==="true";});
+      g.recs.forEach(function(r){setOpen(r,!allOpen,true);if(!allOpen)markRead(r);});
+      updateBar(g);if(!allOpen)celebrate(g);
+    }
+    document.querySelectorAll("section.tab[data-pane]").forEach(function(pane){
+      var paneId=pane.getAttribute("data-pane");
+      var cards=[].filter.call(pane.children,function(el){
+        if(!el.classList||!el.classList.contains("card")||el.hidden)return false;
+        var head=el.firstElementChild;
+        return head&&head.classList&&head.classList.contains("card-head")&&head.querySelector("h3");
+      });
+      if(cards.length<2)return; // a lone card has nothing to outline — leave it open
+      var g={pane:paneId,recs:[],bar:null};
+      cards.forEach(function(card){
+        var head=card.firstElementChild,title=head.querySelector("h3").textContent.trim(),key=paneId+":"+slug(title);
+        card.classList.add("collapsible");card.setAttribute("data-cardkey",key);
+        var inner=document.createElement("div");inner.className="card-cinner";inner.id="cb"+(++seq);
+        var wrap=document.createElement("div");wrap.className="card-cbody";wrap.appendChild(inner);
+        var n;while((n=head.nextSibling))inner.appendChild(n); // move nodes (keeps IDs + listeners intact)
+        card.appendChild(wrap);
+        head.setAttribute("role","button");head.setAttribute("tabindex","0");head.setAttribute("aria-controls",inner.id);
+        head.insertAdjacentHTML("beforeend",
+          '<svg class="card-read" aria-hidden="true"><use href="#i-check"/></svg>'+
+          '<svg class="card-chev" aria-hidden="true"><use href="#i-chev"/></svg>');
+        var rec={card:card,head:head,key:key};g.recs.push(rec);
+        if(readMap[key])card.classList.add("is-read");
+        setOpen(rec,(key in openMap)?!!openMap[key]:!!DEFAULT_OPEN[card.id],false);
+        head.addEventListener("click",function(){toggle(rec,g);});
+        head.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle(rec,g);}});
+      });
+      var bar=document.createElement("div");bar.className="outline-bar";
+      bar.innerHTML='<div class="ob-prog"><i></i></div><span class="ob-label"></span><button type="button" class="ob-all"></button>';
+      cards[0].parentNode.insertBefore(bar,cards[0]);
+      bar.querySelector(".ob-all").addEventListener("click",function(){expandAll(g);});
+      g.bar=bar;groups.push(g);updateBar(g);
+    });
+    writeStats();
+    /* any programmatic scroll into a folded card (hub chips, the yard, the pocket yard,
+       search, planners) opens it first so the target is actually visible */
+    var _sIV=Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView=function(){
+      try{
+        var card=this.closest&&this.closest(".card.collapsible");
+        if(card&&card.getAttribute("data-open")!=="true"){
+          var key=card.getAttribute("data-cardkey"),g=null;
+          groups.forEach(function(x){x.recs.forEach(function(r){if(r.key===key)g=x;});});
+          if(g){var rec=null;g.recs.forEach(function(r){if(r.key===key)rec=r;});
+            if(rec){setOpen(rec,true,true);markRead(rec);updateBar(g);celebrate(g);}}
+        }
+      }catch(e){}
+      return _sIV.apply(this,arguments);
+    };
+  }
+
   /* ---------- init ---------- */
   (function init(){
     var today=localToday();
@@ -6303,6 +6427,7 @@
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();renderPlanner();
     applyProfile();renderForYou();renderWeekend();
+    setupCollapsibleCards();
     showTab("almanac");
     updateTabHints();
     if(!getProfile())openWelcome();
