@@ -676,6 +676,48 @@
   .yardscape[data-yvtime="night"] .ys-seasons{background:rgba(28,39,66,.5);border-color:rgba(255,255,255,.18);}
   .yardscape[data-yvtime="night"] .ys-chip{color:#D9E2F0;}
   .yardscape[data-yvtime="night"] .ys-chip[aria-pressed=true]{background:rgba(255,255,255,.16);box-shadow:none;}
+
+  /* ---------- the moods: light · golden · night, each its own jewel ---------- */
+  .ys-ctrls{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex:0 0 auto;}
+  .ys-moods .ys-chip{font-size:.82rem;}
+  /* a soft vignette gives the little world depth */
+  .ys-stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;transition:box-shadow 1s ease, background 1s ease;
+    background:radial-gradient(130% 100% at 50% 34%,transparent 60%,rgba(20,30,24,.12) 100%);}
+  /* LIGHT — a clear, airy afternoon */
+  .yardscape[data-yvmood="light"] .ys-stage{background:radial-gradient(120% 88% at 74% -12%,rgba(255,240,182,.55),transparent 56%),radial-gradient(80% 60% at 12% 4%,rgba(150,210,235,.34),transparent 62%),linear-gradient(#CDE8F6 0%,#DFF1EC 46%,#EFF6EC 100%);}
+  .yardscape[data-yvmood="light"] .ys-stage::after{background:radial-gradient(130% 100% at 50% 32%,transparent 62%,rgba(30,60,80,.10) 100%);}
+  /* WARM — endless golden hour */
+  .yardscape[data-yvmood="warm"] .ys-stage{background:radial-gradient(150% 105% at 72% -4%,rgba(255,206,128,.85),transparent 60%),radial-gradient(95% 78% at 22% 112%,rgba(240,138,104,.4),transparent 62%),linear-gradient(#F7C889 0%,#F4B382 38%,#EEC59A 68%,#F4ECDA 100%);}
+  .yardscape[data-yvmood="warm"] .ys-stage::after{background:radial-gradient(120% 96% at 68% 12%,transparent 46%,rgba(150,70,30,.14) 100%);}
+  .yardscape[data-yvmood="warm"]{background:linear-gradient(#FBEFDC,#F6E6CE);border-color:#E8CBA0;}
+  /* DARK — a moonlit hush */
+  .yardscape[data-yvmood="dark"] .ys-stage{background:radial-gradient(120% 92% at 74% -8%,rgba(150,180,255,.22),transparent 55%),radial-gradient(80% 62% at 48% 118%,rgba(58,92,150,.34),transparent 60%),linear-gradient(#111A33 0%,#1B294A 52%,#243247 100%);}
+  .yardscape[data-yvmood="dark"] .ys-stage::after{background:radial-gradient(130% 100% at 50% 30%,transparent 48%,rgba(4,8,20,.5) 100%);}
+  .yardscape[data-yvmood="dark"]{background:linear-gradient(#141C31,#0E1526);border-color:#2B3A5C;box-shadow:var(--shadow),0 18px 44px rgba(6,10,26,.5);}
+  /* dark-mood chrome: lift the text off the night */
+  .yardscape[data-yvmood="dark"] .ys-kicker{color:#8AA0C8;}
+  .yardscape[data-yvmood="dark"] .ys-title{color:#EAF0FA;}
+  .yardscape[data-yvmood="dark"] .ys-note{color:#7E90B4;}
+  .yardscape[data-yvmood="dark"] .ys-seasons{background:rgba(24,34,58,.6);border-color:rgba(255,255,255,.16);}
+  .yardscape[data-yvmood="dark"] .ys-chip{color:#CFDAF0;}
+  .yardscape[data-yvmood="dark"] .ys-chip[aria-pressed=true]{background:rgba(255,255,255,.18);box-shadow:none;}
+  .yardscape[data-yvmood="dark"] .ys-opt{color:#B8C6E4;background:rgba(28,40,66,.72);border-color:rgba(255,255,255,.14);}
+  .yardscape[data-yvmood="dark"] .ys-opt[aria-pressed=true]{color:#BEE7C8;border-color:rgba(120,200,150,.6);background:rgba(40,58,54,.85);}
+  .yardscape[data-yvmood="dark"] .ys-opt .dot{background:rgba(255,255,255,.28);}
+  .yardscape[data-yvmood="dark"] .ys-opt[aria-pressed=true] .dot{background:#8FE0A6;}
+  .yardscape[data-yvmood="dark"] .ys-zoomout{background:rgba(28,40,66,.85);color:#EAF0FA;border-color:rgba(255,255,255,.18);}
+  .yardscape[data-yvmood="dark"] .ys-tip{background:#1C2842;color:#EAF0FA;border-color:rgba(255,255,255,.2);}
+  /* auto-mode real night shares the dark sky — keep the chrome legible there too */
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-kicker{color:#8AA0C8;}
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-title{color:#EAF0FA;}
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-note{color:#7E90B4;}
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-opt{color:#B8C6E4;background:rgba(28,40,66,.72);border-color:rgba(255,255,255,.14);}
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-opt[aria-pressed=true]{color:#BEE7C8;border-color:rgba(120,200,150,.6);background:rgba(40,58,54,.85);}
+  .yardscape[data-yvtime="night"][data-yvmood="auto"] .ys-opt .dot{background:rgba(255,255,255,.28);}
+  /* the whole card cross-fades between moods */
+  .yardscape{transition:background 1s ease,border-color 1s ease,box-shadow 1s ease;}
+  .yardscape .ys-kicker,.yardscape .ys-title,.yardscape .ys-note,.yardscape .ys-opt,.yardscape .ys-seasons,.yardscape .ys-chip{transition:color .8s ease,background .8s ease,border-color .8s ease;}
+  @media(prefers-reduced-motion:reduce){.yardscape,.yardscape *,.ys-stage,.ys-stage::after{transition:none !important;}}
   /* weather layers */
   .yv-rainlayer line{animation:yv-rain 1s linear infinite;}
   @keyframes yv-rain{0%{transform:translateY(-30px);opacity:0}18%{opacity:.7}80%{opacity:.6}100%{transform:translateY(150px);opacity:0}}
@@ -692,7 +734,9 @@
   .yv-star{animation:yv-star 3.2s ease-in-out infinite;}
   .yv-star.t2{animation-delay:-1.6s}
   @keyframes yv-star{0%,100%{opacity:.9}50%{opacity:.3}}
-  @media(prefers-reduced-motion:reduce){.yv-rainlayer,.yv-snowlayer{display:none;}}
+  .yv-mote{animation:yv-mote 11s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  @keyframes yv-mote{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}50%{transform:translate(14px,-20px)}80%{opacity:.7}100%{opacity:0;transform:translate(30px,-42px)}}
+  @media(prefers-reduced-motion:reduce){.yv-rainlayer,.yv-snowlayer,.yv-mote{display:none;}}
   /* footer tool chips + look-closer mode */
   .ys-tools{display:flex;gap:6px;}
   .yardscape.yv-looking #yvSvg{cursor:zoom-in;}
@@ -885,7 +929,10 @@
           <div class="ys-kicker">Your yard, in miniature</div>
           <h2 class="ys-title">A little world to tend</h2>
         </div>
-        <div class="ys-seasons" id="yvSeasons" role="group" aria-label="Preview the yard in another season"></div>
+        <div class="ys-ctrls">
+          <div class="ys-seasons" id="yvSeasons" role="group" aria-label="Preview the yard in another season"></div>
+          <div class="ys-seasons ys-moods" id="yvMoods" role="group" aria-label="Choose the light — auto, day, golden, or night"></div>
+        </div>
       </div>
       <div class="ys-stage" id="yvStage">
         <svg id="yvSvg" viewBox="-500 -215 1000 824" role="group" aria-label="An isometric miniature of your yard — house, lawn, gardens, trees, and more. Each part opens its page in the app."></svg>
@@ -5380,9 +5427,12 @@
     var yvOpts=lsGet("ycYardMini")||{pond:1,pool:0,music:0};
     var yvSeason=(document.documentElement.getAttribute("data-season"))||seasonOf(new Date().getMonth());
     if(!YVPAL[yvSeason])yvSeason="summer";
+    var yvMood=yvOpts.mood||"auto"; // auto · light · warm · dark — the light the little world lives in
 
     /* time of day + the real forecast (when one is loaded) drive the scene */
     function yvTimeOfDay(){var h=new Date().getHours();if(h>=21||h<6)return "night";if(h>=19)return "dusk";return "day";}
+    /* the chosen mood overrides the clock; 'auto' follows the real sky */
+    function yvEffTime(){return yvMood==="dark"?"night":yvMood==="light"?"day":yvMood==="warm"?"dusk":yvTimeOfDay();}
     function yvWx(){
       var hasWx=(typeof WX!=="undefined")&&WX;
       return {
@@ -5403,7 +5453,8 @@
       // sfx makes the def ids unique per svg copy (dock, overlay) — gradients
       // can't be borrowed from a display:none pane, so each copy carries its own
       var p=YVPAL[yvSeason],O=[],G=[]; // O: sorted uprights {k,s} · G: flat ground layer
-      var T=yvTimeOfDay(),wx=yvWx();
+      var T=yvEffTime(),wx=yvWx();
+      var warm=(yvMood==="warm")||(yvMood==="auto"&&T==="dusk"); // golden-hour treatment
       function obj(k,s){O.push({k:k,s:s});}
 
       var S='<defs>'+
@@ -5423,12 +5474,13 @@
           '<circle cx="330" cy="-148" r="22" fill="#EDE9D8" mask="url(#yvMoonM)"/>');
         S+=deco('<g fill="#EDE9D8"><circle class="yv-star" cx="-320" cy="-168" r="1.8"/><circle class="yv-star t2" cx="-180" cy="-190" r="1.4"/><circle class="yv-star" cx="-60" cy="-158" r="1.6"/><circle class="yv-star t2" cx="80" cy="-190" r="1.8"/><circle class="yv-star" cx="180" cy="-160" r="1.3"/><circle class="yv-star t2" cx="420" cy="-180" r="1.5"/><circle cx="-250" cy="-140" r="1.1"/><circle cx="250" cy="-192" r="1.1"/><circle cx="30" cy="-140" r="1"/></g>');
       } else {
-        var sunY=(T==="dusk")?-118:-148,sunC=(T==="dusk")?"#F0A050":p.sun;
-        S+=hot("season",null,"Seasons & the forecast",
+        var sunY=warm?-126:-148,sunC=warm?"#FFB552":(T==="dusk"?"#F0A050":p.sun),sunR=warm?30:(p.snow?20:25);
+        S+=hot("season",null,warm?"The golden hour — seasons & forecast":"Seasons & the forecast",
+          (warm?'<circle cx="330" cy="'+sunY+'" r="92" fill="url(#yvSunG)" opacity=".95"/>':'')+
           '<circle cx="330" cy="'+sunY+'" r="52" fill="url(#yvSunG)"/>'+
-          '<circle cx="330" cy="'+sunY+'" r="'+(p.snow?20:25)+'" fill="'+sunC+'" stroke="rgba(255,255,255,.65)" stroke-width="2"/>');
+          '<circle cx="330" cy="'+sunY+'" r="'+sunR+'" fill="'+sunC+'" stroke="rgba(255,255,255,.7)" stroke-width="2"/>');
       }
-      var cloudFill=(T==="night")?"#5A6B8C":"#FFFFFF";
+      var cloudFill=(T==="night")?"#5A6B8C":warm?"#FCE7C6":"#FFFFFF";
       S+=deco('<g class="yv-bob" fill="'+cloudFill+'" opacity=".8"><ellipse cx="-268" cy="-152" rx="34" ry="11"/><ellipse cx="-244" cy="-160" rx="22" ry="9"/><ellipse cx="-292" cy="-158" rx="18" ry="8"/></g>'+
         '<g class="yv-bob" style="animation-delay:-2s" fill="'+cloudFill+'" opacity=".65"><ellipse cx="96" cy="-186" rx="26" ry="9"/><ellipse cx="116" cy="-192" rx="16" ry="7"/></g>'+
         ((wx.rain||wx.snowHeavy)?'<g class="yv-bob" style="animation-delay:-3.2s" fill="'+(T==="night"?"#46536E":"#B9C2CC")+'" opacity=".92"><ellipse cx="-60" cy="-128" rx="46" ry="14"/><ellipse cx="-20" cy="-138" rx="30" ry="12"/><ellipse cx="-96" cy="-136" rx="26" ry="11"/></g><g class="yv-bob" style="animation-delay:-1.1s" fill="'+(T==="night"?"#46536E":"#C4CCD4")+'" opacity=".85"><ellipse cx="190" cy="-120" rx="38" ry="12"/><ellipse cx="222" cy="-128" rx="24" ry="10"/></g>':'')+
@@ -6034,11 +6086,19 @@
       O.sort(function(a,b){return a.k-b.k;});
       S+=O.map(function(o){return o.s;}).join("");
 
-      /* -- dusk & night wash, lit windows, fireflies -- */
-      if(T==="night")S+='<rect x="-500" y="-215" width="1000" height="780" fill="rgba(18,28,58,.22)" pointer-events="none"/>';
-      else if(T==="dusk")S+='<rect x="-500" y="-215" width="1000" height="780" fill="rgba(255,150,70,.07)" pointer-events="none"/>';
+      /* -- mood wash, lit windows, fireflies, drifting motes -- */
+      if(T==="night")S+='<rect x="-500" y="-215" width="1000" height="824" fill="rgba(18,28,58,.24)" pointer-events="none"/>';
+      else if(warm)S+='<rect x="-500" y="-215" width="1000" height="824" fill="rgba(255,150,64,.11)" pointer-events="none"/>';
+      // sunlit dust / golden motes drifting through light & warm moods — a little mesmerizing life
+      if(T!=="night"&&!p.snow){
+        var mo='',mc=warm?"rgba(255,226,150,":"rgba(255,255,255,";
+        [[-180,120,2.2,0],[40,60,1.8,-3],[220,180,2.6,-1.5],[-60,240,1.6,-5],[300,90,2,-2.4],[130,300,2.2,-4],[-260,40,1.7,-1],[360,220,2.4,-3.6]].forEach(function(m2){
+          mo+='<circle class="yv-mote" cx="'+m2[0]+'" cy="'+m2[1]+'" r="'+m2[2]+'" fill="'+mc+(warm?.55:.4)+')" style="animation-delay:'+m2[3]+'s"/>';
+        });
+        S+='<g pointer-events="none">'+mo+'</g>';
+      }
       if(T!=="day"){
-        var glow=T==="night"?.5:.28,halos='';
+        var glow=T==="night"?.5:.3,halos='';
         [[66,150,30,13],[146,150,30,13],[185,98,30,10],[116,152,34,8]].forEach(function(hp2){
           var g2=scr(hp2[0],hp2[1],hp2[2]);
           halos+='<circle cx="'+g2.x+'" cy="'+g2.y+'" r="'+hp2[3]+'" fill="#FFD98A" opacity="'+glow+'" filter="url(#yvSoft)"/>';
@@ -6077,17 +6137,23 @@
 
     /* ============ wiring ============ */
     var YVSEASONS=[["spring","🌱","Spring"],["summer","☀️","Summer"],["fall","🍂","Fall"],["winter","❄️","Winter"]];
+    var YVMOODS=[["auto","🌗","Auto — follow the day"],["light","☀️","Light — a clear afternoon"],["warm","🌅","Golden hour"],["dark","🌙","Moonlit night"]];
     function yvRender(){
       host.innerHTML=yvBuild();
       card.setAttribute("data-yvseason",yvSeason);
-      card.setAttribute("data-yvtime",yvTimeOfDay());
+      card.setAttribute("data-yvtime",yvEffTime());
+      card.setAttribute("data-yvmood",yvMood);
       var w0=yvWx();
       host.classList.toggle("yv-windy",w0.windy);
-      yvSig=[w0.rain,w0.snowHeavy,w0.windy,yvTimeOfDay(),yvSeason].join("|");
+      yvSig=[w0.rain,w0.snowHeavy,w0.windy,yvEffTime(),yvSeason,yvMood].join("|");
       yvPadSync();yvRainSync();
       var sb=$("yvSeasons");
       if(sb)sb.innerHTML=YVSEASONS.map(function(s2){
         return '<button type="button" class="ys-chip" data-yvseason-pick="'+s2[0]+'" aria-pressed="'+(s2[0]===yvSeason?"true":"false")+'" aria-label="See the yard in '+s2[2].toLowerCase()+'" title="'+s2[2]+'">'+s2[1]+'</button>';
+      }).join("");
+      var mb=$("yvMoods");
+      if(mb)mb.innerHTML=YVMOODS.map(function(m2){
+        return '<button type="button" class="ys-chip" data-yvmood-pick="'+m2[0]+'" aria-pressed="'+(m2[0]===yvMood?"true":"false")+'" aria-label="'+m2[2]+'" title="'+m2[2]+'">'+m2[1]+'</button>';
       }).join("");
       var pb=$("yvPondBtn"),ob=$("yvPoolBtn");
       if(pb)pb.setAttribute("aria-pressed",yvOpts.pond?"true":"false");
@@ -6111,6 +6177,8 @@
     card.addEventListener("click",function(e){
       var sc=e.target.closest("[data-yvseason-pick]");
       if(sc){yvSeason=sc.getAttribute("data-yvseason-pick");yvRender();return;}
+      var mp=e.target.closest("[data-yvmood-pick]");
+      if(mp){yvMood=mp.getAttribute("data-yvmood-pick");yvOpts.mood=yvMood;lsSet("ycYardMini",yvOpts);yvBlip();yvRender();return;}
       var fun=e.target.closest("[data-yvfun]");
       if(fun){yvFunDo(fun);return;}
     });
@@ -6339,7 +6407,8 @@
     function yvOvOpen(){
       var oc=$("yvOvCard");
       oc.setAttribute("data-yvseason",yvSeason);
-      oc.setAttribute("data-yvtime",yvTimeOfDay());
+      oc.setAttribute("data-yvtime",yvEffTime());
+      oc.setAttribute("data-yvmood",yvMood);
       $("yvOvSvg").innerHTML=yvBuild("Ov");
       yvOvPrevFocus=document.activeElement;
       yvOv.hidden=false;yvDock.hidden=true;
