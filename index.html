@@ -783,6 +783,22 @@
   .outline-bar .ob-all{font-family:var(--body);font-size:.75rem;font-weight:600;color:var(--grass-deep);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap;flex:0 0 auto;}
   .outline-bar .ob-all:hover{border-color:var(--grass);}
   @media(prefers-reduced-motion:reduce){.card.collapsible>.card-cbody{transition:none;}.card.collapsible>.card-head .card-chev,.card.collapsible>.card-head .card-read{transition:none;}}
+  /* tap-to-peek: a little preview card before you travel */
+  .yv-preview{position:absolute;left:50%;bottom:14px;transform:translate(-50%,12px);z-index:7;width:min(370px,calc(100% - 24px));display:flex;align-items:center;gap:11px;padding:12px 34px 12px 13px;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line-strong);border-radius:16px;box-shadow:0 12px 34px rgba(28,42,32,.3);opacity:0;visibility:hidden;transition:opacity .2s ease,transform .24s cubic-bezier(.2,.9,.3,1.35);}
+  .yv-preview.show{opacity:1;visibility:visible;transform:translate(-50%,0);}
+  .yp-icon{width:38px;height:38px;flex:0 0 auto;border-radius:11px;background:linear-gradient(150deg,var(--grass),var(--grass-deep));display:flex;align-items:center;justify-content:center;box-shadow:0 3px 9px rgba(35,92,58,.32);}
+  .yp-icon .ic{width:20px;height:20px;color:#fff;}
+  .yp-main{flex:1;min-width:0;}
+  .yp-name{display:block;font-family:var(--display);font-weight:650;font-size:.98rem;color:var(--ink);line-height:1.15;}
+  .yp-desc{display:block;font-size:.77rem;color:var(--ink-soft);line-height:1.36;margin-top:2px;}
+  .yp-go{flex:0 0 auto;align-self:center;display:inline-flex;align-items:center;font-family:var(--body);font-size:.8rem;font-weight:650;color:#fff;background:var(--grass-deep);border:none;border-radius:11px;padding:9px 13px;cursor:pointer;white-space:nowrap;}
+  .yp-go:hover{background:var(--grass);}
+  .yp-x{position:absolute;top:7px;right:9px;width:20px;height:20px;border:none;background:none;color:var(--ink-faint);font-size:1.05rem;line-height:1;cursor:pointer;padding:0;}
+  .yp-x:hover{color:var(--ink);}
+  .yardscape[data-yvmood="dark"] .yv-preview,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yv-preview{background:rgba(24,34,58,.97);border-color:rgba(255,255,255,.16);box-shadow:0 12px 34px rgba(6,10,26,.55);}
+  .yardscape[data-yvmood="dark"] .yp-name,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-name{color:#EAF0FA;}
+  .yardscape[data-yvmood="dark"] .yp-desc,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-desc{color:#AEBBD6;}
+  .yardscape[data-yvmood="dark"] .yp-x,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-x{color:#8AA0C8;}
   details.hubfold{border:0;margin:0;}
   details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
   details.hubfold>summary::-webkit-details-marker{display:none;}
@@ -948,7 +964,7 @@
           <button type="button" class="ys-opt" id="yvLookBtn" aria-pressed="false" title="Zoom in and find the small wildlife">🔍 Look closer</button>
           <button type="button" class="ys-opt" id="yvMusicBtn" aria-pressed="false" title="A gentle garden tune, made on this device — nothing is loaded or sent">♪ Sounds</button>
         </div>
-        <span class="ys-note">tap anything in the yard to open its page</span>
+        <span class="ys-note">tap anything to see what it is, then explore</span>
       </div>
     </div>
 
@@ -6438,6 +6454,86 @@
       b.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}));
     });
     document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!yvOv.hidden)yvOvShut();});
+
+    /* ---------- tap-to-peek: a preview card before you travel ----------
+       A tap on any prop now shows a little card — an icon, its name, and what
+       it is — so the map is something you explore; "Explore →" then takes you. */
+    var YVINFO={
+      season:{icon:"cloud",name:"The sky & seasons",desc:"Your seasonal almanac and local forecast — the year, month by month, tuned to your weather."},
+      soil:{icon:"soil",desc:"What's under the grass — a cheap soil test, your pH, and the amendments that fix it."},
+      lawn:{icon:"mower",desc:"A greener cool-season lawn — feeding, watering, and thickening turf the right way."},
+      mow:{icon:"grass",desc:"Mow it right — how high and how often, and why taller grass wins."},
+      almanac:{icon:"book",desc:"Home base — your journal, field notes, story, and the Moments you earn through the year."},
+      grow:{icon:"basket",desc:"Grow your own food — crop guides, planting timelines, spacing, and companions for your zone."},
+      fruit:{icon:"fruit",desc:"Homegrown fruit and berries — the easiest sweet wins, and how to keep them happy."},
+      bloom:{icon:"flower",desc:"Color from spring to frost — a bloom planner and flower guides."},
+      trees:{icon:"tree",desc:"Trees and shrubs — the longest-lived things you'll plant, sited and pruned well."},
+      native:{icon:"clover",desc:"A lawn that does more — clover and native plantings that feed pollinators."},
+      wildlife:{icon:"bird",desc:"A living yard — feeders, a birdbath, and how to share the space with wildlife."},
+      pests:{icon:"bug",desc:"Fewer pests, gently — the least-harm ladder that spares the good bugs."},
+      rain:{icon:"barrel",desc:"Catch the rain — size a rain barrel and put free water back on the garden."},
+      pond:{icon:"waves",desc:"A small pond — dragonflies, frogs, and how to keep the water clear."},
+      beds:{icon:"layers",desc:"Beds and mulch — how much mulch you need, and how to build better soil."},
+      compost:{icon:"compost",desc:"Turn scraps and leaves into black gold — the browns-and-greens balance, made simple."},
+      plan:{icon:"grid",desc:"Plan a garden bed on graph paper — lay it out before you dig."},
+      spots:{icon:"map",desc:"Your yard's map — flag the spots you tend and keep a note on each."},
+      shop:{icon:"cart",desc:"Your shopping list and the shed of supplies — what to buy, in one place."},
+      remind:{icon:"bell",desc:"Gentle reminders — seasonal nudges for the yard, on your own schedule."},
+      leaves:{icon:"leaf",desc:"Leave the leaves — the easiest, best thing you can do for the soil and insects."},
+      snow:{icon:"snow",desc:"Winter care — gentle de-icing that won't burn the lawn or the paws that cross it."}
+    };
+    function yvGoto(tool,scroll,isOverlay){
+      yvBlip();yvUsedYard=true;
+      if(isOverlay)yvOvShut();
+      showTab(tool);
+      if(scroll)setTimeout(function(){var t=$(scroll);if(t)(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});},180);
+      if(!isOverlay&&!yvDockToasted){yvDockToasted=true;setTimeout(function(){toast("The little yard rides along — tap it to hop somewhere else");},700);}
+    }
+    function yvPayload(h,isOverlay){
+      var fun=h.getAttribute("data-yvfun"),tip=h.getAttribute("data-yvtip")||"";
+      if(fun==="bonsai")return {icon:"bulb",name:"The little tree",desc:"A note on why we grew this whole world — the bonsai logic of small, patient care.",label:"Read the note →",run:function(){if(isOverlay)yvOvShut();openInfo("bonsai");}};
+      if(fun==="pool")return {icon:"waves",name:"The pool",desc:"Pure luxury — this one's just for looks. The garden is the real oasis.",label:null,run:null};
+      var tool=h.getAttribute("data-tool"),scroll=h.getAttribute("data-scroll"),info=YVINFO[tool]||{icon:"leaf",desc:""};
+      var name=info.name||(tip.split("—")[0].trim())||tool;
+      return {icon:info.icon,name:name,desc:info.desc,label:"Explore →",run:function(){yvGoto(tool,scroll,isOverlay);}};
+    }
+    var yvPvCur=null;
+    function makePreview(stageEl,hostEl,isOverlay){
+      if(!stageEl||!hostEl)return;
+      var pv=document.createElement("div");pv.className="yv-preview";
+      pv.setAttribute("role","dialog");pv.setAttribute("aria-label","About this part of the yard");
+      stageEl.appendChild(pv);
+      var pend=null,api={};
+      function hide(){pv.classList.remove("show");if(yvPvCur===api)yvPvCur=null;}
+      function show(h){
+        var d=yvPayload(h,isOverlay);if(!d)return;pend=d;
+        pv.innerHTML='<span class="yp-icon"><svg class="ic"><use href="#i-'+d.icon+'"/></svg></span>'+
+          '<span class="yp-main"><span class="yp-name">'+esc(d.name)+'</span><span class="yp-desc">'+esc(d.desc)+'</span></span>'+
+          (d.label?'<button type="button" class="yp-go">'+esc(d.label)+'</button>':'')+
+          '<button type="button" class="yp-x" aria-label="Close">×</button>';
+        pv.classList.add("show");yvPvCur=api;
+        try{if(typeof yvTipHide==="function")yvTipHide();}catch(e){}
+        var g=pv.querySelector(".yp-go")||pv.querySelector(".yp-x");if(g)try{g.focus();}catch(e){}
+      }
+      api.hide=hide;api.show=show;
+      hostEl.addEventListener("click",function(e){
+        if(!isOverlay&&yvLookOn)return;                 // look-closer mode keeps its zoom & critters
+        var h=e.target.closest("[data-tool],[data-yvfun]");if(!h)return;
+        e.stopPropagation();e.preventDefault();show(h);
+      },true);
+      stageEl.addEventListener("click",function(e){
+        if(e.target.closest(".yv-preview"))return;
+        if(e.target.closest("[data-tool],[data-yvfun]"))return;
+        hide();
+      });
+      pv.addEventListener("click",function(e){
+        if(e.target.closest(".yp-x")){hide();return;}
+        if(e.target.closest(".yp-go")){if(pend&&pend.run)pend.run();hide();return;}
+      });
+    }
+    makePreview(stage,host,false);
+    makePreview($("yvOvStage"),$("yvOvSvg"),true);
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&yvPvCur)yvPvCur.hide();});
 
     /* ---------- keep the miniature honest: follow the clock & forecast ---------- */
     var yvSig="";
