@@ -670,6 +670,40 @@
   .yv-leaf{animation:yv-leaf 6s linear infinite;transform-box:fill-box;transform-origin:center;}
   .yv-leaf.l2{animation-delay:-2s}.yv-leaf.l3{animation-delay:-4s}
   @keyframes yv-leaf{0%{transform:translate(0,-6px) rotate(0deg);opacity:0}12%{opacity:.9}100%{transform:translate(-14px,44px) rotate(160deg);opacity:0}}
+  /* time of day over the diorama */
+  .yardscape[data-yvtime="dusk"] .ys-stage{background:radial-gradient(120% 85% at 72% -6%,rgba(255,170,90,.55),transparent 58%),linear-gradient(#8A87B0 0%,#D9A182 46%,#EAD8B8 64%,#EDEFE2 100%);}
+  .yardscape[data-yvtime="night"] .ys-stage{background:radial-gradient(110% 80% at 72% -10%,rgba(190,210,255,.20),transparent 52%),linear-gradient(#1C2742 0%,#28374F 58%,#33434E 100%);}
+  .yardscape[data-yvtime="night"] .ys-seasons{background:rgba(28,39,66,.5);border-color:rgba(255,255,255,.18);}
+  .yardscape[data-yvtime="night"] .ys-chip{color:#D9E2F0;}
+  .yardscape[data-yvtime="night"] .ys-chip[aria-pressed=true]{background:rgba(255,255,255,.16);box-shadow:none;}
+  /* weather layers */
+  .yv-rainlayer line{animation:yv-rain 1s linear infinite;}
+  @keyframes yv-rain{0%{transform:translateY(-30px);opacity:0}18%{opacity:.7}80%{opacity:.6}100%{transform:translateY(150px);opacity:0}}
+  .yv-snowlayer circle{animation:yv-snowfall 7s linear infinite;}
+  .yv-snowlayer circle:nth-child(3n){animation-duration:9s;animation-delay:-4s;}
+  .yv-snowlayer circle:nth-child(3n+1){animation-duration:8s;animation-delay:-2.4s;}
+  @keyframes yv-snowfall{0%{transform:translate(0,-40px);opacity:0}12%{opacity:.9}88%{opacity:.85}100%{transform:translate(-24px,190px);opacity:0}}
+  .yv-windy .yv-sway{animation:yv-sway 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom;}
+  .yv-windy .yv-sway.s2{animation-delay:-1.4s;}
+  @keyframes yv-sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.8deg)}}
+  .yv-firefly{animation:yv-firefly 3.8s ease-in-out infinite;}
+  .yv-firefly.g2{animation-delay:-1.3s}.yv-firefly.g3{animation-delay:-2.5s}
+  @keyframes yv-firefly{0%,100%{opacity:0;transform:translate(0,0)}30%{opacity:.95}50%{opacity:.15;transform:translate(4px,-6px)}70%{opacity:.8}}
+  .yv-star{animation:yv-star 3.2s ease-in-out infinite;}
+  .yv-star.t2{animation-delay:-1.6s}
+  @keyframes yv-star{0%,100%{opacity:.9}50%{opacity:.3}}
+  @media(prefers-reduced-motion:reduce){.yv-rainlayer,.yv-snowlayer{display:none;}}
+  /* footer tool chips + look-closer mode */
+  .ys-tools{display:flex;gap:6px;}
+  .yardscape.yv-looking #yvSvg{cursor:zoom-in;}
+  .yardscape.yv-looking .yv-obj:hover>g,.yardscape.yv-looking .yv-obj:focus-visible>g{transform:none;}
+  .yardscape.yv-looking .yv-obj:hover{filter:none;}
+  .yv-critter{pointer-events:none;}
+  .yardscape.yv-looking .yv-critter{pointer-events:auto;cursor:help;}
+  .yv-critter .yv-hint{opacity:0;}
+  .yardscape.yv-looking .yv-critter .yv-hint{opacity:1;animation:yv-hintpulse 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  @keyframes yv-hintpulse{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.5;transform:scale(1.15)}}
+  .ys-zoomout{position:absolute;top:10px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:.76rem;font-weight:600;color:var(--ink);background:rgba(255,255,255,.9);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(28,42,32,.18);}
   /* the full A–Z tool index, folded away so home stays calm */
   details.hubfold{border:0;margin:0;}
   details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
@@ -822,11 +856,16 @@
       <div class="ys-stage" id="yvStage">
         <svg id="yvSvg" viewBox="-500 -215 1000 780" role="group" aria-label="An isometric miniature of your yard — house, lawn, gardens, trees, and more. Each part opens its page in the app."></svg>
         <div class="ys-tip" id="yvTip" aria-hidden="true"></div>
+        <button type="button" class="ys-zoomout" id="yvZoomOut" hidden>← whole yard</button>
       </div>
       <div class="ys-foot">
         <div class="ys-opts" id="yvOpts">
           <button type="button" class="ys-opt" id="yvPondBtn" aria-pressed="true"><span class="dot"></span>Pond</button>
           <button type="button" class="ys-opt" id="yvPoolBtn" aria-pressed="false"><span class="dot"></span>Pool</button>
+        </div>
+        <div class="ys-tools">
+          <button type="button" class="ys-opt" id="yvLookBtn" aria-pressed="false" title="Zoom in and find the small wildlife">🔍 Look closer</button>
+          <button type="button" class="ys-opt" id="yvMusicBtn" aria-pressed="false" title="A gentle garden tune, made on this device — nothing is loaded or sent">♪ Sounds</button>
         </div>
         <span class="ys-note">tap anything in the yard to open its page</span>
       </div>
@@ -5300,9 +5339,20 @@
         WALL="#F2E7D4",ROOF="#C2664A",SAGE="#5F7F66",GLOW="#FFE3A8",STONE="#CBC2AC",WATER="#6FB6D6";
     var SNOWC="#F3F7F9";
 
-    var yvOpts=lsGet("ycYardMini")||{pond:1,pool:0};
+    var yvOpts=lsGet("ycYardMini")||{pond:1,pool:0,music:0};
     var yvSeason=(document.documentElement.getAttribute("data-season"))||seasonOf(new Date().getMonth());
     if(!YVPAL[yvSeason])yvSeason="summer";
+
+    /* time of day + the real forecast (when one is loaded) drive the scene */
+    function yvTimeOfDay(){var h=new Date().getHours();if(h>=21||h<6)return "night";if(h>=19)return "dusk";return "day";}
+    function yvWx(){
+      var hasWx=(typeof WX!=="undefined")&&WX;
+      return {
+        rain:(yvSeason!=="winter")&&!!(hasWx&&WX.rainSoon),
+        snowHeavy:(yvSeason==="winter")&&!!(hasWx&&WX.rainSoon),
+        windy:!!(hasWx&&WX.windMax!=null&&WX.windMax>=20)
+      };
+    }
 
     function hot(tool,scroll,label,inner){
       return '<g class="yv-obj" role="button" tabindex="0" data-tool="'+tool+'"'+(scroll?' data-scroll="'+scroll+'"':'')+
@@ -5313,6 +5363,7 @@
     /* ============ scene builder ============ */
     function yvBuild(){
       var p=YVPAL[yvSeason],O=[],G=[]; // O: sorted uprights {k,s} · G: flat ground layer
+      var T=yvTimeOfDay(),wx=yvWx();
       function obj(k,s){O.push({k:k,s:s});}
 
       var S='<defs>'+
@@ -5322,15 +5373,26 @@
         '<radialGradient id="yvPool" cx=".45" cy=".4" r=".95"><stop offset="0" stop-color="#A5E4EC"/><stop offset=".65" stop-color="#6FCADC"/><stop offset="1" stop-color="#4FABC4"/></radialGradient>'+
         '<radialGradient id="yvSunG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="'+p.sun+'" stop-opacity=".85"/><stop offset=".55" stop-color="'+p.sun+'" stop-opacity=".28"/><stop offset="1" stop-color="'+p.sun+'" stop-opacity="0"/></radialGradient>'+
         '<linearGradient id="yvSoilFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A5A34"/><stop offset=".45" stop-color="#75492A"/><stop offset="1" stop-color="#5E3B20"/></linearGradient>'+
+        '<mask id="yvMoonM"><rect x="286" y="-196" width="90" height="96" fill="#fff"/><circle cx="343" cy="-158" r="19" fill="#000"/></mask>'+
         '</defs>';
 
-      /* -- sky (screen space) -- */
-      S+=hot("season",null,"Seasons & the forecast",
-        '<circle cx="330" cy="-148" r="52" fill="url(#yvSunG)"/>'+
-        '<circle cx="330" cy="-148" r="'+(p.snow?20:25)+'" fill="'+p.sun+'" stroke="rgba(255,255,255,.65)" stroke-width="2"/>');
-      S+=deco('<g class="yv-bob" fill="#FFFFFF" opacity=".8"><ellipse cx="-268" cy="-152" rx="34" ry="11"/><ellipse cx="-244" cy="-160" rx="22" ry="9"/><ellipse cx="-292" cy="-158" rx="18" ry="8"/></g>'+
-        '<g class="yv-bob" style="animation-delay:-2s" fill="#FFFFFF" opacity=".65"><ellipse cx="96" cy="-186" rx="26" ry="9"/><ellipse cx="116" cy="-192" rx="16" ry="7"/></g>'+
-        (p.snow?'':'<g stroke="#5C6B60" stroke-width="1.6" fill="none" opacity=".6"><path d="M-150 -170 q5 -5 10 0 q5 -5 10 0"/><path d="M-118 -158 q4 -4 8 0 q4 -4 8 0"/></g>'));
+      /* -- sky (screen space): sun by day, a moon and stars by night -- */
+      if(T==="night"){
+        S+=hot("season",null,"The night sky — seasons & forecast",
+          '<circle cx="330" cy="-148" r="44" fill="url(#yvSunG)" opacity=".35"/>'+
+          '<circle cx="330" cy="-148" r="22" fill="#EDE9D8" mask="url(#yvMoonM)"/>');
+        S+=deco('<g fill="#EDE9D8"><circle class="yv-star" cx="-320" cy="-168" r="1.8"/><circle class="yv-star t2" cx="-180" cy="-190" r="1.4"/><circle class="yv-star" cx="-60" cy="-158" r="1.6"/><circle class="yv-star t2" cx="80" cy="-190" r="1.8"/><circle class="yv-star" cx="180" cy="-160" r="1.3"/><circle class="yv-star t2" cx="420" cy="-180" r="1.5"/><circle cx="-250" cy="-140" r="1.1"/><circle cx="250" cy="-192" r="1.1"/><circle cx="30" cy="-140" r="1"/></g>');
+      } else {
+        var sunY=(T==="dusk")?-118:-148,sunC=(T==="dusk")?"#F0A050":p.sun;
+        S+=hot("season",null,"Seasons & the forecast",
+          '<circle cx="330" cy="'+sunY+'" r="52" fill="url(#yvSunG)"/>'+
+          '<circle cx="330" cy="'+sunY+'" r="'+(p.snow?20:25)+'" fill="'+sunC+'" stroke="rgba(255,255,255,.65)" stroke-width="2"/>');
+      }
+      var cloudFill=(T==="night")?"#5A6B8C":"#FFFFFF";
+      S+=deco('<g class="yv-bob" fill="'+cloudFill+'" opacity=".8"><ellipse cx="-268" cy="-152" rx="34" ry="11"/><ellipse cx="-244" cy="-160" rx="22" ry="9"/><ellipse cx="-292" cy="-158" rx="18" ry="8"/></g>'+
+        '<g class="yv-bob" style="animation-delay:-2s" fill="'+cloudFill+'" opacity=".65"><ellipse cx="96" cy="-186" rx="26" ry="9"/><ellipse cx="116" cy="-192" rx="16" ry="7"/></g>'+
+        ((wx.rain||wx.snowHeavy)?'<g class="yv-bob" style="animation-delay:-3.2s" fill="'+(T==="night"?"#46536E":"#B9C2CC")+'" opacity=".92"><ellipse cx="-60" cy="-128" rx="46" ry="14"/><ellipse cx="-20" cy="-138" rx="30" ry="12"/><ellipse cx="-96" cy="-136" rx="26" ry="11"/></g><g class="yv-bob" style="animation-delay:-1.1s" fill="'+(T==="night"?"#46536E":"#C4CCD4")+'" opacity=".85"><ellipse cx="190" cy="-120" rx="38" ry="12"/><ellipse cx="222" cy="-128" rx="24" ry="10"/></g>':'')+
+        (p.snow||T==="night"?'':'<g stroke="#5C6B60" stroke-width="1.6" fill="none" opacity=".6"><path d="M-150 -170 q5 -5 10 0 q5 -5 10 0"/><path d="M-118 -158 q4 -4 8 0 q4 -4 8 0"/></g>'));
 
       /* -- the plinth: earth cross-section (this IS the soil hotspot) -- */
       var baseS=polyW([[0,470,0],[470,470,0],[470,470,-44],[0,470,-44]],"url(#yvSoilFace)")+
@@ -5536,13 +5598,14 @@
           if(p.snow)s+='<g fill="'+SNOWC+'"><ellipse cx="'+(c.x-26)+'" cy="'+(c.y-60)+'" rx="7" ry="2.6"/><ellipse cx="'+(c.x-2)+'" cy="'+(c.y-70)+'" rx="8" ry="2.8"/><ellipse cx="'+(c.x+24)+'" cy="'+(c.y-64)+'" rx="7" ry="2.5"/></g>';
         } else {
           var cy=c.y-68;
-          s+='<circle cx="'+(c.x-30)+'" cy="'+(cy+12)+'" r="33" fill="'+shade(p.canopy,-.16)+'"/>'+
+          s+='<g class="yv-sway">'+
+             '<circle cx="'+(c.x-30)+'" cy="'+(cy+12)+'" r="33" fill="'+shade(p.canopy,-.16)+'"/>'+
              '<circle cx="'+(c.x+32)+'" cy="'+(cy+10)+'" r="35" fill="'+shade(p.canopy,-.07)+'"/>'+
              '<circle cx="'+(c.x+8)+'" cy="'+(cy+18)+'" r="30" fill="'+shade(p.canopy,-.11)+'"/>'+
              '<circle cx="'+c.x+'" cy="'+(cy-10)+'" r="38" fill="'+p.canopy+'"/>'+
              '<circle cx="'+(c.x-14)+'" cy="'+(cy-20)+'" r="19" fill="'+shade(p.canopy,.18)+'" opacity=".9"/>'+
              '<circle cx="'+(c.x+10)+'" cy="'+(cy-26)+'" r="11" fill="'+shade(p.canopy,.28)+'" opacity=".7"/>'+
-             '<g fill="'+shade(p.canopy,-.3)+'" opacity=".5"><circle cx="'+(c.x+22)+'" cy="'+(cy+20)+'" r="3.2"/><circle cx="'+(c.x-34)+'" cy="'+(cy+22)+'" r="2.8"/><circle cx="'+(c.x+2)+'" cy="'+(cy+8)+'" r="2.8"/><circle cx="'+(c.x+40)+'" cy="'+(cy+2)+'" r="2.6"/><circle cx="'+(c.x-18)+'" cy="'+(cy+2)+'" r="2.4"/></g>';
+             '<g fill="'+shade(p.canopy,-.3)+'" opacity=".5"><circle cx="'+(c.x+22)+'" cy="'+(cy+20)+'" r="3.2"/><circle cx="'+(c.x-34)+'" cy="'+(cy+22)+'" r="2.8"/><circle cx="'+(c.x+2)+'" cy="'+(cy+8)+'" r="2.8"/><circle cx="'+(c.x+40)+'" cy="'+(cy+2)+'" r="2.6"/><circle cx="'+(c.x-18)+'" cy="'+(cy+2)+'" r="2.4"/></g></g>';
           if(p.fallLeaves)s+=deco('<g fill="'+shade(p.canopy,-.1)+'"><rect class="yv-leaf" x="'+(c.x-30)+'" y="'+(cy+30)+'" width="5" height="3.4" rx="1.4"/><rect class="yv-leaf l2" x="'+(c.x+14)+'" y="'+(cy+26)+'" width="5" height="3.4" rx="1.4"/><rect class="yv-leaf l3" x="'+(c.x-6)+'" y="'+(cy+34)+'" width="5" height="3.4" rx="1.4"/></g>');
         }
         obj(586,hot("trees",null,"The shade tree — trees & shrubs",s));
@@ -5559,11 +5622,13 @@
           if(p.snow)s+='<ellipse cx="'+c.x+'" cy="'+(c.y-40)+'" rx="8" ry="2.6" fill="'+SNOWC+'"/>';
         } else {
           var cy=c.y-40;
-          s+='<circle cx="'+(c.x-13)+'" cy="'+(cy+6)+'" r="17" fill="'+shade(p.fruitC,-.1)+'"/>'+
+          s+='<g class="yv-sway s2">'+
+             '<circle cx="'+(c.x-13)+'" cy="'+(cy+6)+'" r="17" fill="'+shade(p.fruitC,-.1)+'"/>'+
              '<circle cx="'+(c.x+12)+'" cy="'+(cy+4)+'" r="18" fill="'+p.fruitC+'"/>'+
              '<circle cx="'+c.x+'" cy="'+(cy-6)+'" r="18" fill="'+shade(p.fruitC,.1)+'"/>';
           if(p.blossom)s+='<g fill="#F6CCd9"><circle cx="'+(c.x-14)+'" cy="'+(cy-2)+'" r="2.2"/><circle cx="'+(c.x+6)+'" cy="'+(cy-12)+'" r="2.2"/><circle cx="'+(c.x+15)+'" cy="'+(cy+2)+'" r="2.2"/><circle cx="'+(c.x-3)+'" cy="'+(cy+8)+'" r="2.2"/><circle cx="'+(c.x+2)+'" cy="'+(cy-2)+'" r="1.8"/></g>';
           if(p.apples)s+='<g fill="#D4574E"><circle cx="'+(c.x-12)+'" cy="'+(cy+2)+'" r="2.4"/><circle cx="'+(c.x+8)+'" cy="'+(cy-8)+'" r="2.4"/><circle cx="'+(c.x+14)+'" cy="'+(cy+6)+'" r="2.4"/><circle cx="'+(c.x-2)+'" cy="'+(cy+10)+'" r="2.4"/></g>';
+          s+='</g>';
         }
         if(yvSeason==="fall"){s+=cyl(80,228,0,5,6,"#A67C4E");s+='<g fill="#D4574E">'+(function(){var b=scr(80,228,7),o='';[[0,0],[-3,1],[3,1],[0,2.5]].forEach(function(d){o+='<circle cx="'+(b.x+d[0])+'" cy="'+(b.y-d[1])+'" r="2"/>';});return o;})()+'</g>';}
         // berry trellis
@@ -5835,10 +5900,88 @@
         obj(800,hot("bloom","bloomPlanner","The flower border — color all season",s));
       })();
 
+      /* -- the small wildlife, hiding in plain sight (found in Look-closer mode) -- */
+      (function(){
+        function critter(label,fact,art){
+          O.push({k:900,s:'<g class="yv-critter" aria-hidden="true" data-yvtip="'+label+'" data-yvfact="'+fact+'">'+art+'</g>'});
+        }
+        function hint(px,py){return '<circle class="yv-hint" cx="'+px+'" cy="'+py+'" r="9" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.3"/><circle cx="'+px+'" cy="'+py+'" r="13" fill="transparent" stroke="none"/>';}
+        var q=scr(106,296,11);
+        critter("Ladybug","A ladybug eats ~5,000 aphids in her lifetime — the garden's tiniest pest control.",
+          '<circle cx="'+q.x+'" cy="'+q.y+'" r="2.4" fill="#C63A2B"/><circle cx="'+(q.x-1.8)+'" cy="'+(q.y-.8)+'" r="1" fill="#2E2A28"/><circle cx="'+(q.x+.8)+'" cy="'+(q.y-1)+'" r=".55" fill="#2E2A28"/><circle cx="'+(q.x+1)+'" cy="'+(q.y+1)+'" r=".55" fill="#2E2A28"/>'+hint(q.x,q.y));
+        q=scr(306,92,0);
+        critter("Monarch caterpillar","A monarch caterpillar on the only thing it can eat: milkweed. Plant it and they come.",
+          line3(306,92,0,305,91,13,"#7A9A5A",1.8)+
+          '<path d="M'+(q.x-6)+' '+(q.y-8)+' q-5 -2 -6 2 M'+(q.x+2)+' '+(q.y-10)+' q5 -3 7 1" stroke="#7A9A5A" stroke-width="1.6" fill="none"/>'+
+          (function(){var o='';for(var i2=0;i2<4;i2++)o+='<circle cx="'+(q.x-3+i2*2.1)+'" cy="'+(q.y-1)+'" r="1.35" fill="'+(i2%2?"#E8D84C":"#2E2A28")+'"/>';return o;})()+hint(q.x,q.y-4));
+        q=scr(424,112,0);
+        critter("Earthworm","Earthworms till and feed the soil for free — the compost pile keeps them thriving.",
+          '<path d="M'+(q.x-5)+' '+q.y+' q3 -3.5 6 0 q3 3.5 6 0" stroke="#C9838A" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+hint(q.x,q.y));
+        q=scr(404,122,0);
+        critter("Chipmunk","A chipmunk's forgotten seed caches become next spring's surprise plants.",
+          '<ellipse cx="'+q.x+'" cy="'+(q.y-2)+'" rx="4" ry="2.6" fill="#A9744A"/><circle cx="'+(q.x+3.4)+'" cy="'+(q.y-3.6)+'" r="1.8" fill="#A9744A"/><path d="M'+(q.x-3.5)+' '+(q.y-2)+' h6.5" stroke="#5E3B20" stroke-width=".9"/><path d="M'+(q.x-4)+' '+(q.y-2.5)+' q-3 -1 -3.5 -4.5" stroke="#8A5A34" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="'+(q.x+4)+'" cy="'+(q.y-4)+'" r=".5" fill="#2E2A28"/>'+hint(q.x,q.y-2));
+        q=scr(348,378,0);
+        critter("Cottontail rabbit","Rabbits prefer clover to lettuce — a clover patch is cheap diplomacy.",
+          '<ellipse cx="'+q.x+'" cy="'+(q.y-2.5)+'" rx="4.6" ry="3.2" fill="#B8AFA2"/><circle cx="'+(q.x-3.6)+'" cy="'+(q.y-5)+'" r="2.2" fill="#B8AFA2"/><ellipse cx="'+(q.x-4.6)+'" cy="'+(q.y-8)+'" rx="1" ry="2.4" fill="#B8AFA2"/><ellipse cx="'+(q.x-2.6)+'" cy="'+(q.y-8.2)+'" rx="1" ry="2.4" fill="#C9C0B2"/><circle cx="'+(q.x+4.2)+'" cy="'+(q.y-3.4)+'" r="1.3" fill="#EFEAE0"/><circle cx="'+(q.x-4.2)+'" cy="'+(q.y-5.4)+'" r=".5" fill="#2E2A28"/>'+hint(q.x,q.y-3));
+        q=scr(414,392,13);
+        critter("Goldfinch","A goldfinch on the coneflowers — leave seed heads standing and birds stay all winter.",
+          '<circle cx="'+q.x+'" cy="'+(q.y-3)+'" r="2.6" fill="#E8C83C"/><path d="M'+(q.x-2.2)+' '+(q.y-3.6)+' q1.4 -1.8 3 -1 l-1.4 1.8 z" fill="#2E2A28"/><path d="M'+(q.x+2.4)+' '+(q.y-3.4)+' l2.4 .8 l-2.4 .8 z" fill="#D97E2E"/><circle cx="'+(q.x+1)+'" cy="'+(q.y-4)+'" r=".5" fill="#2E2A28"/>'+hint(q.x,q.y-3));
+        q=scr(139,308,1);
+        critter("Snail","Snails feed firefly larvae — a slightly messy corner is why summer glows.",
+          '<path d="M'+(q.x-4)+' '+q.y+' q4 1.5 8 0" stroke="#C9B98A" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="'+(q.x+1)+'" cy="'+(q.y-2.6)+'" r="2.6" fill="#C9A16B" stroke="#8A6A45" stroke-width=".7"/><path d="M'+(q.x+1)+' '+(q.y-2.6)+' m1.6 0 a1.6 1.6 0 1 1 -1.6 -1.6" stroke="#8A6A45" stroke-width=".7" fill="none"/><path d="M'+(q.x-4)+' '+(q.y-1)+' l-1.2 -3 m1.8 3 l.2 -3.2" stroke="#C9B98A" stroke-width=".8"/>'+hint(q.x,q.y-2));
+        if(yvOpts.pond){q=scr(206,432,1);
+          critter("American toad","One toad eats thousands of slugs a season — the pond's night shift.",
+            '<ellipse cx="'+q.x+'" cy="'+(q.y-1.6)+'" rx="3.8" ry="2.6" fill="#8A8A52"/><circle cx="'+(q.x-2)+'" cy="'+(q.y-3.8)+'" r="1" fill="#8A8A52"/><circle cx="'+(q.x+2)+'" cy="'+(q.y-3.8)+'" r="1" fill="#8A8A52"/><circle cx="'+(q.x-2)+'" cy="'+(q.y-4)+'" r=".45" fill="#2E2A28"/><circle cx="'+(q.x+2)+'" cy="'+(q.y-4)+'" r=".45" fill="#2E2A28"/><g fill="#6E6E42"><circle cx="'+(q.x-1)+'" cy="'+(q.y-1.6)+'" r=".5"/><circle cx="'+(q.x+1.4)+'" cy="'+(q.y-.8)+'" r=".5"/></g>'+hint(q.x,q.y-2));}
+        q=scr(460,12,13);
+        critter("Orb-weaver's web","A spider's web catches more mosquitoes than any zapper — and dew makes it art.",
+          '<g stroke="rgba(255,255,255,.65)" stroke-width=".7" fill="none">'+
+          (function(){var o='',a2;for(var i3=0;i3<6;i3++){a2=i3*Math.PI/3+.3;o+='<path d="M'+q.x+' '+q.y+' l'+(Math.cos(a2)*9).toFixed(1)+' '+(Math.sin(a2)*9).toFixed(1)+'"/>';}return o;})()+
+          '<circle cx="'+q.x+'" cy="'+q.y+'" r="3.2"/><circle cx="'+q.x+'" cy="'+q.y+'" r="6.2"/></g>'+
+          '<circle cx="'+(q.x+2.2)+'" cy="'+(q.y+2.2)+'" r="1.1" fill="#4A3826"/><g fill="rgba(220,240,255,.9)"><circle cx="'+(q.x-4)+'" cy="'+(q.y-2)+'" r=".5"/><circle cx="'+(q.x+5)+'" cy="'+(q.y-4)+'" r=".5"/><circle cx="'+(q.x-2)+'" cy="'+(q.y+5)+'" r=".5"/></g>'+hint(q.x,q.y));
+      })();
+
       /* assemble: ground layer, then painter-sorted props */
       S+=G.join("");
       O.sort(function(a,b){return a.k-b.k;});
       S+=O.map(function(o){return o.s;}).join("");
+
+      /* -- dusk & night wash, lit windows, fireflies -- */
+      if(T==="night")S+='<rect x="-500" y="-215" width="1000" height="780" fill="rgba(18,28,58,.22)" pointer-events="none"/>';
+      else if(T==="dusk")S+='<rect x="-500" y="-215" width="1000" height="780" fill="rgba(255,150,70,.07)" pointer-events="none"/>';
+      if(T!=="day"){
+        var glow=T==="night"?.5:.28,halos='';
+        [[66,150,30,13],[146,150,30,13],[185,98,30,10],[116,152,34,8]].forEach(function(hp2){
+          var g2=scr(hp2[0],hp2[1],hp2[2]);
+          halos+='<circle cx="'+g2.x+'" cy="'+g2.y+'" r="'+hp2[3]+'" fill="#FFD98A" opacity="'+glow+'" filter="url(#yvSoft)"/>';
+        });
+        S+='<g pointer-events="none">'+halos+'</g>';
+      }
+      if(T==="night"&&yvSeason==="summer"){
+        var ff='';
+        [[250,140,10,""],[300,90,16,"g2"],[200,240,8,"g3"],[320,240,14,"g2"],[160,180,12,""],[270,60,18,"g3"],[230,320,10,"g2"]].forEach(function(f2){
+          var fp3=scr(f2[0],f2[1],f2[2]);
+          ff+='<g class="yv-firefly '+f2[3]+'"><circle cx="'+fp3.x+'" cy="'+fp3.y+'" r="4" fill="rgba(217,240,126,.25)"/><circle cx="'+fp3.x+'" cy="'+fp3.y+'" r="1.7" fill="#E4F58C"/></g>';
+        });
+        S+='<g pointer-events="none">'+ff+'</g>';
+      }
+
+      /* -- falling weather, over everything -- */
+      if(wx.rain){
+        var rl='<g class="yv-rainlayer" pointer-events="none" stroke="rgba(130,170,210,.6)" stroke-width="1.6" stroke-linecap="round">';
+        for(var ri=0;ri<36;ri++){
+          var rx2=-450+((ri*167)%900),ry2=-170+((ri*97)%460);
+          rl+='<line x1="'+rx2+'" y1="'+ry2+'" x2="'+(rx2-4)+'" y2="'+(ry2+15)+'" style="animation-delay:-'+(((ri*137)%100)/100).toFixed(2)+'s"/>';
+        }
+        S+=rl+'</g>';
+      }
+      if(p.snow){
+        var fl2='<g class="yv-snowlayer" pointer-events="none" fill="rgba(255,255,255,.9)">',n2=wx.snowHeavy?34:18;
+        for(var si=0;si<n2;si++){
+          var sx2=-460+((si*191)%920),sy2=-180+((si*83)%420);
+          fl2+='<circle cx="'+sx2+'" cy="'+sy2+'" r="'+(1.6+(si%3)*.5)+'" style="animation-delay:-'+(((si*149)%70)/10).toFixed(1)+'s"/>';
+        }
+        S+=fl2+'</g>';
+      }
       return S;
     }
 
@@ -5847,6 +5990,11 @@
     function yvRender(){
       host.innerHTML=yvBuild();
       card.setAttribute("data-yvseason",yvSeason);
+      card.setAttribute("data-yvtime",yvTimeOfDay());
+      var w0=yvWx();
+      host.classList.toggle("yv-windy",w0.windy);
+      yvSig=[w0.rain,w0.snowHeavy,w0.windy,yvTimeOfDay(),yvSeason].join("|");
+      yvPadSync();yvRainSync();
       var sb=$("yvSeasons");
       if(sb)sb.innerHTML=YVSEASONS.map(function(s2){
         return '<button type="button" class="ys-chip" data-yvseason-pick="'+s2[0]+'" aria-pressed="'+(s2[0]===yvSeason?"true":"false")+'" aria-label="See the yard in '+s2[2].toLowerCase()+'" title="'+s2[2]+'">'+s2[1]+'</button>';
@@ -5895,6 +6043,174 @@
     host.addEventListener("focusin",function(e){var b=e.target.closest("[data-yvtip]");if(b)yvTipShow(b);});
     host.addEventListener("focusout",yvTipHide);
     host.addEventListener("click",yvTipHide);
+
+    /* ---------- Look closer: zoom in and find the small wildlife ---------- */
+    var YVVB0=[-500,-215,1000,780],yvLookOn=false,yvZoomed=false,yvAnimF=null;
+    function yvSetVB(v){host.setAttribute("viewBox",v.map(function(n){return Math.round(n*10)/10;}).join(" "));}
+    function yvAnimVB(to){
+      var from=(host.getAttribute("viewBox")||"").split(/\s+/).map(Number),t0=null;
+      if(from.length!==4||from.some(isNaN))from=YVVB0.slice();
+      if(yvAnimF)cancelAnimationFrame(yvAnimF);
+      function step(ts){
+        if(t0===null)t0=ts;
+        var k=Math.min(1,(ts-t0)/340),e2=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+        yvSetVB(from.map(function(f,i){return f+(to[i]-f)*e2;}));
+        if(k<1)yvAnimF=requestAnimationFrame(step);
+      }
+      yvAnimF=requestAnimationFrame(step);
+    }
+    function yvZoomOutNow(){yvZoomed=false;var zb=$("yvZoomOut");if(zb)zb.hidden=true;yvAnimVB(YVVB0);}
+    function yvSetLook(on){
+      yvLookOn=on;card.classList.toggle("yv-looking",on);
+      var lb=$("yvLookBtn");if(lb)lb.setAttribute("aria-pressed",on?"true":"false");
+      if(on)toast("Tap the yard to lean in — small lives are hiding");
+      else yvZoomOutNow();
+    }
+    if($("yvLookBtn"))$("yvLookBtn").addEventListener("click",function(){yvSetLook(!yvLookOn);});
+    if($("yvZoomOut"))$("yvZoomOut").addEventListener("click",yvZoomOutNow);
+    host.addEventListener("click",function(e){
+      if(!yvLookOn)return;
+      e.stopPropagation();e.preventDefault();
+      var cr=e.target.closest(".yv-critter");
+      if(cr){toast(cr.getAttribute("data-yvfact")||"");return;}
+      var pt=host.createSVGPoint?host.createSVGPoint():null,m=host.getScreenCTM?host.getScreenCTM():null;
+      if(!pt||!m)return;
+      pt.x=e.clientX;pt.y=e.clientY;
+      var p2=pt.matrixTransform(m.inverse());
+      var w=340,h2=265;
+      var x=Math.max(YVVB0[0],Math.min(YVVB0[0]+YVVB0[2]-w,p2.x-w/2));
+      var y=Math.max(YVVB0[1],Math.min(YVVB0[1]+YVVB0[3]-h2,p2.y-h2/2));
+      yvAnimVB([x,y,w,h2]);
+      yvZoomed=true;var zb=$("yvZoomOut");if(zb)zb.hidden=false;
+    });
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&yvLookOn)yvSetLook(false);});
+
+    /* ---------- a garden tune, grown on this device ----------
+       All sound is synthesized with WebAudio the moment it plays — no audio
+       files, nothing fetched, nothing sent. Season picks the scale; time of
+       day adds birdsong or crickets; a loaded forecast adds soft rain. */
+    var yvAC=null,yvMaster=null,yvSchedulers=[],yvPadOscs=[],yvRainGain=null,yvNextNote=0,yvMi=2;
+    var YVSCALE={spring:[523.25,587.33,659.25,783.99,880],summer:[392,440,523.25,587.33,659.25],
+                 fall:[440,523.25,587.33,659.25,783.99],winter:[659.25,783.99,880,987.77,1174.66]};
+    var YVROOT={spring:130.81,summer:98,fall:110,winter:82.41};
+    var YVSTEP={spring:1.4,summer:1.6,fall:2.0,winter:2.6};
+    function yvPluck(f,t,d,g){
+      var o=yvAC.createOscillator(),o2=yvAC.createOscillator(),gn=yvAC.createGain(),g2=yvAC.createGain();
+      o.type="sine";o.frequency.value=f;o2.type="sine";o2.frequency.value=f*2;g2.gain.value=.25;
+      o.connect(gn);o2.connect(g2);g2.connect(gn);gn.connect(yvMaster);
+      gn.gain.setValueAtTime(0.0001,t);gn.gain.exponentialRampToValueAtTime(g,t+0.018);gn.gain.exponentialRampToValueAtTime(0.0001,t+d);
+      o.start(t);o2.start(t);o.stop(t+d+.1);o2.stop(t+d+.1);
+    }
+    function yvChirp(t){
+      var n=2+Math.floor(Math.random()*2);
+      for(var i=0;i<n;i++){
+        var o=yvAC.createOscillator(),g=yvAC.createGain(),t0=t+i*.15;
+        o.type="sine";
+        o.frequency.setValueAtTime(2500+Math.random()*500,t0);
+        o.frequency.exponentialRampToValueAtTime(3300+Math.random()*400,t0+.05);
+        o.frequency.exponentialRampToValueAtTime(2350,t0+.11);
+        g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(.04,t0+.02);g.gain.exponentialRampToValueAtTime(.0001,t0+.13);
+        o.connect(g);g.connect(yvMaster);o.start(t0);o.stop(t0+.16);
+      }
+    }
+    function yvCricket(t){
+      for(var i=0;i<3;i++){
+        var o=yvAC.createOscillator(),g=yvAC.createGain(),t0=t+i*.09;
+        o.type="triangle";o.frequency.value=4200;
+        g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.018,t0+.012);g.gain.exponentialRampToValueAtTime(.0001,t0+.055);
+        o.connect(g);g.connect(yvMaster);o.start(t0);o.stop(t0+.08);
+      }
+    }
+    function yvPadStart(){
+      var f=yvAC.createBiquadFilter();f.type="lowpass";f.frequency.value=420;
+      var g=yvAC.createGain();g.gain.value=0;g.gain.setTargetAtTime(.045,yvAC.currentTime,2.5);
+      f.connect(g);g.connect(yvMaster);
+      [[1,0],[1.5,3],[2.004,-4]].forEach(function(mv){
+        var o=yvAC.createOscillator();o.type="triangle";
+        o.frequency.value=YVROOT[yvSeason]*mv[0];o.detune.value=mv[1];
+        o.connect(f);o.start();yvPadOscs.push({o:o,m:mv[0]});
+      });
+    }
+    function yvPadSync(){
+      if(!yvAC||!yvPadOscs.length)return;
+      yvPadOscs.forEach(function(po){po.o.frequency.setTargetAtTime(YVROOT[yvSeason]*po.m,yvAC.currentTime,1.4);});
+    }
+    function yvRainStart(){
+      var len=2*yvAC.sampleRate,buf=yvAC.createBuffer(1,len,yvAC.sampleRate),ch=buf.getChannelData(0);
+      for(var i=0;i<len;i++)ch[i]=Math.random()*2-1;
+      var src=yvAC.createBufferSource();src.buffer=buf;src.loop=true;
+      var f=yvAC.createBiquadFilter();f.type="lowpass";f.frequency.value=900;
+      yvRainGain=yvAC.createGain();yvRainGain.gain.value=0;
+      src.connect(f);f.connect(yvRainGain);yvRainGain.connect(yvMaster);src.start();
+    }
+    function yvRainSync(){
+      if(!yvAC||!yvRainGain)return;
+      var on=yvOpts.music&&(yvWx().rain||yvWx().snowHeavy);
+      yvRainGain.gain.setTargetAtTime(on?.05:0,yvAC.currentTime,1.2);
+    }
+    function yvMelodyTick(){
+      if(!yvAC)return;
+      var ct=yvAC.currentTime;
+      while(yvNextNote<ct+0.5){
+        if(yvNextNote<ct)yvNextNote=ct+0.08;
+        var sc=YVSCALE[yvSeason]||YVSCALE.summer;
+        yvMi=Math.max(0,Math.min(sc.length-1,yvMi+[-2,-1,-1,0,1,1,2][Math.floor(Math.random()*7)]));
+        if(Math.random()>0.2)yvPluck(sc[yvMi],yvNextNote,yvSeason==="winter"?3.2:2.2,.07);
+        if(Math.random()<0.18)yvPluck(sc[Math.max(0,yvMi-2)]/2,yvNextNote+0.4,2.8,.045);
+        yvNextNote+=YVSTEP[yvSeason]*(0.6+Math.random()*0.9);
+      }
+    }
+    function yvAmbientTick(){
+      if(!yvAC)return;
+      var T2=yvTimeOfDay(),t=yvAC.currentTime+0.1+Math.random();
+      if(T2!=="night"&&yvSeason!=="winter"){if(Math.random()<0.5)yvChirp(t);}
+      else if(T2==="night"&&(yvSeason==="summer"||yvSeason==="fall")){if(Math.random()<0.75)yvCricket(t);}
+    }
+    function yvMusicStart(){
+      var C=window.AudioContext||window.webkitAudioContext;
+      if(!C){toast("This browser can't play sound");return;}
+      if(!yvAC){
+        yvAC=new C();
+        yvMaster=yvAC.createGain();yvMaster.gain.value=.9;yvMaster.connect(yvAC.destination);
+        yvPadStart();yvRainStart();
+      }
+      if(yvAC.resume)yvAC.resume();
+      yvSchedulers.forEach(clearInterval);yvSchedulers=[];
+      yvNextNote=0;
+      yvSchedulers.push(setInterval(yvMelodyTick,300));
+      yvSchedulers.push(setInterval(yvAmbientTick,4200));
+      yvMelodyTick();yvRainSync();
+    }
+    function yvMusicStop(){
+      yvSchedulers.forEach(clearInterval);yvSchedulers=[];
+      if(yvAC&&yvAC.suspend)yvAC.suspend();
+    }
+    if($("yvMusicBtn"))$("yvMusicBtn").addEventListener("click",function(){
+      yvOpts.music=yvOpts.music?0:1;lsSet("ycYardMini",yvOpts);
+      this.setAttribute("aria-pressed",yvOpts.music?"true":"false");
+      if(yvOpts.music){yvMusicStart();toast("A little garden tune — made right here, nothing loaded");}
+      else yvMusicStop();
+    });
+    if(yvOpts.music&&$("yvMusicBtn")){
+      $("yvMusicBtn").setAttribute("aria-pressed","true");
+      var yvOnce=function(){document.removeEventListener("pointerdown",yvOnce);if(yvOpts.music)yvMusicStart();};
+      document.addEventListener("pointerdown",yvOnce);
+    }
+    document.addEventListener("visibilitychange",function(){
+      if(document.hidden)yvMusicStop();
+      else if(yvOpts.music)yvMusicStart();
+    });
+
+    /* ---------- keep the miniature honest: follow the clock & forecast ---------- */
+    var yvSig="";
+    function yvSync(){
+      var w=yvWx(),sig=[w.rain,w.snowHeavy,w.windy,yvTimeOfDay(),yvSeason].join("|");
+      if(sig!==yvSig){yvSig=sig;yvRender();}
+    }
+    var _yvRW=renderWeekend;
+    renderWeekend=function(){_yvRW();yvSync();};
+    setInterval(yvSync,60000);
+
     yvRender();
   })();
 
