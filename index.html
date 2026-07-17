@@ -704,6 +704,18 @@
   .yardscape.yv-looking .yv-critter .yv-hint{opacity:1;animation:yv-hintpulse 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
   @keyframes yv-hintpulse{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:.5;transform:scale(1.15)}}
   .ys-zoomout{position:absolute;top:10px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:.76rem;font-weight:600;color:var(--ink);background:rgba(255,255,255,.9);border:1px solid var(--line-strong);border-radius:999px;padding:6px 12px;cursor:pointer;box-shadow:0 3px 10px rgba(28,42,32,.18);}
+  /* the pocket yard: after you travel via the diorama, it rides along as a
+     little floating miniature — tap it to open the map and hop again */
+  .yv-dock{position:fixed;right:13px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;width:74px;height:74px;border-radius:50%;border:2px solid #fff;padding:0;overflow:hidden;cursor:pointer;background:linear-gradient(#D9EDF6 0%,#E9F4EA 62%,#F1F5EC 100%);box-shadow:0 6px 20px rgba(27,74,46,.38),0 1px 4px rgba(28,42,32,.25);animation:yv-dockpop .45s cubic-bezier(.2,.9,.3,1.4);}
+  .yv-dock:active{transform:scale(.93);}
+  .yv-dock svg{width:100%;height:100%;display:block;pointer-events:none;}
+  .yv-dock[hidden]{display:none;}
+  @keyframes yv-dockpop{from{transform:scale(.3) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+  .yv-ov{position:fixed;inset:0;z-index:70;background:rgba(24,38,28,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:10px;}
+  .yv-ov[hidden]{display:none;}
+  .yv-ovcard{width:min(680px,100%);max-height:94vh;overflow-y:auto;margin-bottom:0;box-shadow:0 24px 60px rgba(8,18,12,.5);}
+  #yvOvSvg{display:block;width:100%;min-width:540px;max-width:860px;margin:0 auto;}
+  .yv-ovclose{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(255,255,255,.85);color:var(--ink);font-size:1rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
   /* the full A–Z tool index, folded away so home stays calm */
   details.hubfold{border:0;margin:0;}
   details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
@@ -5361,7 +5373,9 @@
     function deco(inner){return '<g aria-hidden="true">'+inner+'</g>';}
 
     /* ============ scene builder ============ */
-    function yvBuild(){
+    function yvBuild(sfx){
+      // sfx makes the def ids unique per svg copy (dock, overlay) — gradients
+      // can't be borrowed from a display:none pane, so each copy carries its own
       var p=YVPAL[yvSeason],O=[],G=[]; // O: sorted uprights {k,s} · G: flat ground layer
       var T=yvTimeOfDay(),wx=yvWx();
       function obj(k,s){O.push({k:k,s:s});}
@@ -5982,6 +5996,7 @@
         }
         S+=fl2+'</g>';
       }
+      if(sfx)S=S.replace(/yv(Soft|Lawn|Water|Pool|SunG|SoilFace|MoonM)\b/g,function(m){return m+sfx;});
       return S;
     }
 
@@ -6200,6 +6215,72 @@
       if(document.hidden)yvMusicStop();
       else if(yvOpts.music)yvMusicStart();
     });
+
+    /* ---------- the pocket yard: come back to the map from anywhere ----------
+       Tapping a prop takes you to its page — and the yard rides along as a
+       small floating miniature. Tap it to reopen the map and hop again. */
+    var yvDock=document.createElement("button");
+    yvDock.type="button";yvDock.className="yv-dock";yvDock.hidden=true;
+    yvDock.setAttribute("aria-label","Open the yard map and go somewhere else");
+    yvDock.innerHTML='<svg viewBox="-480 -120 960 668" aria-hidden="true"></svg>';
+    document.body.appendChild(yvDock);
+    var yvOv=document.createElement("div");
+    yvOv.className="yv-ov";yvOv.hidden=true;
+    yvOv.setAttribute("role","dialog");yvOv.setAttribute("aria-modal","true");
+    yvOv.setAttribute("aria-label","Your yard — tap where to go next");
+    yvOv.innerHTML='<div class="yardscape yv-ovcard" id="yvOvCard">'+
+      '<div class="ys-head"><div><div class="ys-kicker">Your yard</div><h2 class="ys-title">Tap where to go next</h2></div>'+
+      '<button type="button" class="yv-ovclose" id="yvOvClose" aria-label="Close the yard map">&#10005;</button></div>'+
+      '<div class="ys-stage" id="yvOvStage"><svg id="yvOvSvg" viewBox="-500 -215 1000 780" role="group" aria-label="The yard map"></svg></div></div>';
+    document.body.appendChild(yvOv);
+    var yvCurTab="almanac",yvUsedYard=false,yvDockToasted=false,yvOvPrevFocus=null;
+    function yvDockSync(){
+      var show=yvUsedYard&&yvCurTab!=="almanac"&&yvOv.hidden;
+      if(show&&yvDock.hidden)yvDock.querySelector("svg").innerHTML=yvBuild("Dk");
+      yvDock.hidden=!show;
+    }
+    var _yvST=showTab;
+    showTab=function(name){_yvST(name);if(document.querySelector('[data-pane="'+name+'"]'))yvCurTab=name;yvDockSync();};
+    host.addEventListener("click",function(e){
+      if(yvLookOn)return;
+      if(e.target.closest("[data-tool]")){
+        yvUsedYard=true;
+        if(!yvDockToasted){yvDockToasted=true;setTimeout(function(){toast("The little yard rides along — tap it to hop somewhere else");},700);}
+      }
+    });
+    function yvOvOpen(){
+      var oc=$("yvOvCard");
+      oc.setAttribute("data-yvseason",yvSeason);
+      oc.setAttribute("data-yvtime",yvTimeOfDay());
+      $("yvOvSvg").innerHTML=yvBuild("Ov");
+      yvOvPrevFocus=document.activeElement;
+      yvOv.hidden=false;yvDock.hidden=true;
+      document.body.style.overflow="hidden";
+      var st2=$("yvOvStage");
+      requestAnimationFrame(function(){if(st2.scrollWidth>st2.clientWidth)st2.scrollLeft=(st2.scrollWidth-st2.clientWidth)/2;});
+      var cb=$("yvOvClose");if(cb)try{cb.focus();}catch(e){}
+    }
+    function yvOvShut(){
+      yvOv.hidden=true;document.body.style.overflow="";
+      yvDockSync();
+      try{if(yvOvPrevFocus&&yvOvPrevFocus.focus)yvOvPrevFocus.focus();}catch(e){}
+      yvOvPrevFocus=null;
+    }
+    yvDock.addEventListener("click",yvOvOpen);
+    yvOv.addEventListener("click",function(e){
+      if(e.target===yvOv){yvOvShut();return;}
+      if(e.target.closest("#yvOvClose")){yvOvShut();return;}
+      var fun=e.target.closest("[data-yvfun]");
+      if(fun){toast("The pool is just for looks — the garden is the real oasis 🌿");return;}
+      if(e.target.closest("[data-tool]")){yvUsedYard=true;yvOvShut();} // the document delegation does the travel
+    });
+    yvOv.addEventListener("keydown",function(e){
+      if(e.key!=="Enter"&&e.key!==" ")return;
+      var b=e.target.closest("[data-tool],[data-yvfun]");if(!b)return;
+      e.preventDefault();
+      b.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}));
+    });
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!yvOv.hidden)yvOvShut();});
 
     /* ---------- keep the miniature honest: follow the clock & forecast ---------- */
     var yvSig="";
