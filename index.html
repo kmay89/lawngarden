@@ -621,6 +621,61 @@
     html[data-season="winter"] section[data-pane="season"]>div.card:first-of-type::before{content:"\2745\FE0E";color:var(--sky);}
     html[data-season="winter"] section[data-pane="season"]>div.card:first-of-type::after{content:"\2746\FE0E";color:var(--sky);}
   }
+
+  /* ---------- the yard, in miniature — an isometric diorama of the whole app ---------- */
+  .yardscape{position:relative;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow),0 18px 44px rgba(27,74,46,.14);background:#EAF3F6;}
+  .ys-stage{position:relative;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;transition:background 1s ease;
+    background:radial-gradient(120% 85% at 74% -12%,rgba(255,224,140,.55),transparent 55%),linear-gradient(#D9EDF6 0%,#E9F4EA 62%,#F1F5EC 100%);}
+  .ys-stage::-webkit-scrollbar{display:none;}
+  .yardscape[data-yvseason="spring"] .ys-stage{background:radial-gradient(120% 85% at 74% -12%,rgba(255,236,170,.5),transparent 55%),linear-gradient(#D8EFF4 0%,#E6F5E6 62%,#F0F6EC 100%);}
+  .yardscape[data-yvseason="summer"] .ys-stage{background:radial-gradient(130% 90% at 74% -12%,rgba(255,214,110,.6),transparent 56%),linear-gradient(#CDE9F2 0%,#E4F3E2 62%,#F0F5EA 100%);}
+  .yardscape[data-yvseason="fall"]   .ys-stage{background:radial-gradient(120% 85% at 74% -12%,rgba(255,196,110,.55),transparent 55%),linear-gradient(#E4EDEF 0%,#F2EFDE 62%,#F4F2E4 100%);}
+  .yardscape[data-yvseason="winter"] .ys-stage{background:radial-gradient(110% 80% at 74% -12%,rgba(255,244,214,.4),transparent 52%),linear-gradient(#DCE4EE 0%,#E9EEF0 62%,#F0F3F1 100%);}
+  #yvSvg{display:block;width:100%;min-width:600px;max-width:860px;margin:0 auto;}
+  .ys-head{position:relative;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px 16px 0;pointer-events:none;}
+  .ys-head>*{pointer-events:auto;}
+  .ys-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .ys-title{font-family:var(--display);font-size:1.18rem;font-weight:650;letter-spacing:-.01em;color:var(--ink);margin:3px 0 0;}
+  .ys-seasons{display:flex;gap:4px;flex:0 0 auto;background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.7);backdrop-filter:blur(4px);border-radius:999px;padding:3px;}
+  .ys-chip{border:none;background:transparent;border-radius:999px;width:30px;height:30px;font-size:.9rem;line-height:1;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;}
+  .ys-chip[aria-pressed=true]{background:#fff;box-shadow:var(--shadow);}
+  .ys-foot{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:2px 14px 12px;}
+  .ys-note{font-family:var(--mono);font-size:.64rem;letter-spacing:.05em;color:var(--ink-faint);}
+  .ys-opts{display:flex;gap:6px;}
+  .ys-opt{display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:.74rem;font-weight:600;color:var(--ink-soft);background:rgba(255,255,255,.75);border:1px solid var(--line-strong);border-radius:999px;padding:5px 11px;cursor:pointer;}
+  .ys-opt[aria-pressed=true]{color:var(--grass-deep);border-color:var(--grass);background:#fff;}
+  .ys-opt .dot{width:7px;height:7px;border-radius:50%;background:var(--line-strong);}
+  .ys-opt[aria-pressed=true] .dot{background:var(--grass);}
+  .ys-tip{position:absolute;z-index:5;transform:translate(-50%,-100%);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:.34em .85em;font-family:var(--display);font-size:.76rem;font-weight:600;color:var(--ink);box-shadow:0 4px 14px rgba(28,42,32,.16);pointer-events:none;white-space:nowrap;opacity:0;visibility:hidden;transition:opacity .15s ease;}
+  .ys-tip.show{opacity:1;visibility:visible;}
+  .yv-obj{cursor:pointer;outline:none;}
+  .yv-obj>g{transition:transform .3s cubic-bezier(.2,.9,.3,1.35);will-change:transform;}
+  .yv-obj:hover>g,.yv-obj:focus-visible>g{transform:translateY(-6px);}
+  .yv-obj:hover,.yv-obj:focus-visible{filter:drop-shadow(0 2px 10px rgba(27,74,46,.35));}
+  .yv-obj:focus-visible{filter:drop-shadow(0 0 3px var(--grass)) drop-shadow(0 2px 10px rgba(27,74,46,.4));}
+  .yv-ground{cursor:pointer;outline:none;}
+  /* gentle life in the scene */
+  .yv-fly{animation:yv-fly 7s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  .yv-fly.f2{animation-delay:-3.2s;animation-duration:8.5s;}
+  @keyframes yv-fly{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(7px,-9px) rotate(8deg)}55%{transform:translate(-6px,-15px) rotate(-7deg)}80%{transform:translate(5px,-5px) rotate(5deg)}}
+  .yv-bob{animation:yv-bob 4.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
+  @keyframes yv-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .yv-smoke{animation:yv-smoke 4.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom;}
+  .yv-smoke.s2{animation-delay:-2.1s;}
+  @keyframes yv-smoke{0%{opacity:0;transform:translateY(2px) scale(.7)}30%{opacity:.5}100%{opacity:0;transform:translateY(-16px) scale(1.25)}}
+  .yv-shimmer{animation:yv-shimmer 5.5s ease-in-out infinite;}
+  @keyframes yv-shimmer{0%,100%{opacity:.35}50%{opacity:.75}}
+  .yv-spray{animation:yv-spray 1.6s linear infinite;}
+  @keyframes yv-spray{to{stroke-dashoffset:-14}}
+  .yv-leaf{animation:yv-leaf 6s linear infinite;transform-box:fill-box;transform-origin:center;}
+  .yv-leaf.l2{animation-delay:-2s}.yv-leaf.l3{animation-delay:-4s}
+  @keyframes yv-leaf{0%{transform:translate(0,-6px) rotate(0deg);opacity:0}12%{opacity:.9}100%{transform:translate(-14px,44px) rotate(160deg);opacity:0}}
+  /* the full A–Z tool index, folded away so home stays calm */
+  details.hubfold{border:0;margin:0;}
+  details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
+  details.hubfold>summary::-webkit-details-marker{display:none;}
+  details.hubfold>summary .ic{width:16px;height:16px;transition:transform .2s ease;}
+  details.hubfold[open]>summary .ic{transform:rotate(180deg);}
 </style>
 </head>
 <body>
@@ -755,6 +810,28 @@
       <p id="nowSub"></p>
       <ul class="nb-list" id="nowList"></ul>
     </div>
+
+    <div class="yardscape" id="yardscape" data-yvseason="summer">
+      <div class="ys-head">
+        <div>
+          <div class="ys-kicker">Your yard, in miniature</div>
+          <h2 class="ys-title">A little world to tend</h2>
+        </div>
+        <div class="ys-seasons" id="yvSeasons" role="group" aria-label="Preview the yard in another season"></div>
+      </div>
+      <div class="ys-stage" id="yvStage">
+        <svg id="yvSvg" viewBox="-500 -215 1000 780" role="group" aria-label="An isometric miniature of your yard — house, lawn, gardens, trees, and more. Each part opens its page in the app."></svg>
+        <div class="ys-tip" id="yvTip" aria-hidden="true"></div>
+      </div>
+      <div class="ys-foot">
+        <div class="ys-opts" id="yvOpts">
+          <button type="button" class="ys-opt" id="yvPondBtn" aria-pressed="true"><span class="dot"></span>Pond</button>
+          <button type="button" class="ys-opt" id="yvPoolBtn" aria-pressed="false"><span class="dot"></span>Pool</button>
+        </div>
+        <span class="ys-note">tap anything in the yard to open its page</span>
+      </div>
+    </div>
+
     <div class="season-head" id="seasonHead">
       <div class="sh-top"><span class="sh-kicker" id="shKicker">Your year</span><span class="sh-yr" id="shYear"></span></div>
       <h2 class="sh-name" id="shName">—</h2>
@@ -779,7 +856,9 @@
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-bulb"/></svg><h3>Jump to a tool or note</h3></div>
-      <p class="hint">Everything in one place — your logs and every calculator, one tap from home.</p>
+      <p class="hint">The yard above is the map — but if you'd rather browse a list, everything is here.</p>
+      <details class="hubfold">
+      <summary><svg class="ic"><use href="#i-chev"/></svg>Open the full index</summary>
       <div class="hubhead first">Log &amp; notes</div>
       <div class="hub">
         <button class="hubchip" data-tool="almanac" data-scroll="storyCard"><svg class="ic"><use href="#i-book"/></svg><span class="ht">Your story</span></button>
@@ -818,6 +897,7 @@
         <button class="hubchip" data-tool="shop" data-scroll="shopName"><svg class="ic"><use href="#i-cart"/></svg><span class="ht">Shopping list</span></button>
         <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
       </div>
+      </details>
     </div>
 
     <div class="card">
@@ -5148,6 +5228,675 @@
   if($("welcomeOpen"))$("welcomeOpen").addEventListener("click",function(){openWelcome();});
   if($("personalizeBtn"))$("personalizeBtn").addEventListener("click",function(){openWelcome();wizardStep(2);});
   document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome(false);}});
+
+  /* ---------- the yard, in miniature — an isometric diorama of the whole app ----------
+     Same projection engine as a tabletop miniature: world +x runs screen right-down,
+     +y runs screen left-down, +z is up. Every prop is a hotspot into its pane. */
+  (function(){
+    var host=$("yvSvg"),card=$("yardscape"),stage=$("yvStage");if(!host||!card)return;
+
+    /* -- projection + primitives -- */
+    function P(x,y,z){return [x-y,(x+y)/2-z];}
+    function pj(x,y,z){var p=P(x,y,z);return p[0].toFixed(1)+","+p[1].toFixed(1);}
+    function shade(hex,f){
+      var n=parseInt(hex.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;
+      function ch(c){c=f>0?c+(255-c)*f:c*(1+f);return Math.round(Math.min(255,Math.max(0,c)));}
+      return "rgb("+ch(r)+","+ch(g)+","+ch(b)+")";
+    }
+    var OUT='stroke="rgba(50,66,50,.30)" stroke-width="1" stroke-linejoin="round"';
+    function polyW(cs,fill,extra){
+      return '<polygon points="'+cs.map(function(c){return pj(c[0],c[1],c[2]);}).join(" ")+'" fill="'+fill+'" '+(extra||OUT)+'/>';
+    }
+    function box(x,y,z,w,d,h,c,o){
+      o=o||{};var t=z+h,s="";
+      s+=polyW([[x,y+d,t],[x+w,y+d,t],[x+w,y+d,z],[x,y+d,z]],o.left||shade(c,-.22));
+      s+=polyW([[x+w,y,t],[x+w,y+d,t],[x+w,y+d,z],[x+w,y,z]],o.right||shade(c,-.06));
+      s+=polyW([[x,y,t],[x+w,y,t],[x+w,y+d,t],[x,y+d,t]],o.top||shade(c,.2));
+      return s;
+    }
+    function mTop(x,y,z){var p=P(x,y,z);return "matrix(1,0.5,-1,0.5,"+p[0]+","+p[1]+")";}
+    function mLeft(x,y,z){var p=P(x,y,z);return "matrix(1,0.5,0,1,"+p[0]+","+p[1]+")";}
+    function mRight(x,y,z){var p=P(x,y,z);return "matrix(1,-0.5,0,1,"+p[0]+","+p[1]+")";}
+    function gTop(x,y,z,inner){return '<g transform="'+mTop(x,y,z)+'">'+inner+"</g>";}
+    function gLeft(x,y,z,inner){return '<g transform="'+mLeft(x,y,z)+'">'+inner+"</g>";}
+    function gRight(x,y,z,inner){return '<g transform="'+mRight(x,y,z)+'">'+inner+"</g>";}
+    function isoEllipse(cx,cy,z,r,fill,extra){
+      var p=P(cx,cy,z),R=r*1.414;
+      return '<ellipse cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" rx="'+R.toFixed(1)+'" ry="'+(R/2).toFixed(1)+'" fill="'+fill+'" '+(extra||'stroke="none"')+'/>';
+    }
+    function cyl(cx,cy,z,r,h,c){
+      var R=r*1.414,pB=P(cx,cy,z),pT=P(cx,cy,z+h);
+      var s='<path d="M'+(pT[0]-R).toFixed(1)+' '+pT[1].toFixed(1)+' L'+(pB[0]-R).toFixed(1)+' '+pB[1].toFixed(1)+
+        ' A'+R.toFixed(1)+' '+(R/2).toFixed(1)+' 0 0 0 '+(pB[0]+R).toFixed(1)+' '+pB[1].toFixed(1)+
+        ' L'+(pT[0]+R).toFixed(1)+' '+pT[1].toFixed(1)+' Z" fill="'+shade(c,-.12)+'" '+OUT+'/>';
+      return s+isoEllipse(cx,cy,z+h,r,shade(c,.16),OUT);
+    }
+    function blob(cx,cy,rx,op){ // soft ground shadow
+      var p=P(cx,cy,0);
+      return '<ellipse cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" rx="'+rx+'" ry="'+(rx*.44).toFixed(1)+'" fill="rgba(38,60,40,'+(op||.16)+')" filter="url(#yvSoft)"/>';
+    }
+    function scr(cx,cy,z){var p=P(cx,cy,z);return {x:p[0],y:p[1]};} // world point → screen
+    function line3(x1,y1,z1,x2,y2,z2,stroke,w,extra){
+      var a=P(x1,y1,z1),b=P(x2,y2,z2);
+      return '<path d="M'+a[0].toFixed(1)+' '+a[1].toFixed(1)+' L'+b[0].toFixed(1)+' '+b[1].toFixed(1)+'" stroke="'+stroke+'" stroke-width="'+w+'" stroke-linecap="round" fill="none" '+(extra||'')+'/>';
+    }
+
+    /* -- the four moods of the yard -- */
+    var YVPAL={
+      spring:{grass:"#6FBC84",gLite:"#93D2A0",meadow:"#90C97F",canopy:"#7FCB8C",fruitC:"#93D69E",
+        blossom:1,apples:0,tulips:1,bare:0,snow:0,fallLeaves:0,icy:0,spray:1,straw:0,
+        sun:"#FFDE82",flowers:["#E7A9C4","#F2E9C8","#B77BC9","#E8B84C"]},
+      summer:{grass:"#5BA470",gLite:"#79BC8A",meadow:"#86BC74",canopy:"#4E9963",fruitC:"#5CA76C",
+        blossom:0,apples:1,tulips:0,bare:0,snow:0,fallLeaves:0,icy:0,spray:1,straw:1,
+        sun:"#FFD25E",flowers:["#B77BC9","#E8A83C","#F2F0E0","#C85A6E"]},
+      fall:{grass:"#52A06B",gLite:"#6DB582",meadow:"#A8A868",canopy:"#DB9040",fruitC:"#C9A143",
+        blossom:0,apples:1,tulips:0,bare:0,snow:0,fallLeaves:1,icy:0,spray:0,straw:0,
+        sun:"#FFC96A",flowers:["#9C6BB8","#E0B23C","#C9793C","#B85C8A"]},
+      winter:{grass:"#C2CEC4",gLite:"#CFDAD1",meadow:"#C9BB90",canopy:"#8A9B8E",fruitC:"#9AA89C",
+        blossom:0,apples:0,tulips:0,bare:1,snow:1,fallLeaves:0,icy:1,spray:0,straw:0,
+        sun:"#FFEDBB",flowers:["#8A7A62","#9A8A70","#8A7A62","#9A8A70"]}
+    };
+    var WOOD="#B98B5A",WOODNEW="#C89858",BARK="#7A5A40",MULCH="#6E4A2A",SOILC="#7C5130",
+        WALL="#F2E7D4",ROOF="#C2664A",SAGE="#5F7F66",GLOW="#FFE3A8",STONE="#CBC2AC",WATER="#6FB6D6";
+    var SNOWC="#F3F7F9";
+
+    var yvOpts=lsGet("ycYardMini")||{pond:1,pool:0};
+    var yvSeason=(document.documentElement.getAttribute("data-season"))||seasonOf(new Date().getMonth());
+    if(!YVPAL[yvSeason])yvSeason="summer";
+
+    function hot(tool,scroll,label,inner){
+      return '<g class="yv-obj" role="button" tabindex="0" data-tool="'+tool+'"'+(scroll?' data-scroll="'+scroll+'"':'')+
+        ' data-yvtip="'+label+'" aria-label="'+label+'"><g>'+inner+'</g></g>';
+    }
+    function deco(inner){return '<g aria-hidden="true">'+inner+'</g>';}
+
+    /* ============ scene builder ============ */
+    function yvBuild(){
+      var p=YVPAL[yvSeason],O=[],G=[]; // O: sorted uprights {k,s} · G: flat ground layer
+      function obj(k,s){O.push({k:k,s:s});}
+
+      var S='<defs>'+
+        '<filter id="yvSoft" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="5"/></filter>'+
+        '<radialGradient id="yvLawn" cx=".58" cy=".26" r=".95"><stop offset="0" stop-color="'+shade(p.grass,.10)+'"/><stop offset=".55" stop-color="'+p.grass+'"/><stop offset="1" stop-color="'+shade(p.grass,-.16)+'"/></radialGradient>'+
+        '<radialGradient id="yvWater" cx=".42" cy=".38" r=".9"><stop offset="0" stop-color="'+(p.icy?"#E4F0F4":"#9CD2E8")+'"/><stop offset=".6" stop-color="'+(p.icy?"#CBDFE8":WATER)+'"/><stop offset="1" stop-color="'+(p.icy?"#B5CDD9":"#4A8CB0")+'"/></radialGradient>'+
+        '<radialGradient id="yvPool" cx=".45" cy=".4" r=".95"><stop offset="0" stop-color="#A5E4EC"/><stop offset=".65" stop-color="#6FCADC"/><stop offset="1" stop-color="#4FABC4"/></radialGradient>'+
+        '<radialGradient id="yvSunG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="'+p.sun+'" stop-opacity=".85"/><stop offset=".55" stop-color="'+p.sun+'" stop-opacity=".28"/><stop offset="1" stop-color="'+p.sun+'" stop-opacity="0"/></radialGradient>'+
+        '<linearGradient id="yvSoilFace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A5A34"/><stop offset=".45" stop-color="#75492A"/><stop offset="1" stop-color="#5E3B20"/></linearGradient>'+
+        '</defs>';
+
+      /* -- sky (screen space) -- */
+      S+=hot("season",null,"Seasons & the forecast",
+        '<circle cx="330" cy="-148" r="52" fill="url(#yvSunG)"/>'+
+        '<circle cx="330" cy="-148" r="'+(p.snow?20:25)+'" fill="'+p.sun+'" stroke="rgba(255,255,255,.65)" stroke-width="2"/>');
+      S+=deco('<g class="yv-bob" fill="#FFFFFF" opacity=".8"><ellipse cx="-268" cy="-152" rx="34" ry="11"/><ellipse cx="-244" cy="-160" rx="22" ry="9"/><ellipse cx="-292" cy="-158" rx="18" ry="8"/></g>'+
+        '<g class="yv-bob" style="animation-delay:-2s" fill="#FFFFFF" opacity=".65"><ellipse cx="96" cy="-186" rx="26" ry="9"/><ellipse cx="116" cy="-192" rx="16" ry="7"/></g>'+
+        (p.snow?'':'<g stroke="#5C6B60" stroke-width="1.6" fill="none" opacity=".6"><path d="M-150 -170 q5 -5 10 0 q5 -5 10 0"/><path d="M-118 -158 q4 -4 8 0 q4 -4 8 0"/></g>'));
+
+      /* -- the plinth: earth cross-section (this IS the soil hotspot) -- */
+      var baseS=polyW([[0,470,0],[470,470,0],[470,470,-44],[0,470,-44]],"url(#yvSoilFace)")+
+        polyW([[470,0,0],[470,470,0],[470,470,-44],[470,0,-44]],shade("#6B4426",-.14))+
+        gLeft(0,470,0,
+          '<g stroke="rgba(46,28,12,.35)" stroke-width="1.2" fill="none"><path d="M0 12 q118 5 235 1 t235 2"/><path d="M0 27 q140 -5 260 0 t210 -2"/></g>'+
+          '<g fill="#5E3B20"><ellipse cx="64" cy="20" rx="5" ry="3.4"/><ellipse cx="180" cy="33" rx="6.5" ry="4"/><ellipse cx="300" cy="17" rx="4.5" ry="3"/><ellipse cx="404" cy="30" rx="5.5" ry="3.6"/></g>'+
+          '<g fill="#9A9184"><ellipse cx="120" cy="36" rx="4" ry="2.8"/><ellipse cx="352" cy="38" rx="5" ry="3.2"/><ellipse cx="238" cy="24" rx="3.4" ry="2.4"/></g>'+
+          '<g stroke="#8A6A45" stroke-width="1.3" fill="none" opacity=".8"><path d="M62 2 q-3 10 2 16 m-2 -9 q-6 3 -9 9 m9 -9 q5 4 6 10"/><path d="M398 2 q4 9 0 15 m0 -8 q6 2 8 8"/></g>'+
+          '<path d="M206 40 q6 -5 12 0 q6 5 12 0" stroke="#C9838A" stroke-width="2.6" fill="none" stroke-linecap="round"/>')+
+        gRight(470,470,0,
+          '<g stroke="rgba(40,24,10,.3)" stroke-width="1.1" fill="none"><path d="M0 14 q120 4 235 0 t235 3"/><path d="M0 30 q140 -4 250 0 t220 -3"/></g>'+
+          '<g fill="rgba(46,28,12,.5)"><ellipse cx="92" cy="24" rx="5" ry="3.2"/><ellipse cx="226" cy="35" rx="6" ry="3.6"/><ellipse cx="338" cy="19" rx="4.4" ry="2.8"/></g>'+
+          '<g fill="rgba(150,142,128,.55)"><ellipse cx="160" cy="18" rx="3.6" ry="2.4"/><ellipse cx="410" cy="30" rx="4.4" ry="2.8"/></g>')+
+        polyW([[0,470,-44],[470,470,-44],[470,470,-52],[0,470,-52]],"#3E2A16",'stroke="none"')+
+        polyW([[470,0,-44],[470,470,-44],[470,470,-52],[470,0,-52]],"#33220F",'stroke="none"');
+      S+='<ellipse cx="0" cy="492" rx="470" ry="52" fill="rgba(40,56,44,.18)" filter="url(#yvSoft)"/>';
+      S+='<g class="yv-ground" role="button" tabindex="0" data-tool="soil" data-yvtip="The soil beneath — pH & amendments" aria-label="The soil beneath — pH and amendments">'+baseS+'</g>';
+
+      /* -- the lawn top -- */
+      S+=polyW([[0,0,0],[470,0,0],[470,470,0],[0,470,0]],"url(#yvLawn)",'stroke="rgba(44,66,48,.42)" stroke-width="1.5" stroke-linejoin="round"');
+      var stripes='';
+      for(var su=0;su<470;su+=42)stripes+='<rect x="'+su+'" y="0" width="21" height="470" fill="#FFFFFF" opacity=".08"/>';
+      if(!p.snow)for(var tu=0;tu<15;tu++){
+        var gx2=140+((tu*67)%200),gy2=130+((tu*103)%210);
+        stripes+='<g stroke="'+shade(p.grass,-.2)+'" stroke-width="1" fill="none" opacity=".5" transform="translate('+gx2+','+gy2+')"><path d="M0 0 l-2 -4 M1 0 l0 -5 M2 0 l2 -4"/></g>';
+      }
+      if(p.straw)stripes+='<ellipse cx="255" cy="215" rx="34" ry="20" fill="#C9BC7A" opacity=".28"/><ellipse cx="180" cy="150" rx="22" ry="14" fill="#C9BC7A" opacity=".22"/>';
+      if(p.snow)stripes+='<ellipse cx="230" cy="200" rx="60" ry="36" fill="'+SNOWC+'" opacity=".8"/><ellipse cx="320" cy="330" rx="44" ry="26" fill="'+SNOWC+'" opacity=".75"/><ellipse cx="140" cy="140" rx="36" ry="22" fill="'+SNOWC+'" opacity=".7"/><ellipse cx="360" cy="140" rx="30" ry="18" fill="'+SNOWC+'" opacity=".6"/>';
+      S+=gTop(0,0,0,stripes);
+      S+='<g class="yv-ground" role="button" tabindex="0" data-tool="lawn" data-yvtip="The lawn — feed, water, thicken" aria-label="The lawn — feeding and watering">'+
+        polyW([[130,120,0],[340,120,0],[340,340,0],[130,340,0]],"transparent",'stroke="none"')+'</g>';
+
+      /* -- stepping-stone path (ground layer) -- */
+      var path='';
+      for(var t=0;t<=1;t+=0.125){
+        var px=135+(120-135)*2*t*(1-t)*2+ (150-135)*t*t, py=175+265*t; // gentle curve
+        px=135+(t<.5? -8*Math.sin(t*3.14):6*Math.sin((t-.5)*3.14))+t*14;
+        path+=isoEllipse(px,py+ (t*8),0.5,7.2,STONE,'stroke="rgba(60,60,44,.25)" stroke-width="1"');
+      }
+      G.push(path);
+
+      /* -- back picket fence (decorative frame) -- */
+      var fen='';
+      (function(){
+        var pick='';
+        for(var u=6;u<466;u+=13)pick+='<rect x="'+u+'" y="-17" width="5" height="17" rx="2" fill="#F6F2E4" stroke="rgba(90,90,70,.25)" stroke-width=".7"/>';
+        pick+='<rect x="2" y="-13" width="464" height="2.4" fill="#EAE4D2"/><rect x="2" y="-6.5" width="464" height="2.4" fill="#EAE4D2"/>';
+        fen=gLeft(0,4,0,pick)+gRight(4,470,0,pick);
+      })();
+      obj(2,deco(fen));
+
+      /* ============ props, back to front ============ */
+
+      /* -- the house -- */
+      (function(){
+        var s=blob(120,100,120,.14);
+        s+=box(40,30,0,145,120,56,WALL,{left:shade(WALL,-.10),right:shade(WALL,-.20)});
+        s+=polyW([[185,152,57],[185,28,57],[185,90,93]],shade(WALL,-.26)); // gable end
+        s+=polyW([[32,20,58],[193,20,58],[193,90,94],[32,90,94]],shade(ROOF,-.3),'stroke="rgba(70,40,26,.4)" stroke-width="1"');
+        s+=polyW([[32,160,58],[193,160,58],[193,90,94],[32,90,94]],ROOF,'stroke="rgba(70,40,26,.4)" stroke-width="1"');
+        if(p.snow){s+=polyW([[36,156,60],[189,156,60],[189,92,93.5],[36,92,93.5]],SNOWC,'stroke="none" opacity=".92"');
+                   s+=polyW([[36,24,60],[189,24,60],[189,88,93.5],[36,88,93.5]],shade(SNOWC,-.05),'stroke="none" opacity=".9"');}
+        s+=polyW([[32,160,58],[193,160,58],[193,160,54.5],[32,160,54.5]],shade(WALL,.3),'stroke="rgba(70,40,26,.3)" stroke-width=".8"'); // fascia
+        s+=polyW([[193,160,58],[193,90,94],[193,90,90.5],[193,160,54.5]],shade(ROOF,-.42),'stroke="none"'); // rake edge
+        // chimney + winter smoke
+        s+=box(150,74,84,16,14,26,"#9E5B44");
+        s+=box(148,72,110,20,18,3.5,"#8A4F3C");
+        if(p.snow)s+=isoEllipse(158,81,113.6,9,SNOWC);
+        if(p.snow){var sp=scr(158,81,118);
+          s+=deco('<g fill="#C9C4BC" opacity=".9"><circle class="yv-smoke" cx="'+sp.x+'" cy="'+sp.y+'" r="5.5"/><circle class="yv-smoke s2" cx="'+(sp.x+4)+'" cy="'+(sp.y-7)+'" r="7"/></g>');}
+        // left face: door + windows + boxes
+        var wb=p.snow?'<g fill="#4E6B54"><circle cx="6" cy="1" r="2.6"/><circle cx="13" cy="0" r="2.8"/><circle cx="20" cy="1" r="2.6"/></g>'
+          :'<g><circle cx="5" cy="0" r="2.4" fill="'+(p.flowers[0])+'"/><circle cx="11" cy="-1" r="2.4" fill="'+(p.flowers[1])+'"/><circle cx="17" cy="0" r="2.4" fill="'+(p.flowers[3])+'"/><circle cx="22" cy="-1" r="2.2" fill="'+(p.flowers[2])+'"/></g>';
+        function win(u,v){return '<g transform="translate('+u+','+v+')">'+
+          '<rect x="-2" y="-2" width="30" height="26" rx="2" fill="#FBF7EC" stroke="rgba(90,80,60,.35)" stroke-width="1"/>'+
+          '<rect x="0" y="0" width="26" height="22" fill="'+GLOW+'"/>'+
+          '<path d="M13 0 V22 M0 11 H26" stroke="#FBF7EC" stroke-width="2"/>'+
+          '<rect x="-7" y="-2" width="5" height="26" rx="1" fill="'+SAGE+'"/><rect x="30" y="-2" width="5" height="26" rx="1" fill="'+SAGE+'"/>'+
+          '<rect x="-1" y="24.5" width="28" height="5" rx="2" fill="'+shade(WOOD,-.1)+'"/>'+
+          '<g transform="translate(1,24)">'+wb+'</g></g>';}
+        s+=gLeft(40,150,56,win(14,15)+win(106,15)+
+          '<g transform="translate(64,20)"><rect x="0" y="0" width="24" height="36" rx="2.5" fill="'+SAGE+'" stroke="rgba(40,56,44,.4)" stroke-width="1"/>'+
+          '<rect x="3.5" y="4" width="17" height="12" rx="1.5" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.4"/>'+
+          '<rect x="3.5" y="19" width="17" height="12" rx="1.5" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.4"/>'+
+          '<circle cx="20" cy="19" r="1.6" fill="#E8C87A"/></g>'+
+          '<g stroke="rgba(120,100,70,.16)" stroke-width="1">'+(function(){var l='';for(var v=8;v<56;v+=7)l+='<path d="M0 '+v+' H145"/>';return l;})()+'</g>');
+        // right face: window + downspout
+        s+=gRight(185,150,56,'<g transform="translate(42,14)">'+
+          '<rect x="-2" y="-2" width="26" height="22" rx="2" fill="#FBF7EC" stroke="rgba(90,80,60,.35)" stroke-width="1"/>'+
+          '<rect x="0" y="0" width="22" height="18" fill="'+GLOW+'"/><path d="M11 0 V18 M0 9 H22" stroke="#FBF7EC" stroke-width="2"/></g>'+
+          '<path d="M8 0 V44 q0 5 6 5 h4" stroke="#B9AE98" stroke-width="3.4" fill="none" stroke-linecap="round"/>');
+        // porch
+        s+=box(96,150,0,40,20,6,"#C79A62");
+        s+=line3(101,167,6,101,167,32,shade(WALL,.1),3.5)+line3(131,167,6,131,167,32,shade(WALL,.1),3.5);
+        s+=polyW([[94,148,36],[138,148,36],[138,174,29],[94,174,29]],shade(ROOF,-.12),'stroke="rgba(70,40,26,.35)" stroke-width="1"');
+        if(p.snow)s+=polyW([[96,150,36.6],[136,150,36.6],[136,172,30],[96,172,30]],SNOWC,'stroke="none" opacity=".9"');
+        obj(205,hot("almanac","jDate","The house — your journal & story",s));
+      })();
+
+      /* -- rain barrel + watering can -- */
+      (function(){
+        var s=blob(206,112,20,.15);
+        s+=cyl(203,108,0,12,28,"#5F808C");
+        var e1=P(203,108,9),e2=P(203,108,19);
+        s+='<ellipse cx="'+e1[0]+'" cy="'+e1[1]+'" rx="16.9" ry="8.5" fill="none" stroke="rgba(30,44,50,.35)" stroke-width="2"/>';
+        s+='<ellipse cx="'+e2[0]+'" cy="'+e2[1]+'" rx="16.9" ry="8.5" fill="none" stroke="rgba(30,44,50,.35)" stroke-width="2"/>';
+        s+=isoEllipse(203,108,28,9.5,p.icy?"#DCEAF0":"#8CC4DE");
+        var sp=scr(214,120,6);
+        s+='<path d="M'+sp.x+' '+sp.y+' l6 3 m-6 -3 l0 -4" stroke="#3E5560" stroke-width="2.6" stroke-linecap="round" fill="none"/>';
+        s+=cyl(227,124,0,6,9,"#7BA05B");
+        var c1=scr(227,124,7),c2=scr(236,130,3);
+        s+='<path d="M'+c1.x+' '+c1.y+' Q'+((c1.x+c2.x)/2+4)+' '+(c1.y-2)+' '+c2.x+' '+c2.y+'" stroke="#65854A" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+        obj(322,hot("rain",null,"Rain barrel — catch the rain",s));
+      })();
+
+      /* -- native meadow (back-centre) -- */
+      (function(){
+        var s=gTop(212,42,0,'<rect x="0" y="0" width="90" height="62" rx="16" fill="'+p.meadow+'" stroke="'+shade(p.meadow,-.22)+'" stroke-width="1.5" opacity=".95"/>');
+        var tufts='';
+        for(var i=0;i<40;i++){
+          var tx=218+((i*37)%82),ty=47+((i*23)%52),th=5+((i*13)%6);
+          tufts+=line3(tx,ty,0,tx-1,ty-1,th,shade(p.meadow,(i%3===0?-.3:-.14)),1.5);
+        }
+        if(!p.snow){
+          for(var j=0;j<8;j++){var cx=224+((j*41)%74),cy2=52+((j*29)%42);
+            tufts+=isoEllipse(cx,cy2,4.5,1.5,"#F4F1E2");}
+          var wf=[[236,58,"#B77BC9"],[262,74,"#E8A83C"],[286,52,"#C85A6E"],[250,90,"#B77BC9"],[292,86,"#E8A83C"]];
+          for(var k=0;k<wf.length;k++){
+            tufts+=line3(wf[k][0],wf[k][1],0,wf[k][0],wf[k][1],9,shade(p.meadow,-.28),1.3);
+            var fp=scr(wf[k][0],wf[k][1],10);
+            tufts+='<circle cx="'+fp.x+'" cy="'+fp.y+'" r="2.6" fill="'+wf[k][2]+'"/>';
+          }
+          var bee=scr(266,64,14);
+          tufts+='<g class="yv-fly"><circle cx="'+bee.x+'" cy="'+bee.y+'" r="2" fill="#E8B84C" stroke="#5C4A20" stroke-width=".8"/><ellipse cx="'+(bee.x-2.5)+'" cy="'+(bee.y-2.2)+'" rx="2" ry="1.1" fill="rgba(255,255,255,.75)"/></g>';
+        } else {
+          tufts+=gTop(212,42,0,'<ellipse cx="45" cy="31" rx="38" ry="22" fill="'+SNOWC+'" opacity=".55"/>');
+        }
+        obj(330,hot("native",null,"The meadow — clover & natives",s+tufts));
+      })();
+
+      /* -- shed + compost -- */
+      (function(){
+        var s=blob(355,80,58,.14);
+        s+=box(315,48,0,80,60,38,WOOD,{left:shade(WOOD,-.16),right:shade(WOOD,-.30)});
+        s+=polyW([[395,110,39],[395,46,39],[395,78,60]],shade(WOOD,-.36));
+        s+=polyW([[309,114,40],[401,114,40],[401,78,61],[309,78,61]],"#7A5A40",'stroke="rgba(60,42,26,.45)" stroke-width="1"');
+        s+=polyW([[309,42,40],[401,42,40],[401,78,61],[309,78,61]],shade("#7A5A40",-.28),'stroke="rgba(60,42,26,.45)" stroke-width="1"');
+        if(p.snow){s+=polyW([[312,111,41],[398,111,41],[398,80,60.5],[312,80,60.5]],SNOWC,'stroke="none" opacity=".92"');}
+        s+=gLeft(315,108,38,
+          '<g transform="translate(24,8)"><rect x="0" y="0" width="30" height="30" fill="#4A3826"/>'+
+          '<rect x="-1.5" y="0" width="15" height="30" fill="'+shade(WOOD,-.05)+'" stroke="rgba(60,42,26,.4)" stroke-width="1"/>'+
+          '<path d="M-1.5 0 L13.5 30 M13.5 0 L-1.5 30" stroke="rgba(60,42,26,.35)" stroke-width="1.6"/>'+
+          '<path d="M20 4 V26 M20 26 l-3 -7 m3 7 l3 -7" stroke="#9A8A6A" stroke-width="1.6"/>'+
+          '<path d="M26 5 V26 m-2.5 -21 h5 v4 h-5 z" stroke="#8A8A92" stroke-width="1.5" fill="#8A8A92"/></g>'+
+          (function(){var l='';for(var u=6;u<78;u+=9)l+='<path d="M'+u+' 0 V38" stroke="rgba(90,62,34,.18)" stroke-width="1"/>';return l;})());
+        obj(432,hot("shop",null,"The shed — supplies & shopping list",s));
+        var c=blob(438,82,30,.13);
+        c+=box(415,60,0,46,42,22,WOODNEW,{left:shade(WOODNEW,-.12),right:shade(WOODNEW,-.02),top:shade(WOODNEW,.22)});
+        c+=gLeft(415,102,22,(function(){var l='';for(var v=4;v<20;v+=6)l+='<rect x="1" y="'+v+'" width="44" height="2" fill="rgba(80,54,28,.3)"/>';return l;})());
+        c+=gRight(461,102,22,(function(){var l='';for(var v=4;v<20;v+=6)l+='<rect x="1" y="'+v+'" width="40" height="2" fill="rgba(70,46,24,.32)"/>';return l;})());
+        c+=isoEllipse(438,81,22.5,13,"#6B5334");
+        c+=isoEllipse(434,78,23.2,5.5,"#7E643E");
+        c+=isoEllipse(443,85,23,3.4,"#5A452C");
+        var wp=scr(440,84,24);
+        c+='<path d="M'+wp.x+' '+wp.y+' q4 -3 8 0 q4 3 8 0" stroke="#C9838A" stroke-width="2" fill="none" stroke-linecap="round"/>';
+        var st=scr(436,80,26);
+        c+=deco('<g fill="#D9D2C4"><circle class="yv-smoke" cx="'+st.x+'" cy="'+st.y+'" r="3.5"/><circle class="yv-smoke s2" cx="'+(st.x+5)+'" cy="'+(st.y-3)+'" r="4.5"/></g>');
+        c+=line3(412,104,0,406,110,26,"#8A6A45",2.5);
+        c+='<path d="'+(function(){var f=scr(406,110,26);return "M"+(f.x-4)+" "+f.y+" l8 0 m-8 -1 l0 -5 m4 5 l0 -5 m4 5 l0 -5";})()+'" stroke="#8A8A92" stroke-width="1.6" fill="none"/>';
+        obj(520,hot("compost",null,"The compost pile — black gold",c));
+      })();
+
+      /* -- bird feeder + bath (wildlife) -- */
+      (function(){
+        var s=blob(332,140,16,.12);
+        s+=line3(332,138,0,332,138,34,"#8A6A45",3);
+        s+=box(326,132,34,12,10,8,WOODNEW,{});
+        s+=polyW([[323,144,43],[341,144,43],[341,129,49],[323,129,49]],shade(ROOF,-.15),'stroke="rgba(70,40,26,.3)" stroke-width=".8"');
+        s+=isoEllipse(332,139,33.6,8,shade(WOODNEW,-.25));
+        var bp=scr(338,143,36);
+        s+='<g class="yv-bob"><circle cx="'+bp.x+'" cy="'+(bp.y-3)+'" r="3.2" fill="#C63A2B"/><path d="M'+(bp.x+2.5)+' '+(bp.y-2)+' l4 2 l-4 1 z" fill="#8A2A1E"/><circle cx="'+(bp.x-1.2)+'" cy="'+(bp.y-4)+'" r=".7" fill="#2A1A14"/></g>';
+        s+=blob(304,168,14,.12);
+        s+=cyl(304,168,0,4.5,11,"#BFB8A8");
+        s+=isoEllipse(304,168,11,9.5,"#CFC8B8",OUT);
+        s+=isoEllipse(304,168,11.6,7,p.icy?"#DCEAF0":"#8CC4DE");
+        var b2=scr(300,164,13);
+        s+='<circle cx="'+b2.x+'" cy="'+b2.y+'" r="2.6" fill="#4E7FA8"/><path d="M'+(b2.x-2)+' '+(b2.y+1)+' l-3.5 1.5 l3.5 .8 z" fill="#3A6488"/>';
+        obj(470,hot("wildlife",null,"Feeder & bath — the living yard",s));
+      })();
+
+      /* -- big shade tree -- */
+      (function(){
+        var s=blob(398,184,52,.18);
+        s+=isoEllipse(398,184,0.6,44,MULCH,'stroke="rgba(52,34,18,.4)" stroke-width="1.5"');
+        s+=isoEllipse(398,184,1.2,38,shade(MULCH,.12));
+        s+=cyl(398,184,0,5.5,32,BARK);
+        var c=scr(398,184,0);
+        if(p.bare){
+          s+='<g stroke="'+BARK+'" fill="none" stroke-linecap="round">'+
+            '<path d="M'+c.x+' '+(c.y-24)+' q-14 -14 -26 -34 m26 34 q2 -22 -4 -44 m4 44 q16 -12 24 -38 m-24 38 q10 -4 30 -18" stroke-width="4"/>'+
+            '<path d="M'+(c.x-26)+' '+(c.y-58)+' q-8 -8 -10 -16 m10 16 q6 -10 4 -20 M'+(c.x-4)+' '+(c.y-68)+' q-6 -10 -4 -18 m4 18 q8 -6 10 -16 M'+(c.x+20)+' '+(c.y-62)+' q8 -8 8 -18 m-8 18 q-2 -12 2 -20" stroke-width="2.2"/></g>';
+          if(p.snow)s+='<g fill="'+SNOWC+'"><ellipse cx="'+(c.x-26)+'" cy="'+(c.y-60)+'" rx="7" ry="2.6"/><ellipse cx="'+(c.x-2)+'" cy="'+(c.y-70)+'" rx="8" ry="2.8"/><ellipse cx="'+(c.x+24)+'" cy="'+(c.y-64)+'" rx="7" ry="2.5"/></g>';
+        } else {
+          var cy=c.y-68;
+          s+='<circle cx="'+(c.x-30)+'" cy="'+(cy+12)+'" r="33" fill="'+shade(p.canopy,-.16)+'"/>'+
+             '<circle cx="'+(c.x+32)+'" cy="'+(cy+10)+'" r="35" fill="'+shade(p.canopy,-.07)+'"/>'+
+             '<circle cx="'+(c.x+8)+'" cy="'+(cy+18)+'" r="30" fill="'+shade(p.canopy,-.11)+'"/>'+
+             '<circle cx="'+c.x+'" cy="'+(cy-10)+'" r="38" fill="'+p.canopy+'"/>'+
+             '<circle cx="'+(c.x-14)+'" cy="'+(cy-20)+'" r="19" fill="'+shade(p.canopy,.18)+'" opacity=".9"/>'+
+             '<circle cx="'+(c.x+10)+'" cy="'+(cy-26)+'" r="11" fill="'+shade(p.canopy,.28)+'" opacity=".7"/>'+
+             '<g fill="'+shade(p.canopy,-.3)+'" opacity=".5"><circle cx="'+(c.x+22)+'" cy="'+(cy+20)+'" r="3.2"/><circle cx="'+(c.x-34)+'" cy="'+(cy+22)+'" r="2.8"/><circle cx="'+(c.x+2)+'" cy="'+(cy+8)+'" r="2.8"/><circle cx="'+(c.x+40)+'" cy="'+(cy+2)+'" r="2.6"/><circle cx="'+(c.x-18)+'" cy="'+(cy+2)+'" r="2.4"/></g>';
+          if(p.fallLeaves)s+=deco('<g fill="'+shade(p.canopy,-.1)+'"><rect class="yv-leaf" x="'+(c.x-30)+'" y="'+(cy+30)+'" width="5" height="3.4" rx="1.4"/><rect class="yv-leaf l2" x="'+(c.x+14)+'" y="'+(cy+26)+'" width="5" height="3.4" rx="1.4"/><rect class="yv-leaf l3" x="'+(c.x-6)+'" y="'+(cy+34)+'" width="5" height="3.4" rx="1.4"/></g>');
+        }
+        obj(586,hot("trees",null,"The shade tree — trees & shrubs",s));
+      })();
+
+      /* -- fruit corner: apple tree + berry canes -- */
+      (function(){
+        var s=blob(62,210,28,.15);
+        s+=isoEllipse(62,210,0.5,20,MULCH);
+        s+=cyl(62,210,0,3.6,17,BARK);
+        var c=scr(62,210,0);
+        if(p.bare){
+          s+='<g stroke="'+BARK+'" fill="none" stroke-linecap="round"><path d="M'+c.x+' '+(c.y-15)+' q-8 -10 -14 -22 m14 22 q0 -14 -2 -26 m2 26 q9 -8 14 -22" stroke-width="3"/></g>';
+          if(p.snow)s+='<ellipse cx="'+c.x+'" cy="'+(c.y-40)+'" rx="8" ry="2.6" fill="'+SNOWC+'"/>';
+        } else {
+          var cy=c.y-40;
+          s+='<circle cx="'+(c.x-13)+'" cy="'+(cy+6)+'" r="17" fill="'+shade(p.fruitC,-.1)+'"/>'+
+             '<circle cx="'+(c.x+12)+'" cy="'+(cy+4)+'" r="18" fill="'+p.fruitC+'"/>'+
+             '<circle cx="'+c.x+'" cy="'+(cy-6)+'" r="18" fill="'+shade(p.fruitC,.1)+'"/>';
+          if(p.blossom)s+='<g fill="#F6CCd9"><circle cx="'+(c.x-14)+'" cy="'+(cy-2)+'" r="2.2"/><circle cx="'+(c.x+6)+'" cy="'+(cy-12)+'" r="2.2"/><circle cx="'+(c.x+15)+'" cy="'+(cy+2)+'" r="2.2"/><circle cx="'+(c.x-3)+'" cy="'+(cy+8)+'" r="2.2"/><circle cx="'+(c.x+2)+'" cy="'+(cy-2)+'" r="1.8"/></g>';
+          if(p.apples)s+='<g fill="#D4574E"><circle cx="'+(c.x-12)+'" cy="'+(cy+2)+'" r="2.4"/><circle cx="'+(c.x+8)+'" cy="'+(cy-8)+'" r="2.4"/><circle cx="'+(c.x+14)+'" cy="'+(cy+6)+'" r="2.4"/><circle cx="'+(c.x-2)+'" cy="'+(cy+10)+'" r="2.4"/></g>';
+        }
+        if(yvSeason==="fall"){s+=cyl(80,228,0,5,6,"#A67C4E");s+='<g fill="#D4574E">'+(function(){var b=scr(80,228,7),o='';[[0,0],[-3,1],[3,1],[0,2.5]].forEach(function(d){o+='<circle cx="'+(b.x+d[0])+'" cy="'+(b.y-d[1])+'" r="2"/>';});return o;})()+'</g>';}
+        // berry trellis
+        s+=line3(38,254,0,38,254,20,"#8A6A45",3)+line3(104,254,0,104,254,20,"#8A6A45",3);
+        s+=line3(38,254,10,104,254,10,"rgba(90,74,50,.6)",1.2)+line3(38,254,17,104,254,17,"rgba(90,74,50,.6)",1.2);
+        for(var i=0;i<6;i++){
+          var bx=46+i*10;
+          if(p.bare){s+=line3(bx,254,0,bx+2,254,14,"#8A6A50",1.6);}
+          else{
+            s+=line3(bx,254,0,bx-2,254,15,shade(p.meadow,-.3),1.8)+line3(bx,254,0,bx+3,254,12,shade(p.meadow,-.2),1.6);
+            if(p.apples){var bp2=scr(bx,254,11);s+='<circle cx="'+bp2.x+'" cy="'+bp2.y+'" r="1.6" fill="#6B4E9E"/><circle cx="'+(bp2.x+3)+'" cy="'+(bp2.y+3)+'" r="1.6" fill="#6B4E9E"/>';}
+          }
+        }
+        obj(300,hot("fruit",null,"Fruit & berries — the sweet corner",s));
+      })();
+
+      /* -- bulb patch by the porch -- */
+      (function(){
+        var s=isoEllipse(172,208,0.5,15,shade(MULCH,.08),'stroke="rgba(52,34,18,.35)" stroke-width="1.2"');
+        if(p.tulips){
+          var tl=[[166,202,"#D4574E"],[176,206,"#E8B84C"],[170,212,"#E7A9C4"],[179,199,"#D4574E"],[163,208,"#E8B84C"]];
+          tl.forEach(function(t){
+            s+=line3(t[0],t[1],0,t[0],t[1],8,shade(p.grass,-.3),1.5);
+            var tp=scr(t[0],t[1],9);
+            s+='<path d="M'+(tp.x-2.4)+' '+tp.y+' q0 -4 2.4 -4 q2.4 0 2.4 4 q-1.2 2 -2.4 2 q-1.2 0 -2.4 -2 z" fill="'+t[2]+'"/>';
+          });
+        } else if(yvSeason==="summer"){
+          [[168,204],[176,209],[172,200]].forEach(function(a){
+            s+=line3(a[0],a[1],0,a[0],a[1],13,shade(p.grass,-.32),1.4);
+            var ap=scr(a[0],a[1],14);s+='<circle cx="'+ap.x+'" cy="'+ap.y+'" r="3" fill="#A87BC9" opacity=".9"/>';
+          });
+        } else if(yvSeason==="fall"){
+          s+='<g fill="#B08652">'+(function(){var o='';[[167,204],[174,209],[171,202]].forEach(function(b){var q=scr(b[0],b[1],1);o+='<ellipse cx="'+q.x+'" cy="'+q.y+'" rx="2.6" ry="2"/>';});return o;})()+'</g>';
+          var tr=scr(180,214,1);
+          s+='<path d="M'+tr.x+' '+tr.y+' l7 -4 m0 0 l3 -1.5 a2 2 0 1 1 2 3 z" stroke="#8A8A92" stroke-width="1.8" fill="#8A8A92"/>';
+        } else {
+          s+=isoEllipse(172,208,1,11,SNOWC);
+        }
+        obj(382,hot("bloom",null,"The bulb bed — tulips & blooms",s));
+      })();
+
+      /* -- sprinkler (lawn) — stowed away for winter -- */
+      if(!p.snow)(function(){
+        var s=blob(208,190,10,.1);
+        s+=line3(208,190,0,208,190,10,"#7A8A80",2.4);
+        s+=line3(208,190,0,201,186,1,"#7A8A80",2)+line3(208,190,0,214,185,1,"#7A8A80",2)+line3(208,190,0,210,197,1,"#7A8A80",2);
+        var h=scr(208,190,11);
+        s+='<circle cx="'+h.x+'" cy="'+h.y+'" r="2.6" fill="#5F808C"/>';
+        if(p.spray)s+='<g class="yv-spray" stroke="#8CC4DE" stroke-width="1.6" fill="none" stroke-dasharray="3 4" opacity=".8">'+
+          '<path d="M'+h.x+' '+h.y+' q-18 -14 -34 -6"/><path d="M'+h.x+' '+h.y+' q18 -16 36 -8"/><path d="M'+h.x+' '+h.y+' q-4 -18 6 -24"/></g>';
+        obj(400,hot("lawn",null,"Sprinkler — feed & water the lawn",s));
+      })();
+
+      /* -- scarecrow (pests) -- */
+      (function(){
+        var s=line3(130,302,0,130,302,30,"#8A6A45",2.8);
+        s+=line3(117,302,21,143,302,21,"#8A6A45",2.4);
+        var c=scr(130,302,21);
+        s+='<path d="M'+(c.x-7)+' '+(c.y+1)+' L'+(c.x+7)+' '+(c.y+1)+' L'+(c.x+4)+' '+(c.y+13)+' L'+(c.x-4)+' '+(c.y+13)+' Z" fill="#B85C4A" stroke="rgba(70,40,26,.35)" stroke-width="1"/>'+
+          '<path d="M'+(c.x-2)+' '+(c.y+4)+' h4 M'+(c.x-3)+' '+(c.y+8)+' h6" stroke="rgba(255,240,220,.5)" stroke-width="1.2"/>';
+        var hd=scr(130,302,30);
+        s+='<circle cx="'+hd.x+'" cy="'+(hd.y-2)+'" r="5" fill="#E8CE8A"/>'+
+          '<ellipse cx="'+hd.x+'" cy="'+(hd.y-6)+'" rx="8" ry="2.2" fill="#C9A143"/>'+
+          '<path d="M'+(hd.x-4)+' '+(hd.y-6)+' q4 -6 8 0" fill="#C9A143"/>';
+        var cw=scr(143,302,22);
+        s+='<g class="yv-bob"><ellipse cx="'+cw.x+'" cy="'+(cw.y-2)+'" rx="3.4" ry="2.4" fill="#2E2A28"/><circle cx="'+(cw.x+2.6)+'" cy="'+(cw.y-3.6)+'" r="1.7" fill="#2E2A28"/><path d="M'+(cw.x+4)+' '+(cw.y-3.4)+' l2.6 .8 l-2.6 .8 z" fill="#E8B84C"/></g>';
+        obj(438,hot("pests",null,"The scarecrow — pests & weeds",s));
+      })();
+
+      /* -- veggie beds (grow) -- */
+      (function(){
+        var s=blob(74,312,42,.12)+blob(74,370,42,.12);
+        s+=box(38,290,0,72,40,10,WOOD,{});
+        s+=gTop(41,293,10,'<rect x="0" y="0" width="66" height="34" fill="'+SOILC+'"/><g stroke="rgba(46,28,12,.3)" stroke-width="1"><path d="M0 11 H66 M0 23 H66"/></g>');
+        s+=box(38,348,0,72,40,10,WOOD,{});
+        s+=gTop(41,351,10,'<rect x="0" y="0" width="66" height="34" fill="'+shade(SOILC,-.08)+'"/>');
+        if(p.snow){
+          s+=gTop(41,293,10,'<ellipse cx="33" cy="17" rx="30" ry="14" fill="'+SNOWC+'" opacity=".85"/>');
+          for(var hI=0;hI<3;hI++){
+            var hx=50+hI*22,a=P(hx,352,10),b=P(hx,384,10),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2-16;
+            s+='<path d="M'+a[0].toFixed(1)+' '+a[1].toFixed(1)+' Q'+mx.toFixed(1)+' '+my.toFixed(1)+' '+b[0].toFixed(1)+' '+b[1].toFixed(1)+'" stroke="#EDEAE2" stroke-width="2.2" fill="none"/>';
+          }
+          var t1=P(48,352,10),t2=P(94,352,10),t3=P(94,384,10),t4=P(48,384,10);
+          s+='<path d="M'+t1[0]+' '+(t1[1]-14)+' L'+t2[0]+' '+(t2[1]-14)+' L'+t3[0]+' '+(t3[1]-14)+' L'+t4[0]+' '+(t4[1]-14)+' Z" fill="rgba(240,246,248,.4)" stroke="rgba(255,255,255,.6)" stroke-width="1"/>';
+        } else {
+          for(var i=0;i<6;i++){ // carrots row + lettuce row
+            var cx=48+i*10;
+            var cp=scr(cx,300,10);
+            s+='<g stroke="'+shade(p.grass,-.3)+'" stroke-width="1.3" fill="none"><path d="M'+cp.x+' '+cp.y+' l-3 -5 M'+cp.x+' '+cp.y+' l0 -6 M'+cp.x+' '+cp.y+' l3 -5"/></g>';
+            s+=isoEllipse(cx,312,10.5,3,"#A8D08A")+isoEllipse(cx,312,10.9,1.6,shade("#A8D08A",.25));
+          }
+          for(var j=0;j<4;j++){ // staked tomatoes
+            var tx=52+j*15;
+            s+=line3(tx,323,10,tx,323,26,"#8A6A45",1.6);
+            var tp2=scr(tx,323,20);
+            s+='<circle cx="'+tp2.x+'" cy="'+tp2.y+'" r="4.2" fill="'+shade(p.grass,-.18)+'"/>';
+            if(!p.blossom)s+='<circle cx="'+(tp2.x-2)+'" cy="'+(tp2.y+2)+'" r="1.5" fill="#D4574E"/><circle cx="'+(tp2.x+2.5)+'" cy="'+(tp2.y+1)+'" r="1.5" fill="#D4574E"/>';
+          }
+          // bed B: squash + pumpkin + herbs
+          for(var k=0;k<5;k++){
+            var qx=48+k*12;
+            s+=isoEllipse(qx,360,10.5,4,shade(p.grass,-.24))+isoEllipse(qx+3,364,10.8,2.6,shade(p.grass,-.12));
+          }
+          s+=isoEllipse(88,376,11,(yvSeason==="fall"?5.5:3.6),"#D97E2E")+isoEllipse(86,374.5,12.2,1.2,"#8A5A2E");
+          for(var m2=0;m2<4;m2++){var hx2=50+m2*13,hp=scr(hx2,380,10);
+            s+='<circle cx="'+hp.x+'" cy="'+(hp.y-3)+'" r="2.6" fill="'+shade(p.meadow,-.18)+'"/>';}
+        }
+        obj(455,hot("grow",null,"The veggie garden — grow your food",s));
+      })();
+
+      /* -- wheelbarrow of mulch (beds) -- */
+      (function(){
+        var s=blob(196,322,18,.13);
+        s+=box(188,314,5,20,13,8,"#7C8A5A",{});
+        s+=isoEllipse(198,320,13.4,8,shade(MULCH,-.05));
+        s+=isoEllipse(196,319,14,4.5,shade(MULCH,.15));
+        var w=scr(206,330,4);
+        s+='<circle cx="'+w.x+'" cy="'+w.y+'" r="5" fill="#4A4A50"/><circle cx="'+w.x+'" cy="'+w.y+'" r="2" fill="#8A8A92"/>';
+        s+=line3(186,312,7,176,304,3,"#6A7850",2.4)+line3(190,316,7,180,308,3,"#6A7850",2.4);
+        obj(521,hot("beds","mArea","Mulch run — beds & mulch math",s));
+      })();
+
+      /* -- plan-a-bed (graph-paper bed) -- */
+      (function(){
+        var s=blob(74,430,42,.12);
+        s+=box(38,408,0,72,40,10,WOODNEW,{});
+        s+=gTop(41,411,10,'<rect x="0" y="0" width="66" height="34" fill="'+shade(SOILC,.14)+'"/>'+
+          '<g stroke="rgba(243,246,241,.5)" stroke-width=".8">'+(function(){var l='';for(var u=8.25;u<66;u+=8.25)l+='<path d="M'+u+' 0 V34"/>';for(var v=8.5;v<34;v+=8.5)l+='<path d="M0 '+v+' H66"/>';return l;})()+'</g>'+
+          '<g fill="none" stroke="rgba(255,244,214,.85)" stroke-width="1.3" stroke-dasharray="2.5 2.5"><circle cx="12" cy="12" r="5"/><circle cx="33" cy="21" r="6.5"/><circle cx="54" cy="10" r="4.5"/></g>'+
+          '<g transform="rotate(18 46 27)"><rect x="38" y="25.5" width="17" height="3" rx="1" fill="#E8B84C"/><path d="M55 25.5 l4 1.5 l-4 1.5 z" fill="#E0C9A8"/><path d="M57.8 26.6 l1.2 .4 l-1.2 .4 z" fill="#4A4A50"/></g>');
+        s+=line3(108,412,10,108,412,20,"#8A6A45",2);
+        var sg=scr(108,412,21);
+        s+='<rect x="'+(sg.x-7)+'" y="'+(sg.y-8)+'" width="14" height="9" rx="1.5" fill="#FBF7EC" stroke="rgba(90,80,60,.4)" stroke-width="1"/><path d="M'+(sg.x-4)+' '+(sg.y-5)+' h8 M'+(sg.x-4)+' '+(sg.y-2.6)+' h5" stroke="rgba(70,88,76,.5)" stroke-width="1"/>';
+        obj(512,hot("plan","planCard","The drawing-board bed — plan it",s));
+      })();
+
+      /* -- mower (mow) — in the shed for winter -- */
+      if(!p.snow)(function(){
+        var s=blob(260,282,15,.13);
+        s+=box(252,274,2,15,11,7,"#C85A3A",{});
+        s+=isoEllipse(259,279,9.4,4,"#B04A2E");
+        var w1=scr(251,284,4),w2=scr(268,278,4);
+        s+='<circle cx="'+w1.x+'" cy="'+w1.y+'" r="4.6" fill="#3E3E44"/><circle cx="'+w1.x+'" cy="'+w1.y+'" r="1.8" fill="#9A9AA2"/>'+
+          '<circle cx="'+w2.x+'" cy="'+w2.y+'" r="4.6" fill="#3E3E44"/><circle cx="'+w2.x+'" cy="'+w2.y+'" r="1.8" fill="#9A9AA2"/>';
+        s+=line3(254,276,8,240,262,22,"#4A4A50",2.2)+line3(260,280,8,246,266,22,"#4A4A50",2.2)+line3(240,262,22,246,266,22,"#4A4A50",2.6);
+        obj(542,hot("mow",null,"The mower — cut it right",s));
+      })();
+
+      /* -- seasonal cameo: leaf pile (fall) / snowman (winter) -- */
+      if(yvSeason==="fall"){
+        var lp=blob(302,332,26,.14);
+        lp+=isoEllipse(302,332,0.5,17,"#C9793C")+isoEllipse(300,330,3,12,"#DB9040")+isoEllipse(299,329,6,7.5,"#E8A85C");
+        var lf=scr(302,332,10);
+        lp+='<g fill="#B85C2E"><rect class="yv-leaf" x="'+(lf.x-8)+'" y="'+(lf.y-14)+'" width="5" height="3.4" rx="1.4"/><rect class="yv-leaf l2" x="'+(lf.x+6)+'" y="'+(lf.y-18)+'" width="5" height="3.4" rx="1.4"/></g>';
+        lp+=line3(318,344,0,330,336,22,"#8A6A45",2.2);
+        var rk=scr(318,344,0);
+        lp+='<path d="M'+(rk.x-5)+' '+rk.y+' l10 3 m-10 -3 l-1 3 m3.5 -2 l-1 3.4 m3.5 -2.2 l-1 3.4 m3.5 -2.2 l-1 3.4" stroke="#7A5A40" stroke-width="1.6" fill="none"/>';
+        obj(640,hot("leaves",null,"The leaf pile — leave the leaves",lp));
+      }
+      if(yvSeason==="winter"){
+        var sm=blob(250,214,24,.14);
+        var s1=scr(250,214,0);
+        sm+='<circle cx="'+s1.x+'" cy="'+(s1.y-11)+'" r="14" fill="#FFFFFF" stroke="rgba(150,170,180,.55)" stroke-width="1.2"/>'+
+          '<circle cx="'+s1.x+'" cy="'+(s1.y-31)+'" r="9.5" fill="#FFFFFF" stroke="rgba(150,170,180,.55)" stroke-width="1.2"/>'+
+          '<circle cx="'+(s1.x-3.2)+'" cy="'+(s1.y-33.5)+'" r="1.2" fill="#2E2A28"/><circle cx="'+(s1.x+3.2)+'" cy="'+(s1.y-33.5)+'" r="1.2" fill="#2E2A28"/>'+
+          '<path d="M'+s1.x+' '+(s1.y-31)+' l8 1.8 l-8 1.8 z" fill="#E8842C"/>'+
+          '<path d="M'+(s1.x-13)+' '+(s1.y-17)+' l-10 -6 m10 6 l-4 -1.2" stroke="#7A5A40" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+          '<path d="M'+(s1.x+13)+' '+(s1.y-17)+' l10 -7 m-10 7 l4 -1.2" stroke="#7A5A40" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+          '<path d="M'+(s1.x-8)+' '+(s1.y-24)+' q8 5 16 0 l1.5 6 l-4 -1.4" stroke="'+SAGE+'" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+          '<ellipse cx="'+s1.x+'" cy="'+(s1.y-40.5)+'" rx="7" ry="1.8" fill="#3E4448"/><rect x="'+(s1.x-4.4)+'" y="'+(s1.y-49)+'" width="8.8" height="8.5" rx="1.4" fill="#3E4448"/>'+
+          '<g fill="#2E2A28"><circle cx="'+s1.x+'" cy="'+(s1.y-16)+'" r="1.2"/><circle cx="'+s1.x+'" cy="'+(s1.y-10)+'" r="1.2"/><circle cx="'+s1.x+'" cy="'+(s1.y-4)+'" r="1.2"/></g>';
+        obj(468,hot("snow",null,"The snowman — snow & gentle salt",sm));
+      }
+
+      /* -- garden flag (spots) + mailbox (remind) -- */
+      (function(){
+        var s=line3(172,362,0,172,362,22,"#8A6A45",2);
+        var f=scr(172,362,22);
+        s+='<path d="M'+f.x+' '+f.y+' l13 3.5 l-13 3.5 z" fill="#C85A6E" stroke="rgba(120,40,50,.4)" stroke-width=".8"/>';
+        s+=isoEllipse(172,362,0.4,4,"rgba(200,90,110,.3)");
+        obj(536,hot("spots","spotCard","Flag a spot — my yard map",s));
+        var m=blob(152,452,14,.14);
+        m+=line3(152,452,0,152,452,15,"#7A5A40",3);
+        m+=box(144,446,15,16,11,9,"#5F808C",{});
+        m+=isoEllipse(152,451.5,24,7.2,shade("#5F808C",.12));
+        var mp=scr(160,457,18);
+        m+='<circle cx="'+mp.x+'" cy="'+mp.y+'" r="1.6" fill="#E8C87A"/>';
+        m+=line3(146,447,24,146,447,30,"#C63A2B",2)+
+          '<circle cx="'+scr(146,447,30).x+'" cy="'+scr(146,447,30).y+'" r="2" fill="#C63A2B"/>';
+        obj(608,hot("remind",null,"The mailbox — reminders",m));
+      })();
+
+      /* -- pond (optional) -- */
+      if(yvOpts.pond){
+        var pd=blob(248,402,58,.1);
+        pd+=isoEllipse(248,400,0.3,52,"#B8AE9A",'stroke="rgba(90,84,64,.35)" stroke-width="1.2"');
+        pd+='<g>'+(function(){var o='';[[210,372],[286,368],[300,412],[206,428],[246,446],[288,436]].forEach(function(st2){o+=isoEllipse(st2[0],st2[1],0.8,4.2,"#A89E88");});return o;})()+'</g>';
+        pd+=isoEllipse(248,400,0.6,46,"url(#yvWater)",'stroke="rgba(50,90,110,.35)" stroke-width="1"');
+        if(p.icy){
+          var ic=scr(248,400,1);
+          pd+='<g stroke="rgba(255,255,255,.75)" stroke-width="1.2" fill="none"><path d="M'+(ic.x-26)+' '+ic.y+' l16 -7 l14 5 l12 -4 M'+(ic.x-8)+' '+(ic.y-2)+' l4 8"/></g>';
+        } else {
+          pd+=isoEllipse(240,394,0.8,26,"rgba(30,70,95,.25)");
+          var sh=scr(232,386,1);
+          pd+='<ellipse class="yv-shimmer" cx="'+sh.x+'" cy="'+sh.y+'" rx="18" ry="5" fill="rgba(255,255,255,.5)"/>';
+          [[236,412,6],[262,394,4.6],[224,396,3.8]].forEach(function(lpd){
+            pd+=isoEllipse(lpd[0],lpd[1],1,lpd[2],"#5FA86A",'stroke="rgba(30,70,50,.4)" stroke-width=".8"');
+          });
+          var lo=scr(262,394,2);
+          pd+='<circle cx="'+lo.x+'" cy="'+lo.y+'" r="2.4" fill="#F0A8C0"/><circle cx="'+lo.x+'" cy="'+lo.y+'" r="1" fill="#F6D8E4"/>';
+          var fr=scr(236,412,2);
+          pd+='<g class="yv-bob"><ellipse cx="'+fr.x+'" cy="'+(fr.y-2)+'" rx="3.4" ry="2.2" fill="#4E9455"/><circle cx="'+(fr.x-2)+'" cy="'+(fr.y-4.4)+'" r="1.2" fill="#4E9455"/><circle cx="'+(fr.x+2)+'" cy="'+(fr.y-4.4)+'" r="1.2" fill="#4E9455"/><circle cx="'+(fr.x-2)+'" cy="'+(fr.y-4.6)+'" r=".5" fill="#1E3A20"/><circle cx="'+(fr.x+2)+'" cy="'+(fr.y-4.6)+'" r=".5" fill="#1E3A20"/></g>';
+          var dg=scr(270,420,12);
+          pd+='<g class="yv-fly f2"><path d="M'+dg.x+' '+dg.y+' l7 -1.5" stroke="#4E7FA8" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="'+(dg.x+2)+'" cy="'+(dg.y-2.4)+'" rx="3.4" ry="1.2" fill="rgba(160,210,240,.8)"/><ellipse cx="'+(dg.x+4.5)+'" cy="'+(dg.y-2)+'" rx="3.4" ry="1.2" fill="rgba(160,210,240,.6)"/></g>';
+        }
+        [[286,372],[294,380],[280,366]].forEach(function(ct,i2){
+          pd+=line3(ct[0],ct[1],0,ct[0]+1,ct[1]-1,16-i2*2,p.icy?"#B0A278":"#7A9A5A",1.6);
+          var cp2=scr(ct[0]+1,ct[1]-1,16-i2*2);
+          pd+='<rect x="'+(cp2.x-1.6)+'" y="'+(cp2.y-1)+'" width="3.2" height="7" rx="1.6" fill="#8A5A34"/>';
+        });
+        obj(650,hot("pond",null,"The pond — a small wild heart",pd));
+      }
+
+      /* -- pool (optional, pure luxury) -- */
+      if(yvOpts.pool){
+        var pl=polyW([[324,240,1],[454,240,1],[454,346,1],[324,346,1]],"#D8CFBC",'stroke="rgba(110,100,80,.4)" stroke-width="1.2"');
+        pl+=gTop(324,240,1,'<g stroke="rgba(110,100,80,.28)" stroke-width="1"><path d="M32 0 V106 M65 0 V106 M98 0 V106 M0 35 H130 M0 70 H130"/></g>');
+        pl+=polyW([[336,252,1.6],[442,252,1.6],[442,334,1.6],[336,334,1.6]],"#EFE9DA",'stroke="rgba(120,110,90,.4)" stroke-width="1"');
+        pl+=polyW([[341,257,1.2],[437,257,1.2],[437,329,1.2],[341,329,1.2]],p.snow?"#3E5468":"url(#yvPool)",'stroke="none"');
+        if(p.snow){
+          pl+=gTop(341,257,1.4,'<g stroke="rgba(255,255,255,.25)" stroke-width="2"><path d="M24 0 V72 M48 0 V72 M72 0 V72"/></g><ellipse cx="30" cy="20" rx="16" ry="8" fill="rgba(243,247,249,.5)"/>');
+        } else {
+          pl+=gTop(341,257,1.4,'<g class="yv-shimmer" stroke="rgba(255,255,255,.55)" stroke-width="1.6" fill="none"><path d="M8 14 q10 -4 20 0 t20 0 t20 0"/><path d="M14 40 q10 -4 20 0 t20 0 t20 0"/><path d="M10 58 q10 -4 20 0 t20 0"/></g>');
+          if(yvSeason==="summer"){
+            var fl=scr(408,300,2);
+            pl+='<g class="yv-bob"><circle cx="'+fl.x+'" cy="'+fl.y+'" r="7.5" fill="none" stroke="#F08CA0" stroke-width="4.5"/><path d="M'+(fl.x+5)+' '+(fl.y-6)+' q4 -3 3 -7 l2.5 1 q0 4 -3.5 7 z" fill="#F08CA0"/><circle cx="'+(fl.x+8.6)+'" cy="'+(fl.y-11.4)+'" r="1" fill="#2E2A28"/></g>';
+          }
+          var ld=scr(438,264,1);
+          pl+='<g stroke="#C9CDD2" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M'+(ld.x-3)+' '+(ld.y-12)+' v14 M'+(ld.x+4)+' '+(ld.y-9)+' v14 M'+(ld.x-3)+' '+(ld.y-8)+' l7 3.5 M'+(ld.x-3)+' '+(ld.y-3)+' l7 3.5"/></g>';
+        }
+        O.push({k:695,s:'<g class="yv-obj" role="button" tabindex="0" data-yvfun="pool" data-yvtip="The pool — pure luxury" aria-label="The pool — just for looks"><g>'+pl+'</g></g>'});
+      }
+
+      /* -- flower border (front-right) -- */
+      (function(){
+        var s=isoEllipse(398,398,0.4,40,MULCH,'stroke="rgba(52,34,18,.4)" stroke-width="1.2"')+
+          isoEllipse(380,414,0.4,28,MULCH,'stroke="rgba(52,34,18,.3)" stroke-width="1"')+
+          isoEllipse(398,398,0.8,34,shade(MULCH,.1));
+        [[386,392,7],[412,404,8],[372,416,6],[398,414,5.5],[424,392,5]].forEach(function(fo){
+          s+=isoEllipse(fo[0],fo[1],1,fo[2],shade(p.snow?"#8A9B8E":p.meadow,-.14),'stroke="none" opacity=".9"');
+        });
+        var fls=[[382,388,0,11],[398,382,1,9],[414,392,2,12],[430,402,3,8],[406,408,0,10],[388,404,1,8],[370,414,2,9],[378,424,3,7],[394,418,0,9],[412,416,1,11],[358,424,3,6],[424,388,2,7],[390,396,2,13],[404,390,3,7],[420,410,0,9],[366,420,1,10],[404,422,2,8],[432,398,1,10]];
+        fls.forEach(function(fl2){
+          var col=p.flowers[fl2[2]],hgt=fl2[3];
+          s+=line3(fl2[0],fl2[1],0,fl2[0],fl2[1],hgt,shade(p.meadow,-.3),1.4);
+          var fp2=scr(fl2[0],fl2[1],hgt+1);
+          if(p.snow){s+='<circle cx="'+fp2.x+'" cy="'+fp2.y+'" r="2" fill="'+col+'"/>';}
+          else{s+='<circle cx="'+fp2.x+'" cy="'+fp2.y+'" r="3" fill="'+col+'"/><circle cx="'+(fp2.x-0.8)+'" cy="'+(fp2.y-0.8)+'" r="1.1" fill="rgba(255,255,255,.55)"/>';}
+        });
+        [[352,410],[438,412]].forEach(function(gr){
+          s+=line3(gr[0],gr[1],0,gr[0]-2,gr[1]-2,10,"#C9B98A",1.4)+line3(gr[0],gr[1],0,gr[0]+2,gr[1]-1,8,"#C9B98A",1.2)+line3(gr[0],gr[1],0,gr[0],gr[1]+1,11,"#D9C99A",1.3);
+        });
+        if(p.snow)s+=isoEllipse(398,396,1.2,22,SNOWC,'stroke="none" opacity=".55"');
+        if(!p.snow){
+          var bf=scr(398,390,22);
+          s+=deco('<g class="yv-fly"><g fill="#E8A83C"><ellipse cx="'+(bf.x-2.4)+'" cy="'+bf.y+'" rx="2.6" ry="3.4" transform="rotate(-24 '+bf.x+' '+bf.y+')"/><ellipse cx="'+(bf.x+2.4)+'" cy="'+bf.y+'" rx="2.6" ry="3.4" transform="rotate(24 '+bf.x+' '+bf.y+')"/></g><path d="M'+bf.x+' '+(bf.y-3.4)+' V'+(bf.y+3.4)+'" stroke="#5C4A20" stroke-width="1.2"/></g>'+
+            '<g class="yv-fly f2"><g fill="#B77BC9"><ellipse cx="'+(bf.x+26)+'" cy="'+(bf.y+14)+'" rx="2.2" ry="2.8" transform="rotate(-24 '+(bf.x+28)+' '+(bf.y+14)+')"/><ellipse cx="'+(bf.x+30)+'" cy="'+(bf.y+14)+'" rx="2.2" ry="2.8" transform="rotate(24 '+(bf.x+28)+' '+(bf.y+14)+')"/></g></g>');
+        }
+        obj(800,hot("bloom","bloomPlanner","The flower border — color all season",s));
+      })();
+
+      /* assemble: ground layer, then painter-sorted props */
+      S+=G.join("");
+      O.sort(function(a,b){return a.k-b.k;});
+      S+=O.map(function(o){return o.s;}).join("");
+      return S;
+    }
+
+    /* ============ wiring ============ */
+    var YVSEASONS=[["spring","🌱","Spring"],["summer","☀️","Summer"],["fall","🍂","Fall"],["winter","❄️","Winter"]];
+    function yvRender(){
+      host.innerHTML=yvBuild();
+      card.setAttribute("data-yvseason",yvSeason);
+      var sb=$("yvSeasons");
+      if(sb)sb.innerHTML=YVSEASONS.map(function(s2){
+        return '<button type="button" class="ys-chip" data-yvseason-pick="'+s2[0]+'" aria-pressed="'+(s2[0]===yvSeason?"true":"false")+'" aria-label="See the yard in '+s2[2].toLowerCase()+'" title="'+s2[2]+'">'+s2[1]+'</button>';
+      }).join("");
+      var pb=$("yvPondBtn"),ob=$("yvPoolBtn");
+      if(pb)pb.setAttribute("aria-pressed",yvOpts.pond?"true":"false");
+      if(ob)ob.setAttribute("aria-pressed",yvOpts.pool?"true":"false");
+      yvCentre();
+    }
+    var yvTouched=false;
+    function yvCentre(){
+      if(yvTouched||!stage)return;
+      requestAnimationFrame(function(){if(!yvTouched&&stage.scrollWidth>stage.clientWidth)stage.scrollLeft=(stage.scrollWidth-stage.clientWidth)/2;});
+    }
+    if(stage){
+      stage.addEventListener("pointerdown",function(){yvTouched=true;},{passive:true});
+      window.addEventListener("resize",yvCentre);
+    }
+    card.addEventListener("click",function(e){
+      var sc=e.target.closest("[data-yvseason-pick]");
+      if(sc){yvSeason=sc.getAttribute("data-yvseason-pick");yvRender();return;}
+      var fun=e.target.closest("[data-yvfun]");
+      if(fun){toast("The pool is just for looks — the garden is the real oasis 🌿");return;}
+    });
+    if($("yvPondBtn"))$("yvPondBtn").addEventListener("click",function(){yvOpts.pond=yvOpts.pond?0:1;lsSet("ycYardMini",yvOpts);yvRender();});
+    if($("yvPoolBtn"))$("yvPoolBtn").addEventListener("click",function(){yvOpts.pool=yvOpts.pool?0:1;lsSet("ycYardMini",yvOpts);yvRender();});
+    host.addEventListener("keydown",function(e){
+      if(e.key!=="Enter"&&e.key!==" ")return;
+      var b=e.target.closest("[data-tool],[data-yvfun]");if(!b)return;
+      e.preventDefault();
+      b.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}));
+    });
+    /* tooltip chip that follows the hovered / focused prop */
+    var tip=$("yvTip");
+    function yvTipShow(el){
+      if(!tip||!stage)return;
+      var r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect();
+      tip.textContent=el.getAttribute("data-yvtip")||"";
+      tip.style.left=(r.left-sr.left+stage.scrollLeft+r.width/2)+"px";
+      tip.style.top=(r.top-sr.top-6)+"px";
+      tip.classList.add("show");
+    }
+    function yvTipHide(){if(tip)tip.classList.remove("show");}
+    host.addEventListener("pointerover",function(e){var b=e.target.closest("[data-yvtip]");if(b)yvTipShow(b);else yvTipHide();});
+    host.addEventListener("pointerleave",yvTipHide);
+    host.addEventListener("focusin",function(e){var b=e.target.closest("[data-yvtip]");if(b)yvTipShow(b);});
+    host.addEventListener("focusout",yvTipHide);
+    host.addEventListener("click",yvTipHide);
+    yvRender();
+  })();
 
   /* ---------- init ---------- */
   (function init(){
