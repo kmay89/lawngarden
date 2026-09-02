@@ -90,42 +90,20 @@
   .nowbar .nb-list .ic{width:15px;height:15px;flex:0 0 auto;margin-top:2px;color:#8FCBA4;}
 
   /* nav */
-  /* tab bar — sticky wrapper holds the scroll hints; nav scrolls inside it */
-  .tabbar-wrap{position:sticky;top:0;z-index:40;margin:0 -2px 14px;background:rgba(243,246,241,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-  nav.tabbar{position:relative;display:flex;gap:2px;padding:7px 0;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth;}
-  nav.tabbar::-webkit-scrollbar{display:none;}
-  /* edge fades hint there's more to either side */
-  .tabbar-wrap::before,.tabbar-wrap::after{content:"";position:absolute;top:0;bottom:0;width:38px;pointer-events:none;z-index:2;opacity:0;transition:opacity .2s;}
-  .tabbar-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(243,246,241,0));}
-  .tabbar-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(243,246,241,0));}
-  .tabbar-wrap.can-left::before{opacity:1;}
-  .tabbar-wrap.can-right::after{opacity:1;}
-  /* tappable nudge arrows */
-  .tabnudge{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:30px;height:30px;border-radius:50%;border:1px solid var(--line-strong);background:#fff;color:var(--grass-deep);display:none;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 9px rgba(28,42,32,.18);padding:0;}
-  .tabnudge .ic{width:18px;height:18px;}
-  .tabnudge.right{right:3px;} .tabnudge.right .ic{transform:rotate(-90deg);}
-  .tabnudge.left{left:3px;} .tabnudge.left .ic{transform:rotate(90deg);}
-  .tabbar-wrap.can-right .tabnudge.right{display:flex;}
-  .tabbar-wrap.can-left .tabnudge.left{display:flex;}
-  .tabbar-wrap.can-right .tabnudge.right{animation:tabnudge 1.5s ease-in-out 3;}
-  @keyframes tabnudge{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(3px)}}
-  @media(prefers-reduced-motion:reduce){.tabnudge.right{animation:none !important;}nav.tabbar{scroll-behavior:auto;}*,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;transition-delay:0s !important;scroll-behavior:auto !important;}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;transition-delay:0s !important;scroll-behavior:auto !important;}}
   /* visible keyboard focus for everyone who tabs through */
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible,.hubchip:focus-visible,.tab-btn:focus-visible,.bedcell:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible,.hubchip:focus-visible,.bedcell:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
   .welcome a:focus-visible,.welcome button:focus-visible{outline-color:#fff;}
-  .tab-btn{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.68rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:12px;padding:7px 11px;cursor:pointer;white-space:nowrap;}
-  .tab-btn .ic{width:21px;height:21px;}
-  .tab-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
 
   /* sectioned nav — a calm top row of themes, plus a pill row that appears only inside a multi-place section */
   .navwrap{position:sticky;top:0;z-index:40;margin:0 -2px 14px;background:rgba(243,246,241,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-top:6px;}
   nav.sectionbar{display:flex;gap:3px;}
-  .sec-btn{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.66rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:13px;padding:8px 3px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;}
+  .sec-btn{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--body);font-size:.72rem;font-weight:600;color:var(--ink-faint);background:transparent;border:none;border-radius:13px;padding:9px 3px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s;}
   .sec-btn .ic{width:22px;height:22px;}
   .sec-btn span{max-width:100%;overflow:hidden;text-overflow:ellipsis;}
   .sec-btn[aria-selected=true]{color:var(--grass-deep);background:#fff;box-shadow:var(--shadow);}
   nav.subbar{display:flex;flex-wrap:wrap;gap:6px;padding:9px 1px 5px;}
-  .sub-btn{font-family:var(--body);font-size:.78rem;font-weight:600;color:var(--ink-soft);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
+  .sub-btn{font-family:var(--body);font-size:.88rem;font-weight:600;color:var(--ink-soft);background:#fff;border:1px solid var(--line-strong);border-radius:999px;padding:10px 16px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
   .sub-btn[aria-selected=true]{color:#fff;background:var(--grass-deep);border-color:var(--grass-deep);}
   .sec-btn:focus-visible,.sub-btn:focus-visible{outline:3px solid var(--grass);outline-offset:2px;}
 
@@ -242,7 +220,7 @@
   .logrow .lr-main{flex:1;min-width:0;}
   .logrow .lr-t{font-weight:600;font-size:.88rem;}
   .logrow .lr-s{font-size:.72rem;color:var(--ink-faint);font-family:var(--mono);}
-  .logrow .lr-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;padding:4px;}
+  .logrow .lr-del{background:none;border:none;color:var(--ink-faint);cursor:pointer;padding:12px;margin:-8px;min-width:40px;min-height:40px;}
   .logrow .lr-del .ic{width:16px;height:16px;}
   .empty{font-size:.83rem;color:var(--ink-faint);text-align:center;padding:14px;border:1px dashed var(--line-strong);border-radius:var(--radius-sm);}
   .store-note{font-size:.72rem;color:var(--ink-faint);margin-top:9px;text-align:center;}
@@ -266,6 +244,11 @@
   .copy a{color:inherit;}
 
   /* sheet */
+  /* the Jot pencil: a labeled pill, bottom-left (the pocket yard owns bottom-right).
+     z-60 sits below the map overlay (70), sheets (90), toasts (120), search (150),
+     and welcome (200), so every larger surface naturally covers it. */
+  .jot-fab{position:fixed;left:max(14px,calc(50vw - 340px));bottom:calc(16px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:7px;background:var(--grass-deep);color:#fff;border:none;border-radius:999px;padding:12px 17px;min-height:44px;font-family:var(--body);font-weight:700;font-size:.9rem;cursor:pointer;box-shadow:0 6px 20px rgba(28,42,32,.3);}
+  .jot-fab .ic{width:18px;height:18px;}
   .sheet-bg{position:fixed;inset:0;background:rgba(20,30,24,.45);z-index:90;display:flex;align-items:flex-end;justify-content:center;}
   .sheet{background:#fff;width:100%;max-width:680px;border-radius:20px 20px 0 0;padding:20px 19px calc(24px + env(safe-area-inset-bottom));max-height:82vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(0,0,0,.2);}
   .sheet h4{font-family:var(--display);font-size:1.16rem;margin:0 0 3px;display:flex;align-items:center;gap:8px;}
@@ -276,6 +259,9 @@
 
   #toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:.85rem;font-weight:600;padding:11px 18px;border-radius:999px;opacity:0;transition:.25s;z-index:120;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.25);}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  /* only an action-bearing toast may catch taps — a plain one stays tap-transparent */
+  #toast.has-act{pointer-events:auto;}
+  .toast-act{background:none;border:none;color:#fff;font-family:var(--body);font-weight:700;font-size:.85rem;text-decoration:underline;cursor:pointer;padding:2px 4px;margin-left:6px;}
 
   /* ===== Almanac ===== */
   :root{--season:#5BAE78;--season-deep:#2E7D4F;}
@@ -485,11 +471,10 @@
   .welcome .wnav .wstart{margin-top:0;flex:1;width:auto;min-width:0;}
   .welcome .wskip{background:none;border:none;color:#A9D6BA;font-family:var(--body);font-size:.84rem;text-decoration:underline;cursor:pointer;margin:13px auto 0;display:block;}
   /* toolbar: icon-only on phones so the title isn't squished */
-  @media(max-width:430px){ .tbtn .tlabel{display:none;} .tbtn{padding:8px;gap:0;} }
+  @media(max-width:430px){ .tbtn .tlabel{display:none;} .tbtn{padding:8px;gap:0;min-width:44px;min-height:44px;justify-content:center;} }
   /* section bar: slightly smaller labels on phones so none of them truncate */
-  @media(max-width:430px){ .sec-btn{font-size:.6rem;padding:8px 1px;letter-spacing:-.01em;} }
-  /* tab bar divider between "for you" tabs and the rest */
-  .tabdiv{flex:0 0 auto;align-self:center;display:inline-flex;align-items:center;gap:5px;padding:0 8px 0 10px;margin-left:2px;border-left:1px dashed var(--line-strong);color:var(--ink-faint);font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
+  @media(max-width:430px){ .sec-btn{font-size:.66rem;padding:9px 1px;} }
+  @media(max-width:374px){ .sec-btn{font-size:.6rem;letter-spacing:-.01em;} }
   /* home: "for you" + discover spotlight */
   .fy-head{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--grass-deep);font-weight:700;margin:0 0 9px;}
   .fy-discover{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-left:3px solid var(--grass);border-radius:var(--radius-sm);padding:12px 13px;background:linear-gradient(180deg,#F6FBF7,#fff);margin-top:11px;cursor:pointer;width:100%;text-align:left;font-family:var(--body);}
@@ -535,7 +520,7 @@
   .searchflash{animation:searchflash 1.7s ease;}
   @keyframes searchflash{0%,100%{box-shadow:var(--shadow);}18%,55%{box-shadow:0 0 0 3px rgba(58,130,85,.5);}}
 
-  @media(min-width:560px){ .tab-btn{font-size:.74rem;} .sec-btn{font-size:.74rem;padding:8px 6px;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:560px){ .sec-btn{font-size:.74rem;padding:8px 6px;} .cropgrid{display:grid;grid-template-columns:1fr 1fr;} .hub{grid-template-columns:repeat(3,1fr);} }
 
   /* ===== visual polish & motion layer =====
      Calm, subtle motion only: transforms/opacity, short ease-out curves.
@@ -801,11 +786,6 @@
   .yardscape[data-yvmood="dark"] .yp-name,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-name{color:#EAF0FA;}
   .yardscape[data-yvmood="dark"] .yp-desc,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-desc{color:#AEBBD6;}
   .yardscape[data-yvmood="dark"] .yp-x,.yardscape[data-yvtime="night"][data-yvmood="auto"] .yp-x{color:#8AA0C8;}
-  details.hubfold{border:0;margin:0;}
-  details.hubfold>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--body);font-size:.85rem;font-weight:600;color:var(--grass-deep);padding:4px 0 2px;}
-  details.hubfold>summary::-webkit-details-marker{display:none;}
-  details.hubfold>summary .ic{width:16px;height:16px;transition:transform .2s ease;}
-  details.hubfold[open]>summary .ic{transform:rotate(180deg);}
 </style>
 </head>
 <body>
@@ -870,6 +850,7 @@
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17v-6a6 6 0 0112 0v6l1.6 2H4.4z"/><path d="M9.8 21a2.2 2.2 0 004.4 0"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 3 3 5v16l6-2 6 2 6-2V3l-6 2-6-2z"/><path d="M9 3v16M15 5v16"/></symbol>
   <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19z"/><path d="M13.5 7.5l3 3"/></symbol>
 </defs></svg>
 
 <div class="wrap">
@@ -901,36 +882,6 @@
     <nav class="subbar" id="subBar" role="tablist" aria-label="In this section" hidden></nav>
   </div>
 
-  <!-- The original flat tab bar is kept (hidden) as the canonical pane registry: showTab,
-       the search index, and personalization still read these buttons. -->
-  <div class="tabbar-wrap" id="tabbarWrap" hidden aria-hidden="true">
-  <nav class="tabbar" id="tabbar" role="tablist">
-    <button class="tab-btn" role="tab" data-tab="almanac" aria-selected="true"><svg class="ic"><use href="#i-book"/></svg>Almanac</button>
-    <button class="tab-btn" role="tab" data-tab="lawn" aria-selected="false"><svg class="ic"><use href="#i-mower"/></svg>Lawn</button>
-    <button class="tab-btn" role="tab" data-tab="mow"><svg class="ic"><use href="#i-grass"/></svg>Mow</button>
-    <button class="tab-btn" role="tab" data-tab="trees"><svg class="ic"><use href="#i-tree"/></svg>Trees</button>
-    <button class="tab-btn" role="tab" data-tab="grow"><svg class="ic"><use href="#i-basket"/></svg>Grow</button>
-    <button class="tab-btn" role="tab" data-tab="bloom"><svg class="ic"><use href="#i-flower"/></svg>Bloom</button>
-    <button class="tab-btn" role="tab" data-tab="pests"><svg class="ic"><use href="#i-bug"/></svg>Pests &amp; Weeds</button>
-    <button class="tab-btn" role="tab" data-tab="fruit"><svg class="ic"><use href="#i-fruit"/></svg>Fruit</button>
-    <button class="tab-btn" role="tab" data-tab="native"><svg class="ic"><use href="#i-clover"/></svg>Native &amp; Lawn-Free</button>
-    <button class="tab-btn" role="tab" data-tab="rain"><svg class="ic"><use href="#i-droplet"/></svg>Rain &amp; Water</button>
-    <button class="tab-btn" role="tab" data-tab="beds"><svg class="ic"><use href="#i-layers"/></svg>Beds &amp; Mulch</button>
-    <button class="tab-btn" role="tab" data-tab="soil"><svg class="ic"><use href="#i-soil"/></svg>Soil</button>
-    <button class="tab-btn" role="tab" data-tab="compost"><svg class="ic"><use href="#i-compost"/></svg>Compost</button>
-    <button class="tab-btn" role="tab" data-tab="snow"><svg class="ic"><use href="#i-snow"/></svg>Snow &amp; Salt</button>
-    <button class="tab-btn" role="tab" data-tab="leaves"><svg class="ic"><use href="#i-leaf"/></svg>Leaves</button>
-    <button class="tab-btn" role="tab" data-tab="wildlife"><svg class="ic"><use href="#i-bird"/></svg>A Living Yard</button>
-    <button class="tab-btn" role="tab" data-tab="pond"><svg class="ic"><use href="#i-waves"/></svg>Pond</button>
-    <button class="tab-btn" role="tab" data-tab="season"><svg class="ic"><use href="#i-cal"/></svg>Season</button>
-    <button class="tab-btn" role="tab" data-tab="shop"><svg class="ic"><use href="#i-cart"/></svg>Plan &amp; Shop</button>
-    <button class="tab-btn" role="tab" data-tab="remind"><svg class="ic"><use href="#i-bell"/></svg>Reminders</button>
-    <button class="tab-btn" role="tab" data-tab="spots"><svg class="ic"><use href="#i-map"/></svg>My Yard</button>
-    <button class="tab-btn" role="tab" data-tab="plan"><svg class="ic"><use href="#i-grid"/></svg>Plan a Bed</button>
-  </nav>
-    <button class="tabnudge left" id="tabNudgeLeft" aria-label="Scroll tabs left" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
-    <button class="tabnudge right" id="tabNudgeRight" aria-label="More tabs — scroll right" tabindex="-1"><svg class="ic"><use href="#i-chev"/></svg></button>
-  </div>
 
   <!-- ============ ALMANAC (home / journey) ============ -->
   <section class="tab" data-pane="almanac">
@@ -939,6 +890,24 @@
       <h2 id="nowTitle">Loading your season…</h2>
       <p id="nowSub"></p>
       <ul class="nb-list" id="nowList"></ul>
+    </div>
+
+    <div class="card no-fold" id="notebookCard">
+      <div class="card-head"><svg class="ic"><use href="#i-pencil"/></svg><h3>Your notebook</h3></div>
+      <p class="hint">What you did, and what you noticed — both halves of a yard, kept on one page. A line is plenty.</p>
+      <div class="seg" id="jotSeg" role="group" aria-label="What kind of note">
+        <button type="button" data-jseg="did" aria-pressed="true">I did something</button>
+        <button type="button" data-jseg="saw" aria-pressed="false">I noticed something</button>
+      </div>
+      <div class="field"><label for="jotText">Your note</label><input id="jotText" type="text" maxlength="280" placeholder="e.g. first mow — front yard, 3.5″"/></div>
+      <div class="grid2">
+        <div class="field"><label for="jotDate">Date</label><input id="jotDate" type="date"/></div>
+        <div class="field"><label for="jotKind">What kind? <span class="meta">optional</span></label><select id="jotKind"></select></div>
+      </div>
+      <button class="act btn-primary" id="jotAdd"><svg class="ic"><use href="#i-plus"/></svg>Keep it in the notebook</button>
+      <div id="backupNudge" hidden></div>
+      <div class="loglist" id="nbList"></div>
+      <p class="store-note" id="nbStoreNote"></p>
     </div>
 
     <div class="yardscape" id="yardscape" data-yvseason="summer">
@@ -992,50 +961,10 @@
       <div id="forYouDiscover"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="indexCard">
       <div class="card-head"><svg class="ic"><use href="#i-bulb"/></svg><h3>Jump to a tool or note</h3></div>
-      <p class="hint">The yard above is the map — but if you'd rather browse a list, everything is here.</p>
-      <details class="hubfold">
-      <summary><svg class="ic"><use href="#i-chev"/></svg>Open the full index</summary>
-      <div class="hubhead first">Log &amp; notes</div>
-      <div class="hub">
-        <button class="hubchip" data-tool="almanac" data-scroll="storyCard"><svg class="ic"><use href="#i-book"/></svg><span class="ht">Your story</span></button>
-        <button class="hubchip" data-tool="almanac" data-scroll="jDate"><svg class="ic"><use href="#i-star"/></svg><span class="ht">Yard journal</span></button>
-        <button class="hubchip" data-tool="almanac" data-scroll="nDate"><svg class="ic"><use href="#i-eye"/></svg><span class="ht">Field notes</span></button>
-        <button class="hubchip" data-tool="wildlife" data-scroll="pestDate"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Bite / tick log</span></button>
-        <button class="hubchip" data-tool="remind" data-scroll="remindText"><svg class="ic"><use href="#i-bell"/></svg><span class="ht" id="hubRemindLabel">Reminders</span></button>
-        <button class="hubchip" data-tool="almanac" data-scroll="backupCard"><svg class="ic"><use href="#i-download"/></svg><span class="ht">Back up</span></button>
-      </div>
-      <div class="hubhead">Calculators</div>
-      <div class="hub">
-        <button class="hubchip" data-tool="lawn" data-scroll="fLawn"><svg class="ic"><use href="#i-spread"/></svg><span class="ht">Fertilizer</span></button>
-        <button class="hubchip" data-tool="lawn" data-scroll="wCan"><svg class="ic"><use href="#i-droplet"/></svg><span class="ht">Watering</span></button>
-        <button class="hubchip" data-tool="mow" data-scroll="mowCadence"><svg class="ic"><use href="#i-grass"/></svg><span class="ht">Mowing guide</span></button>
-        <button class="hubchip" data-tool="beds" data-scroll="mArea"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Mulch</span></button>
-        <button class="hubchip" data-tool="season" data-scroll="fwNights"><svg class="ic"><use href="#i-flask"/></svg><span class="ht">Firewood</span></button>
-        <button class="hubchip" data-tool="soil" data-scroll="phCalc"><svg class="ic"><use href="#i-soil"/></svg><span class="ht">Soil pH</span></button>
-        <button class="hubchip" data-tool="compost" data-scroll="compostCalc"><svg class="ic"><use href="#i-compost"/></svg><span class="ht">Compost mix</span></button>
-        <button class="hubchip" data-tool="pond" data-scroll="pondCalc"><svg class="ic"><use href="#i-waves"/></svg><span class="ht">Pond size</span></button>
-      </div>
-      <div class="hubhead">Garden planners</div>
-      <div class="hub">
-        <button class="hubchip" data-tool="spots" data-scroll="spotCard"><svg class="ic"><use href="#i-map"/></svg><span class="ht">My spots</span></button>
-        <button class="hubchip" data-tool="plan" data-scroll="planCard"><svg class="ic"><use href="#i-grid"/></svg><span class="ht">Plan a bed</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="plantFinder"><svg class="ic"><use href="#i-search"/></svg><span class="ht">Find a plant</span></button>
-        <button class="hubchip" data-tool="bloom" data-scroll="bloomPlanner"><svg class="ic"><use href="#i-flower"/></svg><span class="ht">Bloom planner</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="cropGuide"><svg class="ic"><use href="#i-basket"/></svg><span class="ht">Crop guide</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="plantChart"><svg class="ic"><use href="#i-cal"/></svg><span class="ht">Planting timeline</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="rowCalc"><svg class="ic"><use href="#i-ruler"/></svg><span class="ht">Row calculator</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="frostSpring"><svg class="ic"><use href="#i-thermo"/></svg><span class="ht">Frost dates</span></button>
-        <button class="hubchip" data-tool="grow" data-scroll="partnerPick"><svg class="ic"><use href="#i-bee"/></svg><span class="ht">Companions</span></button>
-        <button class="hubchip" data-tool="pests" data-scroll="issueFinder"><svg class="ic"><use href="#i-bug"/></svg><span class="ht">Pest finder</span></button>
-        <button class="hubchip" data-tool="wildlife" data-scroll="coexistCard"><svg class="ic"><use href="#i-rabbit"/></svg><span class="ht">Wildlife coexist</span></button>
-        <button class="hubchip" data-tool="rain" data-scroll="rainCalc"><svg class="ic"><use href="#i-barrel"/></svg><span class="ht">Rain barrel</span></button>
-        <button class="hubchip" data-tool="native" data-scroll="seedCalc"><svg class="ic"><use href="#i-clover"/></svg><span class="ht">Clover seed</span></button>
-        <button class="hubchip" data-tool="shop" data-scroll="shopName"><svg class="ic"><use href="#i-cart"/></svg><span class="ht">Shopping list</span></button>
-        <button class="hubchip" data-tool="season" data-scroll="zipInput"><svg class="ic"><use href="#i-cloud"/></svg><span class="ht">Forecast</span></button>
-      </div>
-      </details>
+      <p class="hint">The little yard above is the map — this is the whole list. Tap anything.</p>
+      <div id="hubIndex"></div>
     </div>
 
     <div class="card">
@@ -1044,41 +973,6 @@
       <div class="ritual-prog"><div class="bar"><i id="ritualBar" style="background:var(--season);width:0%"></i></div><div class="barlabels"><span id="ritualCount">0 of 0 tended</span><span id="ritualSeasonName"></span></div></div>
       <div class="ritlist" id="ritualList"></div>
       <div id="ritualDone"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><svg class="ic"><use href="#i-book"/></svg><h3>Yard journal</h3></div>
-      <p class="hint">Every time you tend something, jot it. Over a year this becomes the story of your yard — and it's what your Moments below are made of.</p>
-      <div class="grid2">
-        <div class="field"><label for="jDate">Date</label><input id="jDate" type="date"/></div>
-        <div class="field"><label for="jType">What you did</label><select id="jType">
-          <option value="mow">Mowed</option><option value="feed">Fed / fertilized</option><option value="seed">Seeded / overseeded</option>
-          <option value="water">Watered</option><option value="mulch">Mulched</option><option value="edge">Edged beds</option>
-          <option value="prune">Pruned</option><option value="plant">Planted something</option>
-          <option value="sow">Sowed seed</option><option value="transplant">Transplanted</option><option value="harvest">Harvested</option>
-          <option value="leaves">Leaf cleanup</option><option value="snow">Cleared snow</option><option value="other">Something else</option>
-        </select></div>
-      </div>
-      <div class="field"><label for="jNote">Note <span class="meta">optional — a detail you'll like remembering</span></label><input id="jNote" type="text" maxlength="120" placeholder="e.g. front yard, first cut at 3.5″"/></div>
-      <button class="act btn-primary" id="jAdd"><svg class="ic"><use href="#i-plus"/></svg>Add to journal</button>
-      <div class="loglist" id="jList"></div>
-      <p class="store-note" id="jStoreNote"></p>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><svg class="ic"><use href="#i-eye"/></svg><h3>Field notes</h3></div>
-      <p class="hint">The other half of a yard: what you <i>notice</i>. The first crocus, a fat bumblebee, frost stitched across the grass, fireflies at dusk. Small wonders, worth marking.</p>
-      <div class="grid2">
-        <div class="field"><label for="nDate">Date</label><input id="nDate" type="date"/></div>
-        <div class="field"><label for="nWhat">What you saw</label><select id="nWhat">
-          <option value="bloom">First bloom / flower</option><option value="bug">Pollinator / insect</option>
-          <option value="bird">A bird</option><option value="wildlife">Wildlife</option>
-          <option value="frost">Frost</option><option value="snow">First snow</option><option value="other">Something else</option>
-        </select></div>
-      </div>
-      <div class="field"><label for="nNote">Note <span class="meta">optional</span></label><input id="nNote" type="text" maxlength="120" placeholder="e.g. bumblebee on the clover"/></div>
-      <button class="act btn-ghost" id="nAdd"><svg class="ic"><use href="#i-plus"/></svg>Mark what you saw</button>
-      <div class="loglist" id="nList"></div>
     </div>
 
     <div class="card">
@@ -1092,7 +986,7 @@
       <div class="card-head"><svg class="ic"><use href="#i-book"/></svg><h3>Your story</h3></div>
       <p class="hint">Everything you've tended and noticed this year, woven into one timeline — and gently explained, month by month.</p>
       <div class="story" id="storyBody"></div>
-      <button class="act btn-ghost" id="storyShare" style="margin-top:12px;"><svg class="ic"><use href="#i-upload"/></svg>Copy a shareable summary</button>
+      <button class="act btn-ghost" id="storyShare" style="margin-top:12px;"><svg class="ic"><use href="#i-upload"/></svg>Share your story</button>
     </div>
 
     <div class="card">
@@ -1118,8 +1012,9 @@
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-thermo"/></svg><h3>Timing by soil, not the calendar</h3></div>
-      <p class="hint">Most lawn jobs have a soil-temperature trigger that beats any date on a bag. Pull a forecast on the Season tab and this fills in live.</p>
-      <div id="soilBox" class="hero green"><div class="h-amt" id="soilTemp">— <small>soil °F</small></div><div class="h-sub" id="soilSub">Tap "Weather" and enter your ZIP to read local soil temperature.</div></div>
+      <p class="hint">Most lawn jobs have a soil-temperature trigger that beats any date on a bag. Add your ZIP once and this fills in live.</p>
+      <div id="soilBox" class="hero green"><div class="h-amt" id="soilTemp">— <small>soil °F</small></div><div class="h-sub" id="soilSub">Add your ZIP below to read local soil temperature.</div></div>
+      <div class="zip-row" data-wxzip style="margin-top:9px"><input type="text" inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code"/><button class="act btn-ghost" type="button"><svg class="ic"><use href="#i-cloud"/></svg>Use my ZIP</button></div>
       <div class="cmp">
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-shield"/></svg>Crabgrass pre-emergent</div><div class="cr-b">Apply <b>before</b> soil holds ~<b>50–55°F</b> (down by the time forsythia drops its flowers, ~late March–April here). Too early wastes it; too late lets crabgrass through. <button class="linklike" data-info="preem">Why &amp; how →</button></div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-sprout"/></svg>Seeding / overseeding</div><div class="cr-b">Best when soil is <b>50–65°F and falling</b> — late Aug to late Sep. Seed germinates, roots before winter, no crabgrass competition. Spring seeding fights heat and your pre-emergent. <button class="linklike" data-info="seed">Details →</button></div></div>
@@ -1215,7 +1110,7 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-ruler"/></svg>Mow high — 3.5–4″</div><div class="cr-b">The single biggest lever. Tall grass shades the soil, grows <b>deeper roots</b>, and crowds out weeds before they sprout — which quietly replaces a lot of herbicide. Scalping does the opposite: bare soil is a crabgrass invitation.</div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-cut"/></svg>Keep the blade sharp</div><div class="cr-b">A clean cut seals and heals; a torn, frayed tip browns and invites fungus — so a sharp blade is a fungicide you don't have to buy. Sharpen a few times a season.</div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-check"/></svg>Never cut more than a third</div><div class="cr-b">The one-third rule. Take too much at once and you stress the plant and expose soil. In spring's rush that means mowing <i>more often</i>, never lower.</div></div>
-        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Grasscycle — leave the clippings</div><div class="cr-b">Mulched clippings return roughly <b>25% of the lawn's nitrogen</b> for free and don't cause thatch — a fertilizer trip or two you can skip. <button class="linklike" data-goto="trees">How feeding works →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-recycle"/></svg>Grasscycle — leave the clippings</div><div class="cr-b">Mulched clippings return roughly <b>25% of the lawn's nitrogen</b> for free and don't cause thatch — a fertilizer trip or two you can skip. <button class="linklike" data-tool="trees" data-scroll="feedHostTrees">How feeding works →</button></div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-clover"/></svg>Thicken it, then let clover in</div><div class="cr-b">Overseed in fall and welcome a little <b>white clover</b>: density crowds out weeds and clover pulls its own nitrogen from the air. Fewer herbicides <i>and</i> less fertilizer. <button class="linklike" data-goto="wildlife">Why clover →</button></div></div>
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-flask"/></svg>Water deep; lime only if tested</div><div class="cr-b">Deep, infrequent watering drives roots down. And <b>don't lime on a schedule</b> — a $15 soil test tells you if pH is actually low. Many Ohio lawns don't need it, and over-liming locks out nutrients. <button class="linklike" data-goto="lawn">Watering &amp; soil test →</button></div></div>
       </div>
@@ -1331,7 +1226,7 @@
       </div>
       <div class="tipcard warn"><svg class="ic"><use href="#i-alert"/></svg><div><div class="t-name">Never build a mulch volcano</div><div class="t-body">Piling mulch up against a trunk is the most common — and most lethal — mistake. It traps moisture against the bark, rots it, invites rodents and disease, and grows girdling roots that slowly strangle the tree. Pull mulch back so you can see the <b>root flare</b> (where the trunk widens into roots). Think doughnut, not volcano.</div></div></div>
       <div class="tipcard soil"><svg class="ic"><use href="#i-recycle"/></svg><div><div class="t-name">Wide, not deep</div><div class="t-body">A ring out toward the drip line does far more than a deep collar at the trunk. Each year <b>fluff and refresh</b> to 2–3 inches total — don't just bury last year's layer, or it mats and sheds water.</div></div></div>
-      <p class="hint" style="margin-top:11px;">Need a quantity? The <b>Beds &amp; Mulch</b> tab has a calculator for yards and bags.</p>
+      <p class="hint" style="margin-top:11px;">Need a quantity? <button class="linklike" data-tool="beds" data-scroll="mArea">Open the mulch calculator →</button></p>
     </div>
 
     <div class="card">
@@ -1418,7 +1313,7 @@
         </ul>
         <div class="pillrow"><span class="pill good">winter berries &amp; structure</span><span class="pill warn">need a male to pollinate</span><span class="pill warn">water before freeze</span></div>
       </div></details>
-      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Watering a young tree is worth logging — pop it in your <button class="linklike" data-goto="almanac">yard journal</button> as a <b>water</b> entry. Do it across two seasons and you'll earn the <b>Rooted</b> Moment.</div></div>
+      <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Watering a young tree is worth logging — <button class="linklike" data-jot="did:water">jot it now ✎</button> and it lands in your notebook. Do it across two seasons and you'll earn the <b>Rooted</b> Moment.</div></div>
     </div>
 
     <div id="feedHostTrees"></div>
@@ -1458,7 +1353,7 @@
       <div id="frostZipOut"></div>
       <div class="hero green" id="frostReadout"></div>
       <div id="frostAdvisory"></div>
-      <p class="zip-note" id="frostZipNote">Tip: load a ZIP on the Season tab and a real frost in the 7-day forecast will flag here too.</p>
+      <p class="zip-note" id="frostZipNote">Tip: add your ZIP above (or on The year) and a real frost in the 7-day forecast will flag here too.</p>
     </div>
 
     <div id="feedHostGrow"></div>
@@ -1560,7 +1455,7 @@
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bulb"/></svg>Countertop hydro units</div><div class="cr-b">An AeroGarden-style box with a pump and a built-in grow light — easiest, with reliable winter harvests. <i>Trade-off:</i> upfront cost, ongoing electricity, and proprietary pods (though you can refill your own). <div class="pillrow"><span class="pill good">easiest, reliable</span><span class="pill warn">cost + power + pods</span></div></div></div>
       </div>
       <div class="note-card"><svg class="ic"><use href="#i-sun"/></svg><div class="txt"><b>Light is the real limiter</b>, not the method. A bright south window grows basil, mint, chives, cilantro, parsley, and leaf lettuce; anything dimmer wants a small LED grow light. Hydro grows fast because the roots get water, air, <i>and</i> nutrients all at once — and that's exactly why it's such a good teaching project: watch the roots, measure the growth, taste the difference.</div></div>
-      <div class="note-card"><svg class="ic"><use href="#i-eye"/></svg><div class="txt">Worth logging: start a cutting and add a <b>sow</b> entry to your <button class="linklike" data-goto="almanac">journal</button> ("started basil in water"), then mark "first true leaves" as a <b>field note</b>. Start herbs indoors in winter and you'll earn the <b>Windowsill Green</b> Moment.</div></div>
+      <div class="note-card"><svg class="ic"><use href="#i-eye"/></svg><div class="txt">Worth logging: start a cutting and <button class="linklike" data-jot="did:sow">jot it now ✎</button> ("started basil in water"), then jot "first true leaves" when they show. Start herbs indoors in winter and you'll earn the <b>Windowsill Green</b> Moment.</div></div>
     </div>
 
     <!-- ===== F: Tomatoes, start to jar ===== -->
@@ -1915,7 +1810,7 @@
           <li><b>Seal the bottom.</b> On every berry setup the failure point is the gap at ground level — birds walk or hop in, then panic upward into the mesh. Pin, weight, or bury the edge.</li>
         </ul>
         <div class="pillrow"><span class="pill good">walk-in cage = best for berries</span><span class="pill good">bag grape bunches</span><span class="pill warn">always seal the bottom edge</span></div>
-        <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Worth logging: add a <b>field note</b> to your <button class="linklike" data-goto="almanac">journal</button> the day you net ("netted the blueberries — first berries coloring") so next year you know the timing for your yard.</div></div>
+        <div class="note-card"><svg class="ic"><use href="#i-info"/></svg><div class="txt">Worth logging: <button class="linklike" data-jot="saw:other">jot a note ✎</button> the day you net ("netted the blueberries — first berries coloring") so next year you know the timing for your yard.</div></div>
       </div></details>
       <div class="pillrow"><span class="pill good">net after bloom, before color</span><span class="pill good">taut + small mesh = wildlife-safe</span><span class="pill warn">finger test the mesh</span><span class="pill warn">remove after harvest</span></div>
     </div>
@@ -2315,7 +2210,7 @@
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-recycle"/></svg><h3>End of season</h3></div>
-      <div class="prose"><p>When winter's clearly done: run the tank <b>dry</b> or top it off with stabilized fuel, wipe it down, and store it dry. Note anything that needs a spring fix (belt, pull cord, a thin scraper bar) so you're not discovering it during the first storm next year.</p></div>
+      <div class="prose"><p>When winter's clearly done: run the tank <b>dry</b> or top it off with stabilized fuel, wipe it down, and store it dry. Note anything that needs a spring fix (belt, pull cord, a thin scraper bar) so you're not discovering it during the first storm next year. <button class="linklike" data-jot="did:other">Jot the spring fix ✎</button> · <button class="linklike" data-tool="remind" data-scroll="remindText">or set a spring reminder →</button></p></div>
     </div>
   </section>
 
@@ -2335,7 +2230,7 @@
 
     <div class="card">
       <div class="card-head"><svg class="ic"><use href="#i-cal"/></svg><h3>Leaf log &amp; timing</h3></div>
-      <p class="hint">Track each cleanup so you can see how the drop runs year to year. Pull a forecast (Season tab) and the next few days get flagged for good leaf-work weather — <b>dry and low wind</b>.</p>
+      <p class="hint">Track each cleanup so you can see how the drop runs year to year. Pull a forecast and the next few days get flagged for good leaf-work weather — <b>dry and low wind</b>.</p>
       <div id="leafDayWrap"></div>
       <div class="grid2" style="margin-top:4px;">
         <div class="field"><label for="leafDate">Date</label><input id="leafDate" type="date"/></div>
@@ -2360,6 +2255,55 @@
       <h3><svg class="ic"><use href="#i-bird"/></svg>A living yard beats a sterile one</h3>
       <p>A pesticide-perfect, monoculture lawn looks tidy — but it's actually <b>fragile, high-input, and lifeless</b>. A yard with bees, birds, worms, even a few ants and rabbits is healthier, more resilient, and far more alive.</p>
       <p>A little clover, a few nibbled leaves, an anthill, seedheads left standing — these are signs of a <b>working ecosystem, not a failure</b>. You're a host and an observer here, not a janitor at war with nature. Everything below hangs on that one idea.</p>
+    </div>
+
+    <div class="card" id="urgentCard">
+      <div class="card-head"><svg class="ic"><use href="#i-shield"/></svg><h3>In a hurry?</h3></div>
+      <p class="hint">For the two moments this page must not fail you — an emergency with a wild animal, or a tick on someone you love.</p>
+      <div class="cmp">
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bell"/></svg>Hurt or trapped wild animal</div><div class="cr-b">Ohio Wildlife Center hotline: <a href="tel:6147939453"><b>614-793-9453</b></a> — a two-minute call beats a guess. <button class="linklike" data-info="rehab">What to do first →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Found a tick?</div><div class="cr-b">Fine-point tweezers, grip at the skin, pull straight up — then note the date. <button class="linklike" data-tool="wildlife" data-scroll="pestDate">Removal steps &amp; the bite log →</button></div></div>
+      </div>
+    </div>
+
+    <div class="card" id="pestCard" style="border-color:#E6C3BA;">
+      <div class="card-head"><svg class="ic" style="color:var(--alert)"><use href="#i-bug"/></svg><h3>The honest flip side: mosquitoes &amp; ticks</h3></div>
+      <p class="hint">This is the one place where <b>human health comes first</b> — we won't downplay real disease risk. But the nature-collaborator ethic still holds: the goal is <b>least-harm control that actually works</b> — source reduction, personal protection, and smart landscaping — not fogging the yard and killing every pollinator. A parent protecting kids may reasonably choose more intervention; here are the honest trade-offs.</p>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Seasonal activity estimate</div>
+      <div class="gauge" id="pestGauge"></div>
+      <p class="zip-note" id="pestGaugeNote" style="margin-top:8px;">A rough seasonal read from the month, temperature, and recent rain — <b>an estimate, not a live surveillance feed</b>. Add your ZIP and it sharpens.</p>
+      <div class="zip-row" data-wxzip style="margin-top:6px"><input type="text" inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code"/><button class="act btn-ghost" type="button"><svg class="ic"><use href="#i-cloud"/></svg>Use my ZIP</button></div>
+
+      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-droplet"/></svg>Mosquitoes — dump the water first<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>In Ohio, <b>West Nile</b> is the main concern, and the <b>Asian tiger mosquito</b> is an aggressive daytime biter. They fade after the first hard frost. The single best — and most nature-friendly — control is <b>source reduction</b>: they breed in standing water, so deny it.</p>
+        <p><b>Personal protection:</b> an EPA-registered repellent (DEET, picaridin, or oil of lemon eucalyptus), long sleeves at dusk and dawn, intact window screens, and a patio fan (they're weak fliers).</p>
+        <p><b>Let predators help:</b> bats, purple martins and swallows, dragonflies, and frogs all eat mosquitoes — another reason to skip broad spraying. <i>Honesty note:</i> "mosquito-repelling plants" like citronella are <b>largely overhyped</b> and won't clear an area — don't oversell them.</p>
+        <p><b>Trade-offs:</b> source reduction + protection is your cheap, safe, effective first line. <b>BTI "mosquito dunks"</b> (a bacterium that kills only mosquito and gnat larvae, safe for bees, fish, pets, and birds) handle water you can't drain. Backyard foggers and "barrier" sprays knock down adults briefly but <b>kill pollinators and beneficials, must be repeated, and don't fix the source</b> — a last resort, not a routine.</p>
+      </div></details>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Standing-water audit — tip it out weekly</div>
+      <p class="hint" style="margin-top:2px;">Mosquito larvae need about a week in still water. Walk the yard and knock these out:</p>
+      <div class="ritlist" id="waterAudit"></div>
+
+      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-shield"/></svg>Ticks — yard, body, removal<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+        <p>Rising in Ohio: the <b>blacklegged ("deer") tick</b> → Lyme; the <b>American dog tick</b> → Rocky Mountain spotted fever; the <b>lone star tick</b> → ehrlichiosis and the alpha-gal red-meat allergy. Unlike mosquitoes, ticks <b>don't reliably fade</b> after frost — adults are active any time it's above ~40°F, even on a winter thaw.</p>
+        <p><b>Where they are:</b> tall grass, brushy and wooded edges, and leaf litter — <b>not</b> the open, sunny, mown lawn. The tiny <b>nymphs (late spring–summer, poppy-seed size)</b> cause most disease.</p>
+        <p><b>Tick-safe yard:</b> mow short in play and use areas; put a <b>~3-ft mulch or gravel barrier</b> between lawn and woods/brush; keep play sets, patios, and seating <b>in the sun and away from the edge</b>; clear leaf litter and tall grass <b>at the borders</b> (litter is great in the far corners — just not where people sit); and discourage the rodents and deer that ferry ticks.</p>
+        <p><b>Personal protection:</b> <b>permethrin-treated clothing and shoes</b> (the most effective measure for brush time), skin repellent, light-colored clothing to spot them, pants tucked into socks for garden and trail work, and <b>check pets</b> (they carry ticks indoors).</p>
+        <p><b>Checks &amp; removal:</b> after time outdoors, do a <b>full-body check</b> (kids, hairline, waist, behind knees, armpits), shower within a couple hours, and tumble clothes in a hot dryer. Remove with <b>fine-point tweezers — grip at the skin and pull straight up, slow and steady</b>. Don't twist, burn, or smother it. Clean the bite, <b>note the date</b>, and watch for an <b>expanding "bullseye" rash, fever, or flu-like symptoms</b> over the following weeks.</p>
+      </div></details>
+
+      <div class="note-card alert"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Awareness, not medical advice.</b> See a doctor for a tick you can't fully remove, a bullseye rash, fever, or any concerning reaction. Caught early, these are very treatable.</div></div>
+
+      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:13px;">Log a bite or tick found <span style="font-weight:400;color:var(--ink-faint);">— private, practical, no points</span></div>
+      <div class="grid2">
+        <div class="field"><label for="pestDate">Date</label><input id="pestDate" type="date"/></div>
+        <div class="field"><label for="pestKind">What</label><select id="pestKind"><option value="Tick found">Tick found</option><option value="Tick bite">Tick bite</option><option value="Mosquito bites">Mosquito bites (a lot)</option></select></div>
+      </div>
+      <div class="field"><label for="pestWhere">Where on the property <span class="meta">optional — to spot patterns</span></label><input id="pestWhere" type="text" maxlength="80" placeholder="e.g. back fence line by the woods"/></div>
+      <button class="act btn-ghost" id="pestAdd"><svg class="ic"><use href="#i-plus"/></svg>Log it (and note the date)</button>
+      <div class="loglist" id="pestList"></div>
     </div>
 
     <div class="card">
@@ -2446,7 +2390,7 @@
         <p>Lightning bugs are one of summer's quiet miracles — and they're a barometer of a healthy, low-spray yard. In Ohio they put on their show across these weeks:</p>
       </div>
       <div class="cal" id="fireflyTl"></div>
-      <div class="note-card"><svg class="ic"><use href="#i-leaf"/></svg><div class="txt"><b>Help them thrive:</b> they spend most of their life as larvae in <b>leaf litter and damp soil</b> (eating slugs and snails), so leave some leaves in the quiet corners, skip the broad pesticides, and go easy on bright outdoor lighting — porch lights and floods drown out their signals. <button class="linklike" data-goto="leaves">Leaf litter helps →</button> Spotted some? Mark it as a <button class="linklike" data-goto="almanac">field note</button>.</div></div>
+      <div class="note-card"><svg class="ic"><use href="#i-leaf"/></svg><div class="txt"><b>Help them thrive:</b> they spend most of their life as larvae in <b>leaf litter and damp soil</b> (eating slugs and snails), so leave some leaves in the quiet corners, skip the broad pesticides, and go easy on bright outdoor lighting — porch lights and floods drown out their signals. <button class="linklike" data-goto="leaves">Leaf litter helps →</button> Spotted some? <button class="linklike" data-jot="saw:wildlife">Jot it ✎</button></div></div>
     </div>
 
     <!-- ===== Living with wildlife: the humane coexistence guide ===== -->
@@ -2551,45 +2495,6 @@
       <div class="note-card"><svg class="ic"><use href="#i-bell"/></svg><div class="txt"><b>Keep the number handy:</b> Ohio Wildlife Center hotline <b>614-793-9453</b>, or search ODNR's list of <b>licensed wildlife rehabilitators</b> for your county. A two-minute call beats a well-meant guess every time.</div></div>
     </div>
 
-    <!-- ===== I: Mosquito & tick (the honest flip side) ===== -->
-    <div class="card" style="border-color:#E6C3BA;">
-      <div class="card-head"><svg class="ic" style="color:var(--alert)"><use href="#i-bug"/></svg><h3>The honest flip side: mosquitoes &amp; ticks</h3></div>
-      <p class="hint">This is the one place where <b>human health comes first</b> — we won't downplay real disease risk. But the nature-collaborator ethic still holds: the goal is <b>least-harm control that actually works</b> — source reduction, personal protection, and smart landscaping — not fogging the yard and killing every pollinator. A parent protecting kids may reasonably choose more intervention; here are the honest trade-offs.</p>
-
-      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Seasonal activity estimate</div>
-      <div class="gauge" id="pestGauge"></div>
-      <p class="zip-note" id="pestGaugeNote" style="margin-top:8px;">A rough seasonal read from the month, temperature, and recent rain — <b>an estimate, not a live surveillance feed</b>. Load a ZIP on the Season tab to sharpen it.</p>
-
-      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-droplet"/></svg>Mosquitoes — dump the water first<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
-        <p>In Ohio, <b>West Nile</b> is the main concern, and the <b>Asian tiger mosquito</b> is an aggressive daytime biter. They fade after the first hard frost. The single best — and most nature-friendly — control is <b>source reduction</b>: they breed in standing water, so deny it.</p>
-        <p><b>Personal protection:</b> an EPA-registered repellent (DEET, picaridin, or oil of lemon eucalyptus), long sleeves at dusk and dawn, intact window screens, and a patio fan (they're weak fliers).</p>
-        <p><b>Let predators help:</b> bats, purple martins and swallows, dragonflies, and frogs all eat mosquitoes — another reason to skip broad spraying. <i>Honesty note:</i> "mosquito-repelling plants" like citronella are <b>largely overhyped</b> and won't clear an area — don't oversell them.</p>
-        <p><b>Trade-offs:</b> source reduction + protection is your cheap, safe, effective first line. <b>BTI "mosquito dunks"</b> (a bacterium that kills only mosquito and gnat larvae, safe for bees, fish, pets, and birds) handle water you can't drain. Backyard foggers and "barrier" sprays knock down adults briefly but <b>kill pollinators and beneficials, must be repeated, and don't fix the source</b> — a last resort, not a routine.</p>
-      </div></details>
-
-      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:6px;">Standing-water audit — tip it out weekly</div>
-      <p class="hint" style="margin-top:2px;">Mosquito larvae need about a week in still water. Walk the yard and knock these out:</p>
-      <div class="ritlist" id="waterAudit"></div>
-
-      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-shield"/></svg>Ticks — yard, body, removal<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
-        <p>Rising in Ohio: the <b>blacklegged ("deer") tick</b> → Lyme; the <b>American dog tick</b> → Rocky Mountain spotted fever; the <b>lone star tick</b> → ehrlichiosis and the alpha-gal red-meat allergy. Unlike mosquitoes, ticks <b>don't reliably fade</b> after frost — adults are active any time it's above ~40°F, even on a winter thaw.</p>
-        <p><b>Where they are:</b> tall grass, brushy and wooded edges, and leaf litter — <b>not</b> the open, sunny, mown lawn. The tiny <b>nymphs (late spring–summer, poppy-seed size)</b> cause most disease.</p>
-        <p><b>Tick-safe yard:</b> mow short in play and use areas; put a <b>~3-ft mulch or gravel barrier</b> between lawn and woods/brush; keep play sets, patios, and seating <b>in the sun and away from the edge</b>; clear leaf litter and tall grass <b>at the borders</b> (litter is great in the far corners — just not where people sit); and discourage the rodents and deer that ferry ticks.</p>
-        <p><b>Personal protection:</b> <b>permethrin-treated clothing and shoes</b> (the most effective measure for brush time), skin repellent, light-colored clothing to spot them, pants tucked into socks for garden and trail work, and <b>check pets</b> (they carry ticks indoors).</p>
-        <p><b>Checks &amp; removal:</b> after time outdoors, do a <b>full-body check</b> (kids, hairline, waist, behind knees, armpits), shower within a couple hours, and tumble clothes in a hot dryer. Remove with <b>fine-point tweezers — grip at the skin and pull straight up, slow and steady</b>. Don't twist, burn, or smother it. Clean the bite, <b>note the date</b>, and watch for an <b>expanding "bullseye" rash, fever, or flu-like symptoms</b> over the following weeks.</p>
-      </div></details>
-
-      <div class="note-card alert"><svg class="ic"><use href="#i-info"/></svg><div class="txt"><b>Awareness, not medical advice.</b> See a doctor for a tick you can't fully remove, a bullseye rash, fever, or any concerning reaction. Caught early, these are very treatable.</div></div>
-
-      <div class="hint" style="font-weight:600;color:var(--ink);margin-top:13px;">Log a bite or tick found <span style="font-weight:400;color:var(--ink-faint);">— private, practical, no points</span></div>
-      <div class="grid2">
-        <div class="field"><label for="pestDate">Date</label><input id="pestDate" type="date"/></div>
-        <div class="field"><label for="pestKind">What</label><select id="pestKind"><option value="Tick found">Tick found</option><option value="Tick bite">Tick bite</option><option value="Mosquito bites">Mosquito bites (a lot)</option></select></div>
-      </div>
-      <div class="field"><label for="pestWhere">Where on the property <span class="meta">optional — to spot patterns</span></label><input id="pestWhere" type="text" maxlength="80" placeholder="e.g. back fence line by the woods"/></div>
-      <button class="act btn-ghost" id="pestAdd"><svg class="ic"><use href="#i-plus"/></svg>Log it (and note the date)</button>
-      <div class="loglist" id="pestList"></div>
-    </div>
   </section>
 
   <!-- ============ POND ============ -->
@@ -2871,7 +2776,7 @@
       <p class="wlede">A calm companion for tending — and noticing — your yard. Everything stays on your device.</p>
       <div class="wlist">
         <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-book"/></svg></div><div><div class="wt">Tend &amp; figure it out</div><div class="wb">Guides and calculators, each with the honest trade-offs.</div></div></div>
-        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">A journal and field notes become your yard's story.</div></div></div>
+        <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-eye"/></svg></div><div><div class="wt">Notice the small things</div><div class="wb">Jot what you do and notice — it becomes your yard's story.</div></div></div>
         <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-cloud"/></svg></div><div><div class="wt">Tuned to your weather</div><div class="wb">Add your ZIP and the timing follows along.</div></div></div>
         <div class="wrow"><div class="wic"><svg class="ic"><use href="#i-bird"/></svg></div><div><div class="wt">A living yard</div><div class="wb">Pollinators, clover, fewer chemicals — the low-input way.</div></div></div>
       </div>
@@ -2905,6 +2810,7 @@
 </div>
 
 <div id="sheetHost"></div>
+<button type="button" class="jot-fab" id="jotFab" aria-label="Jot a note"><svg class="ic"><use href="#i-pencil"/></svg><span>Jot</span></button>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -2923,26 +2829,23 @@
   function lsGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
   function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}}
   var toastT=null;
-  function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show");},2200);}
+  /* toast(msg) as ever; toast(msg,label,fn) adds a tappable action — used for Undo,
+     so a mis-tapped delete is a warm way back rather than a lost memory. */
+  function toast(msg,actionLabel,actionFn){
+    var t=$("toast");
+    if(actionLabel&&actionFn){
+      t.innerHTML=esc(msg)+' <button type="button" class="toast-act">'+esc(actionLabel)+'</button>';
+      t.classList.add("has-act");
+      t.querySelector(".toast-act").addEventListener("click",function(){t.classList.remove("show","has-act");clearTimeout(toastT);actionFn();});
+    } else {
+      t.textContent=msg;t.classList.remove("has-act");
+    }
+    t.classList.add("show");clearTimeout(toastT);
+    toastT=setTimeout(function(){t.classList.remove("show","has-act");},actionLabel?6000:2200);
+  }
 
-  /* ---------- tabs ---------- */
-  var tabs=document.querySelectorAll(".tab-btn"),panes=document.querySelectorAll("[data-pane]");
-  var tabBar=$("tabbar"),tabWrap=$("tabbarWrap");
-  function updateTabHints(){
-    if(!tabBar||!tabWrap)return;
-    var max=tabBar.scrollWidth-tabBar.clientWidth-1;
-    tabWrap.classList.toggle("can-left",tabBar.scrollLeft>2);
-    tabWrap.classList.toggle("can-right",tabBar.scrollLeft<max);
-  }
-  function tabScroll(left){
-    if(!tabBar)return;left=Math.max(0,left);
-    if(tabBar.scrollTo)tabBar.scrollTo({left:left,behavior:"smooth"});else tabBar.scrollLeft=left;
-  }
-  function centerTab(name){
-    if(!tabBar)return;
-    var b=document.querySelector('.tab-btn[data-tab="'+name+'"]');if(!b)return;
-    tabScroll(b.offsetLeft-(tabBar.clientWidth-b.offsetWidth)/2);
-  }
+  /* ---------- navigation: one section bar, one pane registry, one URL ---------- */
+  var panes=document.querySelectorAll("[data-pane]");
   /* The few calm themes the panes are grouped under. Every pane lives in exactly one. */
   var SECTIONS=[
     {id:"home",tabs:["almanac"]},
@@ -2953,52 +2856,67 @@
     {id:"seasons",tabs:["leaves","snow","season"]},
     {id:"plan",tabs:["spots","plan","shop","remind"]}
   ];
-  /* short, friendly pill labels for the second row (falls back to the tab's own label) */
-  var SUBLABEL={almanac:"Almanac",lawn:"Lawn",mow:"Mow",grow:"Grow",bloom:"Bloom",fruit:"Fruit",pests:"Pests & weeds",
+  /* PANES: the one canonical name for every place — sub-pills, search chips, and
+     read-celebrations all speak this vocabulary, so a place is called the same
+     thing everywhere a loved one meets it. */
+  var PANES={almanac:"Home",lawn:"Lawn",mow:"Mow",grow:"Grow",bloom:"Bloom",fruit:"Fruit",pests:"Pests & weeds",
     trees:"Trees",native:"Lawn-free",wildlife:"Wildlife",rain:"Rain & water",pond:"Pond",
     beds:"Beds & mulch",soil:"Soil",compost:"Compost",leaves:"Leaves",snow:"Snow & salt",season:"The year",
-    spots:"My yard",plan:"Plan a bed",shop:"Shopping list",remind:"Reminders"};
+    spots:"My spots",plan:"Plan a bed",shop:"Shopping list",remind:"Reminders"};
   function sectionOf(tab){for(var i=0;i<SECTIONS.length;i++){if(SECTIONS[i].tabs.indexOf(tab)>=0)return SECTIONS[i];}return SECTIONS[0];}
-  var sectionLast={}; // remember where you were in each section, so coming back feels natural
   function renderSubbar(sec,activeTab){
     var bar=$("subBar");if(!bar)return;
     if(!sec||sec.tabs.length<2){bar.hidden=true;bar.innerHTML="";return;}
     bar.hidden=false;
     bar.innerHTML=sec.tabs.map(function(t){
-      return '<button class="sub-btn" role="tab" data-subtab="'+t+'" aria-selected="'+(t===activeTab?"true":"false")+'">'+esc(SUBLABEL[t]||t)+'</button>';
+      return '<button class="sub-btn" role="tab" data-subtab="'+t+'" aria-selected="'+(t===activeTab?"true":"false")+'">'+esc(PANES[t]||t)+'</button>';
     }).join("");
   }
   function syncNav(name){
-    var sec=sectionOf(name);sectionLast[sec.id]=name;
+    var sec=sectionOf(name);
     [].forEach.call(document.querySelectorAll(".sec-btn"),function(b){b.setAttribute("aria-selected",b.getAttribute("data-section")===sec.id?"true":"false");});
     renderSubbar(sec,name);
   }
+  /* Hash router: #/pane and #/pane/anchorId. The diorama later rebinds showTab with a
+     one-argument wrapper, so all routing state lives in these module flags — showTab
+     itself must never grow a second parameter. */
+  var navLock=false,navFromHash=false,navAnchor=null,curPane="almanac";
+  function parseHash(h){
+    if(!h||h.slice(0,2)!=="#/")return null;
+    var parts=h.slice(2).split("/");var pane=parts[0]||"";
+    if(!/^[a-z]+$/.test(pane)||!document.querySelector('[data-pane="'+pane+'"]'))return null;
+    var anchor=(parts[1]&&/^[A-Za-z0-9_-]+$/.test(parts[1]))?parts[1]:null;
+    return {pane:pane,anchor:anchor};
+  }
   function showTab(name){
     if(!name||!document.querySelector('[data-pane="'+name+'"]'))return; // ignore unknown panes so a stray link can't blank the screen
-    tabs.forEach(function(b){b.setAttribute("aria-selected",b.getAttribute("data-tab")===name?"true":"false");});
     panes.forEach(function(p){p.hidden=p.getAttribute("data-pane")!==name;});
     syncNav(name);
-    centerTab(name);
+    curPane=name;
+    if(!navFromHash){
+      var want="#/"+name+(navAnchor?"/"+navAnchor:"");
+      if(location.hash!==want){navLock=true;try{location.hash=want;}catch(e){navLock=false;}}
+    }
+    lsSet("ycLastPane",name);
     window.scrollTo({top:0,behavior:"smooth"});
   }
-  tabs.forEach(function(b){b.addEventListener("click",function(){showTab(b.getAttribute("data-tab"));});});
-  // section row: open a section at wherever you last were in it (or its first place)
+  window.addEventListener("hashchange",function(){
+    if(navLock){navLock=false;return;}
+    var p=parseHash(location.hash);if(!p)return;
+    navFromHash=true;showTab(p.pane);navFromHash=false;
+    if(p.anchor)jumpScroll(p.anchor);
+  });
+  // section row: always land on the section's first place, so the map stays learnable
   if($("sectionBar"))$("sectionBar").addEventListener("click",function(e){
     var b=e.target.closest(".sec-btn");if(!b)return;
     var id=b.getAttribute("data-section"),sec=null;
     SECTIONS.forEach(function(x){if(x.id===id)sec=x;});
-    if(sec)showTab(sectionLast[id]||sec.tabs[0]);
+    if(sec)showTab(sec.tabs[0]);
   });
   // second row: jump straight to a place within the active section
   if($("subBar"))$("subBar").addEventListener("click",function(e){
     var b=e.target.closest(".sub-btn");if(b)showTab(b.getAttribute("data-subtab"));
   });
-  if(tabBar){
-    tabBar.addEventListener("scroll",updateTabHints,{passive:true});
-    window.addEventListener("resize",updateTabHints);
-  }
-  if(tabBar&&$("tabNudgeRight"))$("tabNudgeRight").addEventListener("click",function(){tabScroll(tabBar.scrollLeft+Math.round(tabBar.clientWidth*0.72));});
-  if(tabBar&&$("tabNudgeLeft"))$("tabNudgeLeft").addEventListener("click",function(){tabScroll(tabBar.scrollLeft-Math.round(tabBar.clientWidth*0.72));});
 
   /* ---------- info sheet ---------- */
   var INFO={
@@ -3009,15 +2927,69 @@
     evict:{t:"Humane raccoon eviction — the details",b:"<p>Spring scratching in a chimney or attic is usually a <b>mother with kits</b> (March–June). The kits can't walk out on their own for about eight weeks — which is exactly why trapping or sealing is a disaster: remove or lock out the mother and the litter starves in the wall. Eviction works <i>with</i> her instead.</p><p><b>Make the den feel unsafe, not dangerous:</b> a bright light shining into the den space around the clock, a radio on a <b>talk station</b> (voices, not music), and <b>rags soaked in apple-cider vinegar</b> tossed near the entrance. To a mother raccoon that reads as \"discovered by predators\" — and she has backup dens ready.</p><p><b>Then give her nights.</b> She moves the kits <b>one at a time, by mouth, after dark</b> — two or three nights is normal. Don't rush her and never use smoke or fire.</p><p><b>Verify before you seal:</b> tape a double sheet of newspaper over the entry (or dust flour at the threshold) and watch 2–3 quiet nights. Undisturbed paper and no tracks = everyone's out. Only then seal with <b>hardware cloth</b>, and cap the chimney — a proper cap is the cheapest raccoon control ever invented.</p><p>If it's genuinely beyond you — kits deep in a wall, a stubborn mother — hire a wildlife operator who commits to <b>eviction and reunion, not trap-and-kill</b>; ask directly what happens to the animals. And remember Ohio's rule: rabies-vector species generally can't be relocated off your property anyway.</p>"},
     bonsai:{t:"Why a whole little world?",b:"<p>Here's the thinking behind everything in this app — and behind the small tree you just tapped.</p><p>A yard isn't built in an afternoon. It's the sum of small, unglamorous acts, repeated with the seasons: a mow at the right height, a handful of clover seed, mulch pulled back off a trunk, a bulb tucked in before frost. None of them feels like much on the day. But they <b>compound</b>. Water a young tree through two summers and its roots find the water table; leave the seedheads one winter and the finches come back the next. The yard you'll love in five years is being decided by the quiet ten minutes you spend in it this week.</p><p>That's the logic of a <b>bonsai</b>: not force, but attention — a little, often, for a long time — until patience itself becomes visible. We built this as a <i>place</i> rather than a list of chores because a place is something you want to return to. Tend it, notice it, and let time and small effort do what they always do. That's the whole point. 🌱</p>"}
   };
+  var sheetPrevFocus=null;
+  function closeSheet(){
+    $("sheetHost").innerHTML="";
+    try{if(sheetPrevFocus&&sheetPrevFocus.focus)sheetPrevFocus.focus();}catch(e){}
+    sheetPrevFocus=null;
+  }
   function openInfo(key){
     var d=INFO[key];if(!d)return;
     var host=$("sheetHost");
+    sheetPrevFocus=document.activeElement;
     host.innerHTML='<div class="sheet-bg" id="sheetBg"><div class="sheet"><h4>'+ic("info")+d.t+'</h4><div class="s-body">'+d.b+'</div><button class="act btn-ghost s-close" id="sheetClose">Close</button></div></div>';
-    function close(){host.innerHTML="";}
-    $("sheetClose").addEventListener("click",close);
-    $("sheetBg").addEventListener("click",function(e){if(e.target.id==="sheetBg")close();});
+    $("sheetClose").addEventListener("click",closeSheet);
+    $("sheetBg").addEventListener("click",function(e){if(e.target.id==="sheetBg")closeSheet();});
+    try{$("sheetClose").focus();}catch(e){}
   }
   document.addEventListener("click",function(e){var b=e.target.closest("[data-info]");if(b){openInfo(b.getAttribute("data-info"));}});
+  // Escape closes whichever sheet is up (the jot sheet and the explainers alike)
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&$("sheetHost").firstChild)closeSheet();});
+
+  /* ---------- the Jot pencil: capture from anywhere ----------
+     The sheet opens pre-set to a sensible guess for the pane you're reading —
+     watering on Trees, a sighting on Wildlife — and feeds the same saveJot()
+     the notebook card uses. */
+  var JOT_CTX={mow:["did","mow"],lawn:["did","feed"],leaves:["did","leaves"],snow:["did","snow"],
+    trees:["did","water","e.g. soaked the young maple"],grow:["did","sow","e.g. started basil in water"],
+    fruit:["did","harvest"],beds:["did","mulch"],bloom:["saw","bloom"],wildlife:["saw","wildlife"],
+    pests:["saw","bug"],pond:["saw","other"],native:["saw","other"]};
+  function openJot(pre){
+    var ctx=pre||JOT_CTX[curPane]||["did","other"];
+    var host=$("sheetHost");
+    sheetPrevFocus=document.activeElement;
+    var qm=ctx[0]==="saw"?"saw":"did";
+    host.innerHTML='<div class="sheet-bg" id="sheetBg"><div class="sheet"><h4>'+ic("pencil")+'Jot it down</h4>'+
+      '<p class="hint" style="margin:2px 0 10px">A line is plenty — it goes straight into your notebook on Home.</p>'+
+      '<div class="seg" id="qjSeg" role="group" aria-label="What kind of note"><button type="button" data-qseg="did" aria-pressed="'+(qm==="did")+'">I did something</button><button type="button" data-qseg="saw" aria-pressed="'+(qm==="saw")+'">I noticed something</button></div>'+
+      '<div class="field"><label for="qjText">Your note</label><input id="qjText" type="text" maxlength="280"/></div>'+
+      '<div class="grid2"><div class="field"><label for="qjDate">Date</label><input id="qjDate" type="date"/></div><div class="field"><label for="qjKind">What kind? <span class="meta">optional</span></label><select id="qjKind"></select></div></div>'+
+      '<button class="act btn-primary" id="qjAdd">'+ic("plus")+'Keep it</button>'+
+      '<button class="act btn-ghost s-close" id="sheetClose">Close</button></div></div>';
+    var curSeg=qm;
+    function setSeg(seg,kind){
+      curSeg=seg;
+      [].forEach.call(document.querySelectorAll('#qjSeg [data-qseg]'),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-qseg")===seg?"true":"false");});
+      jotKindOptions($("qjKind"),seg,kind||"other");
+      $("qjText").placeholder=(seg==="did")?(ctx[2]||"e.g. first mow — front yard, 3.5″"):(ctx[2]||"e.g. bumblebee on the clover");
+    }
+    setSeg(qm,ctx[1]);
+    $("qjDate").value=localToday();
+    $("qjSeg").addEventListener("click",function(e){var b=e.target.closest("[data-qseg]");if(b)setSeg(b.getAttribute("data-qseg"));});
+    $("qjAdd").addEventListener("click",function(){
+      if(saveJot(curSeg,$("qjKind").value,$("qjText").value.trim(),$("qjDate").value,curPane))closeSheet();
+    });
+    $("sheetClose").addEventListener("click",closeSheet);
+    $("sheetBg").addEventListener("click",function(e){if(e.target.id==="sheetBg")closeSheet();});
+    try{$("qjText").focus();}catch(e){}
+  }
+  if($("jotFab"))$("jotFab").addEventListener("click",function(){openJot();});
+  // coached notes in the reference prose open the sheet pre-set: data-jot="did:water"
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-jot]");if(!b)return;
+    var v=(b.getAttribute("data-jot")||"").split(":");
+    openJot([v[0]||"did",v[1]||"other"]);
+  });
   // style the inline link buttons
   var st=document.createElement("style");
   st.textContent='.linklike{background:none;border:none;color:var(--grass-deep);font-weight:600;font-size:.83rem;cursor:pointer;padding:0;font-family:var(--body);text-decoration:underline;}';
@@ -3205,6 +3177,7 @@
   }
   function journalSave(a){return lsSet("ycJournal",a);}
   function thisYear(arr){var y=String(new Date().getFullYear());return arr.filter(function(e){return (e.date||"").slice(0,4)===y;});}
+  // superseded by the notebook card — kept as a guarded no-op so the diff stays reviewable
   function renderJournal(){
     if(!$("jList"))return;
     var a=journalAll().slice().sort(byDateDesc);
@@ -3215,17 +3188,63 @@
   function renderLeaves(){
     var list=$("leafList");if(!list)return;
     var a=journalAll().filter(function(e){return e.type==="leaves";}).slice().sort(byDateDesc);
-    list.innerHTML=a.length? a.map(function(it){return logRow("leaf",(it.note?esc(it.note):"Leaf cleanup"),fmtDate(it.date),"leaf",it.id);}).join("") : '<div class="empty">No leaf cleanups yet. Add one here or in the Almanac journal — they share the same log.</div>';
-    if($("leafStoreNote"))$("leafStoreNote").textContent=STORE_OK?"Saved on this device — shared with your yard journal.":"This preview can't save — open the downloaded file to keep your log.";
+    list.innerHTML=a.length? a.map(function(it){return logRow("leaf",(it.note?esc(it.note):"Leaf cleanup"),fmtDate(it.date),"leaf",it.id);}).join("") : '<div class="empty">No leaf cleanups yet. Add one here or jot it in your notebook on Home — they share the same log.</div>';
+    if($("leafStoreNote"))$("leafStoreNote").textContent=STORE_OK?"Saved on this device — shared with your notebook.":"This browser can't keep notes right now — open the app normally (or install it to your home screen) and they'll save.";
   }
 
   /* ---------- field notes (wonder) ---------- */
   function notesAll(){var a=lsGet("ycNotes");return Array.isArray(a)?a:[];}
   function notesSave(a){lsSet("ycNotes",a);}
+  // superseded by the notebook card — kept as a guarded no-op so the diff stays reviewable
   function renderNotes(){
     if(!$("nList"))return;
     var a=notesAll().slice().sort(byDateDesc);
     $("nList").innerHTML=a.length? a.map(function(it){var m=NMETA[it.what]||NMETA.other;return logRow(m.i,m.l+(it.note?' · '+esc(it.note):''),fmtDate(it.date),"n",it.id);}).join("") : '<div class="empty">No field notes yet. Look up from the work now and then.</div>';
+  }
+
+  /* ---------- the notebook: one place to write, one place to read back ----------
+     Capture routes into the same two stores the app has always kept (ycJournal for
+     acts, ycNotes for noticings), so Moments, the story, and backups carry on
+     untouched. The list below merges everything ever written — including the bite
+     log, which is readable here but stays out of the shareable story. */
+  var JOT_KINDS={
+    did:[["mow","Mowed"],["feed","Fed / fertilized"],["seed","Seeded / overseeded"],["water","Watered"],["mulch","Mulched"],["edge","Edged beds"],["prune","Pruned"],["plant","Planted something"],["sow","Sowed seed"],["transplant","Transplanted"],["harvest","Harvested"],["leaves","Leaf cleanup"],["snow","Cleared snow"],["other","Something else"]],
+    saw:[["bloom","First bloom / flower"],["bug","Pollinator / insect"],["bird","A bird"],["wildlife","Wildlife"],["frost","Frost"],["snow","First snow"],["other","Something else"]]
+  };
+  function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
+  function jotKindOptions(sel,seg,kind){
+    sel.innerHTML=JOT_KINDS[seg].map(function(k){return '<option value="'+k[0]+'">'+k[1]+'</option>';}).join("");
+    sel.value=kind||"other";
+  }
+  function saveJot(seg,kind,text,date,src){
+    if(!date)date=localToday();
+    var before=journalAll().length+notesAll().length,ok=true;
+    if(seg==="saw"){
+      var n=notesAll();n.push({id:genId(),date:date,what:kind||"other",note:text,src:src||""});notesSave(n);
+    } else {
+      var a=journalAll();a.push({id:genId(),date:date,type:kind||"other",note:text,src:src||""});ok=journalSave(a);
+    }
+    if(!ok){toast("Couldn't save — this browser isn't keeping data right now");return false;}
+    toast(before===0?"That's the first line of your yard's story.":"Kept in your notebook");
+    renderAlmanac(true);
+    return true;
+  }
+  var nbShowAll=false;
+  function renderNotebook(){
+    var el=$("nbList");if(!el)return;
+    var evs=[];
+    journalAll().forEach(function(it){var m=ACT[it.type]||ACT.other;evs.push({date:it.date,html:logRow(m.i,m.l+(it.note?' · '+esc(it.note):''),fmtDate(it.date),"nbj",it.id)});});
+    notesAll().forEach(function(it){var m=NMETA[it.what]||NMETA.other;evs.push({date:it.date,html:logRow(m.i,m.l+(it.note?' · '+esc(it.note):''),fmtDate(it.date),"nbn",it.id)});});
+    pestAll().forEach(function(it){evs.push({date:it.date,html:logRow("bug",esc(it.kind)+(it.where?' · '+esc(it.where):''),fmtDate(it.date),"nbp",it.id)});});
+    evs.sort(byDateDesc);
+    var cap=nbShowAll?evs.length:30;
+    el.innerHTML=evs.length
+      ? (evs.slice(0,cap).map(function(x){return x.html;}).join("")+(evs.length>cap?'<button class="linklike" id="nbMore" style="margin-top:8px">Show the whole year →</button>':''))
+      : '<div class="empty">Nothing here yet. Your first line starts the story — what did you do or notice today?</div>';
+    var more=$("nbMore");
+    if(more)more.addEventListener("click",function(){nbShowAll=true;renderNotebook();});
+    if($("nbStoreNote"))$("nbStoreNote").textContent=STORE_OK?"Saved on this device — and woven into your story below.":"This browser can't keep notes right now — open the app normally (or install it to your home screen) and they'll save.";
+    if(typeof renderBackupNudge==="function")renderBackupNudge();
   }
 
   /* ---------- moments (reflective milestones, this year) ---------- */
@@ -3279,7 +3298,7 @@
   function renderMoments(announce){
     if(!$("momentsEarned"))return;
     var M=computeMoments(),earned=M.filter(function(m){return m.ok;}),locked=M.filter(function(m){return !m.ok;});
-    $("momentsEarned").innerHTML=earned.length? earned.map(momentCard).join("") : '<div class="empty">No Moments yet — they\u2019ll appear here as you tend and notice through the year. Your first one is a single journal entry away.</div>';
+    $("momentsEarned").innerHTML=earned.length? earned.map(momentCard).join("") : '<div class="empty">No Moments yet — they\u2019ll appear here as you tend and notice through the year. Your first one is a single jot away.</div>';
     var show=locked.slice(0,6);
     $("momentsLockedWrap").innerHTML=show.length?('<div class="locked-head">'+ic("eye")+'Still to come</div><div class="moments">'+show.map(momentLocked).join("")+'</div>'):"";
     try{
@@ -3365,16 +3384,42 @@
     L.push("","“"+m+" Moment"+(m===1?"":"s")+" earned” · kept with the Yard & Garden Console");
     return L.join("\n");
   }
-  if($("storyShare"))$("storyShare").addEventListener("click",function(){copyToClipboard(yardSummaryText(),"Summary copied — paste it anywhere");});
+  if($("storyShare"))$("storyShare").addEventListener("click",function(){
+    var txt=yardSummaryText();
+    // the phone's own share sheet where it exists (text goes only where the user sends it);
+    // the clipboard everywhere else
+    if(navigator.share){try{navigator.share({title:"Our yard this year",text:txt}).catch(function(){});return;}catch(e){}}
+    copyToClipboard(txt,"Summary copied — paste it anywhere");
+  });
 
   /* ---------- backup / restore (all on-device) ---------- */
   function backupKeys(){var a=[];for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf("yc")===0)a.push(k);}return a;}
   function renderBackup(){
     if(!$("backupNote"))return;
-    if(!STORE_OK){$("backupNote").textContent="This preview can't save data — open the downloaded file to keep and back up your year.";return;}
+    if(!STORE_OK){$("backupNote").textContent="This browser can't keep notes right now — open the app normally (or install it to your home screen) and they'll save.";return;}
     var j=journalAll().length,n=notesAll().length,m=computeMoments().filter(function(x){return x.ok;}).length;
-    $("backupNote").textContent="On this device now: "+j+" journal entr"+(j===1?"y":"ies")+" · "+n+" field note"+(n===1?"":"s")+" · "+m+" Moment"+(m===1?"":"s")+" earned.";
+    var lb=lsGet("ycLastBackup");
+    $("backupNote").textContent="On this device now: "+j+" journal entr"+(j===1?"y":"ies")+" · "+n+" field note"+(n===1?"":"s")+" · "+m+" Moment"+(m===1?"":"s")+" earned."+(lb?" Last saved copy: "+fmtDate(String(lb).slice(0,10))+".":" No saved copy yet.");
   }
+  /* a quiet nudge atop the notebook once there's enough written to be worth protecting */
+  function renderBackupNudge(){
+    var el=$("backupNudge");if(!el)return;
+    var count=journalAll().length+notesAll().length;
+    var lb=lsGet("ycLastBackup"),snooze=lsGet("ycBackupSnooze");
+    var now=Date.now(),DAY=86400000;
+    var stale=!lb||((now-new Date(lb).getTime())>60*DAY);
+    var snoozed=snooze&&((now-new Date(snooze).getTime())<30*DAY);
+    if(STORE_OK&&count>=8&&stale&&!snoozed){
+      el.hidden=false;
+      el.innerHTML='<div class="note-card">'+ic("download")+'<div class="txt">Your notebook lives only on this device. Every so often, <button class="linklike" data-tool="almanac" data-scroll="backupCard">save a copy →</button> — it takes ten seconds. <button class="linklike" data-nudgelater>Later</button></div></div>';
+    } else {
+      el.hidden=true;el.innerHTML="";
+    }
+  }
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-nudgelater]");if(!b)return;
+    lsSet("ycBackupSnooze",new Date().toISOString());renderBackupNudge();
+  });
   function exportData(){
     var data={};backupKeys().forEach(function(k){data[k]=localStorage.getItem(k);});
     var str=JSON.stringify({app:"Yard & Garden Console",version:1,exported:new Date().toISOString(),data:data},null,2);
@@ -3385,6 +3430,8 @@
     document.body.appendChild(a);a.click();a.remove();
     if(url)setTimeout(function(){URL.revokeObjectURL(url);},1500);
     toast("Backup downloaded");
+    lsSet("ycLastBackup",new Date().toISOString());
+    renderBackup();renderBackupNudge();
   }
   function importData(file){
     var r=new FileReader();
@@ -3415,7 +3462,7 @@
   if($("backupImport"))$("backupImport").addEventListener("click",function(){var f=$("backupFile");if(f)f.click();});
   if($("backupFile"))$("backupFile").addEventListener("change",function(e){var f=e.target.files&&e.target.files[0];if(f)importData(f);e.target.value="";});
 
-  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderJournal();renderNotes();renderLeaves();renderMoments(announce);renderStory();renderReview();renderBackup();}
+  function renderAlmanac(announce){renderSeasonHead();renderRituals();renderNotebook();renderLeaves();renderMoments(announce);renderStory();renderReview();renderBackup();}
 
   /* ---------- log event wiring ---------- */
   if($("jAdd"))$("jAdd").addEventListener("click",function(){
@@ -3435,6 +3482,44 @@
   if($("nList"))$("nList").addEventListener("click",function(e){var b=e.target.closest("[data-n]");if(!b)return;var id=b.getAttribute("data-n");notesSave(notesAll().filter(function(x){return x.id!==id;}));renderAlmanac(false);});
   if($("ritualList"))$("ritualList").addEventListener("click",function(e){var b=e.target.closest("[data-rit]");if(!b)return;ritualToggle(b.getAttribute("data-rit"));renderRituals();});
 
+  /* ---------- notebook wiring ---------- */
+  var jotMode="did";
+  function jotSetSeg(seg){
+    jotMode=seg;
+    [].forEach.call(document.querySelectorAll('#jotSeg [data-jseg]'),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-jseg")===seg?"true":"false");});
+    if($("jotKind"))jotKindOptions($("jotKind"),seg,"other");
+    if($("jotText"))$("jotText").placeholder=seg==="did"?"e.g. first mow — front yard, 3.5″":"e.g. bumblebee on the clover";
+  }
+  if($("jotSeg")){
+    $("jotSeg").addEventListener("click",function(e){var b=e.target.closest("[data-jseg]");if(b)jotSetSeg(b.getAttribute("data-jseg"));});
+    jotSetSeg("did");
+  }
+  if($("jotAdd"))$("jotAdd").addEventListener("click",function(){
+    if(saveJot(jotMode,$("jotKind").value,$("jotText").value.trim(),$("jotDate").value,curPane))$("jotText").value="";
+  });
+  /* the merged list: deletes offer a few seconds of Undo instead of asking twice */
+  if($("nbList"))$("nbList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-nbj],[data-nbn],[data-nbp]");if(!b)return;
+    var id,removed;
+    if(b.hasAttribute("data-nbj")){
+      id=b.getAttribute("data-nbj");
+      removed=journalAll().filter(function(x){return x.id===id;})[0];
+      journalSave(journalAll().filter(function(x){return x.id!==id;}));renderAlmanac(false);
+      toast("Removed","Undo",function(){var a=journalAll();a.push(removed);journalSave(a);renderAlmanac(false);});
+    } else if(b.hasAttribute("data-nbn")){
+      id=b.getAttribute("data-nbn");
+      removed=notesAll().filter(function(x){return x.id===id;})[0];
+      notesSave(notesAll().filter(function(x){return x.id!==id;}));renderAlmanac(false);
+      toast("Removed","Undo",function(){var a=notesAll();a.push(removed);notesSave(a);renderAlmanac(false);});
+    } else {
+      id=b.getAttribute("data-nbp");
+      removed=pestAll().filter(function(x){return x.id===id;})[0];
+      lsSet("ycPestLog",pestAll().filter(function(x){return x.id!==id;}));
+      if(typeof renderPestLog==="function")renderPestLog();renderNotebook();
+      toast("Removed","Undo",function(){var a=pestAll();a.push(removed);lsSet("ycPestLog",a);if(typeof renderPestLog==="function")renderPestLog();renderNotebook();});
+    }
+  });
+
   /* Leaves-tab quick logger (writes into the shared journal) */
   if($("leafAdd"))$("leafAdd").addEventListener("click",function(){
     var date=$("leafDate").value,kind=$("leafKind").value;
@@ -3442,7 +3527,13 @@
     var a=journalAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),date:date,type:"leaves",note:kind});journalSave(a);
     renderAlmanac(true);toast("Logged");
   });
-  if($("leafList"))$("leafList").addEventListener("click",function(e){var b=e.target.closest("[data-leaf]");if(!b)return;var id=b.getAttribute("data-leaf");journalSave(journalAll().filter(function(x){return x.id!==id;}));renderAlmanac(false);});
+  if($("leafList"))$("leafList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-leaf]");if(!b)return;
+    var id=b.getAttribute("data-leaf");
+    var removed=journalAll().filter(function(x){return x.id===id;})[0];
+    journalSave(journalAll().filter(function(x){return x.id!==id;}));renderAlmanac(false);
+    toast("Removed","Undo",function(){var a=journalAll();a.push(removed);journalSave(a);renderAlmanac(false);});
+  });
 
   /* ---------- calendar (cool-season Ohio) ---------- */
   var CAL=[
@@ -3522,6 +3613,27 @@
     if(c>=45&&c<=48)return ["cloud","Fog"];
     return ["cloud","—"];
   }
+  /* inline ZIP rows: anywhere a tool wants weather it hasn't got, offer the ZIP right
+     there instead of sending people to another pane. One stored ZIP (ycZip) serves all. */
+  function zipInlineHTML(){
+    return '<div class="zip-row" data-wxzip style="margin-top:9px"><input type="text" inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code"/><button class="act btn-ghost" type="button">'+ic("cloud")+'Use my ZIP</button></div>';
+  }
+  function wxzipGo(row){
+    var inp=row.querySelector("input");
+    var zip=((inp&&inp.value)||"").replace(/\D/g,"").slice(0,5);
+    if(zip.length!==5){toast("Enter a 5-digit ZIP");return;}
+    if($("zipInput"))$("zipInput").value=zip;
+    fetchWeather();
+  }
+  document.addEventListener("click",function(e){
+    var row=e.target.closest("[data-wxzip]");if(!row)return;
+    if(e.target.closest("button"))wxzipGo(row);
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Enter")return;
+    var row=e.target.closest&&e.target.closest("[data-wxzip]");
+    if(row&&e.target.tagName==="INPUT"){e.preventDefault();wxzipGo(row);}
+  });
   function fetchWeather(){
     var zip=(($("zipInput")&&$("zipInput").value)||"").replace(/\D/g,"").slice(0,5);
     if(zip.length!==5){toast("Enter a 5-digit ZIP");if($("zipInput"))$("zipInput").focus();return;}
@@ -3612,17 +3724,19 @@
     if(typeof applyProfile==="function")applyProfile();
     if(typeof renderWeekend==="function")renderWeekend();
     renderNow(soil);
+    // a loaded forecast retires every inline ZIP row
+    [].forEach.call(document.querySelectorAll("[data-wxzip]"),function(r){r.hidden=true;});
   }
   function renderLeafDays(days){
     var wrap=$("leafDayWrap");if(!wrap)return;
     if(!days||!days.length){
       if(WX.lat!=null){wrap.innerHTML='<div class="note-card">'+ic("wind")+'<div class="txt">No good leaf-work days in the next 7 days — wet or windy. Check back after the front passes.</div></div>';return;}
-      wrap.innerHTML='<div class="note-card">'+ic("wind")+'<div class="txt">Pull a forecast on the Season tab and the best <b>dry, low-wind</b> days for leaf work get flagged here.</div></div>';return;
+      wrap.innerHTML='<div class="note-card">'+ic("wind")+'<div class="txt">Add your ZIP and the best <b>dry, low-wind</b> days for leaf work get flagged here.'+zipInlineHTML()+'</div></div>';return;
     }
     wrap.innerHTML='<div class="note-card">'+ic("check")+'<div class="txt"><b>Good leaf-work days ahead:</b> '+days.join(", ")+' — dry and calm enough to mulch-mow or bag cleanly. Wet leaves clog mowers and won\u2019t shred; windy days just move them around.</div></div>';
   }
   $("fcBtn").addEventListener("click",fetchWeather);
-  $("weatherBtn").addEventListener("click",function(){showTab("season");setTimeout(function(){var z=$("zipInput");if(z){z.focus();z.scrollIntoView({behavior:"smooth",block:"center"});}},120);});
+  $("weatherBtn").addEventListener("click",function(){jumpTo("season","zipInput");setTimeout(function(){var z=$("zipInput");if(z)try{z.focus();}catch(e){}},320);});
   if($("zipInput")){
     $("zipInput").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();fetchWeather();}});
   }
@@ -3637,9 +3751,27 @@
   }
 
   /* ---------- cross-tab navigation links ---------- */
+  /* jumpScroll: poll until the target exists and is laid out, then scroll its card into
+     view — the scrollIntoView patch near init auto-expands a collapsed card on the way. */
+  function jumpScroll(sel){
+    var tries=0;
+    function poll(){
+      var t=$(sel);
+      if(t&&t.offsetParent!==null){(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});return;}
+      if(++tries<9)setTimeout(poll,80);
+    }
+    setTimeout(poll,60);
+  }
+  /* jumpTo: travel to a pane and land on a specific tool; the hash records the anchor
+     so the destination is bookmarkable and Back returns to it. */
+  function jumpTo(pane,sel){
+    if(!sel){showTab(pane);return;}
+    navAnchor=sel;showTab(pane);navAnchor=null;
+    jumpScroll(sel);
+  }
   document.addEventListener("click",function(e){var b=e.target.closest("[data-goto]");if(b){showTab(b.getAttribute("data-goto"));}});
   /* quick-access hub: jump to a tab and scroll to a specific tool/log */
-  document.addEventListener("click",function(e){var b=e.target.closest("[data-tool]");if(!b)return;var tab=b.getAttribute("data-tool"),sel=b.getAttribute("data-scroll");showTab(tab);if(sel){setTimeout(function(){var t=$(sel);if(t){(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});}},170);}});
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-tool]");if(!b)return;jumpTo(b.getAttribute("data-tool"),b.getAttribute("data-scroll"));});
 
   /* ---------- Task B: "How to feed anything well" (shared) ---------- */
   function feedingExplainerHTML(){
@@ -3687,7 +3819,7 @@
   }
   function renderFrostAdvisory(){
     var el=$("frostAdvisory");if(!el)return;
-    if(WX.lat==null){el.innerHTML='<div class="note-card">'+ic("info")+'<div class="txt">No live forecast yet. <button class="linklike" data-goto="season">Add a ZIP on the Season tab</button> and a frost in the next 7 days will warn you here to cover tender plants.</div></div>';return;}
+    if(WX.lat==null){el.innerHTML='<div class="note-card">'+ic("info")+'<div class="txt">No live forecast yet. Add your ZIP and a frost in the next 7 days will warn you here to cover tender plants.'+zipInlineHTML()+'</div></div>';return;}
     if(WX.minLow!=null&&WX.minLow<=32){
       el.innerHTML='<div class="note-card warn">'+ic("snow")+'<div class="txt"><b>Frost coming — hold off planting tender crops</b> (low ~'+WX.minLow+'°). If tomatoes, peppers, or basil are already out, cover them this evening (water the soil first), and uncover in the morning. Hardy greens, peas, and onions shrug off a light frost.</div></div>';
     } else {
@@ -3963,7 +4095,8 @@
         existing[it.rtext.toLowerCase()]=1;added++;
       });
       if(added){remindSaveAll(list);renderRemind();}
-      toast(added?("Added "+added+" dated reminder"+(added===1?"":"s")+" — they’ll flag when due"):"These are already on your reminder list");
+      if(added)toast("Added "+added+" dated reminder"+(added===1?"":"s")+" — they’ll flag when due","See it →",function(){jumpTo("remind","remindList");});
+      else toast("These are already on your reminder list");
     }
   });
   if($("ptFilter"))$("ptFilter").addEventListener("click",function(e){
@@ -4097,9 +4230,15 @@
     var date=$("pestDate").value,kind=$("pestKind").value,where=$("pestWhere").value.trim();
     if(!date){toast("Pick a date");return;}
     var a=pestAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),date:date,kind:kind,where:where});lsSet("ycPestLog",a);
-    $("pestWhere").value="";renderPestLog();toast("Logged — note the date for symptom-watching");
+    $("pestWhere").value="";renderPestLog();renderNotebook();toast("Logged — note the date for symptom-watching");
   });
-  if($("pestList"))$("pestList").addEventListener("click",function(e){var b=e.target.closest("[data-pest]");if(!b)return;var id=b.getAttribute("data-pest");lsSet("ycPestLog",pestAll().filter(function(x){return x.id!==id;}));renderPestLog();});
+  if($("pestList"))$("pestList").addEventListener("click",function(e){
+    var b=e.target.closest("[data-pest]");if(!b)return;
+    var id=b.getAttribute("data-pest");
+    var removed=pestAll().filter(function(x){return x.id===id;})[0];
+    lsSet("ycPestLog",pestAll().filter(function(x){return x.id!==id;}));renderPestLog();renderNotebook();
+    toast("Removed","Undo",function(){var a=pestAll();a.push(removed);lsSet("ycPestLog",a);renderPestLog();renderNotebook();});
+  });
 
   /* ---------- timelines: fireflies & bonfire weather ---------- */
   function renderTimeline(elId,arr){
@@ -4147,7 +4286,7 @@
     else if(WX.windMax!=null&&WX.windMax>=20)html+='<div class="note-card">'+ic("wind")+'<div class="txt"><b>Breezy days</b> (to ~'+r0(WX.windMax)+' mph) — nothing alarming, but tuck away anything that blows around and skip planting tall, floppy things.</div></div>';
     if(WX.hail)html+='<div class="note-card alert">'+ic("cloud")+'<div class="txt"><b>Storms with possible hail</b> in the forecast. With warning, cover or move prized veg and seedlings and park the car under cover — then shelter, and don’t over-react after. Most plants regrow.</div></div>';
     else if(WX.storm)html+='<div class="note-card">'+ic("rain")+'<div class="txt"><b>Thunderstorms possible.</b> Bring in light containers and loose items; most plants take a soaking fine.</div></div>';
-    if(!html)html='<div class="note-card">'+ic("check")+'<div class="txt">No rough weather flagged in the 7-day forecast. '+(WX.lat?'':'<button class="linklike" data-goto="season">Load a ZIP</button> and wind &amp; storms will surface here.')+'</div></div>';
+    if(!html)html='<div class="note-card">'+ic("check")+'<div class="txt">No rough weather flagged in the 7-day forecast. '+(WX.lat?'':'Add your ZIP and wind &amp; storms will surface here.'+zipInlineHTML())+'</div></div>';
     el.innerHTML=html;
   }
 
@@ -4182,7 +4321,7 @@
       else if(wet&&mild)note='<div class="note-card">'+ic("rain")+'<div class="txt"><b>Warm &amp; wet lately</b> — it’s growing fast. Lean to the short end of that range so you never scalp off more than a third, and mow only once the blades are dry.</div></div>';
       else note='<div class="note-card">'+ic("info")+'<div class="txt">'+(WX.place?esc(WX.place)+' — ':'')+'check the grass, not the calendar: if it’s grown ~50% over your cut height, it’s time.</div></div>';
     } else {
-      note='<div class="note-card">'+ic("cloud")+'<div class="txt"><button class="linklike" data-goto="season">Load a ZIP</button> and this adjusts to recent heat and rain — faster after warm rain, a pause in summer drought.</div></div>';
+      note='<div class="note-card">'+ic("cloud")+'<div class="txt">Add your ZIP and this adjusts to recent heat and rain — faster after warm rain, a pause in summer drought.'+zipInlineHTML()+'</div></div>';
     }
     if($("mowCadenceNote"))$("mowCadenceNote").innerHTML=note;
   }
@@ -4388,9 +4527,55 @@
   if($("phTexSeg"))$("phTexSeg").addEventListener("click",function(e){var b=e.target.closest("[data-tex]");if(!b)return;phTex=b.getAttribute("data-tex");document.querySelectorAll("#phTexSeg button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false");});updatePh();});
   ["phArea","phCur","phTgt"].forEach(function(id){var e=$(id);if(e)e.addEventListener("input",updatePh);});
 
+  /* ---------- the tool index: one list feeds the Home card AND search ---------- */
+  var TOOL_INDEX=[
+    {group:"Log & notes",items:[
+      {label:"Jot it down",icon:"pencil",tool:"almanac",scroll:"notebookCard",kw:"journal note write log did noticed diary field notebook"},
+      {label:"Your story",icon:"book",tool:"almanac",scroll:"storyCard",kw:"story timeline year summary"},
+      {label:"Bite / tick log",icon:"bug",tool:"wildlife",scroll:"pestDate",kw:"tick bite mosquito doctor health emergency"},
+      {label:"Leaf log",icon:"leaf",tool:"leaves",scroll:"leafDate",kw:"leaf cleanup raking"},
+      {label:"Reminders",icon:"bell",tool:"remind",scroll:"remindText",kw:"remind task todo due"},
+      {label:"Back up",icon:"download",tool:"almanac",scroll:"backupCard",kw:"backup save export restore copy"}
+    ]},
+    {group:"Calculators",items:[
+      {label:"Fertilizer",icon:"spread",tool:"lawn",scroll:"fLawn",kw:"fertilizer nitrogen feed lawn spreader"},
+      {label:"Watering",icon:"droplet",tool:"lawn",scroll:"wCan",kw:"watering sprinkler can test inches"},
+      {label:"Mowing guide",icon:"grass",tool:"mow",scroll:"mowCadence",kw:"mowing height cadence how often"},
+      {label:"Mulch",icon:"ruler",tool:"beds",scroll:"mArea",kw:"mulch yards bags depth beds"},
+      {label:"Firewood",icon:"flask",tool:"season",scroll:"fwNights",kw:"firewood cords fire pit bonfire"},
+      {label:"Soil pH",icon:"soil",tool:"soil",scroll:"phCalc",kw:"ph lime sulfur soil test acid"},
+      {label:"Compost mix",icon:"compost",tool:"compost",scroll:"compostCalc",kw:"compost browns greens ratio pile"},
+      {label:"Pond size",icon:"waves",tool:"pond",scroll:"pondCalc",kw:"pond gallons acre dye size"}
+    ]},
+    {group:"Garden planners",items:[
+      {label:"My spots",icon:"map",tool:"spots",scroll:"spotCard",kw:"spots sun shade map areas"},
+      {label:"Plan a bed",icon:"grid",tool:"plan",scroll:"planCard",kw:"bed layout grid plan companion"},
+      {label:"Find a plant",icon:"search",tool:"grow",scroll:"plantFinder",kw:"find plant search guide"},
+      {label:"Bloom planner",icon:"flower",tool:"bloom",scroll:"bloomPlanner",kw:"bloom flowers months color plan"},
+      {label:"Crop guide",icon:"basket",tool:"grow",scroll:"cropGuide",kw:"crops vegetables guide grow"},
+      {label:"Planting timeline",icon:"cal",tool:"grow",scroll:"plantChart",kw:"planting timeline calendar sow when"},
+      {label:"Row calculator",icon:"ruler",tool:"grow",scroll:"rowCalc",kw:"rows spacing seeds how many"},
+      {label:"Frost dates",icon:"thermo",tool:"grow",scroll:"frostSpring",kw:"frost dates spring fall freeze"},
+      {label:"Companions",icon:"bee",tool:"grow",scroll:"partnerPick",kw:"companion plants partners pairing"},
+      {label:"Pest finder",icon:"bug",tool:"pests",scroll:"issueFinder",kw:"pest symptom disease finder what's wrong"},
+      {label:"Wildlife coexist",icon:"rabbit",tool:"wildlife",scroll:"coexistCard",kw:"wildlife rabbit deer raccoon coexist"},
+      {label:"Rain barrel",icon:"barrel",tool:"rain",scroll:"rainCalc",kw:"rain barrel roof gallons water"},
+      {label:"Clover seed",icon:"clover",tool:"native",scroll:"seedCalc",kw:"clover seed lawn-free eco"},
+      {label:"Shopping list",icon:"cart",tool:"shop",scroll:"shopName",kw:"shopping list buy budget"},
+      {label:"Forecast",icon:"cloud",tool:"season",scroll:"zipInput",kw:"weather zip forecast rain"}
+    ]}
+  ];
+  function toolIndexHTML(){
+    return TOOL_INDEX.map(function(g,gi){
+      return '<div class="hubhead'+(gi===0?' first':'')+'">'+esc(g.group)+'</div><div class="hub">'+
+        g.items.map(function(t){return '<button class="hubchip" data-tool="'+t.tool+'"'+(t.scroll?' data-scroll="'+t.scroll+'"':'')+'><svg class="ic"><use href="#i-'+t.icon+'"/></svg><span class="ht">'+esc(t.label)+'</span></button>';}).join("")+
+      '</div>';
+    }).join("");
+  }
+
   /* ---------- search (indexes the DOM, jumps to any topic) ---------- */
   var SEARCH_IDX=null,searchCur=[];
-  function tabLabelOf(name){var b=document.querySelector('.tab-btn[data-tab="'+name+'"]');return b?b.textContent.trim():name;}
+  function tabLabelOf(name){return PANES[name]||name;}
   function buildSearchIndex(){
     var idx=[];
     document.querySelectorAll('section[data-pane]').forEach(function(pane){
@@ -4406,12 +4591,23 @@
   function runSearch(q){
     var res=$("searchResults");if(!res)return;
     q=(q||"").trim().toLowerCase();
-    if(!q){res.innerHTML='<div class="search-hint">Search anything — <b>mowing height</b>, <b>compost</b>, <b>duckweed</b>, <b>tomatoes</b>, <b>frost</b>, <b>clover</b>…</div>';searchCur=[];return;}
+    // empty search = browse: the same grouped index as Home, so typing is never required
+    if(!q){res.innerHTML='<div class="search-hint">Type anything — or browse everything below.</div>'+toolIndexHTML();searchCur=[];return;}
     if(!SEARCH_IDX)buildSearchIndex();
     var terms=q.split(/\s+/);
+    // tools and plant guides float above prose hits — the things you DO come first
+    var boosts=[];
+    TOOL_INDEX.forEach(function(g){g.items.forEach(function(t){
+      var hay=(t.label+" "+(t.kw||"")).toLowerCase();
+      if(terms.every(function(x){return hay.indexOf(x)>=0;}))boosts.push({title:t.label,label:"Tool",go:(function(tt){return function(){jumpTo(tt.tool,tt.scroll);};})(t)});
+    });});
+    PLANT_INDEX.forEach(function(p){
+      var hay=(p.n+" "+(p.a||"")).toLowerCase();
+      if(terms.every(function(x){return hay.indexOf(x)>=0;}))boosts.push({title:p.n,label:"Plant guide",go:(function(pp){return function(){jumpToPlant(pp);};})(p)});
+    });
     var hits=SEARCH_IDX.filter(function(it){return terms.every(function(t){return it.text.indexOf(t)>=0;});});
     hits.sort(function(a,b){return (a.title.toLowerCase().indexOf(q)>=0?0:1)-(b.title.toLowerCase().indexOf(q)>=0?0:1);});
-    searchCur=hits.slice(0,24);
+    searchCur=boosts.slice(0,6).concat(hits).slice(0,24);
     res.innerHTML=searchCur.length? searchCur.map(function(it,i){return '<button class="search-res" data-si="'+i+'">'+ic("chev")+'<span class="sr-t">'+esc(it.title)+'</span><span class="sr-tab">'+esc(it.label)+'</span></button>';}).join("") : '<div class="search-hint">No matches for “'+esc(q)+'.” Try a simpler word.</div>';
   }
   function openSearch(){var ov=$("searchOv");if(!ov)return;ov.hidden=false;document.body.style.overflow="hidden";SEARCH_IDX=null;var i=$("searchInput");if(i){i.value="";runSearch("");setTimeout(function(){try{i.focus();}catch(e){}},30);}}
@@ -4420,9 +4616,13 @@
   if($("searchClose"))$("searchClose").addEventListener("click",closeSearch);
   if($("searchInput"))$("searchInput").addEventListener("input",function(){runSearch(this.value);});
   if($("searchResults"))$("searchResults").addEventListener("click",function(e){
+    // a browsed index chip: close the overlay (restoring scroll) and let the
+    // document-level [data-tool] delegate do the travel as this click bubbles up
+    var chip=e.target.closest("[data-tool]");if(chip){closeSearch();return;}
     var b=e.target.closest("[data-si]");if(!b)return;
     var it=searchCur[+b.getAttribute("data-si")];if(!it)return;
     closeSearch();
+    if(it.go){it.go();return;}
     if(it.el){
       var orig=window.scrollTo;window.scrollTo=function(){};   // suppress showTab's top-scroll so it doesn't fight the card scroll
       showTab(it.tab);
@@ -4523,7 +4723,7 @@
   ];
   function shopAll(){var a=lsGet("ycShop");return Array.isArray(a)?a:[];}
   function shopSave(a){lsSet("ycShop",a);}
-  function shopFromCalc(key){var s=SHOP_SUG[key];if(!s){toast("Enter values above first");return;}shopAddItem(s.name,s.cat,s.qty,s.price);toast("Added to your shopping list");}
+  function shopFromCalc(key){var s=SHOP_SUG[key];if(!s){toast("Enter values above first");return;}shopAddItem(s.name,s.cat,s.qty,s.price);toast("Added to your shopping list","See it →",function(){jumpTo("shop","shopName");});}
   document.addEventListener("click",function(e){var b=e.target.closest("[data-shopadd]");if(b)shopFromCalc(b.getAttribute("data-shopadd"));});
   function shopAddItem(name,cat,qty,price){
     var a=shopAll();
@@ -4610,7 +4810,7 @@
     if($("seasonTasksSub"))$("seasonTasksSub").innerHTML='Typical cool-season Ohio tasks for <b>'+MONTH_NAMES[m]+'</b> — tap <b>+ Add reminder</b> on any to keep it.';
     el.innerHTML=tasks.map(function(t,i){return '<div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-'+t.icon+'"/></svg>'+t.t+'</div><div class="cr-b">'+t.b+' <button class="linklike" data-addtask="'+i+'" data-month="'+m+'">+ Add reminder</button></div></div>';}).join("");
   }
-  if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[b.getAttribute("data-month")]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders");}});
+  if($("seasonTasks"))$("seasonTasks").addEventListener("click",function(e){var b=e.target.closest("[data-addtask]");if(!b)return;var t=(SEASON_TASKS[b.getAttribute("data-month")]||[])[+b.getAttribute("data-addtask")];if(t){remindAdd(t.t,"");toast("Added to your reminders","See it →",function(){jumpTo("remind","remindList");});}});
   function remindAll(){var a=lsGet("ycReminders");return Array.isArray(a)?a:[];}
   function remindSaveAll(a){lsSet("ycReminders",a);}
   function remindAdd(text,date,repeat){var a=remindAll();a.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),text:text,date:date||"",done:0,repeat:(repeat&&repeat!=="none")?repeat:""});remindSaveAll(a);renderRemind();}
@@ -4661,7 +4861,12 @@
   });
   if($("remindList"))$("remindList").addEventListener("click",function(e){
     var d=e.target.closest("[data-rdone]");if(d){remindToggle(d.getAttribute("data-rdone"));return;}
-    var del=e.target.closest("[data-rdel]");if(del){var id2=del.getAttribute("data-rdel");remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();}
+    var del=e.target.closest("[data-rdel]");if(del){
+      var id2=del.getAttribute("data-rdel");
+      var removed=remindAll().filter(function(x){return x.id===id2;})[0];
+      remindSaveAll(remindAll().filter(function(x){return x.id!==id2;}));renderRemind();
+      toast("Removed","Undo",function(){var a=remindAll();a.push(removed);remindSaveAll(a);renderRemind();});
+    }
   });
 
   /* ---------- My Yard: spots (sun/moisture) + first-year starter path ---------- */
@@ -4722,7 +4927,8 @@
     var el=$("starterList");if(!el)return;var st=lsGet("ycStarter")||{};
     var done=STARTER.filter(function(a,i){return st[i];}).length;
     if($("starterSub"))$("starterSub").textContent=done?(done+" of "+STARTER.length+" done — "+(done===STARTER.length?"you've got the rhythm. 🌱":"keep going at your own pace.")):"A calm, in-order path for a brand-new yard — tap each as you go. No rush; a yard is built over seasons.";
-    el.innerHTML=STARTER.map(function(a,i){var on=!!st[i];return '<button class="ritrow" aria-pressed="'+on+'" data-starter="'+i+'"><span class="rk">'+ic("check")+'</span><span><span class="rt">'+(i+1)+'. '+a.t+'</span><span class="rs">'+a.s+'</span></span></button>';}).join("");
+    el.innerHTML=STARTER.map(function(a,i){var on=!!st[i];return '<button class="ritrow" aria-pressed="'+on+'" data-starter="'+i+'"><span class="rk">'+ic("check")+'</span><span><span class="rt">'+(i+1)+'. '+a.t+'</span><span class="rs">'+a.s+'</span></span></button>';}).join("")
+      +'<p class="hint" style="margin:9px 0 0">Step 8 is one tap away — <button class="linklike" data-jot="did:plant">jot your first line ✎</button></p>';
   }
   if($("starterList"))$("starterList").addEventListener("click",function(e){var b=e.target.closest("[data-starter]");if(!b)return;var i=b.getAttribute("data-starter"),st=lsGet("ycStarter")||{};if(st[i])delete st[i];else st[i]=1;lsSet("ycStarter",st);renderStarter();});
   if($("starterReset"))$("starterReset").addEventListener("click",function(){lsSet("ycStarter",{});renderStarter();toast("Path reset — fresh start");});
@@ -5095,7 +5301,8 @@
       Object.keys(present).forEach(function(k){a.push(mk(g.plants[+k].n+" — seeds or starts","Grow"));added++;});
       if(added)a.push(mk("Raised-bed mix / compost","Beds"));
       shopSave(a);renderShop();
-      toast(added?("Added "+added+" plants + soil to your shopping list"):"Place some plants first");
+      if(added)toast("Added "+added+" plants + soil to your shopping list","See it →",function(){jumpTo("shop","shopName");});
+      else toast("Place some plants first");
       return;
     }
     if(e.target.closest("#planCopy")){copyToClipboard(planSummaryText(),"Plan copied — paste it anywhere");return;}
@@ -5105,7 +5312,8 @@
       var list=remindAll(),added=0;
       Object.keys(present).forEach(function(k){var p=gg.plants[+k];if(!p)return;var txt="Plant "+p.n+" — "+p.when;if(existing[txt.toLowerCase()])return;list.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5)+added,text:txt,date:"",done:0,repeat:""});existing[txt.toLowerCase()]=1;added++;});
       if(added){remindSaveAll(list);renderRemind();}
-      toast(added?("Added "+added+" planting reminder"+(added===1?"":"s")):"Place some plants, or they're already on your list");
+      if(added)toast("Added "+added+" planting reminder"+(added===1?"":"s"),"See it →",function(){jumpTo("remind","remindList");});
+      else toast("Place some plants, or they're already on your list");
     }
   });
   function planSummaryText(){
@@ -5238,6 +5446,8 @@
     return out;
   }
 
+  // vestigial: the hidden tabbar is gone, so this self-no-ops on the $("tabbar") guard.
+  // focusAreaIds/pinnedTabs still feed the For-You hub and Discover spotlight.
   function applyProfile(){
     var bar=$("tabbar");if(!bar)return;
     var btns={};[].forEach.call(bar.querySelectorAll(".tab-btn"),function(b){btns[b.getAttribute("data-tab")]=b;});
@@ -5264,7 +5474,14 @@
     var card=$("forYouCard");if(!card)return;
     var sel=selectedAreas();
     var hub=$("forYouHub");
-    if(!sel.length){card.hidden=true;return;}
+    if(!sel.length){
+      // stay visible with an invitation — the guided path for anyone who skipped the welcome
+      card.hidden=false;
+      hub.innerHTML='<div class="empty">Tell us what you tend and your favorite tools appear here, one tap away — use “Change what matters” above.</div>';
+      if($("forYouDiscover"))$("forYouDiscover").innerHTML="";
+      if($("forYouSeed"))$("forYouSeed").hidden=true;
+      return;
+    }
     card.hidden=false;
     // per-area: a small heading and that area's most useful tools, in your chosen order
     hub.innerHTML=AREAS.filter(function(a){return sel.indexOf(a.id)>=0;}).map(function(a){
@@ -5324,8 +5541,11 @@
         return '<div class="logrow"><button class="lr-del" data-wdone="'+esc(r.id)+'" aria-label="Mark done" style="color:var(--ink-faint)">'+ic("plus")+'</button><div class="lr-main"><div class="lr-t">'+esc(r.text)+'</div><div class="lr-s"'+(od?' style="color:#b4532a"':'')+'>'+(od?'Overdue · ':'Due ')+fmtDate(r.date)+(r.repeat&&REPEAT_LABEL[r.repeat]?' · ↻ '+REPEAT_LABEL[r.repeat]:'')+'</div></div></div>';
       }).join("")+(due.length>4?'<button class="linklike" data-goto="remind" style="margin-top:4px">+ '+(due.length-4)+' more on Reminders →</button>':'')+'</div>'):'';
     }
-    if(!items.length&&!due.length){card.hidden=true;return;}
     card.hidden=false;
+    if(!items.length&&!due.length){
+      $("weekendList").innerHTML='<div class="empty">Nothing pressing. A fine week to just walk the yard and see what it’s up to.</div>';
+      return;
+    }
     if($("weekendSub")){var wsub=$("weekendSub");if(WX&&WX.place){wsub.textContent="For "+WX.place+" — from the season, the forecast, and your reminders.";}else{wsub.innerHTML='From the season and your reminders — <button class="linklike" data-goto="season">add your ZIP</button> for weather-aware tips.';}}
     $("weekendList").innerHTML=items.slice(0,4).map(function(it){
       var actions=[];
@@ -5620,7 +5840,7 @@
         s+=line3(101,167,6,101,167,32,shade(WALL,.1),3.5)+line3(131,167,6,131,167,32,shade(WALL,.1),3.5);
         s+=polyW([[94,148,36],[138,148,36],[138,174,29],[94,174,29]],shade(ROOF,-.12),'stroke="rgba(70,40,26,.35)" stroke-width="1"');
         if(p.snow)s+=polyW([[96,150,36.6],[136,150,36.6],[136,172,30],[96,172,30]],SNOWC,'stroke="none" opacity=".9"');
-        obj(205,hot("almanac","jDate","The house — your journal & story",s));
+        obj(205,hot("almanac","notebookCard","The house — your notebook & story",s));
       })();
 
       /* -- the bonsai on its stand: the little "why" of the whole thing -- */
@@ -6465,7 +6685,7 @@
       soil:{icon:"soil",desc:"What's under the grass — a cheap soil test, your pH, and the amendments that fix it."},
       lawn:{icon:"mower",desc:"A greener cool-season lawn — feeding, watering, and thickening turf the right way."},
       mow:{icon:"grass",desc:"Mow it right — how high and how often, and why taller grass wins."},
-      almanac:{icon:"book",desc:"Home base — your journal, field notes, story, and the Moments you earn through the year."},
+      almanac:{icon:"book",desc:"Home base — your notebook, your story, and the Moments you earn through the year."},
       grow:{icon:"basket",desc:"Grow your own food — crop guides, planting timelines, spacing, and companions for your zone."},
       fruit:{icon:"fruit",desc:"Homegrown fruit and berries — the easiest sweet wins, and how to keep them happy."},
       bloom:{icon:"flower",desc:"Color from spring to frost — a bloom planner and flower guides."},
@@ -6487,8 +6707,7 @@
     function yvGoto(tool,scroll,isOverlay){
       yvBlip();yvUsedYard=true;
       if(isOverlay)yvOvShut();
-      showTab(tool);
-      if(scroll)setTimeout(function(){var t=$(scroll);if(t)(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});},180);
+      jumpTo(tool,scroll);
       if(!isOverlay&&!yvDockToasted){yvDockToasted=true;setTimeout(function(){toast("The little yard rides along — tap it to hop somewhere else");},700);}
     }
     function yvPayload(h,isOverlay){
@@ -6556,7 +6775,7 @@
      Opening a topic quietly marks it "read"; finishing a whole tab earns a Moment. */
   function setupCollapsibleCards(){
     var readMap=lsGet("ycRead")||{},openMap=lsGet("ycCardOpen")||{},celebrated=lsGet("ycTabReadDone")||{};
-    var DEFAULT_OPEN={weekendCard:1,forYouCard:1},groups=[],seq=0;
+    var DEFAULT_OPEN={weekendCard:1,forYouCard:1,indexCard:1,urgentCard:1},groups=[],seq=0;
     function slug(s){return (s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,42);}
     function saveRead(){lsSet("ycRead",readMap);}
     function saveOpen(){lsSet("ycCardOpen",openMap);}
@@ -6584,7 +6803,7 @@
     function celebrate(g){
       if(readCount(g)!==g.recs.length||celebrated[g.pane])return;
       celebrated[g.pane]=1;lsSet("ycTabReadDone",celebrated);writeStats();
-      var nm=(typeof SUBLABEL!=="undefined"&&SUBLABEL[g.pane])||g.pane;
+      var nm=(typeof PANES!=="undefined"&&PANES[g.pane])||g.pane;
       toast("You've read all of "+nm+" — nicely done 🌿");
       if(typeof renderMoments==="function")renderMoments(true); // may announce Well-Read
     }
@@ -6603,6 +6822,7 @@
       var paneId=pane.getAttribute("data-pane");
       var cards=[].filter.call(pane.children,function(el){
         if(!el.classList||!el.classList.contains("card")||el.hidden)return false;
+        if(el.classList.contains("no-fold"))return false; // e.g. the notebook — never folds into a heading
         var head=el.firstElementChild;
         return head&&head.classList&&head.classList.contains("card-head")&&head.querySelector("h3");
       });
@@ -6621,7 +6841,9 @@
           '<svg class="card-chev" aria-hidden="true"><use href="#i-chev"/></svg>');
         var rec={card:card,head:head,key:key};g.recs.push(rec);
         if(readMap[key])card.classList.add("is-read");
-        setOpen(rec,(key in openMap)?!!openMap[key]:!!DEFAULT_OPEN[card.id],false);
+        /* a card holding something to DO (a form, a picker, a checklist) starts open —
+           reference prose keeps the calm collapsed outline; a saved preference always wins */
+        setOpen(rec,(key in openMap)?!!openMap[key]:(!!DEFAULT_OPEN[card.id]||!!card.querySelector("input,select,textarea,.seg,.ritlist,button.act")),false);
         head.addEventListener("click",function(){toggle(rec,g);});
         head.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle(rec,g);}});
       });
@@ -6652,14 +6874,20 @@
   /* ---------- init ---------- */
   (function init(){
     var today=localToday();
-    ["leafDate","jDate","nDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
+    ["leafDate","jotDate","pestDate"].forEach(function(id){var e=$(id);if(e&&today)e.value=today;});
     renderAlmanac(false);
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();renderPlanner();
     applyProfile();renderForYou();renderWeekend();
+    if($("hubIndex"))$("hubIndex").innerHTML=toolIndexHTML();
     setupCollapsibleCards();
-    showTab("almanac");
-    updateTabHints();
+    // boot: a shared link (#/pane/anchor) wins, then the pane you were last on, then Home
+    var bootHash=parseHash(location.hash),lastPane=lsGet("ycLastPane");
+    var startPane=(bootHash&&bootHash.pane)||((lastPane&&document.querySelector('[data-pane="'+lastPane+'"]'))?lastPane:"almanac");
+    navFromHash=true;showTab(startPane);navFromHash=false;
+    var wantHash="#/"+startPane+(bootHash&&bootHash.anchor?"/"+bootHash.anchor:"");
+    if(location.hash!==wantHash){navLock=true;try{location.replace(wantHash);}catch(e){navLock=false;}}
+    if(bootHash&&bootHash.anchor)jumpScroll(bootHash.anchor);
     if(!getProfile())openWelcome();
     var savedZip=lsGet("ycZip");
     if(savedZip&&$("zipInput")){$("zipInput").value=savedZip;fetchWeather();}
