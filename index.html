@@ -516,6 +516,8 @@
   .search-res .ic{width:17px;height:17px;color:var(--grass);flex:0 0 auto;}
   .search-res .sr-t{font-weight:600;font-size:.9rem;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .search-res .sr-tab{margin-left:auto;flex:0 0 auto;font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--grass-deep);background:#EEF4ED;padding:3px 8px;border-radius:999px;}
+  /* the browsable index inside search re-renders on every cleared query — no entrance replay */
+  .search-results .hub .hubchip{animation:none;}
   .search-hint{font-size:.86rem;color:var(--ink-faint);text-align:center;padding:26px 18px;line-height:1.5;}
   .searchflash{animation:searchflash 1.7s ease;}
   @keyframes searchflash{0%,100%{box-shadow:var(--shadow);}18%,55%{box-shadow:0 0 0 3px rgba(58,130,85,.5);}}
@@ -996,7 +998,7 @@
 
     <div class="card" id="backupCard">
       <div class="card-head"><svg class="ic"><use href="#i-download"/></svg><h3>Back up your year</h3></div>
-      <p class="hint">Everything you log lives <b>only on this device</b> — no account, no cloud. Download a backup now and then (and before you clear your browser or switch phones) so your journal, Moments, story, and plans are never lost.</p>
+      <p class="hint">Everything you log lives <b>only on this device</b> — no account, no cloud. Download a backup now and then (and before you clear your browser or switch phones) so your notebook, Moments, story, and plans are never lost.</p>
       <div class="grid2">
         <button class="act btn-primary" id="backupExport"><svg class="ic"><use href="#i-download"/></svg>Download backup</button>
         <button class="act btn-ghost" id="backupImport"><svg class="ic"><use href="#i-upload"/></svg>Restore from file</button>
@@ -2262,7 +2264,7 @@
       <p class="hint">For the two moments this page must not fail you — an emergency with a wild animal, or a tick on someone you love.</p>
       <div class="cmp">
         <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bell"/></svg>Hurt or trapped wild animal</div><div class="cr-b">Ohio Wildlife Center hotline: <a href="tel:6147939453"><b>614-793-9453</b></a> — a two-minute call beats a guess. <button class="linklike" data-info="rehab">What to do first →</button></div></div>
-        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Found a tick?</div><div class="cr-b">Fine-point tweezers, grip at the skin, pull straight up — then note the date. <button class="linklike" data-tool="wildlife" data-scroll="pestDate">Removal steps &amp; the bite log →</button></div></div>
+        <div class="cmp-row"><div class="cr-h"><svg class="ic"><use href="#i-bug"/></svg>Found a tick?</div><div class="cr-b">Fine-point tweezers, grip at the skin, pull straight up — then note the date. <button class="linklike" data-tool="wildlife" data-scroll="tickSteps">Removal steps &amp; the bite log →</button></div></div>
       </div>
     </div>
 
@@ -2286,7 +2288,7 @@
       <p class="hint" style="margin-top:2px;">Mosquito larvae need about a week in still water. Walk the yard and knock these out:</p>
       <div class="ritlist" id="waterAudit"></div>
 
-      <details class="ex" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-shield"/></svg>Ticks — yard, body, removal<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
+      <details class="ex" id="tickSteps" style="margin-top:11px;"><summary><svg class="ic lead"><use href="#i-shield"/></svg>Ticks — yard, body, removal<svg class="ic chev"><use href="#i-chev"/></svg></summary><div class="body">
         <p>Rising in Ohio: the <b>blacklegged ("deer") tick</b> → Lyme; the <b>American dog tick</b> → Rocky Mountain spotted fever; the <b>lone star tick</b> → ehrlichiosis and the alpha-gal red-meat allergy. Unlike mosquitoes, ticks <b>don't reliably fade</b> after frost — adults are active any time it's above ~40°F, even on a winter thaw.</p>
         <p><b>Where they are:</b> tall grass, brushy and wooded edges, and leaf litter — <b>not</b> the open, sunny, mown lawn. The tiny <b>nymphs (late spring–summer, poppy-seed size)</b> cause most disease.</p>
         <p><b>Tick-safe yard:</b> mow short in play and use areas; put a <b>~3-ft mulch or gravel barrier</b> between lawn and woods/brush; keep play sets, patios, and seating <b>in the sun and away from the edge</b>; clear leaf litter and tall grass <b>at the borders</b> (litter is great in the far corners — just not where people sit); and discourage the rodents and deer that ferry ticks.</p>
@@ -2881,6 +2883,7 @@
      one-argument wrapper, so all routing state lives in these module flags — showTab
      itself must never grow a second parameter. */
   var navLock=false,navFromHash=false,navAnchor=null,curPane="almanac";
+  var yvOvCloseHook=null; // set by the diorama so the router can dismiss the map overlay on Back
   function parseHash(h){
     if(!h||h.slice(0,2)!=="#/")return null;
     var parts=h.slice(2).split("/");var pane=parts[0]||"";
@@ -2900,9 +2903,23 @@
     lsSet("ycLastPane",name);
     window.scrollTo({top:0,behavior:"smooth"});
   }
+  function anchorInPane(sel,pane){
+    var t=document.getElementById(sel);if(!t||!t.closest)return false;
+    var s=t.closest("section[data-pane]");
+    return !!(s&&s.getAttribute("data-pane")===pane);
+  }
   window.addEventListener("hashchange",function(){
     if(navLock){navLock=false;return;}
+    // Back/Forward while a full-screen layer is up should not silently swap the
+    // page underneath it — dismiss the layer, then route
+    if(typeof closeSearch==="function"){var so=$("searchOv");if(so&&!so.hidden)closeSearch();}
+    if(typeof closeSheet==="function"&&$("sheetHost")&&$("sheetHost").firstChild)closeSheet();
+    if(yvOvCloseHook)try{yvOvCloseHook();}catch(e){}
     var p=parseHash(location.hash);if(!p)return;
+    if(p.anchor&&!anchorInPane(p.anchor,p.pane)){
+      navLock=true;try{location.replace("#/"+p.pane);}catch(e){navLock=false;}
+      p.anchor=null;
+    }
     navFromHash=true;showTab(p.pane);navFromHash=false;
     if(p.anchor)jumpScroll(p.anchor);
   });
@@ -2923,7 +2940,7 @@
     preem:{t:"Crabgrass pre-emergent",b:"<p>Pre-emergent doesn't kill weeds you can see — it puts a chemical barrier in the top of the soil that stops crabgrass <b>seeds</b> from establishing as they germinate. Crabgrass germinates when soil holds about <b>50–55°F</b>, which in much of Ohio lands late March into April (forsythia dropping its flowers is the classic visual cue).</p><p>Put it down a week or two <b>before</b> that, water it in lightly to activate, and don't core-aerate or rake hard afterward — you'll break the barrier. One catch: the same barrier stops <b>grass</b> seed, so you can't pre-emergent and seed the same spring. If overseeding is the priority, skip the pre-emergent and do your seeding in fall instead.</p>"},
     seed:{t:"Seeding & overseeding",b:"<p><b>Fall is the best time to seed cool-season grass</b>, hands down. From late August through late September the soil is still warm (fast germination) but the air is cooling and weeds are fading — seedlings get a long, low-stress runway to root before winter. Spring seeding fights summer heat right as the seedlings are youngest, and collides with crabgrass-preventer season.</p><p>Basics: pick a quality blend (Kentucky bluegrass, turf-type tall fescue, perennial rye), get good <b>seed-to-soil contact</b> (rake, slit-seed, or seed right after core aeration), use a <b>starter fertilizer</b> (this is the one time phosphorus is justified, if your test allows), and keep the top half-inch of soil <b>consistently moist</b> with short, frequent watering until it's up and established.</p>"},
     grub:{t:"Grubs — the gentle approach",b:"<p>Grubs are the larvae of beetles (Japanese beetles, June bugs, chafers), living in the soil and feeding on grass roots. They're also a normal thread in the yard's web — food for birds, skunks, and moles. A few are nothing to worry about: <b>a healthy, deep-rooted lawn tolerates them</b>, and the damage threshold is roughly <b>10+ grubs per square foot</b>. The bird and skunk digging you sometimes see is the ecosystem handling it for you.</p><p><b>Scout before you act.</b> In late summer, cut and peel back a square foot of turf and count. Most years you won't reach the threshold and there's simply nothing to do — so don't treat on a calendar habit, especially if you've never had grubs.</p><p><b>If you genuinely have an infestation</b>, lead with prevention and biology rather than a broad insecticide. Keep the lawn deep-rooted and <b>don't overwater in midsummer</b> — egg-laying beetles favor soft, moist soil. Then, only if needed, use targeted <b>biological controls</b>: <b>beneficial nematodes</b> (microscopic worms that seek out grubs) or <b>milky spore</b> (a soil bacterium specific to Japanese-beetle grubs). These spare the bees, earthworms, and soil life that blanket grub-killers harm. Honest note: nematodes and milky spore do still control the grubs — but they target only them, which is the least-harm way to step in when you truly must.</p>"},
-    rehab:{t:"Getting a hurt animal to help, safely",b:"<p>First, confirm it actually needs help — a fledgling on the lawn or a fawn curled in the grass usually doesn't (see the quick reference on the Living Yard tab). Truly hurt means <b>hit by a car, bleeding, a dangling limb, caught by a cat, or a parent you know is dead</b>.</p><p><b>Protect yourself first:</b> gloves and a towel, never bare hands — and don't handle <b>raccoons, skunks, opossums, or bats</b> at all (rabies-vector species); call for guidance instead. For a small bird or bunny, drop the towel gently over it and scoop.</p><p><b>Box it right:</b> a cardboard box with air holes, an old t-shirt on the bottom, lid closed. <b>Dark, warm, quiet</b> — darkness is a sedative to a wild animal, and quiet is medicine. No peeking, no kids' show-and-tell, and <b>no food or water</b>: a shocky, chilled animal can't digest, and a well-meant meal or dropper of water can kill it.</p><p><b>Then call before you drive:</b> the Ohio Wildlife Center hotline (<b>614-793-9453</b>) or a licensed rehabilitator from ODNR's county list. They'll tell you whether to bring it in and where. Keep the car quiet — radio off — and resist the urge to comfort it; to a wild animal, your voice is a predator's.</p>"},
+    rehab:{t:"Getting a hurt animal to help, safely",b:"<p>First, confirm it actually needs help — a fledgling on the lawn or a fawn curled in the grass usually doesn't (see the quick reference on Wildlife). Truly hurt means <b>hit by a car, bleeding, a dangling limb, caught by a cat, or a parent you know is dead</b>.</p><p><b>Protect yourself first:</b> gloves and a towel, never bare hands — and don't handle <b>raccoons, skunks, opossums, or bats</b> at all (rabies-vector species); call for guidance instead. For a small bird or bunny, drop the towel gently over it and scoop.</p><p><b>Box it right:</b> a cardboard box with air holes, an old t-shirt on the bottom, lid closed. <b>Dark, warm, quiet</b> — darkness is a sedative to a wild animal, and quiet is medicine. No peeking, no kids' show-and-tell, and <b>no food or water</b>: a shocky, chilled animal can't digest, and a well-meant meal or dropper of water can kill it.</p><p><b>Then call before you drive:</b> the Ohio Wildlife Center hotline (<b>614-793-9453</b>) or a licensed rehabilitator from ODNR's county list. They'll tell you whether to bring it in and where. Keep the car quiet — radio off — and resist the urge to comfort it; to a wild animal, your voice is a predator's.</p>"},
     evict:{t:"Humane raccoon eviction — the details",b:"<p>Spring scratching in a chimney or attic is usually a <b>mother with kits</b> (March–June). The kits can't walk out on their own for about eight weeks — which is exactly why trapping or sealing is a disaster: remove or lock out the mother and the litter starves in the wall. Eviction works <i>with</i> her instead.</p><p><b>Make the den feel unsafe, not dangerous:</b> a bright light shining into the den space around the clock, a radio on a <b>talk station</b> (voices, not music), and <b>rags soaked in apple-cider vinegar</b> tossed near the entrance. To a mother raccoon that reads as \"discovered by predators\" — and she has backup dens ready.</p><p><b>Then give her nights.</b> She moves the kits <b>one at a time, by mouth, after dark</b> — two or three nights is normal. Don't rush her and never use smoke or fire.</p><p><b>Verify before you seal:</b> tape a double sheet of newspaper over the entry (or dust flour at the threshold) and watch 2–3 quiet nights. Undisturbed paper and no tracks = everyone's out. Only then seal with <b>hardware cloth</b>, and cap the chimney — a proper cap is the cheapest raccoon control ever invented.</p><p>If it's genuinely beyond you — kits deep in a wall, a stubborn mother — hire a wildlife operator who commits to <b>eviction and reunion, not trap-and-kill</b>; ask directly what happens to the animals. And remember Ohio's rule: rabies-vector species generally can't be relocated off your property anyway.</p>"},
     bonsai:{t:"Why a whole little world?",b:"<p>Here's the thinking behind everything in this app — and behind the small tree you just tapped.</p><p>A yard isn't built in an afternoon. It's the sum of small, unglamorous acts, repeated with the seasons: a mow at the right height, a handful of clover seed, mulch pulled back off a trunk, a bulb tucked in before frost. None of them feels like much on the day. But they <b>compound</b>. Water a young tree through two summers and its roots find the water table; leave the seedheads one winter and the finches come back the next. The yard you'll love in five years is being decided by the quiet ten minutes you spend in it this week.</p><p>That's the logic of a <b>bonsai</b>: not force, but attention — a little, often, for a long time — until patience itself becomes visible. We built this as a <i>place</i> rather than a list of chores because a place is something you want to return to. Tend it, notice it, and let time and small effort do what they always do. That's the whole point. 🌱</p>"}
   };
@@ -2944,7 +2961,13 @@
   }
   document.addEventListener("click",function(e){var b=e.target.closest("[data-info]");if(b){openInfo(b.getAttribute("data-info"));}});
   // Escape closes whichever sheet is up (the jot sheet and the explainers alike)
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&$("sheetHost").firstChild)closeSheet();});
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Escape"||!$("sheetHost").firstChild)return;
+    // a higher layer (welcome, search) takes this Escape — only close the sheet when it's topmost
+    var w=$("welcome"),so=$("searchOv");
+    if((w&&!w.hidden)||(so&&!so.hidden))return;
+    closeSheet();e.stopImmediatePropagation();
+  });
 
   /* ---------- the Jot pencil: capture from anywhere ----------
      The sheet opens pre-set to a sensible guess for the pane you're reading —
@@ -2956,6 +2979,7 @@
     pests:["saw","bug"],pond:["saw","other"],native:["saw","other"]};
   function openJot(pre){
     var ctx=pre||JOT_CTX[curPane]||["did","other"];
+    var srcPane=curPane; // captured at open, so a Back-gesture pane change can't mislabel the note
     var host=$("sheetHost");
     sheetPrevFocus=document.activeElement;
     var qm=ctx[0]==="saw"?"saw":"did";
@@ -2971,13 +2995,13 @@
       curSeg=seg;
       [].forEach.call(document.querySelectorAll('#qjSeg [data-qseg]'),function(b){b.setAttribute("aria-pressed",b.getAttribute("data-qseg")===seg?"true":"false");});
       jotKindOptions($("qjKind"),seg,kind||"other");
-      $("qjText").placeholder=(seg==="did")?(ctx[2]||"e.g. first mow — front yard, 3.5″"):(ctx[2]||"e.g. bumblebee on the clover");
+      $("qjText").placeholder=(seg===ctx[0]&&ctx[2])?ctx[2]:(seg==="did"?"e.g. first mow — front yard, 3.5″":"e.g. bumblebee on the clover");
     }
     setSeg(qm,ctx[1]);
     $("qjDate").value=localToday();
     $("qjSeg").addEventListener("click",function(e){var b=e.target.closest("[data-qseg]");if(b)setSeg(b.getAttribute("data-qseg"));});
     $("qjAdd").addEventListener("click",function(){
-      if(saveJot(curSeg,$("qjKind").value,$("qjText").value.trim(),$("qjDate").value,curPane))closeSheet();
+      if(saveJot(curSeg,$("qjKind").value,$("qjText").value.trim(),$("qjDate").value,srcPane))closeSheet();
     });
     $("sheetClose").addEventListener("click",closeSheet);
     $("sheetBg").addEventListener("click",function(e){if(e.target.id==="sheetBg")closeSheet();});
@@ -3093,7 +3117,7 @@
       {id:"crab",label:"Mind the crabgrass window",sub:"Pre-emergent before soil hits 50–55°F — or skip it if you'll seed in fall."},
       {id:"mulchspring",label:"Refresh the mulch",sub:"2–3″, pulled back off the trunks."},
       {id:"springfeed",label:"A light spring feed",sub:"~0.5–0.75 lb N after full green-up. Easy does it."},
-      {id:"springnote",label:"Note the first bloom",sub:"Mark spring's arrival in your field notes."},
+      {id:"springnote",label:"Note the first bloom",sub:"Jot spring's arrival in your notebook."},
       {id:"startseeds",label:"Start tomatoes & peppers indoors",sub:"~6–8 weeks before your last frost — or just buy transplants."},
       {id:"plantout",label:"Plant out after the last frost",sub:"Tender crops once frost's past and the soil's warm."},
       {id:"hostplant",label:"Plant a butterfly host plant",sub:"Milkweed for monarchs; dill/parsley for swallowtails."},
@@ -3128,7 +3152,7 @@
       {id:"lightsalt",label:"Keep the salt light",sub:"A thin scatter; keep it off the lawn and beds."},
       {id:"snowprep",label:"Mind the snow thrower",sub:"Fresh stabilized fuel; clear clogs with the tool, never hands."},
       {id:"plan",label:"Plan next year",sub:"A soil test, a new bed, a tree you've been wanting."},
-      {id:"winternote",label:"Notice winter",sub:"First frost, first snow — mark it in field notes."},
+      {id:"winternote",label:"Notice winter",sub:"First frost, first snow — jot it in your notebook."},
       {id:"windowsill",label:"Start herbs on the windowsill",sub:"Basil, mint, chives in water or a small hydro jar — fresh greens in the cold."},
       {id:"planseeds",label:"Plan the garden & order seed",sub:"Dream up the beds, the partners, the new crop to try."}]}
   };
@@ -3194,7 +3218,7 @@
 
   /* ---------- field notes (wonder) ---------- */
   function notesAll(){var a=lsGet("ycNotes");return Array.isArray(a)?a:[];}
-  function notesSave(a){lsSet("ycNotes",a);}
+  function notesSave(a){return lsSet("ycNotes",a);}
   // superseded by the notebook card — kept as a guarded no-op so the diff stays reviewable
   function renderNotes(){
     if(!$("nList"))return;
@@ -3217,16 +3241,26 @@
     sel.value=kind||"other";
   }
   function saveJot(seg,kind,text,date,src){
+    // a bare tap with everything still default would save a contentless "Tended" row;
+    // a picked kind with no note (e.g. just "Mowed") is a fine quick log
+    if(!text&&(kind||"other")==="other"){toast("Add a word or two first — even three words counts");return false;}
     if(!date)date=localToday();
-    var before=journalAll().length+notesAll().length,ok=true;
+    var before=journalAll().length+notesAll().length,ok;
     if(seg==="saw"){
-      var n=notesAll();n.push({id:genId(),date:date,what:kind||"other",note:text,src:src||""});notesSave(n);
+      var n=notesAll();n.push({id:genId(),date:date,what:kind||"other",note:text,src:src||""});ok=notesSave(n);
     } else {
       var a=journalAll();a.push({id:genId(),date:date,type:kind||"other",note:text,src:src||""});ok=journalSave(a);
     }
     if(!ok){toast("Couldn't save — this browser isn't keeping data right now");return false;}
-    toast(before===0?"That's the first line of your yard's story.":"Kept in your notebook");
-    renderAlmanac(true);
+    if(before===0){
+      // let the crafted first-line message breathe; the earned Moment still appears
+      // in the Moments card right below, just without a competing toast
+      toast("That's the first line of your yard's story.");
+      renderAlmanac(false);
+    } else {
+      toast("Kept in your notebook");
+      renderAlmanac(true);
+    }
     return true;
   }
   var nbShowAll=false;
@@ -3239,7 +3273,7 @@
     evs.sort(byDateDesc);
     var cap=nbShowAll?evs.length:30;
     el.innerHTML=evs.length
-      ? (evs.slice(0,cap).map(function(x){return x.html;}).join("")+(evs.length>cap?'<button class="linklike" id="nbMore" style="margin-top:8px">Show the whole year →</button>':''))
+      ? (evs.slice(0,cap).map(function(x){return x.html;}).join("")+(evs.length>cap?'<button class="linklike" id="nbMore" style="margin-top:8px">Show everything →</button>':''))
       : '<div class="empty">Nothing here yet. Your first line starts the story — what did you do or notice today?</div>';
     var more=$("nbMore");
     if(more)more.addEventListener("click",function(){nbShowAll=true;renderNotebook();});
@@ -3268,8 +3302,8 @@
     var firstNote=N.slice().sort(byDateDesc).pop();
     var RS=lsGet("ycReadStats")||{total:0,fullSections:0};
     return [
-      {id:"curious",title:"Curious Mind",icon:"bulb",ok:(RS.total||0)>=1,when:null,copy:"You opened a topic and read in. A yard rewards the curious — the more you understand it, the more it gives back.",hint:"Open any topic on a tab to read it."},
-      {id:"wellread",title:"Well-Read",icon:"book",ok:(RS.fullSections||0)>=1,when:null,copy:"You read a whole tab, end to end. This is how a yard stops being a list of chores and becomes a craft you understand.",hint:"Open every topic on one tab."},
+      {id:"curious",title:"Curious Mind",icon:"bulb",ok:(RS.total||0)>=1,when:null,copy:"You opened a topic and read in. A yard rewards the curious — the more you understand it, the more it gives back.",hint:"Open any topic to read it."},
+      {id:"wellread",title:"Well-Read",icon:"book",ok:(RS.fullSections||0)>=1,when:null,copy:"You read a whole page, end to end. This is how a yard stops being a list of chores and becomes a craft you understand.",hint:"Open every topic on one page."},
       {id:"firstmow",title:"First Mow",icon:"mower",ok:has("mow"),when:firstD("mow"),copy:"The mower's out and the smell of cut grass is back. The season has truly begun.",hint:"Log your first mow of the year."},
       {id:"sower",title:"The Sower",icon:"sprout",ok:has("seed"),when:firstD("seed"),copy:"You put seed down — small bets on a greener spring. Keep it moist and trust it.",hint:"Seed or overseed a thin patch."},
       {id:"soil",title:"Soil Tender",icon:"spread",ok:cnt("feed")>=2,when:null,copy:"You're feeding the lawn when it can actually use it — not just when a bag says so. That's the craft.",hint:"Feed the lawn twice in a year."},
@@ -3278,7 +3312,7 @@
       {id:"bigseason",title:"The Big Season",icon:"star",ok:(fallFeed&&fallGrow),when:null,copy:"The fall feeding, seed in the ground, leaves worked back in. You did the quiet work that makes next year's lawn.",hint:"Do the autumn work — feed and seed (or mulch leaves) in fall."},
       {id:"leafcloser",title:"Leaf Season, Closed",icon:"leaf",ok:novLeaf,when:null,copy:"From the first drop to the last rake — the trees gave it all back to the soil, with your help.",hint:"See the leaves through to the end (a November cleanup)."},
       {id:"steward",title:"Steward of the Yard",icon:"shield",ok:J.length>=12,when:null,copy:"A dozen acts of care and counting. This isn't a chore anymore — it's a practice.",hint:"Log a dozen acts of care this year."},
-      {id:"firstnote",title:"First Field Note",icon:"eye",ok:N.length>=1,when:firstNote?firstNote.date:null,copy:"You looked up from the work and noticed something. A yard is a place to watch, not only to tend.",hint:"Jot your first field note."},
+      {id:"firstnote",title:"First Field Note",icon:"eye",ok:N.length>=1,when:firstNote?firstNote.date:null,copy:"You looked up from the work and noticed something. A yard is a place to watch, not only to tend.",hint:"Jot something you noticed."},
       {id:"bloom",title:"First Bloom",icon:"flower",ok:nWhat("bloom"),when:nDate("bloom"),copy:"The first flower of the year — quiet proof the cold didn't win.",hint:"Spot the first bloom of spring."},
       {id:"visitor",title:"A Visitor",icon:"bug",ok:nWhat("bug"),when:nDate("bug"),copy:"A bee, a butterfly, a beetle going about its day — the small lives your yard quietly feeds.",hint:"Notice a pollinator."},
       {id:"frost",title:"First Frost",icon:"snow",ok:nWhat("frost"),when:nDate("frost"),copy:"Frost stitched across the grass. The lawn's asleep now — and you got it ready. Rest is part of the cycle too.",hint:"Mark the first frost."},
@@ -3314,7 +3348,7 @@
   function renderReview(){
     if(!$("reviewBody"))return;
     var J=thisYear(journalAll()),N=thisYear(notesAll()),body=$("reviewBody");
-    if(!J.length&&!N.length){body.innerHTML='<p>Your year is a blank page — the best kind. Log your first act of care or your first field note above, and this will fill with the story of your yard.</p>';return;}
+    if(!J.length&&!N.length){body.innerHTML='<p>Your year is a blank page — the best kind. Jot your first line in the notebook above, and this will fill with the story of your yard.</p>';return;}
     function c(t){return J.filter(function(e){return e.type===t;}).length;}
     var defs=[["mow","mowed"],["feed","fed the soil"],["seed","put down seed"],["mulch","mulched"],["prune","pruned"],["plant","planted"],["leaves","cleared leaves"],["snow","cleared snow"],["water","watered"]];
     var bits=[];defs.forEach(function(d){var n=c(d[0]);if(n)bits.push(d[1]+" <b>"+n+"</b> time"+(n>1?"s":""));});
@@ -3399,7 +3433,7 @@
     if(!STORE_OK){$("backupNote").textContent="This browser can't keep notes right now — open the app normally (or install it to your home screen) and they'll save.";return;}
     var j=journalAll().length,n=notesAll().length,m=computeMoments().filter(function(x){return x.ok;}).length;
     var lb=lsGet("ycLastBackup");
-    $("backupNote").textContent="On this device now: "+j+" journal entr"+(j===1?"y":"ies")+" · "+n+" field note"+(n===1?"":"s")+" · "+m+" Moment"+(m===1?"":"s")+" earned."+(lb?" Last saved copy: "+fmtDate(String(lb).slice(0,10))+".":" No saved copy yet.");
+    $("backupNote").textContent="On this device now: "+j+" act"+(j===1?"":"s")+" of care · "+n+" thing"+(n===1?"":"s")+" noticed · "+m+" Moment"+(m===1?"":"s")+" earned."+(lb?" Last saved copy: "+fmtDate(String(lb).slice(0,10))+".":" No saved copy yet.");
   }
   /* a quiet nudge atop the notebook once there's enough written to be worth protecting */
   function renderBackupNudge(){
@@ -3757,7 +3791,12 @@
     var tries=0;
     function poll(){
       var t=$(sel);
-      if(t&&t.offsetParent!==null){(t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});return;}
+      if(t&&t.offsetParent!==null){
+        // a target that is (or sits inside) a folded <details> opens on arrival
+        if(t.tagName==="DETAILS")t.open=true;
+        var dd=t.closest&&t.closest("details");if(dd)dd.open=true;
+        (t.closest(".card")||t).scrollIntoView({behavior:"smooth",block:"start"});return;
+      }
       if(++tries<9)setTimeout(poll,80);
     }
     setTimeout(poll,60);
@@ -3777,14 +3816,14 @@
   function feedingExplainerHTML(){
     return '<div class="card">'+
       '<div class="card-head">'+ic("feed")+'<h3>How to feed anything well</h3></div>'+
-      '<p class="hint">One feeding philosophy across the whole yard — lawn, trees, and the veg garden. The short version: <b>feed the soil, go light, and let biology do the work.</b> The lawn tab has the turf calculator; this is the thinking behind it all.</p>'+
+      '<p class="hint">One feeding philosophy across the whole yard — lawn, trees, and the veg garden. The short version: <b>feed the soil, go light, and let biology do the work.</b> Lawn has the turf calculator; this is the thinking behind it all.</p>'+
       '<details class="ex"><summary>'+ic2("flask","lead")+'Soil-test first'+ic2("chev","chev")+'</summary><div class="body"><p>A <b>$15–25 county-extension soil test</b> tells you pH and what’s actually lacking — so you stop guessing and stop over-applying. <i>Trade-off:</i> a small cost and a short wait vs. years of feeding the soil things it already has (and washing the rest into streams). It’s the nature-friendly, money-saving move.</p></div></details>'+
       '<details class="ex"><summary>'+ic2("spread","lead")+'Where to put it'+ic2("chev","chev")+'</summary><div class="body"><ul>'+
         '<li><b>Lawn:</b> broadcast evenly over the root zone — calibrate the spreader low and make two half-rate passes, crossed.</li>'+
         '<li><b>Trees &amp; shrubs:</b> over the root zone out toward the <b>drip line</b>, never piled at the trunk. For young trees, often skip it entirely.</li>'+
         '<li><b>Veg &amp; herbs:</b> work compost into the bed at the root zone; side-dress the heavy feeders mid-season.</li></ul></div></details>'+
       '<details class="ex"><summary>'+ic2("scale","lead")+'How much — less is usually more'+ic2("chev","chev")+'</summary><div class="body"><p>The lawn calculator handles turf. For woody plants and beds, lead with <b>restraint</b>: light slow-release or compost only if a test or poor growth calls for it. <b>Never give heavy nitrogen to a stressed, newly planted, or drought-stressed plant.</b></p><p>For veg, know your eaters: <b>heavy feeders</b> (tomatoes, corn, squash, brassicas) want richer soil and a mid-season side-dress; <b>light feeders</b> (roots, herbs) want little; and <b>givers</b> (peas, beans) fix their own nitrogen and leave the soil better — see Plant partners.</p></div></details>'+
-      '<details class="ex"><summary>'+ic2("clock","lead")+'When'+ic2("chev","chev")+'</summary><div class="body"><p><b>Woody plants:</b> early spring as they leaf out. <b>Avoid late-summer/early-fall nitrogen</b> — it pushes tender growth that won’t harden before frost. <b>Cool-season lawn</b> stays fall-weighted (already in the Lawn tab). <b>Veg:</b> compost at bed prep, then side-dress at key growth stages.</p></div></details>'+
+      '<details class="ex"><summary>'+ic2("clock","lead")+'When'+ic2("chev","chev")+'</summary><div class="body"><p><b>Woody plants:</b> early spring as they leaf out. <b>Avoid late-summer/early-fall nitrogen</b> — it pushes tender growth that won’t harden before frost. <b>Cool-season lawn</b> stays fall-weighted (already on Lawn). <b>Veg:</b> compost at bed prep, then side-dress at key growth stages.</p></div></details>'+
       '<details class="ex"><summary>'+ic2("bulb","lead")+'Maximize it — the 4 Rs'+ic2("chev","chev")+'</summary><div class="body"><p><b>Water it in</b> so it reaches the roots and won’t burn. Favor <b>slow-release or organic</b> to feed steadily without a surge. <b>Build organic matter</b> — compost, mulch, grasscycling, mulched leaves — so the soil holds and slow-releases nutrients and you feed less every year. Right rate + right place + right time + right source = the <b>4 Rs</b>.</p></div></details>'+
       '<details class="ex"><summary>'+ic2("globe","lead")+'Synthetic vs. organic — a choice, not a verdict'+ic2("chev","chev")+'</summary><div class="body"><p><b>Synthetic:</b> fast, cheap, precise — and easy to overdo, with more runoff risk. <b>Organic / compost:</b> slower and gentler, builds living soil, lower burn risk, sometimes pricier per unit of nitrogen. Neither is “right” everywhere; most good gardens use both.</p></div></details>'+
       '<div class="note-card"><svg class="ic"><use href="#i-droplet"/></svg><div class="txt">The gentle thread: excess nitrogen and phosphorus wash into the same streams a clean pond depends on. <b>Go light, feed the soil, and let the biology carry the load.</b></div></div>'+
@@ -4580,7 +4619,7 @@
     var idx=[];
     document.querySelectorAll('section[data-pane]').forEach(function(pane){
       var tab=pane.getAttribute("data-pane"),label=tabLabelOf(tab),intro=pane.querySelector(".tab-intro");
-      idx.push({tab:tab,label:label,title:label+" tab",text:(label+" "+(intro?intro.textContent:"")).toLowerCase(),el:null});
+      idx.push({tab:tab,label:label,title:label,text:(label+" "+(intro?intro.textContent:"")).toLowerCase(),el:null});
       pane.querySelectorAll(".card, .leadcard").forEach(function(card){
         var h=card.querySelector("h3");
         idx.push({tab:tab,label:label,title:h?h.textContent.trim():label,text:(card.textContent||"").toLowerCase(),el:card});
@@ -4630,7 +4669,12 @@
       setTimeout(function(){try{it.el.scrollIntoView({behavior:"smooth",block:"start"});}catch(ex){}it.el.classList.add("searchflash");setTimeout(function(){it.el.classList.remove("searchflash");},1800);},60);
     } else { showTab(it.tab); }
   });
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var ov=$("searchOv");if(ov&&!ov.hidden)closeSearch();}});
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Escape")return;
+    var ov=$("searchOv");if(!ov||ov.hidden)return;
+    var w=$("welcome");if(w&&!w.hidden)return; // welcome sits above search
+    closeSearch();e.stopImmediatePropagation();
+  });
 
   /* ---------- Compost: browns:greens balance ---------- */
   function updateCompost(){
@@ -4827,7 +4871,8 @@
   }
   function localToday(){try{var nd=new Date();return nd.getFullYear()+'-'+('0'+(nd.getMonth()+1)).slice(-2)+'-'+('0'+nd.getDate()).slice(-2);}catch(e){return "";}}
   function updateRemindBadge(){
-    var lbl=$("hubRemindLabel");if(!lbl)return;
+    // the Home copy of the index only — the search copy stays a plain label
+    var lbl=document.querySelector('#hubIndex .hubchip[data-scroll="remindText"] .ht');if(!lbl)return;
     var today=localToday();
     var due=remindAll().filter(function(it){return it.date&&!it.done&&today&&it.date<=today;}).length;
     lbl.textContent=due>0?('Reminders · '+due+' due'):'Reminders';
@@ -5511,7 +5556,7 @@
     if(added){remindSaveAll(list);renderRemind();}
     lsSet("ycRemindSeeded",1);
     var sb=$("forYouSeed");if(sb)sb.hidden=true;
-    toast(added?("Added "+added+" reminder"+(added===1?"":"s")+" — see the Reminders tab"):"You're all set — those are already on your list");
+    toast(added?("Added "+added+" reminder"+(added===1?"":"s")+" — see Reminders"):"You're all set — those are already on your list");
   }
   if($("forYouSeed"))$("forYouSeed").addEventListener("click",seedProfileReminders);
 
@@ -5589,7 +5634,7 @@
   if($("wSkip2"))$("wSkip2").addEventListener("click",function(){closeWelcome(false);});
   if($("welcomeOpen"))$("welcomeOpen").addEventListener("click",function(){openWelcome();});
   if($("personalizeBtn"))$("personalizeBtn").addEventListener("click",function(){openWelcome();wizardStep(2);});
-  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden)closeWelcome(false);}});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"){var w=$("welcome");if(w&&!w.hidden){closeWelcome(false);e.stopImmediatePropagation();}}});
 
   /* ---------- the yard, in miniature — an isometric diorama of the whole app ----------
      Same projection engine as a tabletop miniature: world +x runs screen right-down,
@@ -6655,6 +6700,7 @@
       requestAnimationFrame(function(){if(st2.scrollWidth>st2.clientWidth)st2.scrollLeft=(st2.scrollWidth-st2.clientWidth)/2;});
       var cb=$("yvOvClose");if(cb)try{cb.focus();}catch(e){}
     }
+    yvOvCloseHook=function(){if(!yvOv.hidden)yvOvShut();};
     function yvOvShut(){
       yvOv.hidden=true;document.body.style.overflow="";
       yvDockSync();
@@ -6675,7 +6721,7 @@
       e.preventDefault();
       b.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true}));
     });
-    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!yvOv.hidden)yvOvShut();});
+    document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!yvOv.hidden){yvOvShut();e.stopImmediatePropagation();}});
 
     /* ---------- tap-to-peek: a preview card before you travel ----------
        A tap on any prop now shows a little card — an icon, its name, and what
@@ -6879,11 +6925,13 @@
     updateFert();updateWater();updateMulch();renderCal();renderNow(null);
     renderGrow();renderWildlife();renderSeasonExtras();renderMow();renderBloom();updateBloomCost();renderPond();updatePh();updateCompost();renderPests();updateSeed();updateRain();renderShop();renderShopQuick();renderSeasonTasks();renderRemind();renderSpots();renderStarter();renderPlanner();
     applyProfile();renderForYou();renderWeekend();
-    if($("hubIndex"))$("hubIndex").innerHTML=toolIndexHTML();
+    if($("hubIndex")){$("hubIndex").innerHTML=toolIndexHTML();if(typeof updateRemindBadge==="function")updateRemindBadge();}
     setupCollapsibleCards();
     // boot: a shared link (#/pane/anchor) wins, then the pane you were last on, then Home
     var bootHash=parseHash(location.hash),lastPane=lsGet("ycLastPane");
+    if(typeof lastPane!=="string"||!/^[a-z]+$/.test(lastPane))lastPane=null; // a restored backup can hold anything — validate like parseHash does
     var startPane=(bootHash&&bootHash.pane)||((lastPane&&document.querySelector('[data-pane="'+lastPane+'"]'))?lastPane:"almanac");
+    if(bootHash&&bootHash.anchor&&!anchorInPane(bootHash.anchor,startPane))bootHash.anchor=null; // don't keep advertising an anchor that isn't on this pane
     navFromHash=true;showTab(startPane);navFromHash=false;
     var wantHash="#/"+startPane+(bootHash&&bootHash.anchor?"/"+bootHash.anchor:"");
     if(location.hash!==wantHash){navLock=true;try{location.replace(wantHash);}catch(e){navLock=false;}}
